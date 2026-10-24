@@ -1,12 +1,12 @@
 // Service worker: permite usar la app sin conexión.
 // Sube este número cuando cambies archivos de la app (html, css, js) para renovar la caché.
-const VERSION = "agape-v334";
+const VERSION = "agape-v335";
 const SHELL = [
   "./", "index.html", "css/app.css",
   "js/app.js", "js/avisos.js", "js/emaus.js", "js/admin.js", "js/importar-curso.js", "js/cursos-comunidad.js", "js/store.js", "js/util.js", "js/config.js", "js/cloud.js", "js/muro.js", "js/chat.js", "js/agenda.js", "js/encuentros.js", "js/ilustraciones.js", "js/portada.js", "js/capilla.js", "js/cancionero.js", "js/salmos.js", "js/oremus.js", "js/salmos-notas.js", "js/libro.js", "js/acordes-import.js", "js/juegos.js", "js/frente.js", "js/trivia.js", "js/curso-print.js", "js/ultima.js", "js/stickers-img.js", "js/palabras.js", "js/memorice.js", "js/mahjong.js", "js/sopa.js", "js/crucigrama.js", "js/podcast.js", "js/inicio-config.js", "js/inicio-admin.js", "js/credenciales.js", "js/solicitud.js", "js/conocer.js", "js/ficha.js", "js/xlsx-mini.js", "js/repeat.js", "js/avatares.js", "js/personajes.js", "js/inicio.js", "js/novedades.js", "js/papa.js", "js/devocionario.js", "js/dinamicas-banco.js", "js/mi-camino.js", "js/ayuda.js", "js/dinamicas.js", "js/acompanar.js", "js/desafio.js", "js/momentos.js", "js/qrcode.mjs", "js/qrcode-utf8.mjs",
   "js/accesible.js", "js/autorizacion.js", "js/consentimiento.js", "js/cuenta.js", "js/difusion.js", "js/estudio.js", "js/evaluacion.js", "js/familia-portal.js", "js/familias-ag.js", "js/familias-registro.js", "js/fondo-cuenta.js", "js/fondos.js", "js/grupo.js", "js/juegos-arte.js", "js/qr.js", "js/unidad-viva.js", "js/vendor/firebase.mjs", "js/gestion-equipo.js", "js/familias-admin.js", "js/familias-contenido.js", "js/gestion-hoy.js", "js/saludos.js", "js/evangelio-admin.js",
   "fonts/fraunces-latin-wght-normal.woff2", "fonts/fraunces-latin-wght-italic.woff2", "fonts/plus-jakarta-sans-latin-wght-normal.woff2", "fonts/bricolage-grotesque-latin-standard-normal.woff2", "fonts/caveat-latin-700-normal.woff2",
-  "icons/logo-160.webp", "icons/logo-320.webp", "icons/favicon-64.png", "icons/icon-192.png", "manifest.webmanifest", "data/contenido.json", "data/encuentros.json",
+  "icons/logo-160.webp", "icons/logo-320.webp", "icons/favicon-64.png", "icons/icon-192.png", "icons/icon-192r.png", "manifest.webmanifest", "data/contenido.json", "data/encuentros.json",
 ];
 
 self.addEventListener("install", (e) => {
