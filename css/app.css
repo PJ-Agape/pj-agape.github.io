@@ -1286,7 +1286,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.015em; }
 .hero h1 { font-size: clamp(2.8rem, 9vw, 5.6rem); line-height: .88; max-width: 12ch; }
 .hero h1 em { color: #fff; background: linear-gradient(transparent 60%, #ef591c 60%); }
 .hero p.lead { font-size: 1.08rem; color: rgba(255,255,255,.92); }
-.hero-logo { box-shadow: 0 0 0 6px rgba(255,255,255,.35); border: 3px solid var(--pp-bd, var(--z-b)); }
+.hero-logo { box-shadow: 0 0 0 6px rgba(255,255,255,.35); border: 3px solid var(--z-b); }
 .hero-illus { position: absolute !important; right: clamp(10px, 4vw, 40px); bottom: 18px; width: min(34%, 300px); color: var(--cn, #0b2566); --il-bg: #fff; --il-pop: #ffba03; z-index: 1; }
 .hero-progress { background: var(--z-cream); color: var(--ink); border: 2px solid var(--pp-bd, var(--z-b)); box-shadow: var(--pp-sh-m, 4px 4px 0 var(--z-b)); }
 .hero-progress .bar { background: var(--line); }
@@ -1476,7 +1476,7 @@ dialog.sheet { border: 3px solid var(--pp-bd, var(--z-b)); box-shadow: var(--pp-
 .car-slide[data-theme-c="blue"] .car-illus { color: var(--cn, #0b2566); }
 .car-slide[data-theme-c="gold"] .car-illus { --il-pop: #fff6e5; }
 .car-slide[data-theme-c="sky"] .car-illus, .car-slide[data-theme-c="rose"] .car-illus { --il-pop: #ef591c; }
-.car-logo { position: absolute; z-index: 2; right: clamp(20px, 4vw, 52px); top: clamp(20px, 4vw, 44px); width: clamp(84px, 12vw, 140px); height: auto; border-radius: 50%; border: 3px solid var(--pp-bd, var(--cn, #0b2566)); box-shadow: 0 0 0 6px rgba(255,255,255,.45); }
+.car-logo { position: absolute; z-index: 2; right: clamp(20px, 4vw, 52px); top: clamp(20px, 4vw, 44px); width: clamp(84px, 12vw, 140px); height: auto; border-radius: 50%; border: 3px solid var(--cn, #0b2566); box-shadow: 0 0 0 6px rgba(255,255,255,.45); }
 .car-ctrl { position: absolute; z-index: 3; left: 0; right: 0; bottom: 14px; display: flex; justify-content: center; align-items: center; gap: 12px; }
 .car-ctrl .icon-btn { background: #fff6e5; color: var(--cn, #0b2566); border-color: var(--pp-bd, var(--cn, #0b2566)); }
 .car-dots { display: flex; gap: 8px; }
