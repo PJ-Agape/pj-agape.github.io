@@ -1,16 +1,16 @@
 {
  "handle": "@magnificat.tv-fm",
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
- "via": "rss",
+ "via": "streams (rss 404)",
  "vistos": [
+  "El Papa pide reciprocidad a los musulmanes | Comentario Semanal | P. Santiago Martín FM | Magnificat",
   "2. María de Nazaret: Aviva en mí el amor y la humildad divina; Dios se hace humano | Santiago Martín",
   "\"La Paciencia de Dios Tiene Límite. No abuses\" | Homilía, San Antonio María Claret | P. Santiago M",
   "Santa Misa de Hoy | Memoria, San Antonio María Claret (24-10-2026) | Pbro. Santiago Martín, FM",
   "Santa Misa de Hoy | Viernes, XXIX Semana del Tiempo Ordinario (23-10-2026) |Pbro. Santiago Martín FM",
   "\"El Tiempo Pasa Veloz. No lo Desperdicies\" | Homilía, Viernes XXIX Semana del T.O | P. Santiago M",
   "¿Milagro en el Vaticano? La curación del Papa y la apertura a la misa tradicional | Santiago Martín",
-  "Homilía│ Memoria de San Juan Pablo II 22.10.2026│ Pbro. Javier Martín FM│ www.magnificat.tv│",
-  "La Santa Misa de Hoy | Memoria de San Juan Pablo II (22-10-2026) | P. Javier Martín, FM"
+  "Homilía│ Memoria de San Juan Pablo II 22.10.2026│ Pbro. Javier Martín FM│ www.magnificat.tv│"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
@@ -53,10 +53,6 @@
   "2026-10-15": {
    "id": "WLqzb4a78So",
    "title": "La Santa Misa de Hoy | Memoria de Santa Teresa de Jesús (15-10-2026) | P. Javier Martín, FM"
-  },
-  "2026-10-14": {
-   "id": "DShKBjqZjNw",
-   "title": "Santa Misa de Hoy | Miércoles XXVIII Semana del Tiempo Ord. (14-10-2026) | Pbro. Santiago Martín, FM"
   }
  }
 }

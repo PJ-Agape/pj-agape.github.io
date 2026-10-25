@@ -1,12 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-10-23": {
-   "titulo": "Viernes de la 29.ª semana del Tiempo Ordinario",
-   "cita": "Lc 12,54-59",
-   "frase": "¿Cómo no saben discernir el tiempo presente?",
-   "video": "J-EWpRGrOIo"
-  },
   "2026-10-24": {
    "titulo": "Sábado de la 29.ª semana del Tiempo Ordinario",
    "cita": "Lc 13,1-9",
@@ -58,6 +52,11 @@
    "titulo": "Los Fieles Difuntos",
    "cita": "Mt 25,31-46",
    "frase": "Cuando el Hijo del hombre venga en su gloria rodeado de todos los ángeles, se sentará en su trono glorioso."
+  },
+  "2026-11-03": {
+   "titulo": "Martes de la 31.ª semana del Tiempo Ordinario",
+   "cita": "Lc 14,15-24",
+   "frase": "Sal en seguida por las plazas y calles e invita a todos."
   }
  }
 }
