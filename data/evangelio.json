@@ -1,12 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-10-24": {
-   "titulo": "Sábado de la 29.ª semana del Tiempo Ordinario",
-   "cita": "Lc 13,1-9",
-   "frase": "Señor, déjala todavía este año; yo removeré la tierra y la abonaré.",
-   "video": "EDzXtkuofx0"
-  },
   "2026-10-25": {
    "titulo": "30.º domingo del Tiempo Ordinario",
    "cita": "Mt 22,34-40",
@@ -58,6 +52,11 @@
    "titulo": "Martes de la 31.ª semana del Tiempo Ordinario",
    "cita": "Lc 14,15-24",
    "frase": "Sal en seguida por las plazas y calles e invita a todos."
+  },
+  "2026-11-04": {
+   "titulo": "Miércoles de la 31.ª semana del Tiempo Ordinario",
+   "cita": "Lc 14,25-33",
+   "frase": "El que no carga con su cruz y me sigue, no puede ser mi discípulo."
   }
  }
 }
