@@ -4448,3 +4448,6 @@ html.papel :is(.ag-empty, .chat-empty) > svg.z-illus { display: none; }
 .cap-salmos .sal-feel { min-height: 42px; font-size: .9rem; background: #fff6e5; border: 2px solid #0b2566; color: #0b2566; font-weight: 800; }
 .cap-salmos .sal-feel:hover, .cap-salmos .sal-feel:focus-visible { background: #ffba03; border-color: #0b2566; color: #0b2566; }
 .cap-salmos-todos { display: inline-flex; align-items: center; gap: 4px; margin-top: 12px; font-weight: 800; }
+
+/* Ilustraciones como stickers (imagen): misma caja que los dibujos SVG de antes (4:3). */
+img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 5px 9px rgba(11,37,102,.16)); }

@@ -474,7 +474,15 @@ Object.assign(SCENES, {
 });
 const NAMES = { plaza: "La Plaza", jesus: "Jesús", emaus: "Jesús en Emaús", dejadlos: "Jesús y los niños", buenpastor: "Buen Pastor", sagradocorazon: "Sagrado Corazón", corazonlimpio: "Corazón limpio", eucaristia: "Eucaristía", espiritu: "Espíritu Santo", maria: "María", oracion: "Oración", acogida: "Acogida", levantate: "Levántate", eleccion: "Elección", uncion: "Unción", ninos: "Niños", rey: "Cristo Rey", virgen: "Virgen María", jose: "San José", sagradafamilia: "Sagrada Familia", apostoles: "Los apóstoles", sanmiguel: "San Miguel Arcángel", sansebastian: "San Sebastián", juanpablo: "San Juan Pablo II", teresacalcuta: "Santa Teresa de Calcuta", carloacutis: "San Carlo Acutis", teresaandes: "Santa Teresa de los Andes", albertohurtado: "San Alberto Hurtado", lauravicuna: "Beata Laura Vicuña", santoschile: "Santos de Chile", anunciacion: "La Anunciación", virgencarmen: "Virgen del Carmen", fraiandresito: "Venerable Fray Andresito", ceferino: "Beato Ceferino Namuncurá", donbosco: "San Juan Bosco", domingosavio: "Santo Domingo Savio", franciscoasis: "San Francisco de Asís", rosalima: "Santa Rosa de Lima", frassati: "San Pier Giorgio Frassati", teresita: "Santa Teresita", guadalupe: "Virgen de Guadalupe" };
 export const sceneLabel = (k) => NAMES[k] || k.charAt(0).toUpperCase() + k.slice(1);
+// Ilustraciones propias de la PJ (stickers): reemplazan a los muñequitos de papel en toda la app.
+// Cada escena usa el sticker que mejor le calza (img/ilus/sNNN.webp). Los avatares siguen en SVG.
+const STICKER = { virgen: 91, jose: 35, sagradafamilia: 88, apostoles: 92, anunciacion: 91, sanmiguel: 89, sansebastian: 51, juanpablo: 4, teresacalcuta: 102, carloacutis: 96, teresaandes: 44, albertohurtado: 93, lauravicuna: 102, santoschile: 44, virgencarmen: 42, fraiandresito: 102, ceferino: 102, donbosco: 94, domingosavio: 102, franciscoasis: 90, rosalima: 102, frassati: 102, teresita: 104, guadalupe: 102, jesus: 87, emaus: 92, dejadlos: 26, buenpastor: 87, sagradocorazon: 105, acogida: 22, corazon: 85, luz: 40, trigo: 98, ramos: 87, duda: 36, mesa: 39, pastor: 87, vid: 41, amigos: 22, envio: 65, espiritu: 97, comunidad: 109, eucaristia: 98, familia: 88, semilla: 50, tormenta: 87, levantate: 40, descanso: 23, panes: 83, camino: 32, maria: 91, eleccion: 37, corazonlimpio: 33, escuchar: 107, pregunta: 36, equipo: 43, ninos: 26, tesoro: 102, servir: 24, bartimeo: 87, amar: 85, moneda: 24, futuro: 78, rey: 40, oracion: 86, santos: 30, flores: 104, bautismo: 31, uncion: 97, matrimonio: 85, juego: 81, celular: 66, pizarra: 47, biblia: 84, plaza: 81 };
 export function illus(key, cls = "") {
+  const n = STICKER[key];
+  if (n) return `<img class="z-illus z-sticker ${cls}" src="img/ilus/s${String(n).padStart(3, "0")}.webp" alt="" loading="lazy" decoding="async">`;
+  return svgIllus(key, cls);
+}
+function svgIllus(key, cls = "") {
   const f = SCENES[key];
   if (!f) return "";
   const id = "rough" + (++uid);
@@ -498,5 +506,5 @@ function papelDefs() {
   (document.body || document.documentElement).appendChild(d);
 }
 // Avatares y stickers sí llevan cara (expresan algo).
-export function illusConCara(key, cls = "") { const prev = SOBRIO; SOBRIO = false; try { return illus(key, cls); } finally { SOBRIO = prev; } }
+export function illusConCara(key, cls = "") { const prev = SOBRIO; SOBRIO = false; try { return svgIllus(key, cls); } finally { SOBRIO = prev; } }
 export const illusFor = (e, cls) => illus(BY_N[e.n] || "camino", cls);
