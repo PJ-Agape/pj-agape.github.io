@@ -232,6 +232,26 @@ function decorate(v, section) {
   }
   // Los encabezados ya no llevan ilustración: la app se apoya en la tipografía, el color y el papel.
   void HEAD_ILLUS[section];
+  stickers(v);
+}
+// Stickers (ilustraciones propias de la PJ) en el encabezado de las secciones principales.
+const STICKERS = {
+  "/": [[".home-hi", "amigos"]],
+  "/formacion": [[".page-head", "biblia"]],
+  "/red": [[".page-head", "comunidad"]],
+  "/oracion": [[".cap-hero", "oracion"], [".cap-misa", "caliz", "beforebegin"]],
+  "/agenda": [[".page-head", "calendario"]],
+  "/cancionero": [[".page-head", "guitarra"]],
+};
+function stickers(v) {
+  const path = (location.hash.replace(/^#/, "") || "/").split("?")[0];
+  for (const [sel, name, where = "afterbegin"] of STICKERS[path] || []) {
+    const host = v.querySelector(sel);
+    if (!host || v.querySelector(`.sticker-${name}`)) continue;
+    // «beforebegin»: para bloques que se redibujan solos (la Misa de hoy), el sticker va justo antes.
+    if (where === "afterbegin") host.classList.add("has-sticker");
+    host.insertAdjacentHTML(where, `<img class="sticker sticker-${name}" src="img/stickers/${name}.webp" alt="" loading="lazy" decoding="async">`);
+  }
 }
 const afterRender = [];
 export const onAfterRender = (f) => afterRender.push(f);
