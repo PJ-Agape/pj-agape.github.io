@@ -14,7 +14,7 @@ export function setup(c) { ctx = c; registerActions(); }
 const ILUS = {
   "Padre nuestro": "oracion", "Ave María": "anunciacion", "Gloria al Padre": "sal_cielo", "Credo": "biblia", "Ángel de Dios": "sal_alas",
   "Acto de Contrición": "corazonlimpio", "Alma de Cristo": "sagradocorazon", "Comunión espiritual": "eucaristia", "Coronilla de la Divina Misericordia": "jesus",
-  "Acto de caridad": "amar", "El eterno reposo": "luz", "Rosario": "maria", "Salve Regina": "virgen", "Bajo tu amparo": "virgencarmen", "Acordaos": "guadalupe",
+  "Acto de caridad": "amar", "El eterno reposo": "luz", "Rosario": "maria", "Salve Regina": "virgen", "Bajo tu amparo": "virgencarmen", "Acordaos": "virgen",
   "Ángelus": "trigo", "Regina Coeli": "flores", "Ven Santo Espíritu": "espiritu", "Oración por el Papa": "apostoles", "Oración a San José": "jose",
   "San Miguel Arcángel": "sanmiguel",
 };
