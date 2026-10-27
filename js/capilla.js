@@ -7,6 +7,7 @@ import { ORACIONES } from "./devocionario.js";
 import * as papa from "./papa.js";
 import { illus } from "./ilustraciones.js";
 import { avatar } from "./avatares.js";
+import { capillaHTML as salmosHTML } from "./salmos.js";
 
 // Misa en vivo: la de hoy del canal de Magnificat TV (data/misa-vivo.json, la busca cada hora la
 // acción del Evangelio). Si hoy no hay, el enlace que dejó el administrador (content/misaVivo) o la
@@ -353,6 +354,7 @@ export function view(opt = {}) {
       </div>
       <div class="cap-misa" id="capMisa">${misaHTML()}</div>
       <div class="cap-gospel" id="capGospel">${gospelHTML(s)}</div>
+      ${salmosHTML()}
     </div>
     <article class="cap-moment">
       <span class="eyebrow">${esc(m.label)}</span>

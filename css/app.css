@@ -4439,3 +4439,12 @@ html.papel :is(.ag-empty, .chat-empty) > svg.z-illus { display: none; }
 .sticker-caliz { display: block; width: 52px; height: auto; margin: 0 8px -30px auto; position: relative; z-index: 2; transform: rotate(-6deg); filter: drop-shadow(0 4px 8px rgba(11,37,102,.18)); pointer-events: none; }
 .sticker-comunidad { border-radius: 50%; }
 @media (min-width: 720px) { .has-sticker > .sticker { width: 132px; } .has-sticker > h1, .has-sticker > p { padding-right: 140px; } }
+
+/* Capilla: acceso visible a los Salmos («¿Cómo llegas hoy?»). */
+.cap-salmos { margin: 22px auto 0; max-width: 560px; padding: 18px 16px 16px; border-radius: 22px; background: #fff; border: 2px solid #0b2566;
+  box-shadow: 4px 4px 0 #0b2566; text-align: center; }
+.cap-salmos-t { font-family: var(--font-display); font-size: 1.45rem; margin: 2px 0 4px; color: #0b2566; }
+.cap-salmos-p { margin: 0 0 12px; color: var(--ink-2); font-size: .95rem; }
+.cap-salmos .sal-feel { min-height: 42px; font-size: .9rem; background: #fff6e5; border: 2px solid #0b2566; color: #0b2566; font-weight: 800; }
+.cap-salmos .sal-feel:hover, .cap-salmos .sal-feel:focus-visible { background: #ffba03; border-color: #0b2566; color: #0b2566; }
+.cap-salmos-todos { display: inline-flex; align-items: center; gap: 4px; margin-top: 12px; font-weight: 800; }

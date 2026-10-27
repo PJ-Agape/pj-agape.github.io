@@ -319,6 +319,16 @@ const PARA = { alegre: "para cuando estás feliz", gracias: "para dar gracias", 
   solo: "para cuando te sientes solo", cansado: "para cuando estás cansado", perdon: "para cuando algo te pesa", buscar: "para cuando no sabes qué hacer",
   creacion: "para cuando algo te asombra", comunidad: "para rezar por otros" };
 const pick = (e, skip) => { const l = SALMOS.filter((s) => s.e.includes(e) && s.n !== skip); return l[Math.floor(Math.random() * l.length)] || SALMOS[0]; };
+// Bloque para la Capilla: el acceso a los Salmos a la vista, con «¿Cómo llegas hoy?».
+export function capillaHTML() {
+  return `<div class="cap-salmos">
+    <span class="cap-hand sm">un salmo para ti</span>
+    <h2 class="cap-salmos-t">¿Cómo llegas hoy?</h2>
+    <p class="cap-salmos-p">Elige lo que sientes y te regalamos un salmo para rezar.</p>
+    <div class="sal-siento">${SIENTO.map(([k, l]) => `<a class="sal-feel" href="#/salmos/${pick(k).n}?e=${k}">${esc(l)}</a>`).join("")}</div>
+    <a class="sal-link cap-salmos-todos" href="#/salmos">Ver todos los Salmos ${icon("right")}</a>
+  </div>`;
+}
 export function viewList() {
   // Cargar el libro: solo para administradores y solo mientras falten salmos por cargar.
   ctx.onAfterRender(() => loadTextos().then(() => {
