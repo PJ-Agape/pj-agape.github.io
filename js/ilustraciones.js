@@ -403,7 +403,8 @@ const BY_N = {
   19: "biblia", 20: "camino", 21: "maria", 22: "eleccion", 23: "corazonlimpio", 24: "escuchar", 25: "pregunta", 26: "equipo",
   27: "ninos", 28: "tesoro", 29: "servir", 30: "bartimeo", 31: "amar", 32: "moneda", 33: "futuro", 34: "rey",
 };
-export const SCENE_KEYS = Object.keys(SCENES);
+const SIN_STICKER = new Set(["teresacalcuta", "lauravicuna", "fraiandresito", "ceferino", "domingosavio", "rosalima", "frassati", "guadalupe"]);
+export const SCENE_KEYS = Object.keys(SCENES).filter((k) => !SIN_STICKER.has(k));
 // ---------------------------------------------------------------------------
 // Escenas para los Salmos (con los mismos trazos)
 // ---------------------------------------------------------------------------

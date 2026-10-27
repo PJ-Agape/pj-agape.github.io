@@ -23,7 +23,7 @@ const diaLargo = (s) => { const t = dIso(s).toLocaleDateString("es-CL", { weekda
 // ---- Íconos ----
 export const EMOJIS = ["🐟", "⚓", "🔥", "🕊️", "🌱", "🌻", "⭐", "🌈", "⛰️", "🌊", "🦁", "🐑", "🍞", "🍇", "💛", "✝️", "🎶", "🚀", "🌍", "🧭", "🏕️", "🤝", "💡", "🌙", "⚡", "🌳", "🐝", "🦋"];
 export const ILUS = ["buenpastor", "jesus", "emaus", "apostoles", "espiritu", "maria", "sagradafamilia", "eucaristia", "levantate", "acogida",
-  "albertohurtado", "teresaandes", "lauravicuna", "carloacutis", "frassati", "donbosco", "franciscoasis", "virgencarmen"];
+  "albertohurtado", "teresaandes", "carloacutis", "donbosco", "franciscoasis", "virgencarmen"];
 const validIcono = (v) => (/^e:/.test(v) && EMOJIS.includes(v.slice(2))) || (/^i:/.test(v) && ILUS.includes(v.slice(2)));
 export function famIcon(f, cls = "") {
   const v = f && f.icono;

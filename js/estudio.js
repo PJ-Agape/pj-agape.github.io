@@ -434,11 +434,9 @@ export const STICKERS = [
   ["pj:sol", "¡Arriba ese ánimo!", C.sun], ["pj:cactus", "Aquí aguantando", C.coral], ["pj:taza", "¿Un tecito?", C.sky], ["pj:guitarra", "¡A cantar!", C.sun],
   // Santos de Chile
   ["virgencarmen", "Reina y Patrona de Chile", C.sky], ["teresaandes", "Dios es alegría infinita", C.sun], ["albertohurtado", "¡Contento, Señor, contento!", C.coral],
-  ["lauravicuna", "Fe valiente", C.sky], ["fraiandresito", "Servir con alegría", C.sun], ["ceferino", "Quiero ser útil a mi gente", C.coral], ["santoschile", "¡Santos de Chile!", C.sky],
+  ["santoschile", "¡Santos de Chile!", C.sky],
   // Santos jóvenes y amigos de Dios
-  ["donbosco", "¡Estén siempre alegres!", C.sun], ["domingosavio", "Santidad es estar alegres", C.sky], ["frassati", "¡Hacia lo alto!", C.coral],
-  ["teresita", "Amar es darlo todo", C.coral], ["franciscoasis", "Paz y bien", C.sun], ["rosalima", "Patrona de América", C.coral], ["guadalupe", "¿No estoy yo aquí?", C.sky],
-  ["juanpablo", "¡No tengan miedo!", C.sun], ["teresacalcuta", "Pequeñas cosas con amor", C.sky], ["sansebastian", "Firme en la fe", C.coral], ["jose", "San José, cuídanos", C.sun],
+  ["donbosco", "¡Estén siempre alegres!", C.sun], ["teresita", "Amar es darlo todo", C.coral], ["franciscoasis", "Paz y bien", C.sun], ["juanpablo", "¡No tengan miedo!", C.sun], ["sansebastian", "Firme en la fe", C.coral], ["jose", "San José, cuídanos", C.sun],
   ["sagradafamilia", "Jesús, María y José", C.coral], ["apostoles", "¡Síganme!", C.sky], ["sagradocorazon", "En ti confío", C.coral], ["dejadlos", "Dejen que vengan a mí", C.sun], ["rey", "¡Viva Cristo Rey!", C.sun],
 ];
 export const PHRASES = [

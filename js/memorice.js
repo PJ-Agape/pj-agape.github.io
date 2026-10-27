@@ -9,7 +9,7 @@ const $ = (s, r = document) => r.querySelector(s);
 
 export const SETS = {
   pj: { l: "Personajes", k: ["pj:llama", "pj:zorro", "pj:pinguino", "pj:gato", "pj:quiltro", "pj:oso", "pj:pudu", "pj:panda", "pj:conejo", "pj:buho", "pj:ballena", "pj:abeja", "pj:paloma", "pj:dino", "pj:astronauta", "pj:robot", "pj:sol", "pj:cactus", "pj:taza", "pj:guitarra"] },
-  santos: { l: "Santos", k: ["sanmiguel", "albertohurtado", "teresaandes", "lauravicuna", "carloacutis", "franciscoasis", "donbosco", "juanpablo", "teresacalcuta", "virgencarmen", "guadalupe", "jose", "rosalima", "frassati", "teresita", "ceferino", "domingosavio", "sansebastian"] },
+  santos: { l: "Santos", k: ["sanmiguel", "albertohurtado", "teresaandes", "carloacutis", "franciscoasis", "donbosco", "juanpablo", "virgencarmen", "jose", "teresita", "sansebastian", "virgen"] },
   jesus: { l: "Jesús y la Biblia", k: ["jesus", "emaus", "buenpastor", "dejadlos", "sagradocorazon", "panes", "bartimeo", "tormenta", "mesa", "apostoles", "anunciacion", "sagradafamilia", "espiritu", "eucaristia", "biblia", "rey", "trigo", "vid"] },
 };
 export const LEVELS = { facil: { l: "Fácil", pairs: 6, cols: 3 }, medio: { l: "Medio", pairs: 8, cols: 4 }, dificil: { l: "Difícil", pairs: 12, cols: 4 } };

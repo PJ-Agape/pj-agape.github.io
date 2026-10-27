@@ -14,8 +14,8 @@ export async function ready() {
   await preload([...new Set([...STK_SANTOS, ...STK_PJ, ...STK_COM, ...STK_CHILE, ...Object.values(HOLE)])].flatMap((k) => stickerIlls(k, C.sun)));
 }
 // Stickers de la comunidad (los del Estudio, sin frase) para los fondos «collage»
-const STK_SANTOS = ["carloacutis", "frassati", "teresaandes", "albertohurtado", "lauravicuna", "virgencarmen", "donbosco", "franciscoasis", "teresita", "juanpablo", "guadalupe", "sanmiguel", "jesus", "virgen"];
-const STK_CHILE = ["virgencarmen", "teresaandes", "albertohurtado", "lauravicuna", "fraiandresito", "ceferino"];
+const STK_SANTOS = ["carloacutis", "teresaandes", "albertohurtado", "virgencarmen", "donbosco", "franciscoasis", "teresita", "juanpablo", "sanmiguel", "jesus", "virgen"];
+const STK_CHILE = ["virgencarmen", "teresaandes", "albertohurtado"];
 const STK_PJ = ["pj:llama", "pj:zorro", "pj:pinguino", "pj:gato", "pj:quiltro", "pj:oso", "pj:pudu", "pj:panda", "pj:conejo", "pj:buho", "pj:ballena", "pj:abeja", "pj:paloma", "pj:dino", "pj:astronauta", "pj:robot", "pj:sol", "pj:cactus", "pj:taza", "pj:guitarra"];
 const STK_COM = ["corazon", "oracion", "amigos", "juego", "biblia", "espiritu", "eucaristia", "luz", "flores", "comunidad", "equipo", "servir"];
 const HOLE = { lunares: "pj:panda", mosaico: "amigos", monitos: "comunidad", zine: "biblia", corazones: "pj:oso", aros: "pj:sol", diagonal: "pj:llama", rayos: "jesus",
@@ -50,7 +50,7 @@ function emojis(ctx, W, H, list, { size, seed = 1, rot = 0.35, alpha = 1 } = {})
 }
 // Paletas extra (además de las del logo) para variar
 const P2 = { lila: "#dccff7", lilaD: "#6b4fb8", menta: "#c9f0dd", mentaD: "#1f7a5a", durazno: "#ffd9c2", limon: "#fff1a1", teal: "#0f4c4a", vino: "#5a1f3d", rosa: "#ffc8dd", cielo2: "#bfe6ff" };
-const SANTOS = ["virgencarmen", "albertohurtado", "teresaandes", "lauravicuna", "carloacutis", "frassati", "donbosco", "franciscoasis", "juanpablo", "teresita", "sanmiguel", "guadalupe"];
+const SANTOS = ["virgencarmen", "albertohurtado", "teresaandes", "carloacutis", "donbosco", "franciscoasis", "juanpablo", "teresita", "sanmiguel"];
 
 // Opciones que eligen en el Estudio: tamaño del logo y una frase corta (opcional).
 const OPT = { logo: "sin", frase: "", W: 0, H: 0 };

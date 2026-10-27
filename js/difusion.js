@@ -19,7 +19,7 @@ const URLS = {
   familias: () => new URL("familias/", BASE()).href,
 };
 const FORMATS = { historia: [1080, 1920, "Historia o Estado"], post: [1080, 1350, "Post"], cuadrado: [1080, 1080, "Cuadrado"] };
-const ILLS = ["jesus", "emaus", "dejadlos", "buenpastor", "sagradocorazon", "virgen", "jose", "sagradafamilia", "apostoles", "sanmiguel", "sansebastian", "juanpablo", "teresacalcuta", "carloacutis", "teresaandes", "albertohurtado", "lauravicuna", "santoschile", "virgencarmen", "fraiandresito", "ceferino", "donbosco", "domingosavio", "frassati", "teresita", "franciscoasis", "rosalima", "guadalupe", "rey", "comunidad", "amigos", "acogida", "corazon", "camino", "oracion", "equipo", "juego", "biblia", "espiritu", "maria", "eucaristia", "servir", "familia", "luz", "panes", "santos", "levantate", "futuro", "flores"];
+const ILLS = ["jesus", "emaus", "dejadlos", "buenpastor", "sagradocorazon", "virgen", "jose", "sagradafamilia", "apostoles", "sanmiguel", "sansebastian", "juanpablo", "carloacutis", "teresaandes", "albertohurtado", "santoschile", "virgencarmen", "donbosco", "teresita", "franciscoasis", "rey", "comunidad", "amigos", "acogida", "corazon", "camino", "oracion", "equipo", "juego", "biblia", "espiritu", "maria", "eucaristia", "servir", "familia", "luz", "panes", "santos", "levantate", "futuro", "flores"];
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
@@ -123,8 +123,8 @@ function marcoHTML() {
 }
 
 // --- Stickers ----------------------------------------------------------------
-const STK_CHILE = ["virgencarmen", "teresaandes", "albertohurtado", "lauravicuna", "fraiandresito", "ceferino", "santoschile"];
-const STK_SANTOS = ["donbosco", "domingosavio", "frassati", "carloacutis", "teresita", "franciscoasis", "rosalima", "guadalupe", "juanpablo", "teresacalcuta", "sansebastian", "sanmiguel", "jose", "sagradafamilia", "apostoles"];
+const STK_CHILE = ["virgencarmen", "teresaandes", "albertohurtado", "santoschile"];
+const STK_SANTOS = ["donbosco", "carloacutis", "teresita", "franciscoasis", "juanpablo", "sansebastian", "sanmiguel", "jose", "sagradafamilia", "apostoles"];
 const STK_JESUS = ["jesus", "emaus", "buenpastor", "sagradocorazon", "dejadlos", "rey", "virgen", "maria", "espiritu", "eucaristia"];
 const stkGroup = (k) => STK_CHILE.includes(k) ? 0 : STK_SANTOS.includes(k) ? 1 : STK_JESUS.includes(k) ? 2 : k.startsWith("pj:") ? 4 : 3;
 const STK_GROUPS = ["🇨🇱 Santos de Chile", "😇 Santos y amigos de Dios", "✝️ Jesús y María", "💬 Para el grupo", "🦙 Personajes"];
