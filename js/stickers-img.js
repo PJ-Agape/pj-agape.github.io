@@ -1,7 +1,7 @@
 // Stickers de la app como imágenes livianas (<img> con SVG embebido) para los juegos:
 // los personajes («pj:llama») y las escenas de las ilustraciones («jesus», «camino»…).
 // Cada imagen se arma una sola vez y queda en caché.
-import { illus, sceneLabel, illusConCara } from "./ilustraciones.js";
+import { illus, sceneLabel, illusConCara, stickerSrc as stickerFile } from "./ilustraciones.js";
 import { PJ, pjSvg } from "./personajes.js";
 import { esc } from "./util.js";
 
@@ -27,6 +27,9 @@ function svgFor(k, pop) {
 }
 // URL de la imagen del sticker (pop = color de acento de las escenas).
 export function stickerSrc(k, pop = POPS[0]) {
+  // Escenas con sticker propio de la PJ: la imagen tal cual (ya no el dibujo de papel).
+  const file = !isPj(k) && !EXTRA[k] && stickerFile(k);
+  if (file) return file;
   const id = k + "|" + pop;
   if (!cache.has(id)) cache.set(id, "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgFor(k, pop)));
   return cache.get(id);

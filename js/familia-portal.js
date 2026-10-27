@@ -28,7 +28,7 @@ const validIcono = (v) => (/^e:/.test(v) && EMOJIS.includes(v.slice(2))) || (/^i
 export function famIcon(f, cls = "") {
   const v = f && f.icono;
   if (v && v.startsWith("e:")) return `<span class="fam-ico emo ${cls}" aria-hidden="true">${esc(v.slice(2))}</span>`;
-  if (v && v.startsWith("i:")) return `<span class="fam-ico ill ${cls}" aria-hidden="true">${illusConCara(v.slice(2))}</span>`;
+  if (v && v.startsWith("i:")) return `<span class="fam-ico ill ${cls}" aria-hidden="true">${illus(v.slice(2))}</span>`;
   return `<span class="fam-ico num ${cls}" aria-hidden="true">${(f && f.i != null ? f.i : 0) + 1}</span>`;
 }
 
@@ -181,7 +181,7 @@ function idEditor() {
     <div class="sheet-body stack" style="--gap:12px">
       <div class="field"><label>Nombre de la familia</label><input class="input" name="nombre" maxlength="40" value="${esc(F.nombre || "")}" placeholder="Pónganse de acuerdo entre todos 😉"></div>
       <fieldset class="fp-pick"><legend>Un emoji…</legend><div class="fp-pick-g">${EMOJIS.map((x) => `<label class="fp-opt emo"><input type="radio" name="icono" value="e:${x}" ${cur === "e:" + x ? "checked" : ""}><span>${x}</span></label>`).join("")}</div></fieldset>
-      <fieldset class="fp-pick"><legend>…o una ilustración</legend><div class="fp-pick-g ill">${ILUS.map((k) => `<label class="fp-opt ill" title="${esc(k)}"><input type="radio" name="icono" value="i:${k}" ${cur === "i:" + k ? "checked" : ""}><span>${illusConCara(k)}</span></label>`).join("")}</div></fieldset>
+      <fieldset class="fp-pick"><legend>…o una ilustración</legend><div class="fp-pick-g ill">${ILUS.map((k) => `<label class="fp-opt ill" title="${esc(k)}"><input type="radio" name="icono" value="i:${k}" ${cur === "i:" + k ? "checked" : ""}><span>${illus(k)}</span></label>`).join("")}</div></fieldset>
       <p class="xs muted">Lo pueden cambiar los integrantes y dirigentes de la familia.</p>
     </div>
     <div class="sheet-foot"><span class="spacer"></span><button type="button" class="btn btn-ghost" data-action="fpClose">Cancelar</button><button class="btn btn-primary" type="submit">Guardar</button></div></form>`;
