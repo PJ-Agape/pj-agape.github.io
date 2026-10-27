@@ -966,5 +966,10 @@ body:has(.slide.bg-orange.is-active) { --cur: #b65a3b; }
   go(fromHash(), true);
 })();
 </script>
+<script type="module">
+// Control remoto (palo de selfie, control de presentaciones o audífonos) para pasar las diapositivas.
+import { iniciar } from "../js/remoto.js";
+iniciar({ find: () => ({ next: document.getElementById("next"), prev: document.getElementById("prev") }), host: () => document.querySelector(".hud .nav"), where: "afterbegin", album: "Presentaciones · Pastoral Juvenil Ágape" });
+</script>
 </body>
 </html>

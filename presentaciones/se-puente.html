@@ -970,3 +970,8 @@ canvas.confetti { position: absolute; inset: 0; width: 100%; height: 100%; point
   document.addEventListener("visibilitychange", () => { if (!ac || !on) return; document.hidden ? ac.suspend() : ac.resume(); });
 })();
 </script>
+<script type="module">
+// Control remoto (palo de selfie, control de presentaciones o audífonos) para pasar las diapositivas.
+import { iniciar } from "../js/remoto.js";
+iniciar({ find: () => ({ next: document.getElementById("next"), prev: document.getElementById("prev") }), host: () => document.querySelector(".hud .nav"), where: "afterbegin", album: "Presentaciones · Pastoral Juvenil Ágape" });
+</script>

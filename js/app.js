@@ -10,6 +10,7 @@ import * as camino from "./encuentros.js";
 import * as chat from "./chat.js";
 import * as avisos from "./avisos.js";
 import * as agenda from "./agenda.js";
+import * as remoto from "./remoto.js";
 import * as portada from "./portada.js";
 import * as oremus from "./oremus.js";
 import * as capilla from "./capilla.js";
@@ -1604,6 +1605,11 @@ famPortal.setup({ actions, onAfterRender, onLeave });
 evalua.setup({ actions });
 capilla.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, content: () => S.content() });
 oremus.setup({ actions, onAfterRender });
+// Control remoto (palo de selfie, control de presentaciones) en todo lo que se proyecta: canciones, oraciones y salmos.
+remoto.iniciar({
+  find: () => { const o = document.querySelector(".can-proj"); return o ? { next: o.querySelector('[aria-label="Siguiente"]'), prev: o.querySelector('[aria-label="Anterior"]') } : null; },
+  host: () => document.querySelector(".can-proj .can-proj-ctrl"),
+});
 
 async function boot() {
   try {
