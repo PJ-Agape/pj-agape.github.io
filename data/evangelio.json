@@ -1,12 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-10-25": {
-   "titulo": "30.º domingo del Tiempo Ordinario",
-   "cita": "Mt 22,34-40",
-   "frase": "Amarás al Señor tu Dios con todo tu corazón… y a tu prójimo como a ti mismo.",
-   "video": "X5g2WKqoUy4"
-  },
   "2026-10-26": {
    "titulo": "Lunes de la 30.ª semana del Tiempo Ordinario",
    "cita": "Lc 13,10-17",
@@ -58,6 +52,11 @@
    "titulo": "Miércoles de la 31.ª semana del Tiempo Ordinario",
    "cita": "Lc 14,25-33",
    "frase": "El que no carga con su cruz y me sigue, no puede ser mi discípulo."
+  },
+  "2026-11-05": {
+   "titulo": "Jueves de la 31.ª semana del Tiempo Ordinario",
+   "cita": "Lc 15,1-10",
+   "frase": "Habrá alegría en el cielo por un solo pecador que se convierte."
   }
  }
 }

@@ -1,16 +1,16 @@
 {
  "handle": "@magnificat.tv-fm",
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
- "via": "rss",
+ "via": "streams (rss 404)",
  "vistos": [
+  "El Papa pide reciprocidad a los musulmanes | Comentario Semanal | P. Santiago Martín FM | Magnificat",
+  "\"El Mundo Necesita que Seas Levadura\" | Homilía, Martes, XXX Semana del T.O | P. Santiago M",
   "Homilía│ XXX Domingo del Tiempo Ordinario 25.10.2026│ Pbro. Javier Martín FM│ www.magnificat.tv│",
   "La Santa Misa de Hoy | Lunes, XXX Semana del Tiempo Ordinario (26-10-2026) | P. Javier Martín, FM",
   "\"El demonio Daña tu Cuerpo y no solo tu Alma\" | Homilía, Lunes, XXX Semana del T.O | P. Santiago M",
   "La Santa Misa de Hoy | Domingo XXX del Tiempo Ordinario (25-10-2026) | Pbro. Javier Martín, FM",
   "\"¿Has Pensado en qué haría Cristo si Estuviera en tu Lugar?\" | Homilía, XXX Domingo | P. Santiago M",
-  "2. María de Nazaret: Aviva en mí el amor y la humildad divina; Dios se hace humano | Santiago Martín",
-  "\"La Paciencia de Dios Tiene Límite. No abuses\" | Homilía, San Antonio María Claret | P. Santiago M",
-  "Santa Misa de Hoy | Memoria, San Antonio María Claret (24-10-2026) | Pbro. Santiago Martín, FM"
+  "2. María de Nazaret: Aviva en mí el amor y la humildad divina; Dios se hace humano | Santiago Martín"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
@@ -53,10 +53,6 @@
   "2026-10-17": {
    "id": "j73xD2sTTkE",
    "title": "Santa Misa de Hoy | Memoria de San Ignacio de Antioquía (17-10-2026) | Pbro. Santiago Martín, FM"
-  },
-  "2026-10-16": {
-   "id": "bG_Mx2ywQHE",
-   "title": "Santa Misa de Hoy | Viernes XXVIII Semana del Tiempo Ordinario (16-10-2026) Pbro. Santiago Martín FM"
   }
  }
 }
