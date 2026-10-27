@@ -2,7 +2,7 @@
 // portadas, fondos, marcos de foto, invitaciones y stickers) con la identidad zine del grupo.
 // Lo usa el Estudio de difusión de la app y el exportador del paquete de archivos.
 
-import { illus, illusConCara } from "./ilustraciones.js";
+import { illus, illusConCara, stickerSrc } from "./ilustraciones.js";
 import { pjSvg } from "./personajes.js";
 import qrcode from "./qr.js";
 
@@ -40,6 +40,16 @@ export async function preload(list) {
   await Promise.all(list.filter(([k]) => typeof k === "string").map(async ([k, color = C.navy, bg = C.white, pop = C.sun, outline = 0, bare = 0]) => {
     const id = [k, color, bg, pop, outline, bare].join("|");
     if (IMG.has(id)) return;
+    // Escenas con sticker propio: se usa la imagen (ya trae su borde blanco), centrada en el cuadro 4:3.
+    const src = stickerSrc(k);
+    if (src) {
+      if (outline) return;
+      const im = await loadImg(BASE + src).catch(() => null); if (!im) return;
+      const cv = document.createElement("canvas"); cv.width = 960; cv.height = 720;
+      const sc = Math.min(960 / im.width, 720 / im.height), w = im.width * sc, h = im.height * sc;
+      cv.getContext("2d").drawImage(im, (960 - w) / 2, (720 - h) / 2, w, h);
+      IMG.set(id, cv); return;
+    }
     const svg = svgFor(k, color, bg, pop, outline, bare);
     if (!svg) return;
     IMG.set(id, await loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg)).catch(() => null));
