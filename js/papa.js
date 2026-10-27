@@ -69,7 +69,7 @@ export function slideHTML() {
         <p class="papa-sn"><b id="papaN">·</b> <span id="papaNl">rosarios rezados este mes</span></p>
         <div class="actions"><a class="btn btn-gold" href="#/oracion/rosario">📿 Rezar el Rosario</a>${member ? `<button class="btn btn-ghost" data-action="papaSumar">✔ Ya recé uno</button>` : ""}</div>
       </div>
-      ${illus("juanpablo", "car-illus")}
+      ${illus("leon", "car-illus")}
     </article>`;
 }
 // Completa el número (y el texto del equipo) una vez que llegan los datos
