@@ -22,9 +22,9 @@
 /* Paleta del logo oficial de la PJ Ágape Joven:
    azul PJ var(--cb, #1351a4) · celeste #8ad2fa · dorado de la cruz #ffba03 · naranja del corazón #ef591c */
 :root {
-  --paper: #f3f8fd;
+  --paper: #f6faff;
   --surface: #ffffff;
-  --surface-2: #e8f2fb;
+  --surface-2: #e4f1fd;
   --ink: #0f2447;
   --ink-2: #4a5d7a;
   --ink-3: #7f90aa;
@@ -34,7 +34,7 @@
   --accent: var(--cb, #1351a4);
   --accent-2: #ef591c;
   --accent-ink: #ffffff;
-  --accent-soft: #e1edfb;
+  --accent-soft: #ffe6d4;
   --accent-text: #0f4592;
   --gold: #ffba03;
   --sky: #8ad2fa;
@@ -1278,9 +1278,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.015em; }
 .hero::after { display: none; }
 .hero > * { position: relative; z-index: 1; }
 .hero-blob { position: absolute !important; z-index: 0 !important; border-radius: 50%; pointer-events: none; }
-.hero-blob.b1 { width: 360px; height: 360px; right: -120px; bottom: -150px; background: #ffba03; }
+.hero-blob.b1 { width: 360px; height: 360px; right: -120px; bottom: -150px; background: #ef591c; opacity: .9; }
 .hero-blob.b2 { width: 130px; height: 130px; left: -40px; top: -40px; background: #fff6e5; opacity: .9; }
-.hero-blob.b3 { width: 70px; height: 70px; right: 34%; top: 14%; background: #8ad2fa; }
+.hero-blob.b3 { width: 70px; height: 70px; right: 34%; top: 14%; background: #ffba03; }
 :root[data-theme="cenaculo"] .hero-blob.b3 { background: #ffba03; }
 .hero .eyebrow { color: #ffba03; }
 .hero h1 { font-size: clamp(2.8rem, 9vw, 5.6rem); line-height: .88; max-width: 12ch; }
