@@ -333,12 +333,13 @@ let wheelItems = [];
 function wheelHTML(mk, my, now) {
   const scrollTo = (id, block = "start") => () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block });
   wheelItems = [
+    { k: "evangelio", t: "Evangelio", go: [["Leer", () => { if (vidSel !== "ev") ctx.actions.capVid({ dataset: { v: "ev" } }); scrollTo("capHoy")(); }]] },
     { k: "rosario", t: "Rosario", go: [["Rezar", () => ctx.actions.capRosario({ dataset: { set: mk } })]] },
     { k: "rato", t: "Con Jesús", go: [["En casa o donde estés", () => ctx.actions.capGuide({ dataset: { k: "casa" } })], ["Ante el Santísimo", () => ctx.actions.capGuide({ dataset: { k: "adoracion" } })]] },
-    { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
     { k: "salmos", t: "Salmos", go: [["Entrar", "#/salmos"]] },
     { k: "oremus", t: "Oremus", go: [["Entrar", "#/oremus"]] },
     { k: "cancionero", t: "Cancionero", go: [["Entrar", "#/cancionero"]] },
+    { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
   ];
   return `<div class="cg" role="list">${wheelItems.map((x, i) => `<button class="cg-it" data-cg="${i}" role="listitem" aria-label="${esc(x.t)}">
       <span class="cg-ico">${WICO[x.k]}</span><span class="cg-lbl">${esc(x.t)}</span></button>`).join("")}</div>
@@ -390,37 +391,41 @@ export function view(opt = {}) {
       <span class="cap-row-txt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("right")}</${attrs.startsWith("href") ? "a" : "button"}>`;
   let num = 0; // los rincones se numeran solos, en orden
   return `
-  <section class="cap-b-head" style="--season:${s.hex}">
-    <span class="cap-b-rose" aria-hidden="true">${roseWindow()}</span>
-    <div class="cap-b-tit">
-      <span class="cap-hand sm">pasa, Él te espera</span>
-      <h1>Capilla Ágape</h1>
-      <span class="cap-b-date">${esc(now.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }))} · <i class="cap-b-dot"></i>${esc(s.name)}</span>
+  <section class="cap-a-hero" style="--season:${s.hex}">
+    <div class="cap-arch">
+      ${roseWindow()}
+      <span class="cap-hand">pasa, Él te espera</span>
+      <h1 class="cap-title">Capilla <em>Ágape</em></h1>
+      <div class="cap-chips">
+        <span class="cap-season"><i></i>${esc(s.name)} · color ${esc(s.color)}</span>
+        <span class="cap-date">${esc(now.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }))}</span>
+      </div>
     </div>
   </section>
 
-  <article class="cap-hoy" id="capHoy">
-    <div id="capGospel">${gospelHead(s)}</div>
+  <section class="cap-fila" aria-labelledby="cgTitle">
+    <div class="cap-fila-h"><h2 class="cw-h" id="cgTitle">Para rezar</h2><span class="xs muted">desliza para ver más</span></div>
+    ${wheelHTML(mk, my, now)}
+  </section>
+
+  <section class="cap-a-misa" id="capHoy">
+    <span class="cap-hand cap-a-hand">la Misa de hoy</span>
     <div class="cap-vsel" role="group" aria-label="Video">
       <button type="button" data-action="capVid" data-v="misa" aria-pressed="${vidSel === "misa"}">Misa de hoy</button>
       <button type="button" data-action="capVid" data-v="ev" aria-pressed="${vidSel === "ev"}">Evangelio en video</button>
     </div>
     <div class="cap-vbox" id="capMisa" ${vidSel === "misa" ? "" : "hidden"}>${misaHTML()}</div>
     <div class="cap-vbox" id="capEvVid" ${vidSel === "ev" ? "" : "hidden"}>${evVideoHTML()}</div>
+    <div class="cap-a-ev" id="capGospel">${gospelHead(s)}</div>
     <a class="cap-hoy-link" id="capEvLink" href="${esc(evUrl())}" target="_blank" rel="noopener">Leer el Evangelio completo en Vatican News ${icon("arrowR")}</a>
     ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}
-  </article>
+  </section>
 
-  <article class="cap-moment cap-moment-b">
+  <article class="cap-moment">
     <span class="eyebrow">${esc(m.label)}</span>
     <span class="cap-hand sm">${esc(m.hand)}</span>
     <p class="cap-prayer">${esc(m.text).replace(/\n/g, "<br>")}</p>
   </article>
-
-  <section class="cap-grid-sec" aria-labelledby="cgTitle">
-    <h2 class="cw-h" id="cgTitle">Para rezar</h2>
-    ${wheelHTML(mk, my, now)}
-  </section>
 
   <section class="cap-room cap-altar${altarOpen ? " is-open" : ""}" id="cap-velas">
     <div class="cap-altar-top" data-action="capAltar" role="button" tabindex="0" aria-expanded="${altarOpen}" aria-controls="capAltarBody">

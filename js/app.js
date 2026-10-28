@@ -224,7 +224,7 @@ const STICKERS = {
   "/": [[".home-hi", "amigos"]],
   "/formacion": [[".page-head", "biblia"]],
   "/red": [[".page-head", "comunidad"]],
-  "/oracion": [[".cap-b-head", "oracion"], [".cap-grid-sec .cg", "grupo", "beforebegin"]],
+  "/oracion": [[".cap-arch", "oracion"]],
   "/agenda": [[".page-head", "calendario"]],
   "/cancionero": [[".page-head", "guitarra"]],
 };

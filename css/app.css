@@ -4642,3 +4642,33 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .ap-pv-t em { font-style: normal; color: var(--pv-acc, #c9460f); }
 .ap-pv-d { font-size: .85rem; color: var(--ink-2); }
 .ap-pv:has(.ap-pv-stk.is-mid) { padding-top: 112px; }
+
+/* Capilla (opción A): el arco con el vitral, una fila de íconos, la Misa y el Evangelio, la oración del momento */
+.cap-a-hero { margin-top: 6px; }
+.cap-a-hero .cap-arch.has-sticker > .sticker { position: absolute; right: 8px; top: 26px; width: 76px; transform: rotate(6deg); }
+.cap-a-hero .cap-title em { font-style: normal; background: #ffba03; padding: 0 .12em; color: inherit; }
+.cap-fila { margin-top: 22px; }
+.cap-fila-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+.cap-fila-h .cw-h { font-size: 1.3rem; }
+.cap-fila .cg { display: flex; gap: 14px; overflow-x: auto; padding: 4px 2px 10px; margin-right: -16px; scroll-snap-type: x proximity; scrollbar-width: none; }
+.cap-fila .cg::-webkit-scrollbar { display: none; }
+.cap-fila .cg-it { flex: none; width: 72px; padding: 0; background: none; border: 0; box-shadow: none; color: var(--cn, #0b2566); gap: 6px; scroll-snap-align: start; }
+.cap-fila .cg-it:active { transform: scale(.95); box-shadow: none; }
+.cap-fila .cg-ico { width: 60px; height: 60px; background: radial-gradient(circle at 50% 30%, #1d4fa3, #0b2566 80%); box-shadow: 0 3px 0 rgba(11, 37, 102, .3); }
+.cap-fila .cg-ico svg { width: 28px; height: 28px; }
+.cap-fila .cg-lbl { font-size: .74rem; color: var(--cn, #0b2566); }
+.cap-fila .cg-more { justify-content: flex-start; }
+.cap-a-misa { margin-top: 18px; display: grid; gap: 10px; }
+.cap-a-hand { display: block; text-align: center; font-size: 1.9rem !important; margin: 0 0 2px; }
+.cap-a-misa .cap-vsel { background: #e1f3fd; border-color: #8ab8dd; }
+.cap-a-misa .cap-vsel button { color: var(--cn, #0b2566); }
+.cap-a-misa .cap-vsel button[aria-pressed="true"] { background: var(--cn, #0b2566); color: #ffba03; }
+.cap-a-misa .cap-vbox .ev-video { border-radius: 18px; border: 2px solid var(--pp-bd, #0b2566); }
+.cap-a-misa .cap-vbox .cap-ev-note { color: var(--ink-2); text-align: center; }
+.cap-a-misa .cap-vbox .cap-ev-note a, .cap-a-misa .cap-vbox .linklike { color: #1351a4; }
+.cap-a-ev { background: #e1f3fd; border: 2px dashed #8ab8dd; border-radius: 18px; padding: 16px; text-align: center; }
+.cap-a-ev .cap-hoy-k { padding: 0; color: #1351a4; }
+.cap-a-ev .cap-hoy-f { margin: 8px auto 0; max-width: none; font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; line-height: 1.25; color: var(--cn, #0b2566); }
+.cap-a-misa .cap-hoy-link { justify-self: center; color: #1351a4; }
+.cap-a-misa + .cap-moment { margin-top: 22px; }
+.cap-a-hero .cap-arch.has-sticker > :is(h1, p, .eyebrow) { padding-right: 0; } .cap-a-hero .cap-title { text-align: center; }
