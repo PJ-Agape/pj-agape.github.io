@@ -975,6 +975,11 @@ export async function saveCumples(d) {
 // Mensaje de bienvenida para quienes se suman al grupo (plantilla editable; no lleva datos privados).
 export const getBienvenida = () => getContent("bienvenida");
 export const saveBienvenida = (d) => setContent("bienvenida", d);
+// Apariencia (Gestión → Apariencia): zonas editables y, aparte, la foto de fondo de cada zona.
+export const getApariencia = () => getContent("apariencia");
+export const saveApariencia = (d) => setContent("apariencia", d);
+export const getFondoZona = (id) => getContent("fondo_" + id);
+export const saveFondoZona = (id, d) => setContent("fondo_" + id, d);
 export const getFamilias = () => getContent("familias");
 export const saveFamilias = (d) => setContent("familias", d);
 export const getDesafio = () => getContent("desafio");

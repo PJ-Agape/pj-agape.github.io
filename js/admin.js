@@ -16,13 +16,14 @@ import * as portada from "./portada.js";
 import * as inicioAdmin from "./inicio-admin.js";
 import * as familiasAdmin from "./familias-admin.js";
 import * as cursosCom from "./cursos-comunidad.js";
+import * as apAdmin from "./apariencia-admin.js";
 import { esc, icon, toast, sha256, download, clone, slug, getPath, setPath, plain } from "./util.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 let api;          // { actions, render, onAfterRender }
 let undo = null;  // copia del borrador antes de la última eliminación
 
-let cloudOn = false;
+let cloudOn = false, apReady = false;
 const THEMES = [["amanecer", "Amanecer · luz y calidez"], ["cenaculo", "Cenáculo · oración"], ["esperanza", "Esperanza · vida"]];
 
 // ---------------------------------------------------------------------------
@@ -37,6 +38,7 @@ const EMBED = {
 export async function renderAdmin(sub, _api) {
   api = _api;
   bindActions();
+  if (!apReady) { apAdmin.setup({ actions: api.actions, cloud: api.cloud, render: () => api.render() }); apReady = true; }
   cloudOn = !!(api.cloud && api.cloud.enabled);
   if (cloudOn) {
     const st = api.cloud.state();
@@ -51,7 +53,7 @@ export async function renderAdmin(sub, _api) {
         <p class="muted" style="margin-top:8px">Si necesitas acceso, pídelo al equipo coordinador.</p>
         <a class="btn btn-primary" style="margin-top:16px" href="#/">Volver al inicio</a></div>`;
       const pg = sub.split("/").filter(Boolean)[0] || "hoy";
-      const COORD = { hoy: () => hoy.html(), portada: () => portada.adminView(), inicio: () => inicioAdmin.adminView(), familias: () => familiasAdmin.adminView(), saludos: () => saludos.adminView(), conocer: () => conocerView(), asignar: () => asignarView(),
+      const COORD = { apariencia: () => apAdmin.adminView(), hoy: () => hoy.html(), portada: () => portada.adminView(), inicio: () => inicioAdmin.adminView(), familias: () => familiasAdmin.adminView(), saludos: () => saludos.adminView(), conocer: () => conocerView(), asignar: () => asignarView(),
         moderacion: () => gEq.moderacionHTML(), ...EMBED };
       const GUIA = { hoy: COORD.hoy, acompanar: EMBED.acompanar };
       const ok = st.isStaff ? COORD[pg] : GUIA[pg];
@@ -71,6 +73,7 @@ export async function renderAdmin(sub, _api) {
     case "itinerarios": body = parts[1] != null ? courseView(draft, +parts[1]) : coursesView(draft); break;
     case "formacion": body = cloudOn ? await cursosCom.view(sub) : summaryView(draft); break;
     case "portada": body = portada.adminView(); break;
+    case "apariencia": body = cloudOn ? await apAdmin.adminView() : summaryView(draft); break;
     case "inicio": body = cloudOn ? inicioAdmin.adminView() : summaryView(draft); break;
     case "saludos": body = await saludos.adminView(); break;
     case "conocer": body = cloudOn ? await conocerView() : summaryView(draft); break;
@@ -107,6 +110,7 @@ function navGroups() {
       ["resumen", "#/admin/resumen", "Ajustes, estadísticas e intención del Papa", "grid", A],
     ]],
     ["Comunicación", [
+      ["apariencia", "#/admin/apariencia", "Apariencia: fondos, stickers, textos y colores", "eye", cloudOn && C],
       ["portada", "#/admin/portada", "Portada de Inicio", "sparkle", cloudOn && C],
       ["inicio", "#/admin/inicio", "Inicio y enlaces", "home", cloudOn && C],
       ["agenda", "#/admin/agenda", "Agenda", "grid", C],

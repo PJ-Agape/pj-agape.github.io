@@ -38,7 +38,7 @@ export function adminView() {
       <p class="muted small">La frase manuscrita sobre «Buenas tardes, …».</p>
       <div class="ag-form-row">${f("saludo.cuenta", "Con cuenta", c.saludo.cuenta, DEFAULTS.saludo.cuenta, 40)}${f("saludo.visita", "Visitantes", c.saludo.visita, DEFAULTS.saludo.visita, 40)}</div></section>
 
-    <section class="card ia-sec"><h2>La Plaza Ágape</h2>${head("plaza")}<div class="ia-doors">${doors("plaza")}</div></section>
+    <section class="card ia-sec"><h2>La Plaza Ágape</h2><p class="muted small">Sus accesos. El título, la frase, el fondo y el sticker se cambian en <a href="#/admin/apariencia">Apariencia</a>.</p><div class="ia-doors">${doors("plaza")}</div></section>
 
 
     <section class="card ia-sec"><h2>Música y redes sociales</h2>

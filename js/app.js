@@ -19,6 +19,7 @@ import * as AV from "./avatares.js";
 import * as acompanar from "./acompanar.js";
 import * as desafio from "./desafio.js";
 import * as momentos from "./momentos.js";
+import * as apariencia from "./apariencia.js";
 import * as juegos from "./juegos.js";
 import * as podcast from "./podcast.js";
 import { cfg as inicioCfg, REDES, BRAND_ICO } from "./inicio-config.js";
@@ -182,6 +183,7 @@ async function renderNow() {
   const v = viewEl();
   v.innerHTML = (section !== "admin" && S.isPreview() ? previewBanner() : "") + html;
   decorate(v, section);
+  apariencia.apply(v, path);
   v.classList.remove("view-enter"); void v.offsetWidth; v.classList.add("view-enter");
   if (path !== lastPath) window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
   if (path !== lastPath && cloud.enabled && !cloud.viewingAs()) { const k = vistaDe(path); if (k) cloud.countView(k); }
@@ -1538,6 +1540,8 @@ juegos.setup({ actions, render: () => render(), onAfterRender, onLeave });
 podcast.setup({ actions, render: () => render(), onAfterRender, cloud });
 inicio.setup({ actions, render: () => render(), onAfterRender, agenda, wall });
 papa.registerActions(actions);
+apariencia.setup(cloud);
+setTimeout(() => apariencia.refresh().then((ch) => { if (ch && !location.hash.startsWith("#/admin")) render(); }), 1500);
 capilla.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, content: () => S.content() });
 oremus.setup({ actions, onAfterRender });
 // Control remoto (palo de selfie, control de presentaciones) en todo lo que se proyecta: canciones, oraciones y salmos.

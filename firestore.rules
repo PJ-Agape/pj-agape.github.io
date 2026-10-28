@@ -43,6 +43,9 @@ service cloud.firestore {
     }
     // Página para familias: la editan administradores y coordinadores.
     match /content/familias { allow write: if isStaff(); }
+    // Apariencia de la app (fondos, stickers, textos y colores) y la foto de fondo de cada zona.
+    match /content/apariencia { allow write: if isStaff(); }
+    match /content/{fondo} { allow write: if isStaff() && fondo.matches('^fondo_[a-z]{2,20}$'); }
 
     // Invitaciones: el documento se llama como el correo invitado (en minúsculas).
     match /invites/{email} {

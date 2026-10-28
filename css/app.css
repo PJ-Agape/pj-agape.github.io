@@ -4584,7 +4584,61 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .plaza-scene img.z-sticker { position: static; width: auto; max-width: min(100%, 300px); max-height: 220px; margin: 0; padding: 0; background: none; border: 0; border-radius: 0; box-shadow: none; aspect-ratio: auto; }
 /* La Plaza: un parque de fondo (cielo, banderines, cerros y árboles) detrás de la ilustración */
 .plaza:not(.fam-plaza)::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 270px; z-index: 0; pointer-events: none;
-  background: linear-gradient(180deg, transparent 72%, #fde6d4 100%), url("../img/plaza-fondo.svg") center bottom / cover no-repeat; }
+  background: linear-gradient(180deg, transparent 72%, #fde6d4 100%), url("../img/fondos/parque.svg") center bottom / cover no-repeat; }
 .plaza:not(.fam-plaza) > * { position: relative; z-index: 1; }
 .plaza:not(.fam-plaza) .plaza-scene { margin-top: 26px; }
 @media (max-width: 760px) { .plaza:not(.fam-plaza)::before { height: 250px; background-position: center, 80% bottom; } }
+
+/* Apariencia (Gestión → Apariencia): lo que el equipo cambia sin tocar el código */
+.ap-fondo { position: relative; isolation: isolate; border-radius: 24px; padding: 18px 18px 16px !important; overflow: hidden; }
+.ap-fondo::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(rgba(255, 246, 229, var(--ap-velo, .4)), rgba(255, 246, 229, var(--ap-velo, .4))), var(--ap-img) var(--ap-pos, center) / cover no-repeat; }
+.ap-fondo.ap-bg::after { background: linear-gradient(color-mix(in srgb, var(--ap-bg) calc(var(--ap-velo, .4) * 100%), transparent), color-mix(in srgb, var(--ap-bg) calc(var(--ap-velo, .4) * 100%), transparent)), var(--ap-img) var(--ap-pos, center) / cover no-repeat; }
+.ap-bg:not(.ap-fondo):not(.plaza) { background: var(--ap-bg) !important; border-radius: 24px; padding: 18px !important; }
+.plaza.ap-bg { background: var(--ap-bg) !important; }
+.plaza:not(.fam-plaza)::before { background: linear-gradient(180deg, transparent 72%, var(--ap-bg, #fde6d4) 100%), var(--ap-img, url("../img/fondos/parque.svg")) var(--ap-pos, center bottom) / cover no-repeat; }
+@media (max-width: 760px) { .plaza:not(.fam-plaza):not([style*="--ap-pos"])::before { background-position: center, 80% bottom; } }
+.plaza.ap-sinfondo::before { display: none; }
+.ap-ink :is(h1, h2, .cw-h) { color: var(--ap-ink) !important; }
+.ap-accent :is(.home-hand, .plaza-hand, .cap-hand, .eyebrow, h1 em, h2 em) { color: var(--ap-accent) !important; }
+.ap-accent :is(h1 em, h2 em) { background: none !important; }
+
+/* Gestión → Apariencia */
+.ap-card { padding: 0; }
+.ap-card > h3, .ap-card > .ap-row { padding: 0 18px; } .ap-card > h3 { padding-top: 16px; } .ap-card > .ap-row:last-child { padding-bottom: 16px; }
+.ap-sum { display: flex; align-items: center; gap: 10px; padding: 16px 18px; cursor: pointer; list-style: none; }
+.ap-sum::-webkit-details-marker { display: none; }
+.ap-sum b { flex: 1; } .ap-sum > svg { opacity: .6; transition: transform .2s; }
+.ap-card[open] .ap-sum > svg { transform: rotate(180deg); }
+.ap-body { padding: 0 18px 18px; display: grid; gap: 14px; }
+.ap-ver { justify-self: start; display: inline-flex; gap: 4px; align-items: center; }
+.ap-ver svg { width: 14px; height: 14px; }
+.ap-sec { border: 0; padding: 0; margin: 0; display: grid; gap: 10px; }
+.ap-sec legend { font-weight: 800; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+.ap-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.ap-lbl { flex: 1 1 180px; font-size: .9rem; font-weight: 600; }
+.ap-row input[type=color] { width: 52px; height: 40px; padding: 2px; border-radius: 10px; border: 2px solid var(--pp-bd, var(--line)); background: #fff; }
+.ap-row input[type=range] { flex: 1 1 180px; }
+.ap-fondos { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.ap-fo { display: grid; gap: 4px; padding: 4px; border: 2px solid var(--line); border-radius: 12px; background: var(--surface); cursor: pointer; font: inherit; color: inherit; }
+.ap-fo img, .ap-fo-x { width: 100%; aspect-ratio: 16 / 7; object-fit: cover; border-radius: 8px; display: grid; place-items: center; background: var(--surface-2); }
+.ap-fo small { font-size: .75rem; font-weight: 700; }
+.ap-fo.on { border-color: var(--cn, #0b2566); box-shadow: 0 0 0 3px #ffba03; }
+.ap-file { justify-self: start; cursor: pointer; }
+.ap-stk-cur { width: 64px; height: 64px; object-fit: contain; }
+.ap-stks { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 6px; max-height: 320px; overflow-y: auto; margin-top: 8px; padding: 4px; }
+.ap-stk { padding: 4px; border: 2px solid transparent; border-radius: 10px; background: var(--surface-2); cursor: pointer; }
+.ap-stk img { width: 100%; aspect-ratio: 1; object-fit: contain; display: block; }
+.ap-stk.on { border-color: var(--cn, #0b2566); background: #fff1c7; }
+.ap-btns { margin-top: 2px; }
+.ap-pv { position: relative; overflow: hidden; isolation: isolate; border-radius: 18px; border: 2px solid var(--pp-bd, var(--line)); min-height: 150px; padding: 16px; display: flex; align-items: flex-end; }
+.ap-pv-img { position: absolute; inset: 0; z-index: -1; background: linear-gradient(rgba(255,246,229,var(--pv-velo,.4)), rgba(255,246,229,var(--pv-velo,.4))), var(--pv-img) var(--pv-pos, center) / cover no-repeat; }
+.ap-pv-img.is-top { bottom: 40%; background: linear-gradient(180deg, transparent 70%, rgba(253,230,212,.9)), var(--pv-img) var(--pv-pos, center bottom) / cover no-repeat; }
+.ap-pv-stk { position: absolute; right: 10px; top: 10px; width: 78px; height: 78px; object-fit: contain; }
+.ap-pv-stk.is-mid { left: 50%; right: auto; top: 8px; transform: translateX(-50%); width: 96px; height: 96px; }
+.ap-pv-txt { display: grid; gap: 2px; max-width: 75%; position: relative; }
+.ap-pv-hand { font-family: var(--font-hand); font-weight: 700; font-size: 1.3rem; color: #ef591c; }
+.ap-pv-t { font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; line-height: 1; color: var(--cn, #0b2566); }
+.ap-pv-t em { font-style: normal; color: var(--pv-acc, #c9460f); }
+.ap-pv-d { font-size: .85rem; color: var(--ink-2); }
+.ap-pv:has(.ap-pv-stk.is-mid) { padding-top: 112px; }
