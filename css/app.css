@@ -4915,3 +4915,10 @@ a.red-cal.card.link { display: flex; flex-direction: row; align-items: center; g
 .ap-btnt :is(.btn, .wa-btn, .cap-guide-btn, .sal-feel) { color: var(--ap-btnt) !important; }
 .wa-card strong { display: block; margin-bottom: 2px; }
 .wa-card .muted.small { display: block; }
+/* Volver (dentro de Salmos, Oremus y Cancionero) */
+.ent-backs { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ent-backs .ent-back { margin: 0; }
+.ent-backs.is-top { margin: 2px 0 14px; }
+.ent-backs.is-end { justify-content: center; margin: 26px 0 8px; }
+.ent-back.is-sec { background: transparent; box-shadow: none; border-color: #0b256633; font-weight: 700; }
+.ent-backs.is-top ~ .crumbs, .ent-backs.is-top ~ * .crumbs { display: none; }

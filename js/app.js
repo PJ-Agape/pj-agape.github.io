@@ -183,6 +183,7 @@ async function renderNow() {
   const v = viewEl();
   v.innerHTML = (section !== "admin" && S.isPreview() ? previewBanner() : "") + html;
   decorate(v, section);
+  volverBotones(v, path);
   apariencia.apply(v, path);
   v.classList.remove("view-enter"); void v.offsetWidth; v.classList.add("view-enter");
   if (path !== lastPath) window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
@@ -218,6 +219,24 @@ function decorate(v, section) {
   // Los encabezados ya no llevan ilustración: la app se apoya en la tipografía, el color y el papel.
   void HEAD_ILLUS[section];
   stickers(v);
+}
+// Dentro de Salmos, Oremus y Cancionero (un salmo, una canción, un librito, la hoja de cantos):
+// botones para volver a la entrada de la sección y a la Capilla, arriba (en vez de la ruta) y al final.
+const VOLVER = [
+  [/^\/salmos\/(\d{1,3}|libro)/, "#/salmos", "Volver a los Salmos"],
+  [/^\/oremus\/libro$/, "#/oremus", "Volver a Oremus"],
+  [/^\/cancionero\/.+/, "#/cancionero", "Volver al Cancionero"],
+];
+function volverBotones(v, path) {
+  const r = VOLVER.find(([re]) => re.test(path)); if (!r) return;
+  const crumbs = v.querySelector(".crumbs");
+  const misa = crumbs && [...crumbs.querySelectorAll("a")].find((a) => /\/misa\//.test(a.getAttribute("href") || ""));
+  const bar = (cls) => `<nav class="ent-backs no-print ${cls}" aria-label="Volver">
+    ${misa ? `<a class="ent-back" href="${esc(misa.getAttribute("href"))}">${icon("left")} Volver a «${esc(misa.textContent.trim())}»</a>` : ""}
+    <a class="ent-back${misa ? " is-sec" : ""}" href="${r[1]}">${icon("left")} ${esc(r[2])}</a>
+    <a class="ent-back is-sec" href="#/oracion">${icon("flame")} Capilla</a></nav>`;
+  if (crumbs) crumbs.outerHTML = bar("is-top"); else v.insertAdjacentHTML("afterbegin", bar("is-top"));
+  v.insertAdjacentHTML("beforeend", bar("is-end"));
 }
 // Stickers (ilustraciones propias de la PJ) en el encabezado de las secciones principales.
 const STICKERS = {
