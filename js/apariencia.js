@@ -73,7 +73,9 @@ export const ZONAS = [
   { id: "cono_form", n: "Quiero conocer Ágape · formulario", ruta: "#/conocer?o=amigo", re: /^\/conocer/, sel: "#conoBox", stk: "", noStk: true,
     t: [["#conoFT", "Título", "Te invitamos"], [".cono-form-p", "Texto", "Son menos de dos minutos. Te escribimos por WhatsApp para contarte cuándo es el próximo encuentro."], [".cono-btn-l", "Texto del botón", "Quiero que me inviten"]] },
   { id: "cono_invite", n: "Comunidad · Invita a alguien", ruta: "#/red", re: /^\/(red|conocer)/, sel: ".cono-invite", stk: "", noStk: true,
-    t: [["h2", "Título", "Invita a alguien a Ágape"], ["p", "Texto", "¿Tienes un amigo o amiga que podría venir? Mándale la invitación por WhatsApp: le llega una página para conocernos y dejar su contacto."], ["[data-wa-msg]", "Mensaje que se manda por WhatsApp (el enlace se agrega solo al final)", "¡Hola! Te invito a conocer Ágape, la Pastoral Juvenil de la Parroquia San Miguel de Yungay. Nos reunimos en comunidad, rezamos y la pasamos muy bien. Mira de qué se trata y déjanos tu contacto:"]] },
+    t: [["h2", "Título", "Invita a alguien a Ágape"], ["p", "Texto", "¿Tienes un amigo o amiga que podría venir? Mándale la invitación por WhatsApp: le llega una página para conocernos y dejar su contacto."], [".cono-inv-l", "Texto del botón", "Invitar"], ["[data-wa-msg]", "Mensaje que se manda por WhatsApp (el enlace se agrega solo al final)", "¡Hola! Te invito a conocer Ágape, la Pastoral Juvenil de la Parroquia San Miguel de Yungay. Nos reunimos en comunidad, rezamos y la pasamos muy bien. Mira de qué se trata y déjanos tu contacto:"]] },
+  { id: "wa_grupo", n: "Comunidad · botón del grupo de WhatsApp", ruta: "#/red", re: /^\/(red|ayuda)/, sel: "#waCard", stk: "", noStk: true,
+    t: [["strong", "Título (el enlace se cambia en Gestión → Resumen)", "Únete al grupo de WhatsApp de la app"], [".muted.small", "Descripción", "Tutoriales, novedades y ánimo para la comunidad Ágape."], [".wa-btn", "Texto del botón", "Unirme"]] },
   { id: "agenda", n: "Agenda · encabezado", ruta: "#/agenda", re: /^\/agenda/, sel: ".page-head", stk: "img/stickers/calendario.webp",
     t: [[".eyebrow", "Línea pequeña", "Ventana oficial del grupo"], ["h1", "Título (entre *asteriscos* va el destacado)", "Agenda *Ágape*"], ["p", "Descripción", "Encuentros, celebraciones y actividades de la pastoral, siempre al día. Lo que está aquí es lo oficial."]] },
   { id: "salmos", n: "Orar · Salmos · encabezado", ruta: "#/salmos", re: /^\/salmos$/, sel: '.ent-hero[data-ent="salmos"] .cap-arch', stk: "",
@@ -96,6 +98,8 @@ export const ZONAS = [
     t: [[".cap-hand", "Frase manuscrita", "para la misa del domingo"], ["h2", "Título (entre *asteriscos* va el destacado)", "La hoja de *cantos*"], [".cap-guide-txt > p", "Descripción", "Arma la hoja de una celebración con sus canciones, lista para imprimir o proyectar."], [".ent-btn-l", "Texto del botón", "Armar la hoja"]] },
 ];
 export const zona = (id) => ZONAS.find((z) => z.id === id);
+// Para lo que se dibuja después de la pantalla (p. ej. el botón del grupo de WhatsApp)
+export function reaplicar(id, el) { const z = zona(id); if (z && el) applyZona(el, z, de(id)); }
 
 // Paneles de cada pantalla: el equipo los sube, los baja, los oculta y cambia su tamaño y ancho.
 // p: [clave, nombre, selector (hijo directo de la pantalla)] · wrap: dónde están (si no, la pantalla misma)
@@ -356,7 +360,9 @@ export function applyZona(el, z, d) {
   el.classList.toggle("ap-bg", !!(d.colores && d.colores.bg));
   el.classList.toggle("ap-ink", !!(d.colores && d.colores.ink));
   el.classList.toggle("ap-accent", !!(d.colores && d.colores.accent));
-  for (const [k, p] of [["bg", "--ap-bg"], ["ink", "--ap-ink"], ["accent", "--ap-accent"]]) {
+  el.classList.toggle("ap-btnc", !!(d.colores && d.colores.btn));
+  el.classList.toggle("ap-btnt", !!(d.colores && d.colores.btnt));
+  for (const [k, p] of [["bg", "--ap-bg"], ["ink", "--ap-ink"], ["accent", "--ap-accent"], ["btn", "--ap-btn"], ["btnt", "--ap-btnt"]]) {
     const c = d.colores && d.colores[k];
     if (c) el.style.setProperty(p, c); else el.style.removeProperty(p);
   }

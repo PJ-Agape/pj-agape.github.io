@@ -4910,3 +4910,8 @@ a.red-cal.card.link { display: flex; flex-direction: row; align-items: center; g
 .ap-fmt-z { height: 32px; border: 2px solid #0b256633; border-radius: 8px; padding: 0 6px; font: inherit; font-size: .82rem; background: #fff; color: #0b2566; }
 .ap-fmt-b { width: 32px; height: 32px; border: 2px solid #0b256633; border-radius: 8px; background: #fff; color: #0b2566; cursor: pointer; font-size: .95rem; }
 .ap-fmt-b.on { background: #0b2566; color: #fff; border-color: #0b2566; }
+/* Apariencia: color de los botones de una tarjeta */
+.ap-btnc :is(.btn, .wa-btn, .cap-guide-btn, .sal-feel) { background: var(--ap-btn) !important; border-color: color-mix(in srgb, var(--ap-btn) 70%, #0b2566) !important; }
+.ap-btnt :is(.btn, .wa-btn, .cap-guide-btn, .sal-feel) { color: var(--ap-btnt) !important; }
+.wa-card strong { display: block; margin-bottom: 2px; }
+.wa-card .muted.small { display: block; }

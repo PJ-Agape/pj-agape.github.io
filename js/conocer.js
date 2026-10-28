@@ -172,7 +172,7 @@ export function inviteCard() {
   return `<section class="card cono-invite" aria-labelledby="conoInvT">
     <div class="cono-invite-txt"><h2 id="conoInvT">Invita a alguien a Ágape</h2>
       <p class="muted small">¿Tienes un amigo o amiga que podría venir? Mándale la invitación por WhatsApp: le llega una página para conocernos y dejar su contacto.</p></div>
-    <a class="btn btn-primary" href="${esc(inviteHref())}" target="_blank" rel="noopener">${icon("send")} Invitar</a>
+    <a class="btn btn-primary" href="${esc(inviteHref())}" target="_blank" rel="noopener">${icon("send")} <span class="cono-inv-l">Invitar</span></a>
   </section>`;
 }
 function inviteView() {

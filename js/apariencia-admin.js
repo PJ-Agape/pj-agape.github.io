@@ -281,6 +281,8 @@ function coloresHTML(z) {
     ${row("bg", "Fondo de la tarjeta", z.plaza ? "#fde6d4" : "#fff6e5")}
     ${row("ink", "Color del título", "#0b2566")}
     ${row("accent", "Color de la frase y lo destacado", "#ef591c")}
+    ${row("btn", "Color de los botones", "#ffba03")}
+    ${row("btnt", "Color del texto de los botones", "#0b2566")}
   </fieldset>`;
 }
 

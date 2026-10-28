@@ -3,6 +3,7 @@
 
 import * as cloud from "./cloud.js";
 import { esc } from "./util.js";
+import * as AP from "./apariencia.js";
 
 const valid = (u) => /^https:\/\/(chat\.whatsapp\.com|(www\.)?whatsapp\.com\/channel)\//.test(String(u || ""));
 const card = (g) => `<a class="card link wa-card" id="waCard" href="${esc(g.url)}" target="_blank" rel="noopener">
@@ -21,6 +22,7 @@ export async function afterRender(section) {
   const head = v.querySelector(".page-head");
   const wrap = document.createElement("div"); wrap.className = "wa-wrap"; wrap.innerHTML = card(g);
   const slot = document.getElementById("waSlot");
+  AP.reaplicar("wa_grupo", wrap.querySelector("#waCard")); // textos, formato y colores de Gestión → Apariencia
   if (section === "red" && slot) { slot.appendChild(wrap); return; }
   if (section === "ayuda" && head) head.after(wrap);
   else { const hero = v.firstElementChild; hero ? hero.after(wrap) : v.prepend(wrap); }
