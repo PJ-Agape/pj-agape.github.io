@@ -340,11 +340,17 @@ export function apply(v, path) {
   }
 }
 export function applyZona(el, z, d) {
-  // Textos
+  // Textos y su formato (color, tamaño, negrita, cursiva)
   for (const [s, , def] of z.t || []) {
     const t = el.querySelector(s); if (!t) continue;
     const val = (d.textos || {})[s];
     if (val != null && val !== "") t.innerHTML = enfasis(val);
+    const f = (d.formato || {})[s] || {};
+    const set = (p, v) => (v ? t.style.setProperty(p, v, "important") : t.style.removeProperty(p));
+    set("color", f.c || "");
+    set("zoom", f.z && f.z !== 100 ? String(f.z / 100) : "");
+    set("font-weight", f.b ? "800" : "");
+    set("font-style", f.i ? "italic" : "");
   }
   // Colores
   el.classList.toggle("ap-bg", !!(d.colores && d.colores.bg));

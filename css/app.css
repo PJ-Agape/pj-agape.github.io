@@ -4902,3 +4902,11 @@ a.red-cal.card.link { display: flex; flex-direction: row; align-items: center; g
 .des-hoy h2 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; color: var(--cn, #0b2566); }
 .des-hoy p { margin: 2px 0 0; font-weight: 600; color: var(--cn, #0b2566); }
 .des-hoy-b { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+/* Gestión → Apariencia: formato de cada texto */
+.ap-fmt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; }
+.ap-fmt-c { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 700; color: #4a5470; cursor: pointer; }
+.ap-fmt-c input { width: 34px; height: 30px; padding: 0; border: 2px solid #0b2566; border-radius: 8px; background: none; cursor: pointer; }
+.ap-fmt-x { border: 0; background: #e3e8f2; color: #0b2566; width: 24px; height: 24px; border-radius: 50%; font-weight: 800; cursor: pointer; line-height: 1; }
+.ap-fmt-z { height: 32px; border: 2px solid #0b256633; border-radius: 8px; padding: 0 6px; font: inherit; font-size: .82rem; background: #fff; color: #0b2566; }
+.ap-fmt-b { width: 32px; height: 32px; border: 2px solid #0b256633; border-radius: 8px; background: #fff; color: #0b2566; cursor: pointer; font-size: .95rem; }
+.ap-fmt-b.on { background: #0b2566; color: #fff; border-color: #0b2566; }

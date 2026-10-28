@@ -166,7 +166,7 @@ function fillPick(det) {
 
 function zonaHTML(z) {
   const d = draft[z.id];
-  const cambios = ["fondo", "sticker", "textos", "colores"].filter((k) => d[k] && Object.keys(d[k] || {}).length !== 0 || (k === "sticker" && d.sticker)).length;
+  const cambios = ["fondo", "sticker", "textos", "colores", "formato"].filter((k) => d[k] && Object.keys(d[k] || {}).length !== 0 || (k === "sticker" && d.sticker)).length;
   return `<details class="card ap-card" data-zona="${z.id}" ${open === z.id ? "open" : ""}>
     <summary class="ap-sum"><b>${esc(z.n)}</b>${cambios ? `<span class="chip accent">Cambiada</span>` : ""}${icon("down")}</summary>
     <div class="ap-body">
@@ -196,14 +196,15 @@ function prevHTML(z) {
   const hand = (z.t || []).find((x) => /hand|eyebrow/.test(x[0]));
   const title = (z.t || []).find((x) => /h1|h2|cw-h/.test(x[0]));
   const desc = (z.t || []).find((x) => /\bp$/.test(x[0]));
+  const fs = (t) => { const f = t ? (d.formato || {})[t[0]] || {} : {}; return `${f.c ? `color:${esc(f.c)} !important;` : ""}${f.z && f.z !== 100 ? `zoom:${f.z / 100};` : ""}${f.b ? "font-weight:800;" : ""}${f.i ? "font-style:italic;" : ""}`; };
   return `<div class="ap-pv${img ? " is-drag" : ""}" data-pvz="${z.id}" style="background:${esc(bg)};${img ? `--pv-img:url('${esc(/^data:/.test(img) ? img : new URL(img, location.href).href)}');--pv-velo:${velo / 100};--pv-pos:${esc(A.posDe(f) || (z.plaza ? "center bottom" : "center"))};--pv-zoom:${(f.zoom || 100) / 100}` : ""}">
       ${img ? `<span class="ap-pv-hint">Arrastra para mover</span>` : ""}
       ${img ? `<i class="ap-pv-img${z.plaza ? " is-top" : ""}"></i>` : ""}
       ${stk ? A.stkHTML(stk, `ap-pv-stk${z.plaza ? " is-mid" : ""}`) : ""}
       <div class="ap-pv-txt">
-        ${hand ? `<span class="ap-pv-hand" style="${c.accent ? `color:${esc(c.accent)}` : ""}">${A.enfasis(txt(hand[0]))}</span>` : ""}
-        ${title ? `<b class="ap-pv-t" style="${c.ink ? `color:${esc(c.ink)};` : ""}${c.accent ? `--pv-acc:${esc(c.accent)}` : ""}">${A.enfasis(txt(title[0]))}</b>` : ""}
-        ${desc ? `<span class="ap-pv-d">${A.enfasis(txt(desc[0]))}</span>` : ""}
+        ${hand ? `<span class="ap-pv-hand" style="${c.accent ? `color:${esc(c.accent)};` : ""}${fs(hand)}">${A.enfasis(txt(hand[0]))}</span>` : ""}
+        ${title ? `<b class="ap-pv-t" style="${c.ink ? `color:${esc(c.ink)};` : ""}${c.accent ? `--pv-acc:${esc(c.accent)};` : ""}${fs(title)}">${A.enfasis(txt(title[0]))}</b>` : ""}
+        ${desc ? `<span class="ap-pv-d" style="${fs(desc)}">${A.enfasis(txt(desc[0]))}</span>` : ""}
       </div></div>`;
 }
 
@@ -249,18 +250,25 @@ function stickerHTML(z) {
   </fieldset>`;
 }
 
+const TAMS = [[85, "Más chico"], [100, "Normal"], [115, "Más grande"], [130, "Grande"], [150, "Muy grande"]];
 function textosHTML(z) {
   if (!(z.t || []).length) return "";
-  const t = draft[z.id].textos || {};
+  const t = draft[z.id].textos || {}, F = draft[z.id].formato || {};
   return `<fieldset class="ap-sec"><legend>Textos</legend>
     ${z.t.map(([s, l, def], i) => {
-      const long = def.length > 60;
-      const id = `apT-${z.id}-${i}`;
+      const long = def.length > 60, id = `apT-${z.id}-${i}`, f = F[s] || {};
+      const fmt = `<div class="ap-fmt" role="group" aria-label="Formato de «${esc(l)}»">
+        <label class="ap-fmt-c" title="Color de este texto"><input type="color" value="${esc(f.c || "#0b2566")}" data-ap="fc" data-z="${z.id}" data-s="${esc(s)}"><span>${f.c ? "Color" : "Color: como viene"}</span></label>
+        ${f.c ? `<button type="button" class="ap-fmt-x" data-action="apFmt" data-k="c" data-z="${z.id}" data-s="${esc(s)}" aria-label="Color como viene">×</button>` : ""}
+        <select class="ap-fmt-z" data-ap="fz" data-z="${z.id}" data-s="${esc(s)}" aria-label="Tamaño">${TAMS.map(([v, n]) => `<option value="${v}" ${(f.z || 100) === v ? "selected" : ""}>${n}</option>`).join("")}</select>
+        <button type="button" class="ap-fmt-b${f.b ? " on" : ""}" data-action="apFmt" data-k="b" data-z="${z.id}" data-s="${esc(s)}" aria-pressed="${!!f.b}" title="Negrita"><b>N</b></button>
+        <button type="button" class="ap-fmt-b${f.i ? " on" : ""}" data-action="apFmt" data-k="i" data-z="${z.id}" data-s="${esc(s)}" aria-pressed="${!!f.i}" title="Cursiva"><i>K</i></button>
+      </div>`;
       return `<div class="field"><label for="${id}">${esc(l)}</label>${long
         ? `<textarea class="textarea" id="${id}" rows="2" maxlength="${Math.max(220, def.length * 2)}" placeholder="${esc(def)}" data-ap="t" data-z="${z.id}" data-s="${esc(s)}">${esc(t[s] || "")}</textarea>`
-        : `<input class="input" id="${id}" maxlength="80" placeholder="${esc(def)}" value="${esc(t[s] || "")}" data-ap="t" data-z="${z.id}" data-s="${esc(s)}">`}</div>`;
+        : `<input class="input" id="${id}" maxlength="80" placeholder="${esc(def)}" value="${esc(t[s] || "")}" data-ap="t" data-z="${z.id}" data-s="${esc(s)}">`}${/^\[data-wa/.test(s) ? "" : fmt}</div>`;
     }).join("")}
-    <p class="xs muted">Vacío = el texto de siempre (en gris).</p>
+    <p class="xs muted">Vacío = el texto de siempre (en gris). Debajo de cada texto puedes cambiar su color, tamaño, negrita y cursiva.</p>
   </fieldset>`;
 }
 
@@ -313,6 +321,15 @@ function registerActions() {
   };
   X.apStk = (el) => { const d = draft[el.dataset.z]; if (el.dataset.v) d.sticker = el.dataset.v; else delete d.sticker; repaint(el.dataset.z); };
   X.apCentrar = (el) => { const d = draft[el.dataset.z]; d.fondo = { ...(d.fondo || {}), x: 50, y: 50, zoom: 100 }; delete d.fondo.pos; repaint(el.dataset.z); };
+  // Formato de un texto: color (×), negrita y cursiva
+  X.apFmt = (el) => {
+    const d = draft[el.dataset.z]; d.formato = d.formato || {};
+    const f = { ...(d.formato[el.dataset.s] || {}) }, k = el.dataset.k;
+    if (k === "c") delete f.c; else f[k] = !f[k];
+    Object.keys(f).forEach((x) => { if (!f[x]) delete f[x]; });
+    if (Object.keys(f).length) d.formato[el.dataset.s] = f; else delete d.formato[el.dataset.s];
+    repaint(el.dataset.z);
+  };
   X.apCol = (el) => { const d = draft[el.dataset.z]; if (d.colores) delete d.colores[el.dataset.k]; repaint(el.dataset.z); };
   X.apReset = (el) => { if (!confirm("¿Volver esta parte a como venía? Se borran sus cambios.")) return; draft[el.dataset.z] = {}; save(el.dataset.z); };
   X.apSave = (el) => save(el.dataset.z, el);
@@ -406,6 +423,11 @@ function registerActions() {
     const d = draft[t.dataset.z];
     if (t.dataset.ap === "t") { d.textos = d.textos || {}; if (t.value.trim()) d.textos[t.dataset.s] = t.value; else delete d.textos[t.dataset.s]; }
     if (t.dataset.ap === "c") { d.colores = d.colores || {}; d.colores[t.dataset.k] = t.value; }
+    if (t.dataset.ap === "fc" || t.dataset.ap === "fz") {
+      d.formato = d.formato || {}; const f = { ...(d.formato[t.dataset.s] || {}) };
+      if (t.dataset.ap === "fc") f.c = t.value; else { f.z = +t.value; if (f.z === 100) delete f.z; }
+      if (Object.keys(f).length) d.formato[t.dataset.s] = f; else delete d.formato[t.dataset.s];
+    }
     if (t.dataset.ap === "velo") { d.fondo = { ...(d.fondo || {}), velo: +t.value }; }
     if (t.dataset.ap === "zoom") { d.fondo = { ...(d.fondo || {}), zoom: +t.value }; }
     if (t.dataset.ap === "x" || t.dataset.ap === "y") { const z0 = A.zona(t.dataset.z), [x, y] = xy(d.fondo || {}, z0); d.fondo = { ...(d.fondo || {}), x, y, [t.dataset.ap]: +t.value }; delete d.fondo.pos; }
@@ -414,7 +436,7 @@ function registerActions() {
   document.addEventListener("change", async (e) => {
     const t = e.target;
     if (t.dataset && t.dataset.appan === "sel") { pcur = t.value; pgrupos = null; panRepaint(true); return; }
-    if (t.dataset && t.dataset.ap === "c" && draft[t.dataset.z]) repaint(t.dataset.z);
+    if (t.dataset && ["c", "fc", "fz"].includes(t.dataset.ap) && draft[t.dataset.z]) repaint(t.dataset.z);
     if (!t.dataset || !t.dataset.apfile || !t.files || !t.files[0]) return;
     const id = t.dataset.apfile;
     toast("Preparando la foto…");
@@ -439,7 +461,7 @@ async function save(id, btn) {
   const c = clone(A.get());
   c.zonas = { ...(c.zonas || {}) };
   const d = clone(draft[id]); delete d._foto;
-  ["textos", "colores"].forEach((k) => { if (d[k] && !Object.keys(d[k]).length) delete d[k]; });
+  ["textos", "colores", "formato"].forEach((k) => { if (d[k] && !Object.keys(d[k]).length) delete d[k]; });
   if (Object.keys(d).length) c.zonas[id] = d; else delete c.zonas[id];
   if (await persist(c)) { toast("Guardado. Ya se ve en la app.", "ok"); repaint(id); }
   if (btn) btn.disabled = false;
