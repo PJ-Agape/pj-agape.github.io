@@ -198,8 +198,10 @@ export function oremusView(t) {
       sub: "Nuestras oraciones, para antes y después de cada encuentro, y las que rezamos en toda la Iglesia. Elige una y rézala con calma.",
       side: { hand: "¿Qué quieres rezar?", text: "Las de siempre, a un toque. Abajo están todas.", chips: CHIPS.map((x) => [x, `href="#/oremus/${encodeURIComponent(x)}"`]) },
       guide: { ill: "img/ilus/s086.webp", hand: "para rezar en papel", title: "El librito de *Oremus*", text: "Todas las oraciones, para hojear con calma o imprimir.", btn: ["#/oremus/libro", "Abrir el librito"] } })}
+    <section class="ent-lista">
     <h2 class="ent-h">Todas las oraciones</h2>
     ${devocionarioHTML()}
+    </section>
     ${E.foot(["Señor, enséñanos a orar", "Lc 11,1"])}
   </div>`;
 }

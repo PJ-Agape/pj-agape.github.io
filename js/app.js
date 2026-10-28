@@ -186,7 +186,7 @@ async function renderNow() {
   apariencia.apply(v, path);
   v.classList.remove("view-enter"); void v.offsetWidth; v.classList.add("view-enter");
   if (path !== lastPath) window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
-  if (path !== lastPath && cloud.enabled && !cloud.viewingAs()) { const k = vistaDe(path); if (k) cloud.countView(k); }
+  if (path !== lastPath && cloud.enabled && !cloud.viewingAs() && window.top === window) { const k = vistaDe(path); if (k) cloud.countView(k); }
   lastPath = path;
   updateInstallSlot();
   afterRender.splice(0).forEach((f) => f());

@@ -40,6 +40,70 @@ export const ZONAS = [
     t: [[".cap-hand", "Frase manuscrita", "cantar es rezar dos veces"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "Cancionero *Ágape*"], [".cap-sub", "Descripción", "Canciones con acordes para cada momento de la misa, en el tono que necesites. Ideal para ensayar y para proyectar."]] },
 ];
 export const zona = (id) => ZONAS.find((z) => z.id === id);
+
+// Paneles de cada pantalla: el equipo los sube, los baja, los oculta y cambia su tamaño y ancho.
+// p: [clave, nombre, selector (hijo directo de la pantalla)] · wrap: dónde están (si no, la pantalla misma)
+export const PANTALLAS = [
+  { id: "hoy", n: "Hoy", ruta: "#/", re: /^\/$/, p: [
+    ["saludo", "Saludo y Evangelio del día", ".home-hi"], ["solicitud", "Solicitud para ser dirigente", ".sol-banner"],
+    ["continuar", "Continuar el curso", ".home-go"], ["destacados", "Destacados (carrusel)", "#homeCarousel"],
+    ["cuenta", "Cuenta regresiva", "#countSlot"], ["agenda", "Próximas fechas", ".ag-panel-slot"],
+    ["radios", "Radios, podcast y playlist", ".home-radios:not(.home-links)"], ["enlaces", "Enlaces de interés", ".home-links"],
+    ["puente", "«Sé puente»", ".camino-banner"]] },
+  { id: "formacion", n: "Formación", ruta: "#/formacion", re: /^\/formacion$/, p: [
+    ["encabezado", "Encabezado", ".page-head"], ["curso", "El curso de dirigentes", ".hub-cbanner:not(.is-mat):not(.sol-banner)"],
+    ["materiales", "Herramientas de la pastoral", ".hub-cbanner.is-mat"], ["accesos", "Accesos", ".hub-grid"]] },
+  { id: "capilla", n: "Orar · Capilla", ruta: "#/oracion", re: /^\/oracion$/, p: [
+    ["encabezado", "Encabezado de la Capilla", ".cap-a-hero"], ["rezar", "Para rezar (íconos)", ".cap-fila"],
+    ["misa", "La misa y el Evangelio", ".cap-a-misa"], ["momento", "Oración del momento", ".cap-moment"],
+    ["intenciones", "Nuestras intenciones", ".cap-altar"]] },
+  { id: "salmos", n: "Orar · Salmos", ruta: "#/salmos", re: /^\/salmos$/, p: [
+    ["entrada", "Entrada y «Para comenzar»", ".ent-hero"], ["librito", "El librito de los Salmos", ".sal-guide"], ["cita", "Cita final", ".cap-foot"]] },
+  { id: "oremus", n: "Orar · Oremus", ruta: "#/oremus", re: /^\/oremus/, wrap: ".oremus", p: [
+    ["entrada", "Entrada y «Para comenzar»", ".ent-hero"], ["librito", "El librito de Oremus", ".sal-guide"],
+    ["lista", "Todas las oraciones", ".ent-lista"], ["cita", "Cita final", ".cap-foot"]] },
+  { id: "cancionero", n: "Orar · Cancionero", ruta: "#/cancionero", re: /^\/cancionero$/, p: [
+    ["entrada", "Entrada y «Para comenzar»", ".ent-hero"], ["hoja", "La hoja de cantos", ".sal-guide"], ["lista", "Todas las canciones", ".ent-lista"]] },
+  { id: "comunidad", n: "Comunidad", ruta: "#/red", re: /^\/red$/, p: [
+    ["encabezado", "Encabezado", ".page-head"], ["desafio", "Desafío de la semana", ".red-desafio"],
+    ["agenda", "Próximas fechas", ".ag-panel-slot"], ["plaza", "La Plaza Ágape", ".plaza"],
+    ["accesos", "Accesos", ".hub-grid"], ["final", "Conócenos y WhatsApp", ".red-end"]] },
+];
+export const pantalla = (id) => PANTALLAS.find((x) => x.id === id);
+export const panDe = (id) => (cfg.paneles || {})[id] || {};
+// El orden final: el guardado, y los paneles nuevos (que no estaban al guardar) en su lugar de siempre
+export function ordenDe(s, d) {
+  const keys = s.p.map((x) => x[0]), saved = (d.orden || []).filter((k) => keys.includes(k));
+  const out = saved.slice();
+  keys.forEach((k, i) => { if (!out.includes(k)) out.splice(Math.min(i, out.length), 0, k); });
+  return out;
+}
+// Vista previa en Gestión: la pantalla va dentro de un marco y recibe el borrador sin guardarlo
+if (typeof window !== "undefined" && window.top !== window) window.addEventListener("message", (e) => {
+  if (e.origin !== location.origin || !e.data || !e.data.apPaneles) return;
+  const { id, d } = e.data.apPaneles, s = pantalla(id), v = document.getElementById("view");
+  if (!s || !v) return;
+  cfg = { ...cfg, paneles: { ...(cfg.paneles || {}), [id]: d } };
+  applyPaneles(v, s, d);
+});
+export function applyPaneles(v, s, d) {
+  const box = s.wrap ? v.querySelector(s.wrap) : v; if (!box) return 0;
+  const found = new Map();
+  for (const [k, , sel] of s.p) { const el = box.querySelector(`:scope > ${sel}`); if (el) found.set(k, el); }
+  // Se reparten los lugares que ocupan, en el orden elegido (lo demás de la pantalla no se mueve)
+  const els = [...found.values()].sort((a, b) => (a.compareDocumentPosition(b) & 4 ? -1 : 1));
+  const marks = els.map((el) => { const m = document.createComment("p"); el.before(m); return m; });
+  ordenDe(s, d).filter((k) => found.has(k)).forEach((k, i) => marks[i].replaceWith(found.get(k)));
+  marks.forEach((m) => m.remove());
+  for (const [k, el] of found) {
+    const o = (d.p || {})[k] || {};
+    el.classList.toggle("ap-oculto", !!o.oculto);
+    el.classList.toggle("ap-panel", !!(o.tam || o.ancho));
+    if (o.tam && o.tam !== 100) el.style.setProperty("--ap-tam", String(o.tam / 100)); else el.style.removeProperty("--ap-tam");
+    if (o.ancho && o.ancho < 100) el.style.setProperty("--ap-ancho", o.ancho + "%"); else el.style.removeProperty("--ap-ancho");
+  }
+  return s.p.length - found.size;
+}
 export const get = () => cfg;
 export const de = (id) => (cfg.zonas || {})[id] || {};
 
@@ -76,6 +140,12 @@ export function apply(v, path) {
   const g = cfg.global || {};
   const root = document.documentElement;
   if (g.paper) root.style.setProperty("--paper", g.paper); else root.style.removeProperty("--paper");
+  for (const s of PANTALLAS) {
+    if (!s.re.test(path) || !(cfg.paneles || {})[s.id]) continue;
+    const d = cfg.paneles[s.id];
+    // Algunos paneles llegan un momento después: se acomodan otra vez
+    if (applyPaneles(v, s, d)) setTimeout(() => { if (s.re.test((location.hash || "#/").slice(1).split("?")[0])) applyPaneles(v, s, d); }, 900);
+  }
   for (const z of ZONAS) {
     if (!z.re.test(path)) continue;
     const el = v.querySelector(z.sel); if (!el) continue;

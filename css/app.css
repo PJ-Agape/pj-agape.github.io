@@ -4686,3 +4686,29 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .ent-hero .sal-siento button.sal-feel { font: inherit; font-weight: 700; cursor: pointer; }
 .ent-h { font-family: var(--font-display); font-size: 1.35rem; margin: 26px 0 10px; }
 .oremus .cap-foot { margin-top: 28px; }
+/* Paneles acomodados desde Gestión → Apariencia */
+.ap-oculto { display: none !important; }
+.ap-panel { zoom: var(--ap-tam, 1); max-width: var(--ap-ancho, none); margin-left: auto !important; margin-right: auto !important; }
+/* Gestión → Apariencia: orden y tamaño de los paneles */
+.ap-h2 { font-family: var(--font-display); font-size: 1.2rem; margin: 14px 0 0; }
+.ap-pan-grid { display: grid; gap: 16px; margin-top: 12px; }
+.ap-pan-prev { order: -1; }
+@media (min-width: 860px) { .ap-pan-grid { grid-template-columns: 1fr 260px; align-items: start; } .ap-pan-prev { order: 0; position: sticky; top: 84px; } }
+.ap-pan-it { padding: 8px 10px; }
+.ap-pan-sl { margin-top: 4px; }
+.ap-pan-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ap-pan-it { border: 2px solid var(--line, #e3d6bd); border-radius: 14px; padding: 10px 12px; background: #fff; }
+.ap-pan-it.is-off { background: #f6f1e6; border-style: dashed; }
+.ap-pan-it.is-off b { color: #8a8170; text-decoration: line-through; }
+.ap-pan-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ap-pan-top b { flex: 1; min-width: 120px; font-size: .92rem; }
+.ap-pan-n { width: 24px; height: 24px; border-radius: 50%; background: #0b2566; color: #fff; display: grid; place-items: center; font-size: .75rem; font-weight: 800; flex: none; }
+.ap-pan-mv { display: flex; gap: 4px; align-items: center; }
+.ap-pan-mv .icon-btn:disabled { opacity: .3; }
+.ap-pan-sl { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; margin-top: 8px; }
+.ap-pan-sl label { display: grid; gap: 2px; font-size: .78rem; font-weight: 700; color: #4a5470; }
+.ap-pan-sl output { font-weight: 600; color: #ef591c; margin-left: 4px; }
+.ap-pan-sl input { width: 100%; }
+.ap-pan-prev { display: grid; justify-items: center; gap: 6px; }
+.ap-pan-phone { width: 234px; height: 470px; overflow: hidden; border: 6px solid #0b2566; border-radius: 26px; background: var(--paper, #fff6e5); position: relative; }
+.ap-pan-phone iframe { width: 390px; height: 783px; border: 0; transform: scale(.6); transform-origin: 0 0; position: absolute; inset: 0 auto auto 0; }

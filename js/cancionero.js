@@ -156,6 +156,7 @@ export function viewList() {
     sub: "Canciones con acordes para cada momento de la misa, en el tono que necesites. Ideal para ensayar y para proyectar.",
     side: { hand: "¿Para qué momento?", text: "Elige un momento de la misa y te mostramos sus canciones.", chips: MOMENTOS.slice(0, 10).map(([k, l]) => [l, `data-action="canMomGo" data-m="${k}"`]) },
     guide: { ill: "img/stickers/guitarra.webp", hand: "para la misa del domingo", title: "La hoja de *cantos*", text: "Arma la hoja de una celebración con sus canciones, lista para imprimir o proyectar.", btn: ["#/cancionero/hoja", "Armar la hoja", "print"] } })}
+  <section class="ent-lista">
   <h2 class="ent-h" id="canTop">Todas las canciones</h2>
   <nav class="wall-tabs row-wrap" aria-label="Cancionero">
     <button class="btn btn-sm ${tab === "canciones" ? "btn-primary" : "btn-ghost"}" data-action="canTab" data-t="canciones">${icon("book")} Canciones</button>
@@ -186,7 +187,8 @@ export function viewList() {
     <span class="can-grp"><button class="icon-btn" data-action="canSize" data-d="-1" aria-label="Letra más chica">A−</button><button class="icon-btn" data-action="canSize" data-d="1" aria-label="Letra más grande">A+</button></span>
   </div>
   <div class="cl-wrap"><div class="cl-stage" id="canLibro" style="--can-size:${prefs.size}" aria-roledescription="libro"></div></div>
-  <p class="xs muted cl-help">Desliza la página o toca sus bordes para avanzar. En el computador, usa las flechas del teclado.</p>` : tab === "clasificar" && staff ? clsView() : `<div id="canMisas" class="can-misas"></div>`}`;
+  <p class="xs muted cl-help">Desliza la página o toca sus bordes para avanzar. En el computador, usa las flechas del teclado.</p>` : tab === "clasificar" && staff ? clsView() : `<div id="canMisas" class="can-misas"></div>`}
+  </section>`;
 }
 function paintList() {
   paintCls();

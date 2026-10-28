@@ -6,16 +6,19 @@ import * as A from "./apariencia.js";
 let ctx = null; // { actions, cloud, render }
 let draft = {}; // zona → { fondo, sticker, textos, colores }
 let open = "";
+let pdraft = {}, pcur = "hoy"; // paneles: pantalla → { orden, p: { clave: { oculto, tam, ancho } } }
 const clone = (o) => JSON.parse(JSON.stringify(o || {}));
 
 export function setup(c) { ctx = c; registerActions(); }
 
 export async function adminView() {
   await A.refresh(true).catch(() => {});
-  draft = {};
+  draft = {}; pdraft = {};
+  A.PANTALLAS.forEach((s) => { pdraft[s.id] = clone(A.panDe(s.id)); });
   A.ZONAS.forEach((z) => { draft[z.id] = clone(A.de(z.id)); });
   await Promise.all(A.ZONAS.filter((z) => (draft[z.id].fondo || {}).tipo === "foto").map(async (z) => { draft[z.id]._foto = await A.fotoDe(z.id, draft[z.id].fondo.v).catch(() => ""); }));
   const g = A.get().global || {};
+  setTimeout(wireFrame, 60);
   return `<header class="page-head"><span class="eyebrow">Gestión · Comunicación</span><h1>Apariencia</h1>
     <p>Cambia el fondo, el sticker, los textos y los colores de cada parte de la app. Lo que no cambies queda como viene. Los cambios se ven al instante, sin «Publicar».</p></header>
   <div id="apAdmin" class="stack" style="--gap:12px">
@@ -26,9 +29,79 @@ export async function adminView() {
         <button type="button" class="btn btn-sm btn-ghost" data-action="apPaperReset">Como viene</button>
         <button type="button" class="btn btn-sm btn-primary" data-action="apPaperSave">Guardar</button></div>
     </section>
+    ${panelesHTML()}
+    <h2 class="ap-h2">Cada parte, por dentro</h2>
     ${A.ZONAS.map(zonaHTML).join("")}
   </div>`;
 }
+
+// Orden y tamaño de los paneles de una pantalla, con la pantalla de verdad al lado
+function panelesHTML() {
+  const s = A.pantalla(pcur), d = pdraft[pcur] || {};
+  const n = s.p.length, orden = A.ordenDe(s, d), cambiada = !!(A.get().paneles || {})[pcur];
+  return `<section class="card ap-card ap-pan" id="apPan">
+    <h3>Orden y tamaño de los paneles</h3>
+    <p class="small muted">Elige una pantalla y acomoda sus paneles: súbelos, bájalos, ocúltalos o cambia su tamaño y su ancho. A la derecha ves cómo queda.</p>
+    <div class="ap-row"><label class="ap-lbl" for="apPanSel">Pantalla</label>
+      <select class="input" id="apPanSel" data-appan="sel">${A.PANTALLAS.map((x) => `<option value="${x.id}" ${x.id === pcur ? "selected" : ""}>${esc(x.n)}${(A.get().paneles || {})[x.id] ? " · cambiada" : ""}</option>`).join("")}</select></div>
+    <div class="ap-pan-grid">
+      <ol class="ap-pan-list">${orden.map((k, i) => {
+        const [, nom] = s.p.find((x) => x[0] === k), o = (d.p || {})[k] || {};
+        return `<li class="ap-pan-it${o.oculto ? " is-off" : ""}">
+          <div class="ap-pan-top">
+            <span class="ap-pan-n">${i + 1}</span><b>${esc(nom)}</b>
+            <span class="ap-pan-mv">
+              <button type="button" class="icon-btn" data-action="apPanMv" data-k="${k}" data-d="-1" ${i ? "" : "disabled"} aria-label="Subir «${esc(nom)}»">${icon("up")}</button>
+              <button type="button" class="icon-btn" data-action="apPanMv" data-k="${k}" data-d="1" ${i < n - 1 ? "" : "disabled"} aria-label="Bajar «${esc(nom)}»">${icon("down")}</button>
+              <button type="button" class="btn btn-sm ${o.oculto ? "btn-soft" : "btn-ghost"}" data-action="apPanOff" data-k="${k}" aria-pressed="${!!o.oculto}">${o.oculto ? "Mostrar" : "Ocultar"}</button>
+            </span>
+          </div>
+          ${o.oculto ? `<p class="xs muted">Oculto: nadie lo ve en esta pantalla.</p>` : `
+          <div class="ap-pan-sl">
+            <label>Tamaño <output id="apPanT-${k}">${o.tam || 100}%</output>
+              <input type="range" min="70" max="130" step="5" value="${o.tam || 100}" data-appan="tam" data-k="${k}"></label>
+            <label>Ancho <output id="apPanA-${k}">${o.ancho || 100}%</output>
+              <input type="range" min="40" max="100" step="5" value="${o.ancho || 100}" data-appan="ancho" data-k="${k}"></label>
+          </div>`}
+        </li>`;
+      }).join("")}</ol>
+      <div class="ap-pan-prev">
+        <div class="ap-pan-phone"><iframe id="apPanFrame" title="Vista previa de ${esc(s.n)}" src="index.html${s.ruta}" loading="lazy"></iframe></div>
+        <a class="ap-ver small" href="${s.ruta}" target="_blank" rel="noopener">Abrir esta pantalla ${icon("arrowR")}</a>
+      </div>
+    </div>
+    <div class="row-wrap ap-btns">
+      <button type="button" class="btn btn-ghost btn-sm" data-action="apPanReset" ${cambiada ? "" : "disabled"}>Volver a como venía</button>
+      <span class="spacer"></span>
+      <button type="button" class="btn btn-primary" data-action="apPanSave">${icon("check")} Guardar</button>
+    </div>
+  </section>`;
+}
+function panRepaint() {
+  const box = document.getElementById("apPan"); if (!box) return;
+  const fr = document.getElementById("apPanFrame"), keep = fr && fr.dataset.ruta === A.pantalla(pcur).ruta ? fr : null;
+  const y = window.scrollY;
+  box.outerHTML = panelesHTML();
+  if (keep) document.getElementById("apPanFrame").replaceWith(keep); // la vista previa no se recarga
+  window.scrollTo(0, y);
+  wireFrame(); panPreview();
+}
+function wireFrame() {
+  const fr = document.getElementById("apPanFrame"); if (!fr || fr.dataset.ruta) return;
+  fr.dataset.ruta = A.pantalla(pcur).ruta;
+  fr.addEventListener("load", () => { [400, 1200, 2500].forEach((t) => setTimeout(panPreview, t)); });
+}
+function panPreview() {
+  const fr = document.getElementById("apPanFrame");
+  try { fr && fr.contentWindow && fr.contentWindow.postMessage({ apPaneles: { id: pcur, d: pdraft[pcur] || {} } }, location.origin); } catch {}
+}
+const panSet = (k, patch) => {
+  const d = pdraft[pcur] = pdraft[pcur] || {};
+  d.p = d.p || {};
+  const o = { ...(d.p[k] || {}), ...patch };
+  Object.keys(o).forEach((x) => { if (!o[x] || ((x === "tam" || x === "ancho") && o[x] === 100)) delete o[x]; });
+  if (Object.keys(o).length) d.p[k] = o; else delete d.p[k];
+};
 
 function zonaHTML(z) {
   const d = draft[z.id];
@@ -185,6 +258,29 @@ function registerActions() {
   X.apSave = (el) => save(el.dataset.z, el);
   X.apPaperReset = async () => { const c = clone(A.get()); c.global = { ...(c.global || {}) }; delete c.global.paper; await persist(c); toast("El fondo de la app volvió a como venía"); ctx.render(); };
   X.apPaperSave = async () => { const v = document.getElementById("apPaper")?.value; const c = clone(A.get()); c.global = { ...(c.global || {}), paper: v }; await persist(c); toast("Fondo de la app guardado", "ok"); };
+  X.apPanMv = (el) => {
+    const s = A.pantalla(pcur), d = pdraft[pcur] = pdraft[pcur] || {};
+    const o = A.ordenDe(s, d), i = o.indexOf(el.dataset.k), j = i + +el.dataset.d;
+    if (i < 0 || j < 0 || j >= o.length) return;
+    [o[i], o[j]] = [o[j], o[i]]; d.orden = o; panRepaint();
+  };
+  X.apPanOff = (el) => { const o = ((pdraft[pcur] || {}).p || {})[el.dataset.k] || {}; panSet(el.dataset.k, { oculto: !o.oculto }); panRepaint(); };
+  X.apPanReset = async () => {
+    if (!confirm("¿Volver los paneles de esta pantalla a como venían?")) return;
+    const c = clone(A.get()); c.paneles = { ...(c.paneles || {}) }; delete c.paneles[pcur];
+    pdraft[pcur] = {};
+    if (await persist(c)) { toast("Listo: la pantalla quedó como venía.", "ok"); const fr = document.getElementById("apPanFrame"); if (fr) { fr.removeAttribute("data-ruta"); } panRepaint(); const f2 = document.getElementById("apPanFrame"); if (f2) f2.src = f2.src; }
+  };
+  X.apPanSave = async (el) => {
+    el.disabled = true;
+    const c = clone(A.get()); c.paneles = { ...(c.paneles || {}) };
+    const d = clone(pdraft[pcur] || {}), s = A.pantalla(pcur);
+    if (d.orden && d.orden.join() === s.p.map((x) => x[0]).join()) delete d.orden;
+    if (d.p && !Object.keys(d.p).length) delete d.p;
+    if (Object.keys(d).length) c.paneles[pcur] = d; else delete c.paneles[pcur];
+    if (await persist(c)) { toast("Guardado. Ya se ve en la app.", "ok"); panRepaint(); }
+    el.disabled = false;
+  };
   if (wired) return; wired = true;
   // Arrastrar la imagen en la vista previa: mueve el punto que queda centrado
   let drag = null;
@@ -207,7 +303,13 @@ function registerActions() {
   document.addEventListener("pointerup", () => { drag = null; });
   document.addEventListener("pointercancel", () => { drag = null; });
   document.addEventListener("input", (e) => {
-    const t = e.target; if (!t.dataset || !t.dataset.ap || !draft[t.dataset.z]) return;
+    const t = e.target;
+    if (t.dataset && (t.dataset.appan === "tam" || t.dataset.appan === "ancho")) {
+      panSet(t.dataset.k, { [t.dataset.appan]: +t.value });
+      const out = document.getElementById(`apPan${t.dataset.appan === "tam" ? "T" : "A"}-${t.dataset.k}`); if (out) out.textContent = t.value + "%";
+      panPreview(); return;
+    }
+    if (!t.dataset || !t.dataset.ap || !draft[t.dataset.z]) return;
     const d = draft[t.dataset.z];
     if (t.dataset.ap === "t") { d.textos = d.textos || {}; if (t.value.trim()) d.textos[t.dataset.s] = t.value; else delete d.textos[t.dataset.s]; }
     if (t.dataset.ap === "c") { d.colores = d.colores || {}; d.colores[t.dataset.k] = t.value; }
@@ -218,6 +320,7 @@ function registerActions() {
   });
   document.addEventListener("change", async (e) => {
     const t = e.target;
+    if (t.dataset && t.dataset.appan === "sel") { pcur = t.value; panRepaint(); return; }
     if (t.dataset && t.dataset.ap === "c" && draft[t.dataset.z]) repaint(t.dataset.z);
     if (!t.dataset || !t.dataset.apfile || !t.files || !t.files[0]) return;
     const id = t.dataset.apfile;
