@@ -150,7 +150,8 @@ export function viewAgenda(day) {
   ${ctx.tabs ? ctx.tabs("agenda") : ""}
   <div class="row-wrap" style="margin:14px 0 4px">
     ${admin ? `<button class="btn btn-primary btn-sm" data-action="agNew">${icon("plus")} Nuevo evento</button>` : ""}
-    <span class="spacer"></span><button class="btn btn-sm btn-gold" data-action="agSub">${icon("grid")} Suscribirme al calendario</button>
+    <span class="spacer"></span><button class="btn btn-sm btn-ghost" data-action="agPrint">${icon("print")} Imprimir el mes</button>
+    <button class="btn btn-sm btn-gold" data-action="agSub">${icon("grid")} Suscribirme al calendario</button>
   </div>
   <div class="ag-layout">
     <section class="card ag-cal" aria-label="Calendario">
@@ -190,6 +191,42 @@ function paint() {
   }
   grid.innerHTML = DIAS.map((d) => `<span class="ag-dow">${d}</span>`).join("") + cells.join("");
   paintList();
+}
+// Imprimir el mes que se está viendo: la grilla con todos sus eventos y, en otra hoja, el detalle.
+function printMonth() {
+  const y = month.getFullYear(), m = month.getMonth(), name = `${MESES[m]} ${y}`;
+  const map = byDay(), first = new Date(y, m, 1), offset = (first.getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate();
+  const weeks = Math.ceil((offset + days) / 7);
+  const hora = (e) => (e.start ? `${e.start}${e.end ? `–${e.end}` : ""}` : "");
+  const cells = [];
+  for (let i = 0; i < weeks * 7; i++) {
+    const d = new Date(y, m, 1 - offset + i), key = iso(d), out = d.getMonth() !== m;
+    const evs = out ? [] : map[key] || [], max = weeks > 5 ? 3 : 4;
+    cells.push(`<div class="agp-day${out ? " out" : ""}${[5, 6].includes(i % 7) ? " we" : ""}"><b class="agp-n">${d.getDate()}</b>
+      ${evs.slice(0, max).map((e) => `<span class="agp-ev" style="--c:${typeOf(e).color}">${e.start ? `<i>${esc(e.start)}</i> ` : ""}${esc(e.title.replace(/^Camino Ágape · /, ""))}</span>`).join("")}
+      ${evs.length > max ? `<span class="agp-more">+${evs.length - max} más (ver detalle)</span>` : ""}</div>`);
+  }
+  const list = all().filter((e) => e.date.slice(0, 7) === `${y}-${pad(m + 1)}`);
+  const usados = [...new Map(list.map((e) => [typeOf(e).label, typeOf(e).color])).entries()];
+  let box = document.getElementById("agPrint");
+  if (!box) { box = document.createElement("div"); box.id = "agPrint"; document.body.appendChild(box); }
+  box.innerHTML = `<section class="agp-page">
+      <header class="agp-head"><img src="icons/logo-320.webp" alt=""><div><span>Agenda Ágape · Pastoral Juvenil</span><h1>${esc(name)}</h1></div>
+        <p>${list.length ? `${list.length} ${list.length === 1 ? "fecha" : "fechas"} este mes` : "Sin fechas agendadas este mes"}</p></header>
+      <div class="agp-grid" style="--weeks:${weeks}">${DIAS.map((d) => `<span class="agp-dow">${d}</span>`).join("")}${cells.join("")}</div>
+      ${usados.length ? `<footer class="agp-legend">${usados.map(([l, c]) => `<span><i style="background:${c}"></i>${esc(l)}</span>`).join("")}</footer>` : ""}
+    </section>
+    ${list.length ? `<section class="agp-page agp-detail"><h2>Detalle de ${esc(name)}</h2>
+      ${list.map((e) => `<article class="agp-row" style="--c:${typeOf(e).color}">
+        <span class="agp-date"><b>${parse(e.date).getDate()}</b><small>${esc(parse(e.date).toLocaleDateString("es-CL", { weekday: "short" }))}</small></span>
+        <div><strong>${esc(e.title)}</strong>
+          <span>${[typeOf(e).label, hora(e), e.place || "", e.audience && !e.cumple ? `Para: ${e.audience}` : ""].filter(Boolean).map(esc).join(" · ")}</span>
+          ${e.desc && !e.cumple ? `<p>${esc(e.desc)}</p>` : ""}</div></article>`).join("")}
+    </section>` : ""}`;
+  document.body.classList.add("ag-printing");
+  const done = () => { document.body.classList.remove("ag-printing"); window.removeEventListener("afterprint", done); };
+  window.addEventListener("afterprint", done);
+  setTimeout(() => window.print(), 250);
 }
 function paintList() {
   const box = $("#agList"); if (!box) return;
@@ -353,6 +390,7 @@ function subDialog() {
 
 function registerActions() {
   ctx.actions.agSub = () => subDialog();
+  ctx.actions.agPrint = () => printMonth();
   ctx.actions.agSubClose = () => document.getElementById("agSubDlg")?.close();
   ctx.actions.agSubCopy = async () => {
     const i = document.getElementById("agSubUrl");

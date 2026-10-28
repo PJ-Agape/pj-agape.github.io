@@ -4791,3 +4791,44 @@ html.papel .ap-stk-on { display: block !important; }
 .hub-cur-dots button { width: 9px; height: 9px; padding: 0; border-radius: 99px; border: 2px solid var(--cn, #0b2566); background: transparent; cursor: pointer; transition: width .2s; }
 .hub-cur-dots button.on { width: 24px; background: var(--cn, #0b2566); }
 .hub-cur-n { font-size: .8rem; font-weight: 700; color: #4a5470; min-width: 4.5em; text-align: center; }
+/* Agenda: imprimir el mes (carta, horizontal) */
+#agPrint { display: none; }
+@page agmes { size: letter landscape; margin: 9mm; }
+@media print {
+  body.ag-printing > *:not(#agPrint) { display: none !important; }
+  body.ag-printing { background: #fff !important; }
+  body.ag-printing #agPrint { display: block; color: #0b2566; font-family: var(--font-body, system-ui); }
+  #agPrint * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+  .agp-page { page: agmes; height: 196mm; display: flex; flex-direction: column; break-after: page; }
+  .agp-page:last-child { break-after: auto; }
+  .agp-head { display: flex; align-items: center; gap: 4mm; margin-bottom: 3mm; }
+  .agp-head img { width: 14mm; height: 14mm; }
+  .agp-head span { font-size: 8.5pt; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #ef591c; }
+  .agp-head h1 { margin: 0; font-family: var(--font-display); font-size: 26pt; line-height: 1; text-transform: capitalize; }
+  .agp-head p { margin: 0 0 0 auto; font-size: 9pt; font-weight: 700; color: #4a5470; }
+  .agp-grid { flex: 1; display: grid; grid-template-columns: repeat(7, 1fr); grid-template-rows: auto repeat(var(--weeks), 1fr); border: .5mm solid #0b2566; border-radius: 3mm; overflow: hidden; }
+  .agp-dow { background: #0b2566; color: #fff; font-size: 8.5pt; font-weight: 800; text-transform: uppercase; text-align: center; padding: 1.4mm 0; letter-spacing: .08em; }
+  .agp-day { border-right: .25mm solid #c9d3e6; border-top: .25mm solid #c9d3e6; padding: 1.2mm 1.4mm; display: flex; flex-direction: column; gap: .8mm; overflow: hidden; min-height: 0; }
+  .agp-day:nth-child(7n) { border-right: 0; }
+  .agp-day.we { background: #fff8ec; }
+  .agp-day.out { background: #f3f4f8; }
+  .agp-day.out .agp-n { color: #b4bccd; }
+  .agp-n { font-size: 11pt; font-weight: 800; line-height: 1; }
+  .agp-ev { font-size: 7.4pt; line-height: 1.2; padding: .6mm 1.2mm; border-radius: 1.2mm; background: color-mix(in srgb, var(--c) 22%, #fff); border-left: 1.2mm solid var(--c); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .agp-ev i { font-style: normal; font-weight: 800; }
+  .agp-more { font-size: 6.8pt; font-weight: 700; color: #4a5470; }
+  .agp-legend { display: flex; flex-wrap: wrap; gap: 2mm 5mm; margin-top: 2.5mm; font-size: 8pt; font-weight: 700; }
+  .agp-legend i { display: inline-block; width: 3mm; height: 3mm; border-radius: 1mm; margin-right: 1.2mm; vertical-align: -.3mm; }
+  .agp-detail { height: auto; display: block; }
+  .agp-detail h2 { font-family: var(--font-display); font-size: 18pt; margin: 0 0 3mm; text-transform: none; }
+  .agp-detail h2::first-letter { text-transform: uppercase; }
+  .agp-detail { columns: 2; column-gap: 8mm; }
+  .agp-detail h2 { column-span: all; }
+  .agp-row { display: flex; gap: 3mm; padding: 2mm 0 2mm 2.5mm; border-left: 1.2mm solid var(--c); margin-bottom: 2mm; break-inside: avoid; }
+  .agp-date { display: grid; justify-items: center; min-width: 10mm; }
+  .agp-date b { font-size: 15pt; line-height: 1; }
+  .agp-date small { font-size: 7.5pt; text-transform: uppercase; font-weight: 700; color: #4a5470; }
+  .agp-row strong { display: block; font-size: 10pt; }
+  .agp-row span { display: block; font-size: 8.4pt; color: #4a5470; font-weight: 600; }
+  .agp-row p { margin: 1mm 0 0; font-size: 8.4pt; }
+}
