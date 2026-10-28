@@ -120,7 +120,7 @@ export const nombre = (el) => {
   return (el.getAttribute("aria-label") || (h && h.textContent) || el.textContent || "").replace(/\s+/g, " ").trim().slice(0, 48);
 };
 const vacio = (el) => !el.textContent.trim() && !el.querySelector("img, svg, canvas, iframe, video");
-const SALTA = ".crumbs, script, style, template, .ap-stk-add, .ap-libres, .no-print.fi-hint";
+const SALTA = ".crumbs, .ent-back, script, style, template, .ap-stk-add, .ap-libres, .no-print.fi-hint";
 export function descubrir(v, s) {
   const box = s.wrap ? v.querySelector(s.wrap) : v; if (!box) return [];
   const used = new Set(), top = [];

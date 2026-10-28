@@ -4767,3 +4767,9 @@ html.papel .ap-stk-on { display: block !important; }
 .ap-libs > .ap-stk-det > summary.ap-lib-add { display: inline-flex; list-style: none; margin-top: 6px; }
 .ap-libs > .ap-stk-det > summary.ap-lib-add::-webkit-details-marker { display: none; }
 .ap-libs > .ap-stk-det > summary.ap-lib-add .xs { color: inherit; opacity: .75; margin-left: 4px; }
+/* Volver a la Capilla (Salmos, Oremus, Cancionero) */
+.ent-back { display: inline-flex; align-items: center; gap: 6px; margin: 2px 0 12px; padding: 8px 16px 8px 12px; border-radius: 999px; background: #fff; color: var(--cn, #0b2566); font-weight: 800; font-size: .92rem; text-decoration: none; border: 2px solid var(--pp-bd, var(--cn, #0b2566)); box-shadow: var(--pp-sh-s, 3px 3px 0 var(--cn, #0b2566)); }
+.ent-back:hover { background: #fff1c7; }
+.ent-back:active { transform: translate(2px, 2px); box-shadow: none; }
+.ent-back svg { width: 18px; height: 18px; }
+.ent-back.is-end { display: flex; width: fit-content; margin: 22px auto 8px; }

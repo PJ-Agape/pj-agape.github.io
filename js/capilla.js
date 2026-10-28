@@ -203,6 +203,7 @@ export function oremusView(t) {
     ${devocionarioHTML()}
     </section>
     ${E.foot(["Señor, enséñanos a orar", "Lc 11,1"])}
+    ${E.volver(undefined, "is-end")}
   </div>`;
 }
 // Para el librito de Oremus (js/oremus.js): las oraciones por grupo, con el texto en líneas.

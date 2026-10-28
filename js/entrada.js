@@ -7,7 +7,7 @@ import { illus } from "./ilustraciones.js";
 // o = { id, back:[href,label], ico, hand, title (con *énfasis*), sub, side:{hand, text, chips:[[label, attrs]]}, guide:{ill, hand, title, text, btn:[href, label, ic]}, cita:[texto, ref] }
 const em = (s) => esc(s).replace(/\*(.+?)\*/g, "<em>$1</em>");
 export function head(o) {
-  return `${o.back ? `<nav class="crumbs no-print"><a href="${o.back[0]}">${esc(o.back[1])}</a>${icon("right")}<span>${esc(o.crumb || o.title.replace(/\*/g, ""))}</span></nav>` : ""}
+  return `${o.back ? volver(o.back) : ""}
   <section class="cap-hero sal-hero ent-hero" data-ent="${esc(o.id)}">
     <div class="cap-arch">
       ${o.ico}
@@ -36,6 +36,8 @@ export function guide(g) {
   </section>`;
 }
 export const foot = ([t, ref]) => `<p class="cap-foot">«${esc(t)}»<span>${esc(ref)}</span></p>`;
+// Volver a la Capilla (arriba y al final de cada página)
+export const volver = ([href, label] = ["#/oracion", "Capilla"], cls = "") => `<a class="ent-back no-print ${cls}" href="${href}">${icon("left")} Volver a la ${esc(label)}</a>`;
 
 // Íconos del arco (mismo trazo dorado que la lira de los Salmos)
 const G = (d, vb = "0 0 120 100") => `<svg class="sal-lira ent-ico" viewBox="${vb}" aria-hidden="true" fill="none" stroke="#c98a00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;

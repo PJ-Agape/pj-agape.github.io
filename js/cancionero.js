@@ -188,7 +188,8 @@ export function viewList() {
   </div>
   <div class="cl-wrap"><div class="cl-stage" id="canLibro" style="--can-size:${prefs.size}" aria-roledescription="libro"></div></div>
   <p class="xs muted cl-help">Desliza la página o toca sus bordes para avanzar. En el computador, usa las flechas del teclado.</p>` : tab === "clasificar" && staff ? clsView() : `<div id="canMisas" class="can-misas"></div>`}
-  </section>`;
+  </section>
+  ${E.volver(undefined, "is-end")}`;
 }
 function paintList() {
   paintCls();
