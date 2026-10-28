@@ -4892,3 +4892,13 @@ a.red-cal.card.link { display: flex; flex-direction: row; align-items: center; g
 @media print { .ag-notas, .ag-prog { display: none !important; } }
 .desafio-admin { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 2px dashed #0b256622; }
 .desafio-admin .xs { margin-right: auto; }
+/* Hoy: recordatorio del desafío pendiente */
+.des-hoy { display: flex; gap: 14px; align-items: flex-start; margin-top: 14px; padding: 16px; background: #fff1c7; border: 2px solid var(--pp-bd, #0b2566); box-shadow: var(--pp-sh-m, 4px 4px 0 #0b2566); transition: opacity .4s, transform .4s; }
+.des-hoy.is-done { opacity: 0; transform: scale(.96); }
+.des-hoy-ico { flex: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: #ef591c; color: #fff; }
+.des-hoy-ico svg { width: 30px; height: 30px; }
+.des-hoy-txt { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.des-hoy-hand { font-family: var(--font-hand); font-weight: 700; font-size: 1.25rem; color: #ef591c; line-height: 1.1; }
+.des-hoy h2 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; color: var(--cn, #0b2566); }
+.des-hoy p { margin: 2px 0 0; font-weight: 600; color: var(--cn, #0b2566); }
+.des-hoy-b { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }

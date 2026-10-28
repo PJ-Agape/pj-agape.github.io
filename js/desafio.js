@@ -16,16 +16,46 @@ const weekOf = () => { const m = monday(), s = new Date(m); s.setDate(s.getDate(
 
 let cur = null; // { key, title, items: [{etapa, text}], source }
 let guardado = null; // el desafío tal como está guardado (para editarlo o quitarlo)
-export async function homeCard() {
-  const slot = document.getElementById("desafioSlot"); if (!slot || !ctx.cloud.enabled) return;
+async function loadCur() {
   const today = iso(new Date());
   const custom = await ctx.cloud.getDesafio();
   guardado = custom && custom.texto ? custom : null;
   if (custom && custom.texto && (!custom.desde || today >= custom.desde) && (!custom.hasta || today <= custom.hasta)) {
-    cur = { key: `c-${custom.desde || "x"}`, title: custom.titulo || "Desafío de la semana", items: [{ text: custom.texto }], source: "equipo" };
+    cur = { key: `c-${custom.desde || "x"}`, title: custom.titulo || "Desafío de la semana", items: [{ text: custom.texto }], source: "equipo", hasta: custom.hasta || "" };
   } else cur = null;
+}
+export async function homeCard() {
+  const slot = document.getElementById("desafioSlot"); if (!slot || !ctx.cloud.enabled) return;
+  await loadCur();
   paint();
 }
+// Lo que le toca a cada uno (si el desafío trae uno por etapa)
+function itemsFor() {
+  const role = st().account && st().account.role;
+  const pref = ["aspirante", "ingreso", "madurez"].includes(role) ? role : null;
+  return pref && cur.items.some((i) => i.etapa === pref) ? cur.items.filter((i) => i.etapa === pref) : cur.items;
+}
+// Hoy: «Recuerda que tienes un desafío pendiente», hasta que la persona marque «¡Lo cumplí!».
+export async function homeReminder() {
+  const slot = document.getElementById("desafioHoy"); if (!slot || !ctx.cloud.enabled || !st().ready) return;
+  await loadCur().catch(() => { cur = null; });
+  const s = document.getElementById("desafioHoy"); if (!s) return;
+  if (!cur || !cur.items.length) { s.innerHTML = ""; return; }
+  const list = await ctx.cloud.listDesafio(cur.key).catch(() => []);
+  if ((list || []).some((d) => d.id === ctx.cloud.myUid())) { s.innerHTML = ""; return; }
+  const t = cur.title.replace(/^Desafío de la semana · /, "").trim();
+  s.innerHTML = `<section class="card des-hoy" aria-labelledby="desHoyT">
+    <span class="des-hoy-ico" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><circle cx="22" cy="26" r="17"/><circle cx="22" cy="26" r="10"/><circle cx="22" cy="26" r="3.4" fill="currentColor"/><path d="M22 26 L41 7 M35 6 L41 7 L42 13"/></svg></span>
+    <div class="des-hoy-txt">
+      <span class="des-hoy-hand">recuerda que tienes un desafío pendiente</span>
+      <h2 id="desHoyT">${esc(t && !/^desaf[ií]o de la semana$/i.test(t) ? t : "Desafío de la semana")}</h2>
+      ${itemsFor().map((i) => `<p>${esc(i.text)}</p>`).join("")}
+      ${cur.hasta ? `<span class="xs muted">Tienes hasta el ${esc(fechaLarga(cur.hasta))}.</span>` : ""}
+      <div class="des-hoy-b"><button class="btn btn-gold btn-sm" data-action="desDone" data-on="1" data-from="hoy">${icon("check")} ¡Lo cumplí!</button>
+        <a class="btn btn-ghost btn-sm" href="#/red">Ver quiénes lo cumplieron</a></div>
+    </div></section>`;
+}
+const fechaLarga = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d).toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }); };
 let done = null;
 async function paint() {
   const slot = document.getElementById("desafioSlot"); if (!slot) return;
@@ -36,9 +66,7 @@ async function paint() {
   }
   if (st().ready) done = await ctx.cloud.listDesafio(cur.key); else done = [];
   const me = ctx.cloud.myUid(), mine = (done || []).some((d) => d.id === me);
-  const role = st().account && st().account.role;
-  const pref = ["aspirante", "ingreso", "madurez"].includes(role) ? role : null;
-  const items = pref && cur.items.some((i) => i.etapa === pref) ? cur.items.filter((i) => i.etapa === pref) : cur.items;
+  const items = itemsFor();
   const s = document.getElementById("desafioSlot"); if (!s) return;
   s.innerHTML = `<section class="card desafio">
     <div class="desafio-head"><span class="desafio-ico" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><circle cx="22" cy="26" r="17"/><circle cx="22" cy="26" r="10"/><circle cx="22" cy="26" r="3.4" fill="currentColor"/><path d="M22 26 L41 7 M35 6 L41 7 L42 13"/></svg></span><div style="flex:1"><span class="desafio-hand">esta semana te desafiamos</span>${((t) => t && !/^desaf[ií]o de la semana$/i.test(t) ? `<h3>${esc(t)}</h3>` : "")(cur.title.replace(/^Desafío de la semana · /, "").trim())}<span class="desafio-src">Desafío de la semana · propuesto por el equipo</span></div>
@@ -84,7 +112,13 @@ function registerActions() {
   A.desDone = async (el) => {
     if (!cur) return;
     const on = el.dataset.on === "1";
-    try { await ctx.cloud.markDesafio(cur.key, on); if (on) toast("¡Bien! Desafío cumplido"); paint(); } catch { toast("No se pudo guardar", ""); }
+    try {
+      await ctx.cloud.markDesafio(cur.key, on);
+      if (on) toast("¡Bien! Desafío cumplido", "ok");
+      const h = document.getElementById("desafioHoy");
+      if (h && el.dataset.from === "hoy") { const c = h.firstElementChild; if (c) { c.classList.add("is-done"); setTimeout(() => { h.innerHTML = ""; }, 450); } else h.innerHTML = ""; }
+      paint();
+    } catch { toast("No se pudo guardar", ""); }
   };
   document.addEventListener("submit", async (e) => {
     if (e.target.id !== "desForm") return;

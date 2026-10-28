@@ -377,7 +377,7 @@ function nextLink(course, st) {
 }
 
 function viewHome() {
-  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); });
+  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); });
   const course = S.activeCourse();
   const st = S.courseState(course);
   // Continuar: la unidad donde quedaste (o la siguiente), en una sola tarjeta.
@@ -427,6 +427,7 @@ function viewHome() {
   return `
   ${inicio.greetHTML()}
   ${solicitud.homeCard()}
+  <div id="desafioHoy"></div>
   ${go}
   ${carousel()}
   <div id="countSlot"></div>

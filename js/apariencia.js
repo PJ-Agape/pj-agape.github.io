@@ -101,7 +101,7 @@ export const zona = (id) => ZONAS.find((z) => z.id === id);
 // p: [clave, nombre, selector (hijo directo de la pantalla)] · wrap: dónde están (si no, la pantalla misma)
 export const PANTALLAS = [
   { id: "hoy", n: "Hoy", ruta: "#/", re: /^\/$/, p: [
-    ["saludo", "Saludo y Evangelio del día", ".home-hi"], ["solicitud", "Solicitud para ser dirigente", ".sol-banner"],
+    ["saludo", "Saludo y Evangelio del día", ".home-hi"], ["solicitud", "Solicitud para ser dirigente", ".sol-banner"], ["desafio", "Recordatorio del desafío", "#desafioHoy"],
     ["continuar", "Continuar el curso", ".home-go"], ["destacados", "Destacados (carrusel)", "#homeCarousel"],
     ["cuenta", "Cuenta regresiva", "#countSlot"], ["agenda", "Próximas fechas", ".ag-panel-slot"],
     ["radios", "Radios, podcast y playlist", ".home-radios:not(.home-links)"], ["enlaces", "Enlaces de interés", ".home-links"],
