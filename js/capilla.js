@@ -33,8 +33,7 @@ function misaHTML() {
   if (!ok) return `<a class="btn cap-oremus" href="${esc(misaVivo)}" target="_blank" rel="noopener">${icon("eye")} Misa en vivo <small>en YouTube</small></a>`;
   // «Santa Misa de Hoy | Viernes, XXIX Semana del Tiempo Ordinario (23-10-2026) | P. …» → la parte del medio.
   const sub = (misaHoy.title.split("|")[1] || "").replace(/\(\d{1,2}[-./]\d{1,2}[-./]\d{4}\)/, "").trim();
-  return `<span class="cap-hand sm">la Misa de hoy</span>
-    <button type="button" class="ev-video" data-action="evPlay" data-id="${misaHoy.id}" data-t="La Misa de hoy" aria-label="Ver la Misa de hoy">
+  return `<button type="button" class="ev-video" data-action="evPlay" data-id="${misaHoy.id}" data-t="La Misa de hoy" aria-label="Ver la Misa de hoy">
       <img src="https://i.ytimg.com/vi/${misaHoy.id}/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">
       <span class="ev-play" aria-hidden="true"></span></button>
     <p class="cap-ev-note">${sub ? `${esc(sub)} · ` : ""}Magnificat TV · <a href="${esc(misaVivo)}" target="_blank" rel="noopener">abrir en YouTube ↗</a></p>`;
@@ -334,18 +333,14 @@ let wheelItems = [];
 function wheelHTML(mk, my, now) {
   const scrollTo = (id, block = "start") => () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block });
   wheelItems = [
-    { k: "evangelio", t: "Evangelio", go: [["Leer", scrollTo("capGospel", "center")]] },
     { k: "rosario", t: "Rosario", go: [["Rezar", () => ctx.actions.capRosario({ dataset: { set: mk } })]] },
     { k: "rato", t: "Con Jesús", go: [["En casa o donde estés", () => ctx.actions.capGuide({ dataset: { k: "casa" } })], ["Ante el Santísimo", () => ctx.actions.capGuide({ dataset: { k: "adoracion" } })]] },
+    { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
     { k: "salmos", t: "Salmos", go: [["Entrar", "#/salmos"]] },
     { k: "oremus", t: "Oremus", go: [["Entrar", "#/oremus"]] },
-    { k: "cancionero", t: "Cantos", go: [["Entrar", "#/cancionero"]] },
-    { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
+    { k: "cancionero", t: "Cancionero", go: [["Entrar", "#/cancionero"]] },
   ];
-  // Alrededor del vitral: un círculo de íconos, el primero arriba y en el sentido del reloj
-  const n = wheelItems.length;
-  const pos = (i) => { const t = -Math.PI / 2 + (i * 2 * Math.PI) / n; return `left:${(50 + 41 * Math.cos(t)).toFixed(2)}%;top:${(50 + 41 * Math.sin(t)).toFixed(2)}%`; };
-  return `<div class="cg cg-ring" role="list" aria-label="Para rezar">${roseWindow()}${wheelItems.map((x, i) => `<button class="cg-it" data-cg="${i}" role="listitem" aria-label="${esc(x.t)}" style="${pos(i)}">
+  return `<div class="cg" role="list">${wheelItems.map((x, i) => `<button class="cg-it" data-cg="${i}" role="listitem" aria-label="${esc(x.t)}">
       <span class="cg-ico">${WICO[x.k]}</span><span class="cg-lbl">${esc(x.t)}</span></button>`).join("")}</div>
     <div class="cg-more" id="cgMore" hidden></div>`;
 }
@@ -395,27 +390,38 @@ export function view(opt = {}) {
       <span class="cap-row-txt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("right")}</${attrs.startsWith("href") ? "a" : "button"}>`;
   let num = 0; // los rincones se numeran solos, en orden
   return `
-  <section class="cap-hero" style="--season:${s.hex}">
-    <div class="cap-arch">
-      ${wheelHTML(mk, my, now)}
-      <span class="cap-hand">pasa, Él te espera</span>
-      <h1 class="cap-title">Capilla <em>Ágape</em></h1>
-      <div class="cap-chips">
-        <span class="cap-season"><i></i>${esc(s.name)} · color ${esc(s.color)}</span>
-        <span class="cap-date">${esc(now.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }))}</span>
-      </div>
-      <div class="cap-misa" id="capMisa">${misaHTML()}</div>
-      <div class="cap-gospel" id="capGospel">${gospelHTML(s)}</div>
-      ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}
+  <section class="cap-b-head" style="--season:${s.hex}">
+    <span class="cap-b-rose" aria-hidden="true">${roseWindow()}</span>
+    <div class="cap-b-tit">
+      <span class="cap-hand sm">pasa, Él te espera</span>
+      <h1>Capilla Ágape</h1>
+      <span class="cap-b-date">${esc(now.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }))} · <i class="cap-b-dot"></i>${esc(s.name)}</span>
     </div>
-    <article class="cap-moment">
-      <span class="eyebrow">${esc(m.label)}</span>
-      <span class="cap-hand sm">${esc(m.hand)}</span>
-      <p class="cap-prayer">${esc(m.text).replace(/\n/g, "<br>")}</p>
-    </article>
   </section>
 
-  <section class="cap-grid-sec">${papa.capillaHTML()}</section>
+  <article class="cap-hoy" id="capHoy">
+    <div id="capGospel">${gospelHead(s)}</div>
+    <div class="cap-vsel" role="group" aria-label="Video">
+      <button type="button" data-action="capVid" data-v="misa" aria-pressed="${vidSel === "misa"}">Misa de hoy</button>
+      <button type="button" data-action="capVid" data-v="ev" aria-pressed="${vidSel === "ev"}">Evangelio en video</button>
+    </div>
+    <div class="cap-vbox" id="capMisa" ${vidSel === "misa" ? "" : "hidden"}>${misaHTML()}</div>
+    <div class="cap-vbox" id="capEvVid" ${vidSel === "ev" ? "" : "hidden"}>${evVideoHTML()}</div>
+    <a class="cap-hoy-link" id="capEvLink" href="${esc(evUrl())}" target="_blank" rel="noopener">Leer el Evangelio completo en Vatican News ${icon("arrowR")}</a>
+    ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}
+  </article>
+
+  <article class="cap-moment cap-moment-b">
+    <span class="eyebrow">${esc(m.label)}</span>
+    <span class="cap-hand sm">${esc(m.hand)}</span>
+    <p class="cap-prayer">${esc(m.text).replace(/\n/g, "<br>")}</p>
+  </article>
+
+  <section class="cap-grid-sec" aria-labelledby="cgTitle">
+    <h2 class="cw-h" id="cgTitle">Para rezar</h2>
+    ${wheelHTML(mk, my, now)}
+    ${papa.capillaHTML()}
+  </section>
 
   <section class="cap-room cap-altar${altarOpen ? " is-open" : ""}" id="cap-velas">
     <div class="cap-altar-top" data-action="capAltar" role="button" tabindex="0" aria-expanded="${altarOpen}" aria-controls="capAltarBody">
@@ -497,6 +503,25 @@ function evExtras(g) {
     <a class="btn btn-soft btn-sm ev-full" href="${esc(g.url || READ_URL)}" target="_blank" rel="noopener">Leer el Evangelio completo en Vatican News ↗</a></div>`;
 }
 
+// Tarjeta de hoy (Capilla): la cita y la frase arriba; el video del Evangelio, aparte, en su pestaña.
+function gospelHead(s) {
+  const g = pick();
+  if (!g || !g.frase) return `<p class="cap-hint">${esc(s.hint)}</p>`;
+  return `<span class="cap-hoy-k">${esc(g.titulo && g.propio ? g.titulo : "Evangelio de hoy")} · ${esc(g.cita)}</span>
+    <p class="cap-hoy-f">${esc(g.frase)}</p>`;
+}
+const evUrl = () => { const g = pick(); return (g && g.url) || READ_URL; };
+function evVideoHTML() {
+  const g = pick() || {};
+  const ok = (v) => (!g.propio && v && /^[\w-]{6,20}$/.test(v) ? v : "");
+  const vid = ok(g.video) || ok(g.reflexion), ref = ok(g.video) && ok(g.reflexion) ? g.reflexion : "";
+  return `<div class="cap-ev">${vid ? `<button type="button" class="ev-video" data-action="evPlay" data-id="${vid}" aria-label="Ver el Evangelio de hoy en video">
+        <img src="https://i.ytimg.com/vi/${vid}/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">
+        <span class="ev-play" aria-hidden="true"></span></button>
+      <p class="cap-ev-note">Con el P. Pedro Brassesco${ref ? ` · <button type="button" class="linklike" data-action="evPlay" data-id="${ref}" data-swap="1">ver su breve reflexión</button>` : ""}</p>`
+    : `<p class="cap-ev-note"><a href="${CANAL_VIDEOS}" target="_blank" rel="noopener">Ver en video con el P. Pedro Brassesco ↗</a></p>`}</div>`;
+}
+let vidSel = "misa";
 export const propioDe = async (iso) => { await loadPropio(); return (propio.dias || {})[iso] || null; };
 export const resetPropio = () => { propio = null; };
 function gospelHTML(s) {
@@ -509,7 +534,9 @@ function gospelHTML(s) {
     ${evExtras(g)}`;
 }
 function paintGospel() {
-  const box = document.getElementById("capGospel"); if (box) box.innerHTML = gospelHTML(season());
+  const box = document.getElementById("capGospel"); if (box) box.innerHTML = gospelHead(season());
+  const vb = document.getElementById("capEvVid"); if (vb) vb.innerHTML = evVideoHTML();
+  const ln = document.getElementById("capEvLink"); if (ln) ln.href = evUrl();
   const g = pick();
 }
 
@@ -1044,6 +1071,15 @@ function registerActions() {
     if (remote) { remoteOff(); el.setAttribute("aria-pressed", "false"); el.textContent = "Control remoto"; return; }
     remoteOn(); el.setAttribute("aria-pressed", "true");
     toast("Listo: cada toque del control pasa a la cuenta siguiente");
+  };
+  A.capVid = (el) => {
+    vidSel = el.dataset.v === "ev" ? "ev" : "misa";
+    document.querySelectorAll("[data-action=capVid]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === vidSel));
+    const m = document.getElementById("capMisa"), e = document.getElementById("capEvVid");
+    if (m) m.hidden = vidSel !== "misa"; if (e) e.hidden = vidSel !== "ev";
+    // el video que queda oculto se detiene: vuelve a su miniatura
+    if (vidSel === "misa" && e && e.querySelector("iframe")) e.innerHTML = evVideoHTML();
+    if (vidSel === "ev" && m && m.querySelector("iframe")) m.innerHTML = misaHTML();
   };
   A.evPlay = (el) => {
     const id = el.dataset.id; if (!/^[\w-]{6,20}$/.test(id)) return;
