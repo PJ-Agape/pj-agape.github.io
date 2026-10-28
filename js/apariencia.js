@@ -36,8 +36,8 @@ export const ZONAS = [
     t: [[".home-hand", "Frase manuscrita", "qué bueno verte"]] },
   { id: "formacion", n: "Formación · encabezado", ruta: "#/formacion", re: /^\/formacion$/, sel: ".page-head", stk: "img/stickers/biblia.webp",
     t: [[".eyebrow", "Línea pequeña", "Bloque 1 · para crecer"], ["h1", "Título", "Formación"], ["p", "Descripción", "El curso de dirigentes, los cursos de la comunidad y los recursos para preparar."]] },
-  { id: "formacion_curso", n: "Formación · tarjeta del curso", ruta: "#/formacion", re: /^\/formacion$/, sel: ".hub-cbanner:not(.is-mat):not(.sol-banner)", stk: "img/ilus/s022.webp", stkSel: ".hub-cb-il",
-    t: [[".eyebrow", "Línea pequeña (cambia según quién entra)", "Para todos"], [".hub-cb-hand", "Frase manuscrita (cambia según el avance)", "empieza por aquí"], ["h2", "Título (vacío = el nombre del curso)", "Bienvenido a agAPPe"], [".hub-cb-btns .btn-ghost", "Texto del segundo botón", "Ver el itinerario"]] },
+  { id: "formacion_curso", n: "Formación · tarjetas de los cursos", ruta: "#/formacion", re: /^\/formacion$/, sel: ".hub-curso", all: true, stk: "img/ilus/s022.webp", stkSel: ".hub-cb-il",
+    t: [[".eyebrow", "Línea pequeña (cambia según quién entra)", "Para todos"], [".hub-cb-hand", "Frase manuscrita (cambia según el avance)", "empieza por aquí"], [".hub-cb-btns .btn-ghost", "Texto del segundo botón", "Ver el itinerario"]] },
   { id: "formacion_mat", n: "Formación · tarjeta de Materiales", ruta: "#/formacion", re: /^\/formacion$/, sel: ".hub-cbanner.is-mat", stk: "img/ilus/s084.webp", stkSel: ".hub-cb-il",
     t: [[".eyebrow", "Línea pequeña", "Herramientas de la pastoral"], [".hub-cb-hand", "Frase manuscrita", "para preparar cada encuentro"], ["h2", "Título", "Materiales"], [".hub-cb-meta", "Descripción", "Todo lo que necesitas para preparar, animar e invitar, en un solo lugar."], [".hub-btn-l", "Texto del botón amarillo", "Abrir Materiales"], [".hub-cb-btns .btn-ghost", "Texto del segundo botón", "Estudio de difusión"]] },
   { id: "materiales", n: "Formación · Materiales · encabezado", ruta: "#/materiales", re: /^\/materiales$/, sel: ".page-head", stk: "",
@@ -97,7 +97,7 @@ export const PANTALLAS = [
     ["radios", "Radios, podcast y playlist", ".home-radios:not(.home-links)"], ["enlaces", "Enlaces de interés", ".home-links"],
     ["puente", "«Sé puente»", ".camino-banner"]] },
   { id: "formacion", n: "Formación", ruta: "#/formacion", re: /^\/formacion$/, p: [
-    ["encabezado", "Encabezado", ".page-head"], ["curso", "El curso", ".hub-cbanner:not(.is-mat):not(.sol-banner)"],
+    ["encabezado", "Encabezado", ".page-head"], ["curso", "Los cursos", ".hub-cursos"],
     ["materiales", "Materiales", ".hub-cbanner.is-mat"], ["accesos", "Accesos", ".hub-grid"]],
     g: [[".hub-grid", "Accesos, uno por uno"], [".hub-mat-tags", "Atajos de Materiales"]] },
   { id: "materiales", n: "Formación · Materiales", ruta: "#/materiales", re: /^\/materiales$/, p: [
@@ -325,8 +325,8 @@ export function apply(v, path) {
   }
   for (const z of ZONAS) {
     if (!z.re.test(path)) continue;
-    const el = v.querySelector(z.sel); if (!el) continue;
-    applyZona(el, z, de(z.id));
+    const els = z.all ? [...v.querySelectorAll(z.sel)] : [v.querySelector(z.sel)].filter(Boolean);
+    for (const el of els) applyZona(el, z, de(z.id));
   }
 }
 export function applyZona(el, z, d) {

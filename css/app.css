@@ -4779,3 +4779,15 @@ html.papel .ap-stk-on { display: block !important; }
 .ent-back:active { transform: translate(2px, 2px); box-shadow: none; }
 .ent-back svg { width: 18px; height: 18px; }
 .ent-back.is-end { display: flex; width: fit-content; margin: 22px auto 8px; }
+/* Formación: los cursos en una tarjeta que se desliza */
+.hub-cursos { margin-top: 16px; }
+.hub-cursos > .hub-cbanner, .hub-cur-track > .hub-cbanner { margin-top: 0; }
+.hub-cur-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0 0 8px; overscroll-behavior-x: contain; align-items: stretch; }
+.hub-cur-track::-webkit-scrollbar { display: none; }
+.hub-cur-track > .hub-cbanner { flex: 0 0 calc(100% - 7px); margin-right: 7px; scroll-snap-align: start; scroll-snap-stop: always; }
+.hub-cur-ctrl { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 4px; }
+.hub-cur-ctrl .icon-btn:disabled { opacity: .3; }
+.hub-cur-dots { display: flex; gap: 6px; }
+.hub-cur-dots button { width: 9px; height: 9px; padding: 0; border-radius: 99px; border: 2px solid var(--cn, #0b2566); background: transparent; cursor: pointer; transition: width .2s; }
+.hub-cur-dots button.on { width: 24px; background: var(--cn, #0b2566); }
+.hub-cur-n { font-size: .8rem; font-weight: 700; color: #4a5470; min-width: 4.5em; text-align: center; }

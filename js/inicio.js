@@ -175,24 +175,62 @@ function courseBanner(course, st) {
     : ses ? { href: `#/vivir/${nx.phase}/${encodeURIComponent(ses.id)}`, label: st.readSessions ? "Seguir donde quedé" : ab ? "Comenzar" : "Comenzar el curso" }
     : nx ? { href: "#/itinerario", label: `Rendir la evaluación del módulo ${ph.phaseNum || nx.phase + 1}` } : { href: "#/itinerario", label: "Ver el curso" };
   const now = st.complete ? (ab ? "¡Ya conoces la casa! Te esperamos en el próximo encuentro." : "¡Completaste el curso! Gracias por tu entrega.") : ses ? `Ahora: ${ses.id ? esc(ses.id) + " · " : ""}${esc(ses.title)}` : nx ? `Te falta la evaluación de «${esc(ph.title || "este módulo")}»` : "";
-  return `<section class="hub-cbanner${st.complete ? " is-done" : ""}" aria-labelledby="hubCT">
+  return `<section class="hub-cbanner hub-curso${st.complete ? " is-done" : ""}" data-curso-id="${esc(course.id)}" aria-labelledby="hubCT-${esc(course.id)}">
     <div class="hub-cb-txt">
       <span class="eyebrow">${ab ? "Para todos" : "Curso de formación de dirigentes"}</span>
       <span class="hub-cb-hand">${st.complete ? (ab ? "bienvenido a casa" : "¡lo lograste!") : ab ? "empieza por aquí" : "tu camino de dirigente"}</span>
-      <h2 id="hubCT">${esc(course.title)}</h2>
+      <h2 id="hubCT-${esc(course.id)}">${esc(course.title)}</h2>
       <div class="hub-cb-prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="Avance del curso"><i style="width:${pct}%"></i></div>
       <p class="hub-cb-meta"><b>${st.readSessions} de ${st.totalSessions}</b> unidades · <b>${st.donePhases} de ${course.phases.length}</b> módulos</p>
       ${now ? `<p class="hub-cb-now">${now}</p>` : ""}
-      <div class="hub-cb-btns"><a class="btn btn-gold" href="${main.href}">${esc(main.label)} ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/itinerario">Ver el itinerario</a></div>
+      <div class="hub-cb-btns"><a class="btn btn-gold" href="${main.href}" data-curso="${esc(course.id)}">${esc(main.label)} ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/itinerario" data-curso="${esc(course.id)}">Ver el itinerario</a></div>
     </div>
     <div class="hub-cb-art" aria-hidden="true"><i class="hub-cb-sun"></i>${illus(ab ? "acogida" : st.complete ? "envio" : "camino", "hub-cb-il")}</div>
   </section>`;
 }
+// Todos los cursos que la persona puede hacer, juntos en una tarjeta que se desliza.
+function cursosHTML(active) {
+  const list = S.content().courses.filter((x) => !x.hidden || x.id === active.id);
+  if (list.length < 2) return `<div class="hub-cursos is-one">${courseBanner(active, S.courseState(active))}</div>`;
+  const i0 = Math.max(0, list.findIndex((x) => x.id === active.id));
+  ctx.onAfterRender(() => cursosInit(i0));
+  return `<div class="hub-cursos" aria-roledescription="carrusel" aria-label="Tus cursos">
+    <div class="hub-cur-track" id="hubCurTrack">${list.map((x) => courseBanner(x, S.courseState(x))).join("")}</div>
+    <div class="hub-cur-ctrl">
+      <button type="button" class="icon-btn" data-curgo="-1" aria-label="Curso anterior">${icon("left")}</button>
+      <div class="hub-cur-dots">${list.map((x, i) => `<button type="button" data-curto="${i}" aria-label="${esc(x.title)}" class="${i === i0 ? "on" : ""}"></button>`).join("")}</div>
+      <span class="hub-cur-n" id="hubCurN">${i0 + 1} de ${list.length}</span>
+      <button type="button" class="icon-btn" data-curgo="1" aria-label="Curso siguiente">${icon("right")}</button>
+    </div>
+  </div>`;
+}
+function cursosInit(i0) {
+  const tr = document.getElementById("hubCurTrack"); if (!tr) return;
+  const n = tr.children.length, box = tr.closest(".hub-cursos");
+  const cur = () => Math.round(tr.scrollLeft / Math.max(1, tr.clientWidth));
+  const go = (i, smooth = true) => tr.scrollTo({ left: Math.max(0, Math.min(n - 1, i)) * tr.clientWidth, behavior: smooth ? "smooth" : "auto" });
+  const paint = () => {
+    const i = cur();
+    box.querySelectorAll("[data-curto]").forEach((d, j) => d.classList.toggle("on", j === i));
+    const lbl = document.getElementById("hubCurN"); if (lbl) lbl.textContent = `${i + 1} de ${n}`;
+    box.querySelector('[data-curgo="-1"]').disabled = i === 0; box.querySelector('[data-curgo="1"]').disabled = i === n - 1;
+  };
+  go(i0, false); paint();
+  tr.addEventListener("scroll", () => requestAnimationFrame(paint), { passive: true });
+  box.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-curgo], [data-curto]"); if (!b) return;
+    go(b.dataset.curto != null ? +b.dataset.curto : cur() + +b.dataset.curgo);
+  });
+}
+// Al abrir un curso desde su tarjeta, ese queda como el curso activo
+if (typeof document !== "undefined") document.addEventListener("click", (e) => {
+  const a = e.target.closest && e.target.closest("a[data-curso]"); if (a) S.setActiveCourse(a.dataset.curso);
+}, true);
 export function viewFormacion() {
   const w = who(), course = S.activeCourse(), st = S.courseState(course);
   const b = BLOCKS.formacion;
   return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">Bloque 1 · ${esc(b.hand)}</span><h1>Formación</h1><p>${esc(descFor("formacion", w))}</p></header>
-  ${w.curso ? courseBanner(course, st) : ""}
+  ${w.curso ? cursosHTML(course) : ""}
   ${matBanner(w)}
   <div class="hub-grid">${itemsFor("formacion").filter((x) => inHub(x) && x.href !== "#/itinerario" && x.href !== "#/materiales").map(itemCard).join("")}</div>
 `;
