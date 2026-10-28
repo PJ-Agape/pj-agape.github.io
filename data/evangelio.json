@@ -1,12 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-10-26": {
-   "titulo": "Lunes de la 30.ª semana del Tiempo Ordinario",
-   "cita": "Lc 13,10-17",
-   "frase": "Mujer, quedas libre de tu enfermedad.",
-   "video": "oxE01JakFbE"
-  },
   "2026-10-27": {
    "titulo": "Martes de la 30.ª semana del Tiempo Ordinario",
    "cita": "Lc 13,18-21",
@@ -58,6 +52,11 @@
    "titulo": "Jueves de la 31.ª semana del Tiempo Ordinario",
    "cita": "Lc 15,1-10",
    "frase": "Habrá alegría en el cielo por un solo pecador que se convierte."
+  },
+  "2026-11-06": {
+   "titulo": "Viernes de la 31.ª semana del Tiempo Ordinario",
+   "cita": "Lc 16,1-8",
+   "frase": "Los hijos de este mundo son más astutos que los hijos de la luz."
   }
  }
 }
