@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bfe4fb"/>
+      <stop offset=".62" stop-color="#e3f3fd"/>
+      <stop offset="1" stop-color="#fff3df"/>
+    </linearGradient>
+    <radialGradient id="brillo" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffe08a" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#ffe08a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pasto" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fd48e"/>
+      <stop offset="1" stop-color="#bfe3a8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="360" fill="url(#cielo)"/>
+
+  <!-- sol -->
+  <circle cx="1040" cy="78" r="110" fill="url(#brillo)"/>
+  <circle cx="1040" cy="78" r="38" fill="#ffba03" stroke="#0b2566" stroke-width="3"/>
+
+  <!-- nubes -->
+  <g fill="#ffffff" stroke="#0b2566" stroke-width="2.5" stroke-linejoin="round" opacity=".95">
+    <path d="M110 92c0-14 12-25 27-25 6-14 21-22 37-18 9-10 27-10 37 2 16-2 29 10 29 25 0 3-1 6-2 8H113c-2-3-3-7-3-12z"/>
+    <path d="M760 70c0-11 9-19 21-19 5-11 16-17 29-14 7-8 21-8 29 2 12-1 22 8 22 19 0 2 0 4-1 6H762c-1-2-2-5-2-9z"/>
+    <path d="M470 120c0-9 8-16 18-16 4-9 14-14 24-11 6-7 17-7 24 1 10-1 18 7 18 16l-1 5H472c-1-2-2-4-2-7z"/>
+  </g>
+
+  <!-- cerros del fondo -->
+  <path d="M0 250C120 205 230 200 340 228S560 262 680 222 900 176 1010 210 1150 240 1200 230V360H0z" fill="#cfeac0"/>
+  <path d="M0 272C150 238 280 246 400 262S640 290 780 258 1020 226 1200 256V360H0z" fill="url(#pasto)" stroke="#0b2566" stroke-width="2.5"/>
+
+  <!-- banderines -->
+  <path d="M-10 26Q300 92 600 40T1210 30" fill="none" stroke="#0b2566" stroke-width="2.5"/>
+  <g stroke="#0b2566" stroke-width="2" stroke-linejoin="round">
+    <path d="M40 40l26 10-9 26z" fill="#ef591c"/>
+    <path d="M110 55l27 6-14 25z" fill="#ffba03"/>
+    <path d="M185 66l27 2-17 22z" fill="#1351a4"/>
+    <path d="M262 71h27l-14 24z" fill="#8ad2fa"/>
+    <path d="M340 70l27-3-11 25z" fill="#ef591c"/>
+    <path d="M418 64l26-6-8 26z" fill="#ffba03"/>
+    <path d="M495 54l26-8-6 27z" fill="#1351a4"/>
+    <path d="M572 44l27-4-9 26z" fill="#8ad2fa"/>
+    <path d="M650 38h27l-13 24z" fill="#ef591c"/>
+    <path d="M728 36l27 1-15 23z" fill="#ffba03"/>
+    <path d="M806 36l27 1-14 24z" fill="#1351a4"/>
+    <path d="M884 35l27 0-14 24z" fill="#8ad2fa"/>
+    <path d="M962 33l27-1-12 24z" fill="#ef591c"/>
+    <path d="M1040 31l27-1-12 24z" fill="#ffba03"/>
+    <path d="M1118 30l27-1-12 24z" fill="#1351a4"/>
+  </g>
+
+  <!-- árboles -->
+  <g stroke="#0b2566" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M86 268v-38" stroke-width="5"/>
+    <circle cx="86" cy="214" r="30" fill="#6fbf6a"/>
+    <circle cx="66" cy="228" r="20" fill="#86cc76"/>
+    <path d="M200 262v-30" stroke-width="5"/>
+    <circle cx="200" cy="214" r="22" fill="#86cc76"/>
+    <path d="M1000 250v-40" stroke-width="5"/>
+    <circle cx="1000" cy="192" r="32" fill="#6fbf6a"/>
+    <circle cx="1024" cy="208" r="20" fill="#86cc76"/>
+    <path d="M1120 258v-30" stroke-width="5"/>
+    <circle cx="1120" cy="212" r="24" fill="#86cc76"/>
+  </g>
+
+  <!-- farol y banca -->
+  <g stroke="#0b2566" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M300 272v-74M290 198h20"/>
+    <path d="M292 198l4-14h8l4 14z" fill="#ffba03" stroke-linejoin="round"/>
+    <path d="M860 262h62M864 250h54M868 262v12M914 262v12"/>
+  </g>
+
+  <!-- flores -->
+  <g stroke="#0b2566" stroke-width="1.5">
+    <circle cx="150" cy="292" r="5" fill="#ef591c"/><circle cx="170" cy="298" r="4" fill="#ffba03"/>
+    <circle cx="1060" cy="286" r="5" fill="#8ad2fa"/><circle cx="1082" cy="292" r="4" fill="#ef591c"/>
+    <circle cx="380" cy="300" r="4" fill="#ffba03"/><circle cx="820" cy="296" r="4" fill="#ef591c"/>
+  </g>
+</svg>

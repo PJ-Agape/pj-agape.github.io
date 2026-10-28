@@ -4582,3 +4582,9 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 /* La Plaza: la ilustración va sola, centrada sobre el fondo, sin el recuadro amarillo de los stickers */
 .plaza-scene { display: flex; justify-content: center; margin: 10px 0 6px; }
 .plaza-scene img.z-sticker { position: static; width: auto; max-width: min(100%, 300px); max-height: 220px; margin: 0; padding: 0; background: none; border: 0; border-radius: 0; box-shadow: none; aspect-ratio: auto; }
+/* La Plaza: un parque de fondo (cielo, banderines, cerros y árboles) detrás de la ilustración */
+.plaza:not(.fam-plaza)::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 270px; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent 72%, #fde6d4 100%), url("../img/plaza-fondo.svg") center bottom / cover no-repeat; }
+.plaza:not(.fam-plaza) > * { position: relative; z-index: 1; }
+.plaza:not(.fam-plaza) .plaza-scene { margin-top: 26px; }
+@media (max-width: 760px) { .plaza:not(.fam-plaza)::before { height: 250px; background-position: center, 80% bottom; } }
