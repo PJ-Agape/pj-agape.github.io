@@ -226,7 +226,6 @@ const STICKERS = {
   "/red": [[".page-head", "comunidad"]],
   "/oracion": [[".cap-arch", "oracion"]],
   "/agenda": [[".page-head", "calendario"]],
-  "/cancionero": [[".page-head", "guitarra"]],
 };
 function stickers(v) {
   const path = (location.hash.replace(/^#/, "") || "/").split("?")[0];

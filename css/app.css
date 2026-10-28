@@ -4679,3 +4679,10 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
   .cap-fila .cg { justify-content: center; flex-wrap: wrap; overflow: visible; margin-right: 0; gap: 18px 26px; }
   .cap-fila .cap-fila-h { justify-content: center; } .cap-fila .cap-fila-h .muted { display: none; }
 }
+/* Entradas de Salmos, Oremus y Cancionero: la misma distribución */
+.ent-hero .ent-ico { width: min(130px, 34vw); }
+.ent-hero .cap-title em { font-style: normal; background: linear-gradient(transparent 58%, #ffba03 58%); padding: 0 .06em; }
+.ent-hero .cap-sub { max-width: 46ch; margin-left: auto; margin-right: auto; }
+.ent-hero .sal-siento button.sal-feel { font: inherit; font-weight: 700; cursor: pointer; }
+.ent-h { font-family: var(--font-display); font-size: 1.35rem; margin: 26px 0 10px; }
+.oremus .cap-foot { margin-top: 28px; }

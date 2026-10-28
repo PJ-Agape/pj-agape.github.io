@@ -6,6 +6,7 @@ import { esc, rich, icon, toast, fetchJSON } from "./util.js";
 import { ORACIONES } from "./devocionario.js";
 import * as papa from "./papa.js";
 import { illus } from "./ilustraciones.js";
+import * as E from "./entrada.js";
 import { avatar } from "./avatares.js";
 
 // Misa en vivo: la de hoy del canal de Magnificat TV (data/misa-vivo.json, la busca cada hora la
@@ -189,12 +190,17 @@ function devocionarioHTML() {
 export function oremusView(t) {
   loadOwn();
   if (t && devFind(t)) { try { sessionStorage.setItem(DEV_KEY, t); } catch {} }
+  if (t) ctx.onAfterRender(() => setTimeout(() => document.getElementById("capDevCard")?.scrollIntoView({ behavior: "smooth", block: "start" }), 80));
+  const CHIPS = ["Padre nuestro", "Ave María", "Gloria al Padre", "Credo", "Ven Santo Espíritu", "Ángel de Dios", "Salve Regina", "Acto de Contrición", "Alma de Cristo", "Bajo tu amparo"].filter((x) => devFind(x));
   return `<div class="oremus">
-    <a class="back-link" href="#/oracion">${icon("left")} Capilla</a>
-    <header class="page-head"><span class="eyebrow">Oración</span><h1>Oremus</h1>
-      <p>Nuestras oraciones, para antes y después de cada encuentro, y las que rezamos en toda la Iglesia. Elige una y rézala con calma.</p></header>
-    <a class="ore-librito" href="#/oremus/libro">${icon("book")}<span><b>El librito de Oremus</b><small>Todas las oraciones, para hojear o imprimir</small></span>${icon("right")}</a>
+    ${E.head({ id: "oremus", back: ["#/oracion", "Capilla"], crumb: "Oremus", ico: E.ICO.oremus,
+      hand: "recemos juntos", title: "*Oremus*",
+      sub: "Nuestras oraciones, para antes y después de cada encuentro, y las que rezamos en toda la Iglesia. Elige una y rézala con calma.",
+      side: { hand: "¿Qué quieres rezar?", text: "Las de siempre, a un toque. Abajo están todas.", chips: CHIPS.map((x) => [x, `href="#/oremus/${encodeURIComponent(x)}"`]) },
+      guide: { ill: "img/ilus/s086.webp", hand: "para rezar en papel", title: "El librito de *Oremus*", text: "Todas las oraciones, para hojear con calma o imprimir.", btn: ["#/oremus/libro", "Abrir el librito"] } })}
+    <h2 class="ent-h">Todas las oraciones</h2>
     ${devocionarioHTML()}
+    ${E.foot(["Señor, enséñanos a orar", "Lc 11,1"])}
   </div>`;
 }
 // Para el librito de Oremus (js/oremus.js): las oraciones por grupo, con el texto en líneas.

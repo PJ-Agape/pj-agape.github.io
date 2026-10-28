@@ -6,6 +6,7 @@
 import { esc, icon, toast } from "./util.js";
 import { createBook, splitByHeight } from "./libro.js";
 import { illus } from "./ilustraciones.js";
+import * as E from "./entrada.js";
 import { TIPOS, notasDe } from "./salmos-notas.js";
 
 let ctx = null; // { actions, render, onAfterRender, cloud }
@@ -336,33 +337,13 @@ export function viewList() {
     const n = Object.keys((textos && textos.textos) || {}).filter((k) => textoDe(k)).length;
     box.innerHTML = n < 150 ? `<p class="sal-todos-q no-print"><button class="sal-link" data-action="salLibro">Cargar el libro de los Salmos</button> <span class="xs muted">· solo administradores</span></p>` : "";
   }));
-  return `
-  <nav class="crumbs no-print"><a href="#/oracion">Capilla</a>${icon("right")}<span>Orar con los Salmos</span></nav>
-  <section class="cap-hero sal-hero">
-    <div class="cap-arch">
-      ${lira("sal-lira")}
-      <span class="cap-hand">Él escucha todo</span>
-      <h1 class="cap-title">Orar con los <em>Salmos</em></h1>
-      <p class="cap-sub">Son las oraciones que Jesús aprendió de niño y rezó toda su vida. En ellos hay palabras para todo lo que llevas dentro.</p>
-    </div>
-    <div class="cap-moment sal-llegas">
-      <span class="eyebrow">Para comenzar</span>
-      <span class="cap-hand sm">¿Cómo llegas hoy?</span>
-      <p class="sal-llegas-p">Elige lo que sientes y te regalamos un salmo para rezar.</p>
-      <div class="sal-siento">${SIENTO.map(([k, l]) => `<a class="sal-feel" href="#/salmos/${pick(k).n}?e=${k}">${esc(l)}</a>`).join("")}</div>
-    </div>
-  </section>
-  <section class="cap-guide sal-guide">
-    <div class="cap-guide-art">${illus("biblia", "cap-guide-il")}</div>
-    <div class="cap-guide-txt">
-      <span class="cap-hand">para leer con calma</span>
-      <h2>El librito de los <em>Salmos</em></h2>
-      <p>Los 150 salmos, uno por página, para hojear despacio como un libro de oración.</p>
-      <div class="cap-guide-btns"><a class="cap-guide-btn" href="#/salmos/libro">${icon("book")} Abrir el librito</a></div>
-    </div>
-  </section>
+  return `${E.head({ id: "salmos", back: ["#/oracion", "Capilla"], crumb: "Orar con los Salmos", ico: lira("sal-lira"),
+    hand: "Él escucha todo", title: "Orar con los *Salmos*",
+    sub: "Son las oraciones que Jesús aprendió de niño y rezó toda su vida. En ellos hay palabras para todo lo que llevas dentro.",
+    side: { hand: "¿Cómo llegas hoy?", text: "Elige lo que sientes y te regalamos un salmo para rezar.", chips: SIENTO.map(([k, l]) => [l, `href="#/salmos/${pick(k).n}?e=${k}"`]) },
+    guide: { ill: "biblia", hand: "para leer con calma", title: "El librito de los *Salmos*", text: "Los 150 salmos, uno por página, para hojear despacio como un libro de oración.", btn: ["#/salmos/libro", "Abrir el librito"] } })}
   <div id="salCargar"></div>
-  <p class="cap-foot">«Todo lo que respira alabe al Señor»<span>Sal 150,6</span></p>`;
+  ${E.foot(["Todo lo que respira alabe al Señor", "Sal 150,6"])}`;
 }
 // Una ilustración para cada salmo, según lo que cuenta (escenas de ilustraciones.js).
 const ILUS = {1: "sal_arbol", 2: "rey", 3: "sal_escudo", 4: "sal_noche", 5: "sal_alba", 6: "sal_llanto", 7: "sal_escudo", 8: "sal_cielo", 9: "sal_gracias", 10: "pregunta", 11: "sal_monte", 12: "biblia", 13: "sal_llanto", 14: "pregunta", 15: "sal_templo", 16: "camino", 17: "sal_alas", 18: "sal_escudo", 19: "sal_alba", 20: "oracion", 21: "rey", 22: "sal_cruz", 23: "pastor", 24: "sal_templo", 25: "camino", 26: "sal_templo", 27: "luz", 28: "sal_monte", 29: "tormenta", 30: "sal_alba", 31: "sal_cruz", 32: "corazonlimpio", 33: "sal_lira", 34: "sal_gracias", 35: "sal_escudo", 36: "sal_alas", 37: "semilla", 38: "sal_llanto", 39: "oracion", 40: "sal_lira", 41: "servir", 42: "sal_agua", 43: "luz", 44: "pregunta", 45: "rey", 46: "sal_ciudad", 47: "comunidad", 48: "sal_ciudad", 49: "tesoro", 50: "biblia", 51: "corazonlimpio", 52: "sal_arbol", 53: "pregunta", 54: "sal_escudo", 55: "descanso", 56: "sal_llanto", 57: "sal_alas", 58: "pregunta", 59: "sal_escudo", 60: "sal_escudo", 61: "sal_monte", 62: "descanso", 63: "sal_agua", 64: "sal_escudo", 65: "sal_lluvia", 66: "sal_mar", 67: "comunidad", 68: "familia", 69: "tormenta", 70: "oracion", 71: "sal_nino", 72: "rey", 73: "corazon", 74: "sal_templo", 75: "pregunta", 76: "sal_escudo", 77: "sal_noche", 78: "biblia", 79: "sal_ciudad", 80: "vid", 81: "sal_lira", 82: "servir", 83: "oracion", 84: "sal_templo", 85: "sal_lluvia", 86: "camino", 87: "sal_ciudad", 88: "sal_noche", 89: "rey", 90: "futuro", 91: "sal_alas", 92: "sal_arbol", 93: "rey", 94: "pregunta", 95: "pastor", 96: "sal_lira", 97: "sal_cielo", 98: "sal_lira", 99: "sal_templo", 100: "comunidad", 101: "corazon", 102: "sal_llanto", 103: "sal_gracias", 104: "sal_creacion", 105: "sal_mar", 106: "sal_mar", 107: "tormenta", 108: "sal_alba", 109: "sal_escudo", 110: "rey", 111: "biblia", 112: "servir", 113: "familia", 114: "sal_mar", 115: "pregunta", 116: "eucaristia", 117: "comunidad", 118: "sal_templo", 119: "biblia", 120: "oracion", 121: "sal_monte", 122: "sal_ciudad", 123: "oracion", 124: "tormenta", 125: "sal_monte", 126: "semilla", 127: "familia", 128: "familia", 129: "sal_escudo", 130: "sal_noche", 131: "sal_nino", 132: "sal_templo", 133: "comunidad", 134: "sal_noche", 135: "sal_templo", 136: "sal_mar", 137: "sal_sauce", 138: "sal_gracias", 139: "corazon", 140: "sal_escudo", 141: "oracion", 142: "sal_llanto", 143: "camino", 144: "sal_escudo", 145: "sal_gracias", 146: "servir", 147: "sal_lluvia", 148: "sal_creacion", 149: "sal_lira", 150: "sal_lira"};

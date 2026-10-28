@@ -32,8 +32,12 @@ export const ZONAS = [
     t: [[".cw-h", "Título", "Para rezar"]] },
   { id: "agenda", n: "Agenda · encabezado", ruta: "#/agenda", re: /^\/agenda/, sel: ".page-head", stk: "img/stickers/calendario.webp",
     t: [[".eyebrow", "Línea pequeña", "Ventana oficial del grupo"], ["h1", "Título (entre *asteriscos* va el destacado)", "Agenda *Ágape*"], ["p", "Descripción", "Encuentros, celebraciones y actividades de la pastoral, siempre al día. Lo que está aquí es lo oficial."]] },
-  { id: "cancionero", n: "Cancionero · encabezado", ruta: "#/cancionero", re: /^\/cancionero$/, sel: ".page-head", stk: "img/stickers/guitarra.webp",
-    t: [[".eyebrow", "Línea pequeña", "Para animar nuestras celebraciones"], ["h1", "Título (entre *asteriscos* va el destacado)", "Cancionero *Ágape*"]] },
+  { id: "salmos", n: "Orar · entrada de Salmos", ruta: "#/salmos", re: /^\/salmos$/, sel: '.ent-hero[data-ent="salmos"] .cap-arch', stk: "",
+    t: [[".cap-hand", "Frase manuscrita", "Él escucha todo"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "Orar con los *Salmos*"], [".cap-sub", "Descripción", "Son las oraciones que Jesús aprendió de niño y rezó toda su vida. En ellos hay palabras para todo lo que llevas dentro."]] },
+  { id: "oremus", n: "Orar · entrada de Oremus", ruta: "#/oremus", re: /^\/oremus/, sel: '.ent-hero[data-ent="oremus"] .cap-arch', stk: "",
+    t: [[".cap-hand", "Frase manuscrita", "recemos juntos"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "*Oremus*"], [".cap-sub", "Descripción", "Nuestras oraciones, para antes y después de cada encuentro, y las que rezamos en toda la Iglesia. Elige una y rézala con calma."]] },
+  { id: "cancionero", n: "Orar · entrada del Cancionero", ruta: "#/cancionero", re: /^\/cancionero$/, sel: '.ent-hero[data-ent="cancionero"] .cap-arch', stk: "",
+    t: [[".cap-hand", "Frase manuscrita", "cantar es rezar dos veces"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "Cancionero *Ágape*"], [".cap-sub", "Descripción", "Canciones con acordes para cada momento de la misa, en el tono que necesites. Ideal para ensayar y para proyectar."]] },
 ];
 export const zona = (id) => ZONAS.find((z) => z.id === id);
 export const get = () => cfg;

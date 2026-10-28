@@ -3,6 +3,7 @@
 // Las canciones originales de Ágape vienen incluidas; el equipo agrega las que canta la comunidad.
 
 import { esc, icon, toast } from "./util.js";
+import * as E from "./entrada.js";
 import { toInline, splitSongs, findDuplicate } from "./acordes-import.js";
 
 let ctx = null; // { actions, render, onAfterRender, onLeave, cloud }
@@ -150,8 +151,12 @@ export function viewList() {
   const staff = canEdit();
   ctx.onAfterRender(() => { repaint = paintList; watchAll(); paintList(); });
   return `
-  <header class="page-head"><span class="eyebrow">Para animar nuestras celebraciones</span><h1>Cancionero <em>Ágape</em></h1>
-    <p>Canciones con acordes para cada momento de la misa, en el tono que necesites. Ideal para ensayar y para proyectar.</p></header>
+  ${E.head({ id: "cancionero", back: ["#/oracion", "Capilla"], crumb: "Cancionero", ico: E.ICO.cancion,
+    hand: "cantar es rezar dos veces", title: "Cancionero *Ágape*",
+    sub: "Canciones con acordes para cada momento de la misa, en el tono que necesites. Ideal para ensayar y para proyectar.",
+    side: { hand: "¿Para qué momento?", text: "Elige un momento de la misa y te mostramos sus canciones.", chips: MOMENTOS.slice(0, 10).map(([k, l]) => [l, `data-action="canMomGo" data-m="${k}"`]) },
+    guide: { ill: "img/stickers/guitarra.webp", hand: "para la misa del domingo", title: "La hoja de *cantos*", text: "Arma la hoja de una celebración con sus canciones, lista para imprimir o proyectar.", btn: ["#/cancionero/hoja", "Armar la hoja", "print"] } })}
+  <h2 class="ent-h" id="canTop">Todas las canciones</h2>
   <nav class="wall-tabs row-wrap" aria-label="Cancionero">
     <button class="btn btn-sm ${tab === "canciones" ? "btn-primary" : "btn-ghost"}" data-action="canTab" data-t="canciones">${icon("book")} Canciones</button>
     <button class="btn btn-sm ${tab === "misas" ? "btn-primary" : "btn-ghost"}" data-action="canTab" data-t="misas">${icon("grid")} Misas y celebraciones</button>
@@ -1169,6 +1174,10 @@ async function exportPPTX(set) {
 function registerActions() {
   const A = ctx.actions;
   A.canTab = (el) => { tab = el.dataset.t; ctx.render(); };
+  A.canMomGo = (el) => {
+    tab = "canciones"; momento = el.dataset.m; ctx.render();
+    setTimeout(() => document.getElementById("canTop")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+  };
   A.canMom = (el) => { momento = el.dataset.m; document.querySelectorAll("[data-action=canMom]").forEach((b) => b.classList.toggle("accent", b.dataset.m === momento)); paintList(); };
   A.canShift = (el) => { if (!cur) return; prefs.shift[cur.id] = ((prefs.shift[cur.id] || 0) + +el.dataset.d + 18) % 12 - 6 || 0; savePrefs(); paintSong(cur.id); };
   A.canNota = (el) => { prefs.nota = prefs.nota === "us" ? "lat" : "us"; savePrefs(); if ($("#canLibro")) { el.textContent = prefs.nota === "us" ? "Do Re Mi" : "C D E"; buildBook(); } else if (cur) paintSong(cur.id); };
