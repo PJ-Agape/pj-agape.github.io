@@ -205,7 +205,7 @@ function paintList() {
       <button class="ag-ev-head" data-action="agOpen" data-id="${esc(e.id)}" aria-expanded="${open}">
         ${run ? `<span class="ag-date ag-range"><b>${d.getDate()}</b><i aria-hidden="true">–</i><b>${e.until ? d2.getDate() : "…"}</b><small>${MES3(d)}${e.until && d2.getMonth() !== d.getMonth() ? `–${MES3(d2)}` : ""}</small></span>`
           : `<span class="ag-date"><b>${d.getDate()}</b><small>${MESES[d.getMonth()].slice(0, 3)}</small></span>`}
-        <span class="ag-ev-main"><span class="ag-type">${t.label}${e.baseId && !run ? " · ↻" : ""}${e.feat ? ` · <span class="ag-feat">${icon("sparkle")} En Inicio</span>` : ""}${e.familias ? " · 🏠" : ""}${e.count ? " · ⏳" : ""}${autz.hasAuth(e) ? " · ✍️ Autorización" : ""}</span><strong>${e.cumple ? "🎂 " : ""}${esc(e.title)}</strong>
+        <span class="ag-ev-main"><span class="ag-type">${t.label}${e.baseId && !run ? " · ↻" : ""}${e.feat ? ` · <span class="ag-feat">${icon("sparkle")} En Inicio</span>` : ""}${e.familias ? " ·" : ""}${e.count ? " · ⏳" : ""}${autz.hasAuth(e) ? " · Autorización" : ""}</span><strong>${e.cumple ? "" : ""}${esc(e.title)}</strong>
           ${run ? `<span class="ag-run">${esc(rangeText(e))} · ${esc(repeatText(e).split(",")[0].toLowerCase())}</span>` : ""}
           <span class="muted small">${[e.start ? `${esc(e.start)}${e.end ? `–${esc(e.end)}` : ""}` : "", esc(e.place || e.audience || "")].filter(Boolean).join(" · ")}</span></span>
       </button>
@@ -216,7 +216,7 @@ function paintList() {
         ${e.place ? `<p class="small"><b>Lugar:</b> ${esc(e.place)}</p>` : ""}
         <div class="row-wrap" style="margin-top:8px">
           <button class="btn btn-sm btn-ghost" data-action="agIcs" data-id="${esc(e.id)}">${icon("dl")} Agregar a mi calendario</button>
-          ${autz.hasAuth(e) ? `<button class="btn btn-sm btn-gold" data-action="agAuthPdf" data-id="${esc(e.id)}">✍️ Autorización (PDF)</button>` : ""}
+          ${autz.hasAuth(e) ? `<button class="btn btn-sm btn-gold" data-action="agAuthPdf" data-id="${esc(e.id)}">Autorización (PDF)</button>` : ""}
           ${e.invFam ? `<a class="btn btn-sm btn-primary" href="${waHref(e)}" target="_blank" rel="noopener">${icon("send")} Invitar a mi familia</a>` : ""}
           ${admin && !e.cumple ? `<button class="btn btn-sm btn-soft" data-action="agEdit" data-id="${esc(e.baseId || e.id)}">${icon("edit")} Editar${e.baseId ? " la serie" : ""}</button>
             ${e.baseId ? `<button class="btn btn-sm btn-ghost" data-action="agSkip" data-id="${esc(e.baseId)}" data-date="${esc(e.date)}">${icon("x")} Saltar esta fecha</button>` : ""}

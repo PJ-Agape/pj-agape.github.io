@@ -30,9 +30,9 @@ apply();
 // Panel de ajustes
 // ---------------------------------------------------------------------------
 const OPTS = [
-  ["facil", "📖 Lectura fácil", "Letra más clara, más espacio entre líneas, botones grandes y un resumen corto de cada encuentro."],
-  ["voz", "🔊 Escuchar", "Aparece un botón para que el teléfono lea en voz alta los encuentros, las oraciones y las dinámicas."],
-  ["calma", "🌙 Menos movimiento", "Sin animaciones ni cosas que se muevan solas."],
+  ["facil", "Lectura fácil", "Letra más clara, más espacio entre líneas, botones grandes y un resumen corto de cada encuentro."],
+  ["voz", "Escuchar", "Aparece un botón para que el teléfono lea en voz alta los encuentros, las oraciones y las dinámicas."],
+  ["calma", "Menos movimiento", "Sin animaciones ni cosas que se muevan solas."],
   ["contraste", "◐ Más contraste", "Textos más oscuros y bordes más marcados."],
 ];
 export function panelHTML() {
@@ -45,7 +45,7 @@ export function panelHTML() {
       <div class="a11y-colors">${COLORES.map(([k, l, c]) => `<label class="a11y-color"><input type="radio" name="a11yColor" value="${k}" ${P.color === k ? "checked" : ""} data-a11y="color"><i style="--c:${c}"></i><span>${l}</span></label>`).join("")}</div></div>
     ${OPTS.map(([k, l, d]) => (k === "voz" && !hasVoice()) ? "" : `<label class="a11y-opt"><input type="checkbox" data-a11y="${k}" ${P[k] ? "checked" : ""}>
       <span><b>${l}</b><span class="small muted">${esc(d)}</span></span></label>`).join("")}
-    ${hasVoice() ? `<button type="button" class="btn btn-ghost btn-sm" data-a11y-test>🔊 Probar la voz</button>` : ""}
+    ${hasVoice() ? `<button type="button" class="btn btn-ghost btn-sm" data-a11y-test>Probar la voz</button>` : ""}
   </section>`;
 }
 export function viewPage() {
@@ -86,7 +86,7 @@ export function stop() {
   speechSynthesis.cancel();
   if (speaking) speaking.classList.remove("a11y-reading");
   speaking = null;
-  document.querySelectorAll("[data-a11y-say]").forEach((b) => { b.textContent = b.dataset.label || "🔊 Escuchar"; b.setAttribute("aria-pressed", "false"); });
+  document.querySelectorAll("[data-a11y-say]").forEach((b) => { b.textContent = b.dataset.label || "Escuchar"; b.setAttribute("aria-pressed", "false"); });
 }
 export function say(text, el, btn) {
   if (!hasVoice() || !text) return;
@@ -115,14 +115,14 @@ export function afterRender() {
   document.querySelectorAll(BLOCKS.join(",")).forEach((el) => {
     if (el.querySelector(":scope > .a11y-say")) return;
     const b = document.createElement("button");
-    b.type = "button"; b.className = "a11y-say btn btn-sm btn-soft no-print"; b.dataset.a11ySay = "block"; b.dataset.label = "🔊 Escuchar";
-    b.textContent = "🔊 Escuchar"; b.setAttribute("aria-pressed", "false");
+    b.type = "button"; b.className = "a11y-say btn btn-sm btn-soft no-print"; b.dataset.a11ySay = "block"; b.dataset.label = "Escuchar";
+    b.textContent = "Escuchar"; b.setAttribute("aria-pressed", "false");
     el.prepend(b);
   });
   if (!fab) {
     const f = document.createElement("button");
-    f.id = "a11yFab"; f.type = "button"; f.className = "a11y-fab no-print"; f.dataset.a11ySay = "page"; f.dataset.label = "🔊 Escuchar la página";
-    f.textContent = "🔊 Escuchar la página"; f.setAttribute("aria-pressed", "false");
+    f.id = "a11yFab"; f.type = "button"; f.className = "a11y-fab no-print"; f.dataset.a11ySay = "page"; f.dataset.label = "Escuchar la página";
+    f.textContent = "Escuchar la página"; f.setAttribute("aria-pressed", "false");
     document.body.appendChild(f);
   }
 }

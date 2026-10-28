@@ -1077,7 +1077,7 @@ function registerActions() {
     } catch (err) {
       console.warn(err);
       const denied = /permission|insufficient/i.test(String(err && (err.code || err.message)));
-      toast(denied && ta.value.trim().length > 140 ? "Por ahora la intención puede tener hasta 140 caracteres. Acórtala un poquito 🙏" : "No se pudo compartir. Revisa tu conexión.", "");
+      toast(denied && ta.value.trim().length > 140 ? "Por ahora la intención puede tener hasta 140 caracteres. Acórtala un poquito" : "No se pudo compartir. Revisa tu conexión.", "");
     }
     btn.disabled = false;
   });

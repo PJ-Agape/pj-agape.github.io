@@ -129,7 +129,7 @@ export function afterRender() {
     if (!el) { if (++tries < 25) return setTimeout(find, 160); return; }
     el.scrollIntoView({ behavior: "smooth", block: "center" });
     el.classList.add("help-pulse");
-    const tip = document.createElement("div"); tip.className = "help-tip"; tip.textContent = "Aquí 👆";
+    const tip = document.createElement("div"); tip.className = "help-tip"; tip.textContent = "Aquí";
     document.body.appendChild(tip);
     const place = () => { const r = el.getBoundingClientRect(); tip.style.left = `${Math.max(12, Math.min(innerWidth - 110, r.left + r.width / 2 - 45))}px`; tip.style.top = `${r.bottom + 10}px`; };
     setTimeout(place, 450); place();

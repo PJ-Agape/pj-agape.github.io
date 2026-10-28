@@ -204,14 +204,8 @@ const VISTA_RUTAS = [
   [/^\/dinamicas/, "dinamicas"], [/^\/difusion/, "difusion"], [/^\/ayuda/, "ayuda"], [/^\/buscar/, "buscar"],
 ];
 const vistaDe = (path) => { const p = path.split("?")[0]; const r = VISTA_RUTAS.find(([re]) => re.test(p)); return r ? r[1] : ""; };
-// Botón flotante «?»: abre la Ayuda en el tema de la sección donde estás.
-function helpFab(section) {
-  let b = document.getElementById("helpFab");
-  if (section === "ayuda" || section === "admin" && !cloud.state().isStaff) { if (b) b.remove(); return; }
-  if (!b) { b = document.createElement("a"); b.id = "helpFab"; b.className = "help-fab"; b.setAttribute("aria-label", "Ayuda"); b.title = "Ayuda: ¿cómo hago…?"; b.textContent = "?"; document.body.appendChild(b); }
-  const t = { muro: "muro", red: "muro", agenda: "agenda", oracion: "oracion", itinerario: "itinerario", formacion: "itinerario", comunidad: "comunidad", admin: "admin" }[section] || "inicio";
-  b.href = `#/ayuda?t=${t}`;
-}
+// Sin botón flotante: la Ayuda está en el perfil y en el pie de página.
+function helpFab() { document.getElementById("helpFab")?.remove(); }
 // Identidad visual: ilustración de trazo simple en el encabezado de cada sección.
 const HEAD_ILLUS = { formacion: "apostoles", red: "amigos", buscar: "pregunta", agenda: "futuro", comunidad: "equipo", itinerario: "camino", materiales: "biblia", oracion: "jesus", muro: "amigos", perfil: "acogida", verificar: "envio", difusion: "envio" };
 function decorate(v, section) {
@@ -1323,7 +1317,7 @@ function viewAccount() {
     <div class="row-wrap" style="justify-content:center;margin-top:16px">
       ${st.isGuide ? `<a class="btn btn-soft" href="#/admin">${icon("gear")} Gestión</a>` : ""}
       ${st.isStaff ? `<button class="btn btn-soft" data-action="vaOpen">${icon("eye")} Ver como…</button>` : ""}
-      <a class="btn btn-soft" href="#/ayuda">? Ayuda</a>
+      <a class="btn btn-soft" href="#/ayuda">Ayuda</a>
       <button class="btn btn-ghost" data-action="signOut">${icon("out")} Cerrar sesión</button>
     </div>
     <div id="installSlot" style="margin-top:14px"></div>
@@ -1334,7 +1328,7 @@ let myCum = undefined; // undefined: cargando · null: no compartido · "MM-DD"
 function cumCardHTML() {
   if (myCum === undefined) onAfterRender(() => cloud.getMyCumple().then((md) => { myCum = md; const c = document.getElementById("cumCard"); if (c) { c.innerHTML = cumCardHTML(); c.hidden = md === false; } }));
   if (myCum === false) return ""; // las reglas aún no están publicadas: la tarjeta no se muestra
-  const head = `<h3>🎂 Mi cumpleaños</h3><p class="muted small">Si lo compartes, aparece en la Agenda y en Inicio para que la comunidad te salude. Solo se ve el día y el mes, con tu nombre e inicial.</p>`;
+  const head = `<h3>Mi cumpleaños</h3><p class="muted small">Si lo compartes, aparece en la Agenda y en Inicio para que la comunidad te salude. Solo se ve el día y el mes, con tu nombre e inicial.</p>`;
   if (!cloud.canShareCumple()) return `${head}<p class="note small" style="margin-top:10px">Para mostrar tu cumpleaños, tu familia tiene que autorizarlo en el consentimiento. Pídeselo a tu dirigente.</p>`;
   if (myCum === undefined) return `${head}<p class="muted small" style="margin-top:10px">Cargando…</p>`;
   const [mm, dd] = myCum ? myCum.split("-") : ["", ""];
@@ -1355,7 +1349,7 @@ document.addEventListener("submit", async (e) => {
   const f = new FormData(e.target), d = String(f.get("d") || ""), m = String(f.get("m") || "");
   if (!d || !m) return;
   if (+d > DIAS_MES[+m - 1]) { toast("Ese mes no tiene ese día. Revisa la fecha.", ""); return; }
-  try { await cloud.setMyCumple(`${m}-${d}`); myCum = `${m}-${d}`; toast("¡Listo! Tu cumpleaños quedó en la Agenda 🎂", "ok"); }
+  try { await cloud.setMyCumple(`${m}-${d}`); myCum = `${m}-${d}`; toast("¡Listo! Tu cumpleaños quedó en la Agenda", "ok"); }
   catch (err) { console.warn(err); toast("No se pudo guardar todavía. Avísale al equipo.", ""); }
   const c = document.getElementById("cumCard"); if (c) c.innerHTML = cumCardHTML();
 });
@@ -1387,9 +1381,9 @@ function avPicker() {
     <div class="av-row"><span>${AV.OPTS.b.label}</span><div>${mini("b")}</div></div>`;
   return `<div class="av-head"><div class="av-big">${AV.svg(key)}</div>
       <div style="flex:1;min-width:180px"><h3>Mi avatar</h3><p class="muted small">Aparece junto a tu nombre en el chat, el muro y la lista de quienes están en línea.</p>
-        <div class="row-wrap" style="margin-top:10px">${avTab === "m" ? `<button class="btn btn-sm btn-ghost" data-action="avRandom">🎲 Al azar</button>` : ""}
+        <div class="row-wrap" style="margin-top:10px">${avTab === "m" ? `<button class="btn btn-sm btn-ghost" data-action="avRandom">Al azar</button>` : ""}
         <button class="btn btn-sm ${saved ? "btn-soft" : "btn-primary"}" data-action="avSave" ${saved ? "disabled" : ""}>${saved ? "Guardado ✓" : "Guardar avatar"}</button></div></div></div>
-    <div class="av-tabs" role="tablist">${tab("m", "🧑 Arma tu monito")}${tab("j", "🦙 Personajes")}${tab("k", "✨ Stickers")}</div>
+    <div class="av-tabs" role="tablist">${tab("m", "Arma tu monito")}${tab("j", "Personajes")}${tab("k", "Stickers")}</div>
     ${body}`;
 }
 const repaintAv = () => { const c = $("#avCard"); if (c) c.innerHTML = avPicker(); };
@@ -1470,7 +1464,7 @@ actions.install = async () => {
 // Arranque
 // ---------------------------------------------------------------------------
 wall.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, fotos: (id) => momentos.homeStrip(id) });
-window.addEventListener("agape:logro", () => toast("🎉 ¡Felicitaciones! Compartimos tu logro en el muro de la comunidad", "ok", 6000));
+window.addEventListener("agape:logro", () => toast("¡Felicitaciones! Compartimos tu logro en el muro de la comunidad", "ok", 6000));
 chat.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 avisos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 agenda.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, tabs: (k) => chat.tabs(k) });

@@ -76,7 +76,7 @@ export function registerActions(A, rerender) {
       const lim = iso(new Date(Date.now() - 365 * 86400000));
       Object.keys(data.dias).forEach((d) => { if (d < lim) delete data.dias[d]; });
       await cloud.saveEvPropio(data); resetPropio(); edit = null;
-      toast(`Evangelio del ${corta(fecha)} guardado 📖`, "ok"); rerender();
+      toast(`Evangelio del ${corta(fecha)} guardado`, "ok"); rerender();
     } catch (e) { console.warn(e); toast("No se pudo guardar", ""); el.disabled = false; }
   };
   A.evaDel = async (el) => {

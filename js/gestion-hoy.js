@@ -31,7 +31,7 @@ async function paint() {
   const grupo = (lvl, titulo) => { const xs = items.filter((x) => x.lvl === lvl); return xs.length ? `<h2 class="mag-hub-sub gh-h ${lvl}">${titulo} · ${xs.length}</h2>${xs.map(card).join("")}` : ""; };
   box.innerHTML = items.filter((x) => x.lvl !== "info").length
     ? grupo("urgente", "Para hoy") + grupo("revisar", "Para revisar") + grupo("info", "Para tener en cuenta")
-    : `<div class="card gh-ok"><b>✨ Todo al día</b><p class="muted small">No hay pendientes. Buen momento para preparar el próximo encuentro.</p></div>${grupo("info", "Para tener en cuenta")}`;
+    : `<div class="card gh-ok"><b>Todo al día</b><p class="muted small">No hay pendientes. Buen momento para preparar el próximo encuentro.</p></div>${grupo("info", "Para tener en cuenta")}`;
 }
 const card = (x) => `<div class="card gh-i ${x.lvl}"><span class="gh-ico" aria-hidden="true">${x.ico}</span>
   <div class="gh-txt"><b>${esc(x.t)}</b>${x.det ? `<span class="small muted">${x.det}</span>` : ""}</div>
@@ -45,7 +45,7 @@ async function pendientes() {
   if (s.isAdmin) {
     const ad = await cloud.adminData().catch(() => null);
     const inv = ad ? ad.invites : [];
-    if (inv.length) out.push(item("revisar", "✉️", `${inv.length} invitación${inv.length > 1 ? "es" : ""} sin usar`,
+    if (inv.length) out.push(item("revisar", "", `${inv.length} invitación${inv.length > 1 ? "es" : ""} sin usar`,
       `${inv.slice(0, 3).map((i) => esc(i.name || i.id)).join(", ")}${inv.length > 3 ? "…" : ""}. Recuérdales entrar con su cuenta de Google.`, "#/admin/dirigentes", "Ver cuentas"));
   }
 
@@ -54,9 +54,9 @@ async function pendientes() {
     await cloud.loadSalas().catch(() => {});
     const [wall, flag, chat] = await Promise.all([cloud.latestWall().catch(() => []), cloud.flaggedReplies().catch(() => []), cloud.reportedChat(cloud.allSalas().map((x) => x.key)).catch(() => [])]);
     const rep = wall.filter((p) => Object.keys(p.reports || {}).length && !p.hidden).length + flag.filter((r) => !r.hidden && Object.keys(r.reports || {}).length).length + chat.length;
-    if (rep) out.push(item("urgente", "🚩", `${rep} reporte${rep > 1 ? "s" : ""} en el muro o el chat`, "Alguien marcó un mensaje. Revísalo y ocúltalo o bórralo si corresponde.", "#/admin/moderacion", "Moderar"));
+    if (rep) out.push(item("urgente", "", `${rep} reporte${rep > 1 ? "s" : ""} en el muro o el chat`, "Alguien marcó un mensaje. Revísalo y ocúltalo o bórralo si corresponde.", "#/admin/moderacion", "Moderar"));
     // 3) Intención del Papa del mes
-    if (!(await papa.intencionCargada())) out.push(item("revisar", "🙏", "Falta la intención del Papa de este mes", "Cárgala para que salga en Inicio y en el rosario.", "#/admin/resumen", "Cargar"));
+    if (!(await papa.intencionCargada())) out.push(item("revisar", "", "Falta la intención del Papa de este mes", "Cárgala para que salga en Inicio y en el rosario.", "#/admin/resumen", "Cargar"));
     // 4) Saludos de WhatsApp
     out.push(item("info", "☀️", "Saludos de hoy listos para WhatsApp", "Buenos días y buenas noches, con su imagen.", "#/admin/saludos", "Abrir"));
   }
@@ -65,7 +65,7 @@ async function pendientes() {
   if (cum && cum.items) {
     const dias = Array.from({ length: 7 }, (_, i) => { const d = new Date(now); d.setDate(d.getDate() + i); return `${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; });
     const c = cum.items.filter((x) => dias.includes(x.md)).sort((a, b) => dias.indexOf(a.md) - dias.indexOf(b.md));
-    if (c.length) out.push(item("info", "🎂", `Cumpleaños esta semana`, c.map((x) => `${esc(x.n)} (${+x.md.slice(3)}/${+x.md.slice(0, 2)})`).join(", "), "#/chat/general", "Saludar"));
+    if (c.length) out.push(item("info", "", `Cumpleaños esta semana`, c.map((x) => `${esc(x.n)} (${+x.md.slice(3)}/${+x.md.slice(0, 2)})`).join(", "), "#/chat/general", "Saludar"));
   }
   return out;
 }

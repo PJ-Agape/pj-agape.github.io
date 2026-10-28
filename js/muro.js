@@ -236,7 +236,7 @@ function logroCard(p) {
     </div>
     <div class="wall-foot"><span class="xs muted">${when(p.createdAt)}</span><span class="spacer"></span>
       ${st().ready ? likeBtn(p, `wall/${p.id}`) : count(p.likes) ? `<span class="wall-like static">${heart()} ${count(p.likes)}</span>` : ""}
-      <a class="btn btn-sm btn-gold" href="#/muro/${encodeURIComponent(p.id)}">🎉 ${p.replyCount ? `${p.replyCount} saludo${p.replyCount > 1 ? "s" : ""}` : "Saludar"}</a></div>
+      <a class="btn btn-sm btn-gold" href="#/muro/${encodeURIComponent(p.id)}">${p.replyCount ? `${p.replyCount} saludo${p.replyCount > 1 ? "s" : ""}` : "Saludar"}</a></div>
   </article>`;
 }
 function postCard(p) {
@@ -340,7 +340,7 @@ export async function homeHighlight() {
   const ann = sortPosts(rows.filter(isNews))[0];
   const talk = sortPosts(rows.filter((p) => !isNews(p)))[0];
   s.innerHTML = `<div class="grid grid-2" style="margin-top:16px">
-    ${ann ? `<a class="card link wall-home anuncio" href="${ann.type === "logro" ? `#/muro/${encodeURIComponent(ann.id)}` : "#/muro"}"><span class="eyebrow">${icon(ann.type === "logro" ? "award" : "sparkle")} ${ann.type === "logro" ? "🎉 Nuevo logro" : "Último anuncio"}</span><h3>${esc(ann.title)}</h3>
+    ${ann ? `<a class="card link wall-home anuncio" href="${ann.type === "logro" ? `#/muro/${encodeURIComponent(ann.id)}` : "#/muro"}"><span class="eyebrow">${icon(ann.type === "logro" ? "award" : "sparkle")} ${ann.type === "logro" ? "Nuevo logro" : "Último anuncio"}</span><h3>${esc(ann.title)}</h3>
       ${ann.body ? `<p class="muted small">${esc(ann.body.slice(0, 140))}${ann.body.length > 140 ? "…" : ""}</p>` : ""}<span class="go">Ver el muro ${icon("arrowR")}</span></a>` : ""}
     ${talk ? `<a class="card link wall-home" href="#/muro/${encodeURIComponent(talk.id)}"><span class="eyebrow">${icon("chat")} En conversación</span><h3>${esc(talk.title)}</h3>
       <p class="muted small">${talk.replyCount ? `${talk.replyCount} respuesta${talk.replyCount > 1 ? "s" : ""} · ` : ""}${when(talk.lastActivity)}</p><span class="go">Sumarme ${icon("arrowR")}</span></a>` : ""}

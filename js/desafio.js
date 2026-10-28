@@ -72,7 +72,7 @@ function registerActions() {
   A.desDone = async (el) => {
     if (!cur) return;
     const on = el.dataset.on === "1";
-    try { await ctx.cloud.markDesafio(cur.key, on); if (on) toast("🎯 ¡Bien! Desafío cumplido"); paint(); } catch { toast("No se pudo guardar", ""); }
+    try { await ctx.cloud.markDesafio(cur.key, on); if (on) toast("¡Bien! Desafío cumplido"); paint(); } catch { toast("No se pudo guardar", ""); }
   };
   document.addEventListener("submit", async (e) => {
     if (e.target.id !== "desForm") return;

@@ -4498,3 +4498,8 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .wall-fotos-pics { grid-area: pics; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .wall-fotos-pics:empty { display: none; }
 .wall-fotos-pics img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 2px solid var(--pp-bd, var(--cn, #0b2566)); display: block; }
+/* Sin emojis: ícono de trazo en los accesos y un punto en las novedades */
+.hub-e svg { width: 22px; height: 22px; }
+.bell-e { width: 10px; height: 10px; border-radius: 50%; background: #ef591c; align-self: center; margin: 0 6px; font-size: 0; }
+.gh-ico:empty { width: 10px; height: 10px; min-width: 10px; border-radius: 50%; background: var(--ink-3); align-self: center; padding: 0; }
+.gh-i.urgente .gh-ico:empty { background: #ef591c; } .gh-i.revisar .gh-ico:empty { background: #ffba03; }

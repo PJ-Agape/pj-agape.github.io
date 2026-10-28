@@ -45,31 +45,31 @@ export const BLOCKS = {
 };
 // e: emoji · t: título · d: descripción · kw: palabras para el buscador · ok: quién lo ve
 const ITEMS = [
-  { b: "formacion", e: "🎓", t: "Cursos", d: "La guía de agAPPe y los cursos de formación.", href: "#/itinerario", kw: "curso cursos formacion itinerario unidades modulos guia tutorial bienvenido agappe manual como funciona", ok: (w) => w.curso },
-  { b: "formacion", e: "📓", t: "Mi cuaderno", d: "Lo que escribiste en las reflexiones.", href: "#/cuaderno", kw: "cuaderno notas reflexion respuestas", ok: (w) => w.curso, hub: false },
-  { b: "formacion", e: "🪪", t: "Credenciales", d: "Tarjetas de solapa con foto, nombre y parroquia para los encuentros.", href: "#/credenciales", kw: "credenciales credencial tarjeta solapa lanyard portacredencial gafete nombre encuentro retiro", ok: (w) => w.equipo || w.asp, hub: false }, // vive en Materiales → Para imprimir
-  { b: "formacion", e: "🧰", t: "Materiales", d: "Presentaciones, guías, banco de dinámicas y todo lo que se imprime.", href: "#/materiales", kw: "materiales recursos documentos biblioteca links imprimir presentaciones guias dinamicas credenciales", ok: (w) => w.equipo || w.asp },
-  { b: "formacion", e: "🧰", t: "Materiales", d: "Difusión, cancionero, oraciones y la biblioteca digital.", href: "#/materiales", kw: "materiales recursos biblioteca difusion cancionero oremus", ok: (w) => !w.equipo && !w.asp },
-  { b: "formacion", e: "🎲", t: "Dinámicas", d: "Juegos, rompehielos y dinámicas de oración.", href: "#/dinamicas", kw: "dinamicas juegos rompehielos actividades", ok: (w) => w.equipo, hub: false },
-  { b: "formacion", e: "🌉", t: "¿Quieres ser dirigente?", d: "Presentación «Sé puente».", href: "presentaciones/se-puente.html", ext: true, kw: "dirigente se puente vocacion servir", ok: (w) => w.guest || w.joven },
-  { b: "red", e: "📌", t: "Muro", d: "Avisos, logros y conversaciones del grupo.", href: "#/muro", kw: "muro avisos publicaciones noticias logros encuesta plaza", ok: () => true, hub: false }, // en La Plaza Ágape
-  { b: "red", e: "🎙️", t: "Podcast Ágape", d: "Episodios de nuestro podcast.", href: "#/podcast", kw: "podcast episodios youtube escuchar audio canal", ok: () => true, hub: false }, // franja de radios en Inicio
-  { b: "red", e: "🎲", t: "Juegos", d: "El Impostor, ¡En la frente!, Trivia Ágape y más.", href: "#/juegos", kw: "juegos jugar trivia preguntas impostor mimica mimicas frente adivinar charadas dinamica plaza", ok: () => true, hub: false }, // en La Plaza Ágape
+  { b: "formacion", e: "", t: "Cursos", d: "La guía de agAPPe y los cursos de formación.", href: "#/itinerario", kw: "curso cursos formacion itinerario unidades modulos guia tutorial bienvenido agappe manual como funciona", ok: (w) => w.curso },
+  { b: "formacion", e: "", t: "Mi cuaderno", d: "Lo que escribiste en las reflexiones.", href: "#/cuaderno", kw: "cuaderno notas reflexion respuestas", ok: (w) => w.curso, hub: false },
+  { b: "formacion", e: "", t: "Credenciales", d: "Tarjetas de solapa con foto, nombre y parroquia para los encuentros.", href: "#/credenciales", kw: "credenciales credencial tarjeta solapa lanyard portacredencial gafete nombre encuentro retiro", ok: (w) => w.equipo || w.asp, hub: false }, // vive en Materiales → Para imprimir
+  { b: "formacion", e: "", t: "Materiales", d: "Presentaciones, guías, banco de dinámicas y todo lo que se imprime.", href: "#/materiales", kw: "materiales recursos documentos biblioteca links imprimir presentaciones guias dinamicas credenciales", ok: (w) => w.equipo || w.asp },
+  { b: "formacion", e: "", t: "Materiales", d: "Difusión, cancionero, oraciones y la biblioteca digital.", href: "#/materiales", kw: "materiales recursos biblioteca difusion cancionero oremus", ok: (w) => !w.equipo && !w.asp },
+  { b: "formacion", e: "", t: "Dinámicas", d: "Juegos, rompehielos y dinámicas de oración.", href: "#/dinamicas", kw: "dinamicas juegos rompehielos actividades", ok: (w) => w.equipo, hub: false },
+  { b: "formacion", e: "", t: "¿Quieres ser dirigente?", d: "Presentación «Sé puente».", href: "presentaciones/se-puente.html", ext: true, kw: "dirigente se puente vocacion servir", ok: (w) => w.guest || w.joven },
+  { b: "red", e: "", t: "Muro", d: "Avisos, logros y conversaciones del grupo.", href: "#/muro", kw: "muro avisos publicaciones noticias logros encuesta plaza", ok: () => true, hub: false }, // en La Plaza Ágape
+  { b: "red", e: "", t: "Podcast Ágape", d: "Episodios de nuestro podcast.", href: "#/podcast", kw: "podcast episodios youtube escuchar audio canal", ok: () => true, hub: false }, // franja de radios en Inicio
+  { b: "red", e: "", t: "Juegos", d: "El Impostor, ¡En la frente!, Trivia Ágape y más.", href: "#/juegos", kw: "juegos jugar trivia preguntas impostor mimica mimicas frente adivinar charadas dinamica plaza", ok: () => true, hub: false }, // en La Plaza Ágape
   { b: "red", e: "💬", t: "Chat", d: "Salas para conversar en grupo.", href: "#/chat", kw: "chat salas mensajes conversar zumbido plaza", ok: () => true, hub: false }, // en La Plaza Ágape
-  { b: "red", e: "📅", t: "Agenda", d: "Encuentros, misas y actividades.", href: "#/agenda", kw: "agenda calendario actividades fechas misa retiro", ok: () => true, hub: false }, // franja propia en Comunidad
-  { b: "red", e: "🤝", t: "Jóvenes", d: "La lista del grupo y sus fichas privadas.", href: "#/acompanar", kw: "acompanar lista jovenes guia fichas cumpleanos", ok: (w) => w.guia && cloud.enabled, hub: false },
+  { b: "red", e: "", t: "Agenda", d: "Encuentros, misas y actividades.", href: "#/agenda", kw: "agenda calendario actividades fechas misa retiro", ok: () => true, hub: false }, // franja propia en Comunidad
+  { b: "red", e: "", t: "Jóvenes", d: "La lista del grupo y sus fichas privadas.", href: "#/acompanar", kw: "acompanar lista jovenes guia fichas cumpleanos", ok: (w) => w.guia && cloud.enabled, hub: false },
   // El equipo encuentra la difusión y la guía de servicio en Materiales; los jóvenes (sin Materiales) siguen viendo la difusión aquí.
-  { b: "red", e: "📣", t: "Estudio de difusión", d: "Marco de foto, historias, fondos y stickers.", href: "#/difusion", kw: "difusion stickers fondos de pantalla marco foto historias invitacion afiche", ok: (w) => w.cuenta, hub: (w) => !w.equipo },
-  { b: "red", e: "🏛️", t: "Guía de servicio", d: "Presentación: identidad, roles, cargos y reuniones.", href: "presentaciones/guia-de-servicio.html", ext: true, kw: "guia servicio pastoral identidad roles cargos reuniones comunidad presentacion", ok: (w) => w.equipo, hub: false },
-  { b: "espiritu", e: "⛪", t: "Nuestra Capilla", d: "Silencio, intenciones, la Palabra y María: un lugar para estar con Jesús.", href: "#/oracion", kw: "capilla oracion rezar velas intenciones espiritualidad", ok: () => true },
-  { b: "espiritu", e: "📖", t: "Evangelio del día", d: "La Palabra de hoy.", href: "#/evangelio", kw: "evangelio palabra lectura hoy biblia", ok: () => true },
-  { b: "espiritu", e: "🙏", t: "Oremus", d: "Nuestras oraciones y las de siempre: Padre nuestro, Ave María, Credo y más.", href: "#/oremus", kw: "oraciones devocionario rezar oremus", ok: () => true },
-  { b: "espiritu", e: "🌹", t: "Rezar el Rosario", d: "Paso a paso, cuenta a cuenta, con María.", href: "#/oracion/rosario", kw: "maria virgen rosario misterios", ok: () => true },
-  { b: "espiritu", e: "🕯️", t: "Nuestras intenciones", d: "Comparte tu intención y reza por las de otros.", href: "#/oracion/velas", kw: "vela intencion rezar por", ok: () => true },
-  { b: "espiritu", e: "📖", t: "Oremos con los salmos", d: "Un salmo para cada momento y cómo rezarlo.", href: "#/salmos", kw: "salmos salmo orar rezar biblia lectio pastor miedo triste gracias perdon", ok: () => true },
-  { b: "espiritu", e: "🎶", t: "Cancionero", d: "Canciones con acordes para la misa.", href: "#/cancionero", kw: "cancionero canciones acordes misa cantos guitarra", ok: () => true },
-  { b: "espiritu", e: "📻", t: "Radios católicas", d: "Radio María, El Sembrador y Regina Coeli.", href: "#/oracion/radio", kw: "radio maria sembrador regina coeli escuchar", ok: () => true },
-  { b: "espiritu", e: "🕯️", t: "Un rato con Jesús", d: "Oración personal en casa o ante el Santísimo.", href: "#/oracion/silencio", kw: "silencio oracion personal mental teresa guiada adoracion santisimo", ok: () => true },
+  { b: "red", e: "", t: "Estudio de difusión", d: "Marco de foto, historias, fondos y stickers.", href: "#/difusion", kw: "difusion stickers fondos de pantalla marco foto historias invitacion afiche", ok: (w) => w.cuenta, hub: (w) => !w.equipo },
+  { b: "red", e: "", t: "Guía de servicio", d: "Presentación: identidad, roles, cargos y reuniones.", href: "presentaciones/guia-de-servicio.html", ext: true, kw: "guia servicio pastoral identidad roles cargos reuniones comunidad presentacion", ok: (w) => w.equipo, hub: false },
+  { b: "espiritu", e: "", t: "Nuestra Capilla", d: "Silencio, intenciones, la Palabra y María: un lugar para estar con Jesús.", href: "#/oracion", kw: "capilla oracion rezar velas intenciones espiritualidad", ok: () => true },
+  { b: "espiritu", e: "", t: "Evangelio del día", d: "La Palabra de hoy.", href: "#/evangelio", kw: "evangelio palabra lectura hoy biblia", ok: () => true },
+  { b: "espiritu", e: "", t: "Oremus", d: "Nuestras oraciones y las de siempre: Padre nuestro, Ave María, Credo y más.", href: "#/oremus", kw: "oraciones devocionario rezar oremus", ok: () => true },
+  { b: "espiritu", e: "", t: "Rezar el Rosario", d: "Paso a paso, cuenta a cuenta, con María.", href: "#/oracion/rosario", kw: "maria virgen rosario misterios", ok: () => true },
+  { b: "espiritu", e: "", t: "Nuestras intenciones", d: "Comparte tu intención y reza por las de otros.", href: "#/oracion/velas", kw: "vela intencion rezar por", ok: () => true },
+  { b: "espiritu", e: "", t: "Oremos con los salmos", d: "Un salmo para cada momento y cómo rezarlo.", href: "#/salmos", kw: "salmos salmo orar rezar biblia lectio pastor miedo triste gracias perdon", ok: () => true },
+  { b: "espiritu", e: "", t: "Cancionero", d: "Canciones con acordes para la misa.", href: "#/cancionero", kw: "cancionero canciones acordes misa cantos guitarra", ok: () => true },
+  { b: "espiritu", e: "", t: "Radios católicas", d: "Radio María, El Sembrador y Regina Coeli.", href: "#/oracion/radio", kw: "radio maria sembrador regina coeli escuchar", ok: () => true },
+  { b: "espiritu", e: "", t: "Un rato con Jesús", d: "Oración personal en casa o ante el Santísimo.", href: "#/oracion/silencio", kw: "silencio oracion personal mental teresa guiada adoracion santisimo", ok: () => true },
 ];
 const descFor = (k, w) => k !== "formacion" ? BLOCKS[k].d
   : w.equipo ? BLOCKS.formacion.d
@@ -77,10 +77,10 @@ const descFor = (k, w) => k !== "formacion" ? BLOCKS[k].d
 export const itemsFor = (b) => { const w = who(); return ITEMS.filter((x) => x.b === b && x.ok(w)); };
 const inHub = (x) => { const h = x.hub; return h === undefined ? true : typeof h === "function" ? h(who()) : h; };
 const itemCard = (x) => x.links ? `<div class="card hub-item hub-multi">
-    <span class="hub-e" aria-hidden="true">${x.e}</span><span><strong>${esc(x.t)}</strong><span class="muted small">${esc(x.d)}</span>
+    <span class="hub-e" aria-hidden="true">${icon({ formacion: "route", red: "users", espiritu: "flame" }[x.b] || "sparkle")}</span><span><strong>${esc(x.t)}</strong><span class="muted small">${esc(x.d)}</span>
     <span class="hub-links">${x.links.filter((l) => !l[2] || l[2](who())).map(([l, h]) => `<a class="chip-link" href="${esc(h)}">${esc(l)} ${icon("right")}</a>`).join("")}</span></span></div>`
   : `<a class="card link hub-item" href="${esc(x.href)}" ${x.ext ? 'target="_blank" rel="noopener"' : ""}>
-    <span class="hub-e" aria-hidden="true">${x.e}</span><span><strong>${esc(x.t)}</strong><span class="muted small">${esc(x.d)}</span></span>${icon("right")}</a>`;
+    <span class="hub-e" aria-hidden="true">${icon({ formacion: "route", red: "users", espiritu: "flame" }[x.b] || "sparkle")}</span><span><strong>${esc(x.t)}</strong><span class="muted small">${esc(x.d)}</span></span>${icon("right")}</a>`;
 
 // ---------------------------------------------------------------------------
 // Inicio: saludo + buscador + los tres bloques
@@ -139,7 +139,7 @@ export function blocksHTML() {
         <span class="blk-d">${esc(descFor(k, w))}</span><span class="blk-st">${status[k]}</span></span>
         <span class="blk-go" aria-hidden="true">${icon("arrowR")}</span>
       </a>
-      <nav class="blk-chips" aria-label="${esc(b.t)}">${chips.map((x) => `<a href="${esc(x.href)}" ${x.ext ? 'target="_blank" rel="noopener"' : ""}><span aria-hidden="true">${x.e}</span> ${esc(x.t)}</a>`).join("")}</nav>
+      <nav class="blk-chips" aria-label="${esc(b.t)}">${chips.map((x) => `<a href="${esc(x.href)}" ${x.ext ? 'target="_blank" rel="noopener"' : ""}>${esc(x.t)}</a>`).join("")}</nav>
     </section>`;
   }).join("")}</div>`;
 }
@@ -243,19 +243,19 @@ function index() {
   const w = who(), out = [];
   const add = (g, e, t, d, href, kw = "", ext = false) => out.push({ g, e, t, d, href, ext, s: norm(`${t} ${kw}`), sd: norm(d) });
   ITEMS.filter((x) => x.ok(w)).forEach((x) => add("Secciones", x.e, x.t, `${BLOCKS[x.b].t} · ${x.d}`, x.href, x.kw, x.ext));
-  add("Secciones", "👤", "Mi perfil y avatar", "Tu cuenta, tu avatar y tu tema.", "#/perfil", "perfil cuenta avatar foto nombre tema oscuro");
-  add("Secciones", "❓", "Ayuda", "Respuestas cortas: ¿cómo hago…?", "#/ayuda", "ayuda como hago tutorial");
-  add("Secciones", "♿", "Accesibilidad", "Tamaño de letra y lectura en voz alta.", "#/accesibilidad", "accesibilidad letra grande leer voz");
+  add("Secciones", "", "Mi perfil y avatar", "Tu cuenta, tu avatar y tu tema.", "#/perfil", "perfil cuenta avatar foto nombre tema oscuro");
+  add("Secciones", "", "Ayuda", "Respuestas cortas: ¿cómo hago…?", "#/ayuda", "ayuda como hago tutorial");
+  add("Secciones", "", "Accesibilidad", "Tamaño de letra y lectura en voz alta.", "#/accesibilidad", "accesibilidad letra grande leer voz");
   if (w.curso) {
     const c = S.activeCourse();
-    (c.phases || []).forEach((p, pi) => (p.sessions || []).forEach((s) => add("Unidades del curso", "🎓", `${s.id} ${s.title}`, p.title, `#/unidad/${pi}/${encodeURIComponent(s.id)}`, s.summary || "")));
+    (c.phases || []).forEach((p, pi) => (p.sessions || []).forEach((s) => add("Unidades del curso", "", `${s.id} ${s.title}`, p.title, `#/unidad/${pi}/${encodeURIComponent(s.id)}`, s.summary || "")));
   }
-  ORACIONES.forEach((o) => add("Oraciones", "🙏", o.t, o.note || "Oremus", `#/oremus/${encodeURIComponent(o.t)}`));
-  SALMOS.forEach((s) => add("Salmos", "📖", `Salmo ${s.n} · ${s.t}`, `«${s.v}»`, `#/salmos/${s.n}`, s.intro));
-  try { songList().forEach((s) => add("Canciones", "🎶", s.title, s.author || "Cancionero", `#/cancionero/${encodeURIComponent(s.id)}`, (s.momentos || []).join(" "))); } catch {}
-  if (w.equipo) BANCO.forEach((d) => add("Dinámicas", "🎲", d.title, d.objetivo, `#/dinamicas/${encodeURIComponent(d.id)}`, (d.tags || []).join(" ")));
-  helpFor(perfil()).forEach((h) => add("Ayuda", "❓", h.q, h.a[0] || "", `#/ayuda?t=${h.t}`));
-  (agendaCache || []).forEach((e) => add("Agenda", "📅", e.title, `${e.date || ""}${e.place ? " · " + e.place : ""}`, e.date ? `#/agenda/${e.date}` : "#/agenda", `${e.type || ""} ${e.desc || ""}`));
+  ORACIONES.forEach((o) => add("Oraciones", "", o.t, o.note || "Oremus", `#/oremus/${encodeURIComponent(o.t)}`));
+  SALMOS.forEach((s) => add("Salmos", "", `Salmo ${s.n} · ${s.t}`, `«${s.v}»`, `#/salmos/${s.n}`, s.intro));
+  try { songList().forEach((s) => add("Canciones", "", s.title, s.author || "Cancionero", `#/cancionero/${encodeURIComponent(s.id)}`, (s.momentos || []).join(" "))); } catch {}
+  if (w.equipo) BANCO.forEach((d) => add("Dinámicas", "", d.title, d.objetivo, `#/dinamicas/${encodeURIComponent(d.id)}`, (d.tags || []).join(" ")));
+  helpFor(perfil()).forEach((h) => add("Ayuda", "", h.q, h.a[0] || "", `#/ayuda?t=${h.t}`));
+  (agendaCache || []).forEach((e) => add("Agenda", "", e.title, `${e.date || ""}${e.place ? " · " + e.place : ""}`, e.date ? `#/agenda/${e.date}` : "#/agenda", `${e.type || ""} ${e.desc || ""}`));
   return out;
 }
 export function search(q, max = 40) {
@@ -277,7 +277,7 @@ function resultsHTML(q, list, full) {
   const groups = {};
   list.forEach((x) => (groups[x.g] = groups[x.g] || []).push(x));
   const rows = Object.entries(groups).map(([g, xs]) => `<div class="sr-g"><span class="sr-gt">${esc(g)}</span>${xs.slice(0, full ? 20 : 4).map((x) => `<a class="sr-i" href="${esc(x.href)}" ${x.ext ? 'target="_blank" rel="noopener"' : ""}>
-      <span class="sr-e" aria-hidden="true">${x.e}</span><span><b>${esc(x.t)}</b><small>${esc(String(x.d).slice(0, 90))}</small></span></a>`).join("")}</div>`).join("");
+      <span><b>${esc(x.t)}</b><small>${esc(String(x.d).slice(0, 90))}</small></span></a>`).join("")}</div>`).join("");
   return rows + (full ? "" : `<a class="sr-all" href="#/buscar?q=${encodeURIComponent(q)}">Ver todos los resultados ${icon("arrowR")}</a>`);
 }
 async function loadAgenda() {

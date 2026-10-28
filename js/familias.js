@@ -55,10 +55,10 @@ function evHTML(e) {
     <div class="fam-ev-main">
       <span class="fam-ev-day">${esc(longDate(e.date))}${e.start ? ` · ${esc(e.start)}${e.end ? `–${esc(e.end)}` : ""} h` : ""}</span>
       <h3>${esc(e.title)}</h3>
-      ${e.place ? `<p class="fam-ev-where">📍 ${esc(e.place)}</p>` : ""}
+      ${e.place ? `<p class="fam-ev-where">${esc(e.place)}</p>` : ""}
       ${e.desc ? `<p class="fam-ev-desc">${esc(e.desc)}</p>` : ""}
       ${e.base && isRepeat(e.base) ? `<p class="fam-ev-where">↻ ${esc(repeatText(e.base))}</p>` : ""}
-      ${autz.hasAuth(e) ? `<div class="fam-auth"><span>✍️ <b>Requiere autorización</b>${e.auth.plazo ? ` · entregar a más tardar el ${esc(autz.fecha(e.auth.plazo))}` : ""}</span>
+      ${autz.hasAuth(e) ? `<div class="fam-auth"><span><b>Requiere autorización</b>${e.auth.plazo ? ` · entregar a más tardar el ${esc(autz.fecha(e.auth.plazo))}` : ""}</span>
         <button class="btn btn-sm btn-gold" data-auth="${esc(e.key)}">Descargar autorización (PDF)</button></div>` : ""}
       ${e.invFam ? confHTML(e, evId) : ""}
     </div></article>`;
@@ -100,8 +100,8 @@ document.addEventListener("click", (ev) => {
 const SUB = () => {
   const url = BASE + "familias.ics", webcal = url.replace(/^https?:/, "webcal:");
   return `<div class="fam-sub">
-    <a class="btn btn-sm btn-primary" href="https://calendar.google.com/calendar/render?cid=${encodeURIComponent(webcal)}" target="_blank" rel="noopener">📅 Google Calendar</a>
-    <a class="btn btn-sm btn-ghost" href="${webcal}">📅 iPhone</a>
+    <a class="btn btn-sm btn-primary" href="https://calendar.google.com/calendar/render?cid=${encodeURIComponent(webcal)}" target="_blank" rel="noopener">Google Calendar</a>
+    <a class="btn btn-sm btn-ghost" href="${webcal}">iPhone</a>
     <button class="btn btn-sm btn-ghost" data-copy="${esc(url)}">Copiar enlace</button>
   </div><p class="xs muted" style="margin-top:6px">Te suscribes una vez y las actividades aparecen solas en el calendario del celular.</p>`;
 };
@@ -110,12 +110,12 @@ function contactHTML(c) {
   const tel = c.telefono && c.telefono.replace(/[^\d+]/g, "");
   const wa = (c.whatsapp || "").replace(/\D/g, "");
   const items = [
-    tel ? `<a class="fam-c" href="tel:${esc(tel)}">📞 <span><b>Teléfono</b>${esc(c.telefono)}</span></a>` : "",
+    tel ? `<a class="fam-c" href="tel:${esc(tel)}"><span><b>Teléfono</b>${esc(c.telefono)}</span></a>` : "",
     wa ? `<a class="fam-c" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">💬 <span><b>WhatsApp</b>${esc(c.whatsapp)}</span></a>` : "",
-    c.correo ? `<a class="fam-c" href="mailto:${esc(c.correo)}">✉️ <span><b>Correo</b>${esc(c.correo)}</span></a>` : "",
-    c.direccion ? `<a class="fam-c" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.direccion + ", Yungay, Chile")}" target="_blank" rel="noopener">📍 <span><b>Dónde estamos</b>${esc(c.direccion)}</span></a>` : "",
-    c.instagram ? `<a class="fam-c" href="https://instagram.com/${esc(c.instagram.replace(/^@|.*instagram\.com\//g, "").replace(/\/.*/, ""))}" target="_blank" rel="noopener">📸 <span><b>Instagram</b>${esc(c.instagram)}</span></a>` : "",
-    c.facebook ? `<a class="fam-c" href="${esc(/^https?:/.test(c.facebook) ? c.facebook : "https://facebook.com/" + c.facebook)}" target="_blank" rel="noopener">👍 <span><b>Facebook</b>${esc(c.facebook.replace(/^https?:\/\/(www\.)?facebook\.com\//, ""))}</span></a>` : "",
+    c.correo ? `<a class="fam-c" href="mailto:${esc(c.correo)}"><span><b>Correo</b>${esc(c.correo)}</span></a>` : "",
+    c.direccion ? `<a class="fam-c" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.direccion + ", Yungay, Chile")}" target="_blank" rel="noopener"><span><b>Dónde estamos</b>${esc(c.direccion)}</span></a>` : "",
+    c.instagram ? `<a class="fam-c" href="https://instagram.com/${esc(c.instagram.replace(/^@|.*instagram\.com\//g, "").replace(/\/.*/, ""))}" target="_blank" rel="noopener"><span><b>Instagram</b>${esc(c.instagram)}</span></a>` : "",
+    c.facebook ? `<a class="fam-c" href="${esc(/^https?:/.test(c.facebook) ? c.facebook : "https://facebook.com/" + c.facebook)}" target="_blank" rel="noopener"><span><b>Facebook</b>${esc(c.facebook.replace(/^https?:\/\/(www\.)?facebook\.com\//, ""))}</span></a>` : "",
   ].filter(Boolean);
   return `<p class="fam-lead">${esc(c.nombre || "Coordinación")}</p>
     <div class="fam-cs">${items.join("") || `<p class="muted">Pregunta por nosotros en la secretaría parroquial.</p>`}</div>`;

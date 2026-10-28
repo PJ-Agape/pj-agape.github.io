@@ -65,7 +65,7 @@ function piezasHTML() {
       ${st.tpl === "invita" ? `<div class="field"><label>¿A quién invitas?</label><input class="input" data-dif="para" maxlength="24" value="${esc(st.para)}" placeholder="Su nombre (opcional)"></div>` : ""}
       <div class="field"><label>Formato</label>${sel("fmt", Object.entries(FORMATS).map(([k, v]) => [k, v[2]]), st.fmt)}</div>
       <div class="field"><label>Estilo</label><div class="dif-sw" role="radiogroup" aria-label="Estilo">${E.STYLES.map((x) => `<button type="button" role="radio" aria-checked="${st.style === x.id}" title="${esc(x.name)}" data-action="difStyle" data-v="${x.id}" style="--a:${x.bg};--b:${x.split || x.b1}"><span class="sr-only">${esc(x.name)}</span></button>`).join("")}</div></div>
-      <div class="field"><label>Dibujo o foto</label>${sel("ill", [...(st.photo ? [["__foto", "📷 Mi foto"]] : []), ...ILLS.map((k) => [k, sceneLabel(k)])], st.photo && st.ill === "__foto" ? "__foto" : st.ill)}
+      <div class="field"><label>Dibujo o foto</label>${sel("ill", [...(st.photo ? [["__foto", "Mi foto"]] : []), ...ILLS.map((k) => [k, sceneLabel(k)])], st.photo && st.ill === "__foto" ? "__foto" : st.ill)}
         ${photoBtn()}</div>
       <details class="dif-more"><summary>Cambiar los textos</summary>
         <div class="stack" style="margin-top:10px">
@@ -78,7 +78,7 @@ function piezasHTML() {
     </form></div>`;
 }
 // Botón para usar una foto del dispositivo (se queda en el teléfono: no se sube a ninguna parte)
-const photoBtn = () => `<label class="btn btn-soft btn-sm dif-file" style="margin-top:8px">📷 ${st.photo ? "Cambiar foto" : "Usar una foto mía"}<input type="file" accept="image/*" id="difPhoto" class="sr-only"></label>
+const photoBtn = () => `<label class="btn btn-soft btn-sm dif-file" style="margin-top:8px">${st.photo ? "Cambiar foto" : "Usar una foto mía"}<input type="file" accept="image/*" id="difPhoto" class="sr-only"></label>
   ${st.photo ? `<span class="xs muted" style="display:block;margin-top:4px">Tu foto se queda en tu dispositivo: no se sube a ninguna parte.</span>` : ""}`;
 const actionsHTML = () => `<div class="row-wrap" style="gap:8px">
   <button type="button" class="btn btn-primary" data-action="difShare">${icon("send")} Compartir</button>
@@ -127,7 +127,7 @@ const STK_CHILE = ["virgencarmen", "teresaandes", "albertohurtado", "santoschile
 const STK_SANTOS = ["donbosco", "carloacutis", "teresita", "franciscoasis", "juanpablo", "sansebastian", "sanmiguel", "jose", "sagradafamilia", "apostoles"];
 const STK_JESUS = ["jesus", "emaus", "buenpastor", "sagradocorazon", "dejadlos", "rey", "virgen", "maria", "espiritu", "eucaristia"];
 const stkGroup = (k) => STK_CHILE.includes(k) ? 0 : STK_SANTOS.includes(k) ? 1 : STK_JESUS.includes(k) ? 2 : k.startsWith("pj:") ? 4 : 3;
-const STK_GROUPS = ["🇨🇱 Santos de Chile", "😇 Santos y amigos de Dios", "✝️ Jesús y María", "💬 Para el grupo", "🦙 Personajes"];
+const STK_GROUPS = ["Santos de Chile", "Santos y amigos de Dios", "Jesús y María", "Para el grupo", "Personajes"];
 function stickersHTML() {
   const items = E.STICKERS.map(([k, t], i) => ({ k, t, i, g: stkGroup(k) }));
   return `<div class="card" style="margin-bottom:14px"><p class="small">Toca un sticker para compartirlo o guardarlo. Para tenerlos en WhatsApp, guárdalos y súmalos con una app de stickers (por ejemplo «Sticker Maker»).</p>

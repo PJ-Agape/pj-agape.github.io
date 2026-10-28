@@ -9,17 +9,17 @@ import { todayGospel } from "./capilla.js";
 
 // Tipos de novedades. «on»: cómo viene de fábrica; un administrador los prende o apaga en Gestión.
 export const TIPOS = [
-  { k: "velas", e: "🕯️", t: "Intenciones", d: "Cuando alguien comparte una intención en la Capilla.", on: true },
-  { k: "avisos", e: "📢", t: "Avisos y logros del muro", d: "Anuncios del equipo y logros publicados.", on: true },
-  { k: "temas", e: "🗣️", t: "Nuevo tema de conversación", d: "Cuando el equipo abre un tema de discusión en el muro.", on: true },
-  { k: "publicaciones", e: "💬", t: "Nuevas publicaciones en el muro", d: "Preguntas y publicaciones de la comunidad.", on: true },
-  { k: "encuestas", e: "📊", t: "Encuestas", d: "Cuando hay una encuesta nueva para votar.", on: true },
-  { k: "agenda", e: "📅", t: "Novedades de la agenda", d: "Actividades nuevas o que cambiaron.", on: true },
-  { k: "chat", e: "💭", t: "Mensajes nuevos en el chat", d: "Cuando hay mensajes en las salas donde estás.", on: false },
-  { k: "formacion", e: "🎓", t: "Recordatorio de formación", d: "Cada lunes: «Recuerda avanzar en tu formación» (a los jóvenes, su encuentro de la semana).", on: false },
-  { k: "rosario", e: "📿", t: "Misterios del día", d: "Cada mañana: qué misterios del Rosario corresponden hoy.", on: false },
-  { k: "saludo", e: "☀️", t: "Saludo del día listo (equipo)", d: "Cada mañana, a administradores y coordinación: el saludo de buenos días para enviar al grupo.", on: true },
-  { k: "evangelio", e: "📖", t: "Evangelio del día", d: "Cada mañana: la cita y la frase del Evangelio de hoy.", on: false },
+  { k: "velas", e: "", t: "Intenciones", d: "Cuando alguien comparte una intención en la Capilla.", on: true },
+  { k: "avisos", e: "", t: "Avisos y logros del muro", d: "Anuncios del equipo y logros publicados.", on: true },
+  { k: "temas", e: "", t: "Nuevo tema de conversación", d: "Cuando el equipo abre un tema de discusión en el muro.", on: true },
+  { k: "publicaciones", e: "", t: "Nuevas publicaciones en el muro", d: "Preguntas y publicaciones de la comunidad.", on: true },
+  { k: "encuestas", e: "", t: "Encuestas", d: "Cuando hay una encuesta nueva para votar.", on: true },
+  { k: "agenda", e: "", t: "Novedades de la agenda", d: "Actividades nuevas o que cambiaron.", on: true },
+  { k: "chat", e: "", t: "Mensajes nuevos en el chat", d: "Cuando hay mensajes en las salas donde estás.", on: false },
+  { k: "formacion", e: "", t: "Recordatorio de formación", d: "Cada lunes: «Recuerda avanzar en tu formación» (a los jóvenes, su encuentro de la semana).", on: false },
+  { k: "rosario", e: "", t: "Misterios del día", d: "Cada mañana: qué misterios del Rosario corresponden hoy.", on: false },
+  { k: "saludo", e: "", t: "Saludo del día listo (equipo)", d: "Cada mañana, a administradores y coordinación: el saludo de buenos días para enviar al grupo.", on: true },
+  { k: "evangelio", e: "", t: "Evangelio del día", d: "Cada mañana: la cita y la frase del Evangelio de hoy.", on: false },
 ];
 let cfg = null;
 const isOn = (k) => { const t = TIPOS.find((x) => x.k === k); return cfg && k in cfg ? !!cfg[k] : !!(t && t.on); };
@@ -67,29 +67,29 @@ async function fetchAll() {
     isOn("agenda") ? cloud.listAgenda() : none(),
   ]);
   const out = [];
-  velas.forEach((v) => { const ts = ms(v.createdAt); if (ts > since && v.authorUid !== me) out.push({ ts, e: "🕯️", href: `#/oracion/velas/${encodeURIComponent(v.id)}`, vela: true,
+  velas.forEach((v) => { const ts = ms(v.createdAt); if (ts > since && v.authorUid !== me) out.push({ ts, e: "", href: `#/oracion/velas/${encodeURIComponent(v.id)}`, vela: true,
     t: `${v.authorName || "Alguien"} compartió una intención`, d: v.text ? `«${short(v.text)}»` : "Una intención en silencio. ¿Rezas por ella?", full: v.text ? `«${short(v.text, 400)}»` : "" }); });
   const tipoMuro = (p) => (p.type === "anuncio" || p.type === "logro" ? "avisos" : p.type === "tema" ? "temas" : p.type === "encuesta" ? "encuestas" : "publicaciones");
-  wall.filter((p) => !p.hidden && isOn(tipoMuro(p))).forEach((p) => { const ts = ms(p.createdAt); if (ts > since && p.authorUid !== me) out.push({ ts, e: p.type === "anuncio" ? "📢" : p.type === "logro" ? "🏅" : p.type === "encuesta" ? "📊" : "💬",
+  wall.filter((p) => !p.hidden && isOn(tipoMuro(p))).forEach((p) => { const ts = ms(p.createdAt); if (ts > since && p.authorUid !== me) out.push({ ts, e: p.type === "anuncio" ? "" : p.type === "logro" ? "" : p.type === "encuesta" ? "" : "",
     href: `#/muro/${encodeURIComponent(p.id)}`, t: p.type === "anuncio" ? "Nuevo aviso en el muro" : p.type === "logro" ? "Un nuevo logro en el muro" : p.type === "encuesta" ? "Nueva encuesta" : p.type === "tema" ? "Nuevo tema de conversación" : `${p.authorName || "Alguien"} publicó en el muro`, d: short(p.title || p.body) }); });
-  agenda.forEach((e) => { const ts = ms(e.updatedAt); if (ts > since && e.title && (!e.date || e.date >= new Date(Date.now() - DAY).toISOString().slice(0, 10))) out.push({ ts, e: "📅", href: e.date ? `#/agenda/${e.date}` : "#/agenda",
+  agenda.forEach((e) => { const ts = ms(e.updatedAt); if (ts > since && e.title && (!e.date || e.date >= new Date(Date.now() - DAY).toISOString().slice(0, 10))) out.push({ ts, e: "", href: e.date ? `#/agenda/${e.date}` : "#/agenda",
     t: "Novedad en la agenda", d: short(`${e.title}${e.date ? " · " + e.date.split("-").reverse().join("/") : ""}`) }); });
   // Avisos del equipo pendientes de «Recibido» (siempre, para dirigentes y coordinación)
   if (["admin", "coordinador", "dirigente"].includes(cloud.state().role)) {
-    (await cloud.myPendingAvisos()).forEach((a) => out.push({ ts: ms(a.createdAt) || Date.now(), e: a.kind === "tarea" ? "✅" : "📌", href: "#/avisos",
+    (await cloud.myPendingAvisos()).forEach((a) => out.push({ ts: ms(a.createdAt) || Date.now(), e: a.kind === "tarea" ? "" : "", href: "#/avisos",
       t: `${a.kind === "tarea" ? "Nueva tarea" : "Nuevo aviso"} de ${a.byName || "la coordinación"}`, d: short(a.title) }));
   }
   // Solicitudes de cuenta por revisar (administradores)
   if (cloud.state().isAdmin) {
     const sols = await cloud.pendingSolicitudes();
-    if (sols.length) out.push({ pend: true, ts: Math.max(...sols.map((x) => ms(x.createdAt) || 0)) || Date.now(), e: "🙋", href: "#/admin/dirigentes",
+    if (sols.length) out.push({ pend: true, ts: Math.max(...sols.map((x) => ms(x.createdAt) || 0)) || Date.now(), e: "", href: "#/admin/dirigentes",
       t: sols.length === 1 ? "Una solicitud de cuenta por revisar" : `${sols.length} solicitudes de cuenta por revisar`, d: short(sols.map((x) => String(x.name || "").split(" ")[0]).join(", ")) });
   }
   const now = Date.now(), dia = now >= at(7) ? at(7) : at(7) - DAY; // lo diario se marca como nuevo cada mañana
   // Para administradores y coordinación: jóvenes sin dirigente y el saludo del día
   if (cloud.state().isAdmin || cloud.state().role === "coordinador") {
     const sin = (await cloud.listJovenes().catch(() => [])).filter((j) => j.activo !== false && !j.guia);
-    if (sin.length) out.push({ pend: true, ts: dia, e: "🧭", href: "#/admin/asignar", t: sin.length === 1 ? "Un joven sin dirigente" : `${sin.length} jóvenes sin dirigente`,
+    if (sin.length) out.push({ pend: true, ts: dia, e: "", href: "#/admin/asignar", t: sin.length === 1 ? "Un joven sin dirigente" : `${sin.length} jóvenes sin dirigente`,
       d: short(sin.map((j) => String(j.nombre || "").split(" ")[0]).join(", ")) });
     if (isOn("saludo") && now >= at(7)) out.push({ ts: at(7), e: "☀️", href: "#/admin/saludos", t: "El saludo de hoy está listo", d: "Buenos días con el Evangelio, para enviar al grupo por WhatsApp." });
   }
@@ -97,18 +97,18 @@ async function fetchAll() {
     await cloud.loadSalas().catch(() => []);
     const salas = cloud.allSalas().filter((x) => cloud.mySalas().includes(x.key)).slice(0, 8);
     const last = await Promise.all(salas.map((x) => cloud.lastChat(x.key).then((m) => [x, m])));
-    last.forEach(([x, m]) => { const ts = m && ms(m.createdAt); if (ts > since && m.authorUid !== me) out.push({ ts, e: "💭", href: `#/chat/${encodeURIComponent(x.key)}`,
+    last.forEach(([x, m]) => { const ts = m && ms(m.createdAt); if (ts > since && m.authorUid !== me) out.push({ ts, e: "", href: `#/chat/${encodeURIComponent(x.key)}`,
       t: `Mensajes nuevos en «${x.name || x.title || x.key}»`, d: `${m.authorName || "Alguien"}: ${short(m.text, 60)}` }); });
   }
   if (isOn("formacion") && now >= at(8, lunes())) {
     const st = cloud.state();
     if (!st.isJoven) { const c = S.activeCourse(), cs = S.courseState(c);
-      if (!cs.complete) out.push({ ts: at(8, lunes()), e: "🎓", href: "#/itinerario", t: "Recuerda avanzar en tu formación", d: `Llevas ${cs.readSessions} de ${cs.totalSessions} unidades. ¡Una más esta semana!` }); }
+      if (!cs.complete) out.push({ ts: at(8, lunes()), e: "", href: "#/itinerario", t: "Recuerda avanzar en tu formación", d: `Llevas ${cs.readSessions} de ${cs.totalSessions} unidades. ¡Una más esta semana!` }); }
   }
   if (isOn("rosario") && now >= at(8)) { const m = MYST_DIA[new Date().getDay()];
-    out.push({ ts: at(8), e: "📿", href: "#/oracion/maria", t: `Hoy corresponde rezar los misterios ${m}`, d: "Un Rosario con María, solo o en comunidad." }); }
+    out.push({ ts: at(8), e: "", href: "#/oracion/maria", t: `Hoy corresponde rezar los misterios ${m}`, d: "Un Rosario con María, solo o en comunidad." }); }
   if (isOn("evangelio") && now >= at(7)) { const g = await todayGospel().catch(() => null);
-    if (g && g.cita) out.push({ ts: at(7), e: "📖", href: "#/evangelio", t: `Evangelio de hoy · ${g.cita}`, d: g.frase ? `«${short(g.frase, 80)}»` : "Lee la Palabra de hoy." }); }
+    if (g && g.cita) out.push({ ts: at(7), e: "", href: "#/evangelio", t: `Evangelio de hoy · ${g.cita}`, d: g.frase ? `«${short(g.frase, 80)}»` : "Lee la Palabra de hoy." }); }
   items = out.sort((a, b) => b.ts - a.ts).slice(0, 25);
 }
 export async function refresh(force) {
@@ -147,9 +147,9 @@ function paint() {
   const strip = document.getElementById("velaStrip");
   if (strip) {
     const v = unread().filter((x) => x.vela);
-    strip.innerHTML = v.length ? `<a class="card link vela-strip" href="${esc(v[0].href)}"><span class="vela-strip-e" aria-hidden="true">🕯️</span>
+    strip.innerHTML = v.length ? `<a class="card link vela-strip" href="${esc(v[0].href)}"><span class="vela-strip-e" aria-hidden="true"></span>
       <span style="flex:1;min-width:0"><strong>${v.length === 1 ? "Hay una intención nueva" : `Hay ${v.length} intenciones nuevas`}</strong>
-      <span class="muted small">${esc(v[0].d)}</span></span><span class="btn btn-sm btn-gold">Rezar 🙏</span></a>` : "";
+      <span class="muted small">${esc(v[0].d)}</span></span><span class="btn btn-sm btn-gold">Rezar</span></a>` : "";
   }
 }
 function toggle() { open ? closePanel() : openPanel(); }
@@ -160,11 +160,11 @@ function openPanel() {
   if (!p) { p = document.createElement("div"); p.id = "bellPanel"; p.className = "bell-panel"; p.setAttribute("role", "dialog"); p.setAttribute("aria-label", "Novedades"); document.body.appendChild(p); }
   const all = visibles(), pend = all.filter((x) => x.pend), list = all.filter((x) => !x.pend).slice(0, 15);
   const item = (x) => `<a class="bell-i ${x.ts > s ? "new" : ""}" href="${esc(x.href)}">
-      <span class="bell-e" aria-hidden="true">${x.e}</span><span><b>${esc(x.t)}</b><small>${esc(x.full || x.d)}</small><em>${x.pend ? "<u>Atender</u>" : `${ago(x.ts)}${x.vela ? " · <u>Ir a rezar 🙏</u>" : " · <u>Ver</u>"}`}</em></span></a>`;
+      <span class="bell-e" aria-hidden="true"></span><span><b>${esc(x.t)}</b><small>${esc(x.full || x.d)}</small><em>${x.pend ? "<u>Atender</u>" : `${ago(x.ts)}${x.vela ? " · <u>Ir a rezar</u>" : " · <u>Ver</u>"}`}</em></span></a>`;
   p.innerHTML = `<div class="bell-head"><strong>Novedades</strong><span class="row" style="gap:6px">${list.length ? `<button type="button" class="bell-clear">Limpiar</button>` : ""}<button type="button" class="bell-x" aria-label="Cerrar">${icon("x")}</button></span></div>
     ${pend.length ? `<p class="bell-sec">Por atender</p><div class="bell-list bell-pend">${pend.map(item).join("")}</div>${list.length ? `<p class="bell-sec">Novedades</p>` : ""}` : ""}
     ${list.length ? `<div class="bell-list">${list.map(item).join("")}</div>`
-      : pend.length ? "" : `<p class="bell-empty">${loading ? "Buscando novedades…" : "Estás al día ✨ Cuando alguien comparta una intención o publique algo, lo verás aquí."}</p>`}`;
+      : pend.length ? "" : `<p class="bell-empty">${loading ? "Buscando novedades…" : "Estás al día Cuando alguien comparta una intención o publique algo, lo verás aquí."}</p>`}`;
   p.querySelector(".bell-x").onclick = closePanel;
   const cl = p.querySelector(".bell-clear"); if (cl) cl.onclick = (e) => { e.stopPropagation(); markVistos(list, 0); markSeen(); paint(); openPanel(); };
   p.querySelectorAll(".bell-i").forEach((a) => a.addEventListener("click", closePanel));
@@ -190,16 +190,16 @@ export const poke = () => { lastFetch = 0; };
 export async function adminHTML() {
   cfg = await cloud.novConfig(true).catch(() => ({}));
   const admin = cloud.state().isAdmin;
-  return `<section class="card" id="novAdmin"><h3>🔔 Campanita de novedades</h3>
+  return `<section class="card" id="novAdmin"><h3>Campanita de novedades</h3>
     <p class="muted small" style="margin-top:4px">Elige qué cosas encienden el punto rojo de la campanita. Todo queda dentro de la app: no llegan notificaciones al teléfono ni correos.</p>
     <div class="nov-tipos">${TIPOS.map((x) => `<label class="nov-tipo"><input type="checkbox" data-nov="${x.k}" ${isOn(x.k) ? "checked" : ""} ${admin ? "" : "disabled"}>
-      <span class="nov-e" aria-hidden="true">${x.e}</span><span><b>${esc(x.t)}</b><small>${esc(x.d)}</small></span></label>`).join("")}</div>
+      <span><b>${esc(x.t)}</b><small>${esc(x.d)}</small></span></label>`).join("")}</div>
     ${admin ? `<button class="btn btn-primary btn-sm" data-nov-save style="margin-top:10px">Guardar</button>` : `<p class="xs muted" style="margin-top:8px">Solo un administrador puede cambiar esto.</p>`}
   </section>`;
 }
 document.addEventListener("click", async (e) => {
   if (!e.target.closest("[data-nov-save]")) return;
   const data = Object.fromEntries([...document.querySelectorAll("[data-nov]")].map((i) => [i.dataset.nov, i.checked]));
-  try { await cloud.saveNovConfig(data); cfg = data; lastFetch = 0; toast("Campanita actualizada 🔔", "ok"); refresh(true); }
+  try { await cloud.saveNovConfig(data); cfg = data; lastFetch = 0; toast("Campanita actualizada", "ok"); refresh(true); }
   catch (err) { console.warn(err); toast("No se pudo guardar", ""); }
 });

@@ -612,7 +612,7 @@ async function peopleView() {
       <tbody>
       ${list.length ? list.map(({ u, r }) => `<tr class="${u.active === false ? "paused" : ""}">
         <td><a href="#/admin/dirigentes/${esc(u.uid)}"><b>${esc(u.name || u.email)}</b></a>
-          <span class="sub">${esc(u.parish || "")}${u.role && u.role !== "dirigente" ? ` · <span class="chip ${api.cloud.isStaffRole(u.role) ? "warn" : "accent"}">${esc(api.cloud.roleLabel(u.role))}</span>` : ""}${u.asesor ? ` · <span class="chip">Asesor</span>` : ""}${u.formador ? ` · <span class="chip">Formación</span>` : ""}${u.cantor ? ` · <span class="chip" title="Apostolado del cancionero">🎵 Cancionero</span>` : ""}${u.active === false ? ` · <span class="chip">En pausa</span>` : ""}</span></td>
+          <span class="sub">${esc(u.parish || "")}${u.role && u.role !== "dirigente" ? ` · <span class="chip ${api.cloud.isStaffRole(u.role) ? "warn" : "accent"}">${esc(api.cloud.roleLabel(u.role))}</span>` : ""}${u.asesor ? ` · <span class="chip">Asesor</span>` : ""}${u.formador ? ` · <span class="chip">Formación</span>` : ""}${u.cantor ? ` · <span class="chip" title="Apostolado del cancionero">Cancionero</span>` : ""}${u.active === false ? ` · <span class="chip">En pausa</span>` : ""}</span></td>
         <td><div class="cell-bar"><div class="mini-bar"><i style="width:${t.units ? (r.units / t.units) * 100 : 0}%"></i></div><span>${r.units}/${t.units}</span></div></td>
         <td>${r.modules}/${t.modules}</td>
         <td>${ago(r.last)}</td>
@@ -655,7 +655,7 @@ const daysSince = (t) => { const d = tsDate(t); return d && !isNaN(d) ? Math.flo
 function reminderText(u, kind) {
   const n = String(u.name || "").split(" ")[0];
   return kind === "curso"
-    ? `¡Hola${n ? " " + n : ""}! 💙 ¿Cómo vas? Tu formación en Ágape te espera: unos minutos hoy en «El Arte de Encontrarnos» y das un paso más. ¡Tú puedes! 📖 ${LIVE_URL}`
+    ? `¡Hola${n ? " " + n : ""}! 💙 ¿Cómo vas? Tu formación en Ágape te espera: unos minutos hoy en «El Arte de Encontrarnos» y das un paso más. ¡Tú puedes! ${LIVE_URL}`
     : `¡Hola${n ? " " + n : ""}! 💙 Te extrañamos en la app de Ágape. Hay novedades, la Capilla y tu comunidad te esperan 🙌 ${LIVE_URL}`;
 }
 function inactiveCard(users, course) {
@@ -669,13 +669,13 @@ function inactiveCard(users, course) {
   });
   if (!rows.length) return "";
   rows.sort((a, b) => (b.d ?? 999) - (a.d ?? 999));
-  return `<details class="card inact-card"><summary><b>💭 Para dar un empujoncito · ${rows.length}</b> <span class="small muted">— llevan 2 días o más sin entrar a la app o sin avanzar en la formación</span></summary>
+  return `<details class="card inact-card"><summary><b>Para dar un empujoncito · ${rows.length}</b> <span class="small muted">— llevan 2 días o más sin entrar a la app o sin avanzar en la formación</span></summary>
     <div class="inact-list">${rows.map(({ u, kind, d }) => {
       const txt = reminderText(u, kind);
       return `<div class="inact-row"><div style="flex:1;min-width:180px"><b>${esc(u.name || u.email)}</b>
         <span class="xs muted">${kind === "app" ? `Sin entrar a la app hace ${d} días` : d == null ? "Aún no comienza la formación" : `Sin avanzar en la formación hace ${d} días`} · ${esc(api.cloud.roleLabel(u.role))}</span></div>
         <a class="btn btn-sm btn-soft" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(txt)}" title="Abre WhatsApp con el mensaje listo; tú eliges a quién">WhatsApp</a>
-        ${u.email ? `<a class="btn btn-sm btn-ghost" href="mailto:${encodeURIComponent(u.email)}?subject=${encodeURIComponent(kind === "curso" ? "Tu formación te espera 📖" : "¡Te extrañamos en Ágape! 💙")}&body=${encodeURIComponent(txt)}">Correo</a>` : ""}</div>`;
+        ${u.email ? `<a class="btn btn-sm btn-ghost" href="mailto:${encodeURIComponent(u.email)}?subject=${encodeURIComponent(kind === "curso" ? "Tu formación te espera" : "¡Te extrañamos en Ágape!")}&body=${encodeURIComponent(txt)}">Correo</a>` : ""}</div>`;
     }).join("")}</div>
     <p class="xs muted" style="margin-top:8px">WhatsApp se abre con el mensaje listo y tú eliges el contacto: la app no guarda números de teléfono. Un mensaje de alguien que lo conoce vale más que cualquier aviso automático.</p></details>`;
 }
@@ -705,15 +705,15 @@ function peopleCards(list, course, t) {
       const gs = j ? [j.guia, j.guia2].filter(Boolean).map((x) => names[x] || j[x === j.guia ? "guiaNombre" : "guia2Nombre"] || "—") : [];
       body = `<span class="chip">${esc(api.cloud.roleLabel(u.role))}</span>
         <p class="xs muted">Activo ${ago(r.last)}</p>
-        <p class="small">${gs.length ? `🤝 Lo acompaña: <b>${esc(gs.join(" y "))}</b>` : `<span class="muted">Sin dirigente asignado</span>`}</p>`;
+        <p class="small">${gs.length ? `Lo acompaña: <b>${esc(gs.join(" y "))}</b>` : `<span class="muted">Sin dirigente asignado</span>`}</p>`;
     } else {
       body = `${prog}
         <p class="small">${r.complete ? `<span class="chip ok">${icon("award")} Curso aprobado</span>` : `<span class="chip">Curso en camino</span>`}
-        ${g.k !== "aspirante" ? ` <span class="chip ${mine.length ? "accent" : ""}">🤝 ${mine.length} joven${mine.length === 1 ? "" : "es"}</span>` : ""}</p>
+        ${g.k !== "aspirante" ? ` <span class="chip ${mine.length ? "accent" : ""}">${mine.length} joven${mine.length === 1 ? "" : "es"}</span>` : ""}</p>
         <p class="xs muted">Última actividad: ${ago(r.last)}</p>`;
     }
     return `<a class="card link pc-card ${paused ? "paused" : ""}" href="#/admin/dirigentes/${esc(u.uid)}" style="--gc:${g.c}">
-      <span class="pc-head"><b>${esc(u.name || u.email)}</b>${u.cantor ? ` <span title="Apostolado del cancionero">🎵</span>` : ""}${paused ? ` <span class="chip">En pausa</span>` : ""}</span>
+      <span class="pc-head"><b>${esc(u.name || u.email)}</b>${u.cantor ? ` <span class="chip">Cancionero</span>` : ""}${paused ? ` <span class="chip">En pausa</span>` : ""}</span>
       ${u.parish ? `<span class="xs muted">${esc(u.parish)}</span>` : ""}${body}</a>`;
   };
   const html = GROUPS.map((g) => {
@@ -864,7 +864,7 @@ async function personView(uid) {
     ${api.cloud.isStaffRole(u.role) ? `<p class="muted small" style="margin-top:4px">Como ${esc(api.cloud.roleLabel(u.role).toLowerCase())}, ya puede agregar y editar canciones y celebraciones.</p>`
       : `<p class="muted small" style="margin-top:4px">Puede agregar y editar canciones y armar los repertorios de las misas. Borrar sigue siendo del equipo.</p>
       <label class="chip ${u.cantor ? "accent" : ""}" style="cursor:pointer;padding:8px 12px;margin-top:12px">
-        <input type="checkbox" data-action="aUserCantor" data-uid="${esc(u.uid)}" ${u.cantor ? "checked" : ""}> 🎵 Ayuda a construir el cancionero</label>`}
+        <input type="checkbox" data-action="aUserCantor" data-uid="${esc(u.uid)}" ${u.cantor ? "checked" : ""}> Ayuda a construir el cancionero</label>`}
   </div>
   ${(() => {
     const salas = Array.isArray(u.salas) ? u.salas : api.cloud.defaultSalas(u.role);
@@ -988,7 +988,7 @@ const SPECS = {
   ],
   intro: () => [["intro", "Introducción de la guía", "textarea"]],
   identity: () => [["tag", "Etiqueta", "text"], ["title", "Título", "text"], ["text", "Texto", "textarea"]],
-  methods: () => [["icon", "Emoji", "text", null, "🏡"], ["tag", "Etiqueta", "text"], ["title", "Título", "text"], ["text", "Texto", "textarea"]],
+  methods: () => [["icon", "Emoji", "text", null, ""], ["tag", "Etiqueta", "text"], ["title", "Título", "text"], ["text", "Texto", "textarea"]],
   cargos: () => [["tag", "Duración / etiqueta", "text"], ["title", "Cargo", "text"], ["text", "Descripción", "textarea"], ["note", "Requisito o nota", "text"]],
   meetings: () => [["freq", "Frecuencia", "text", null, "Mensual"], ["title", "Título", "text"], ["text", "Descripción", "textarea"], ["who", "Participantes", "text"]],
   roles: () => [["title", "Rol", "text"], ["subtitle", "Subtítulo", "text"], ["tag", "Etiqueta", "text"], ["duration", "Duración", "text"], ["badge", "Requisito / distintivo", "text"],
@@ -1367,7 +1367,7 @@ Te recomendamos partir por «Bienvenido a agAPPe», en Formación: es un recorri
     const u = data.users.find((x) => x.uid === el.dataset.uid);
     if (!u) return;
     const on = !u.cantor; el.checked = on;
-    try { await api.cloud.updateUser(u.uid, { cantor: on }); await loadPeople(true); api.render(); toast(on ? "Ya puede editar el cancionero 🎵" : "Ya no edita el cancionero"); }
+    try { await api.cloud.updateUser(u.uid, { cantor: on }); await loadPeople(true); api.render(); toast(on ? "Ya puede editar el cancionero" : "Ya no edita el cancionero"); }
     catch (e) { el.checked = !on; toast("No se pudo cambiar: " + (e.code || e.message), ""); }
   };
   A.aUserDelete = async (el) => {

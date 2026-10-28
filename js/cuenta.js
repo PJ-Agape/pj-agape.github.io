@@ -35,7 +35,7 @@ export function html(e, { href = "" } = {}) {
     <div class="cd-head"><span class="cd-k">Cuenta regresiva</span><strong>${esc(e.title)}</strong>
       <span class="cd-when">${esc(longDate(e.target))}${e.start ? ` · ${esc(e.start)} h` : ""}${e.place ? ` · ${esc(e.place)}` : ""}</span></div>
     <div class="cd-grid" role="timer" aria-label="Tiempo que falta">${UNITS.map(([k, pl, sg]) => `<span class="cd-u"><b data-u="${k}">${k === "d" ? p[k] : pad(p[k])}</b><small data-l="${k}">${p[k] === 1 ? sg : pl}</small></span>`).join("")}</div>
-    <p class="cd-done" hidden>¡Hoy es el día! 🎉</p>
+    <p class="cd-done" hidden>¡Hoy es el día!</p>
   </${tag}>`;
 }
 

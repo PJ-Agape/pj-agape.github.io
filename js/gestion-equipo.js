@@ -20,7 +20,7 @@ export function moderacionHTML() {
     <div class="row-wrap" style="gap:8px;margin-bottom:12px">
       <a class="btn btn-sm btn-soft" href="#/muro">${icon("chat")} Ir al muro</a><a class="btn btn-sm btn-soft" href="#/chat">${icon("chat")} Ir al chat</a>
       <button class="btn btn-sm btn-soft" data-action="salaNew">${icon("plus")} Nueva sala</button>
-      ${st().isAdmin ? `<button class="btn btn-sm btn-soft" data-action="chatCfg">⚙️ Horario y limpieza del chat</button>` : ""}</div>
+      ${st().isAdmin ? `<button class="btn btn-sm btn-soft" data-action="chatCfg">Horario y limpieza del chat</button>` : ""}</div>
     <div id="gmBox"><p class="muted" style="padding:24px;text-align:center">Buscando reportes…</p></div>`;
 }
 let M = null;
@@ -33,7 +33,7 @@ async function paintMod() {
   const posts = wall.filter((p) => nrep(p) || p.hidden).sort((a, b) => nrep(b) - nrep(a));
   const salaName = (k) => (cloud.allSalas().find((s) => s.key === k) || {}).name || k;
   const row = (kind, x, txt, extra) => `<div class="card gm-i ${x.hidden ? "off" : ""}"><div style="flex:1;min-width:0">
-      <span class="xs muted">${extra} · ${esc(x.authorName || "")}${nrep(x) ? ` · <b class="gm-rep">🚩 ${nrep(x)} reporte${nrep(x) > 1 ? "s" : ""}</b>` : ""}${x.hidden ? " · oculto" : ""}</span>
+      <span class="xs muted">${extra} · ${esc(x.authorName || "")}${nrep(x) ? ` · <b class="gm-rep">${nrep(x)} reporte${nrep(x) > 1 ? "s" : ""}</b>` : ""}${x.hidden ? " · oculto" : ""}</span>
       <p class="gm-t">${esc(String(txt || "").slice(0, 280))}</p></div>
       <div class="gm-a">${kind !== "chat" ? `<button class="btn btn-sm btn-soft" data-action="gmHide" data-k="${kind}" data-id="${esc(x.id)}" data-p="${esc(x.pid || "")}" data-on="${x.hidden ? "0" : "1"}">${x.hidden ? "Mostrar" : "Ocultar"}</button>` : ""}
         ${nrep(x) && kind !== "chat" ? `<button class="btn btn-sm btn-ghost" data-action="gmClear" data-k="${kind}" data-id="${esc(x.id)}" data-p="${esc(x.pid || "")}">Quitar reportes</button>` : ""}
@@ -43,7 +43,7 @@ async function paintMod() {
     ${posts.length ? `<h2 class="mag-hub-sub">Publicaciones del muro · ${posts.length}</h2>${posts.map((p) => row("post", p, `${p.title}${p.body ? " — " + p.body : ""}`, `<a href="#/muro/${esc(p.id)}">Muro</a>`)).join("")}` : ""}
     ${reps.length ? `<h2 class="mag-hub-sub">Respuestas · ${reps.length}</h2>${reps.map((r) => row("reply", r, r.body, `<a href="#/muro/${esc(r.pid)}">Respuesta</a>`)).join("")}` : ""}
     ${chat.length ? `<h2 class="mag-hub-sub">Chat · ${chat.length}</h2>${chat.map((m) => row("chat", m, m.text, `<a href="#/chat/${esc(m.sala)}">${esc(salaName(m.sala))}</a>`)).join("")}` : ""}`
-    : `<div class="card gh-ok"><b>✨ Sin reportes</b><p class="muted small">No hay nada reportado ni oculto en el muro o el chat.</p></div>`;
+    : `<div class="card gh-ok"><b>Sin reportes</b><p class="muted small">No hay nada reportado ni oculto en el muro o el chat.</p></div>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -66,7 +66,7 @@ async function paintCons() {
     .sort((a, b) => (!!a.consent - !!b.consent) || String(a.name).localeCompare(String(b.name), "es"));
   const yes = (v) => (v ? "✓" : "—");
   const falta = list.filter((u) => !u.consent).length;
-  box.innerHTML = `${falta ? `<div class="note warn" style="margin-bottom:12px">🖊️ <b>${falta}</b> joven${falta > 1 ? "es" : ""} sin consentimiento registrado.</div>` : `<div class="note" style="margin-bottom:12px">✓ Todos los jóvenes tienen su consentimiento registrado.</div>`}
+  box.innerHTML = `${falta ? `<div class="note warn" style="margin-bottom:12px"><b>${falta}</b> joven${falta > 1 ? "es" : ""} sin consentimiento registrado.</div>` : `<div class="note" style="margin-bottom:12px">✓ Todos los jóvenes tienen su consentimiento registrado.</div>`}
     <div class="gf-tablewrap"><table class="gf-table gc-table"><thead><tr><th>Joven</th><th>Rol</th><th>Consentimiento</th><th>Cuadro de honor</th><th>Cumpleaños</th><th>Fotos</th><th>Ficha privada</th><th>Avisos</th><th></th></tr></thead>
     <tbody>${list.map((u) => { const c = u.consent || {};
       return `<tr class="${u.consent ? "" : "dirty"}"><th>${esc(corto(u.name))}${u.pend ? ` <span class="chip">Invitación</span>` : ""}</th><td>${esc(cloud.roleLabel(u.role))}</td>

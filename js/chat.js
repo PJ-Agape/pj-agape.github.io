@@ -88,14 +88,14 @@ export async function viewRooms() {
   const card = (s) => `<div class="chat-room-wrap"><a class="card link chat-room${s.archived ? " is-arch" : ""}" href="#/chat/${encodeURIComponent(s.key)}" style="--sc:${colorOf(s)}">
       <span class="chat-room-ill">${illus(illusOf(s))}</span>
       <span class="chat-room-body"><h3>${esc(s.name)}${s.archived ? ` <span class="chip xs-chip">Archivada</span>` : ""}</h3><span class="muted small">${esc(s.desc || "")}</span>
-      ${staff && s.custom ? `<span class="xs muted">👥 ${esc(accessText(s))}</span>` : ""}
+      ${staff && s.custom ? `<span class="xs muted">${esc(accessText(s))}</span>` : ""}
       ${s.archived ? "" : `<span class="chat-last small" data-last="${esc(s.key)}">…</span>`}</span>${icon("right")}
     </a>${staff && s.custom ? `<button class="icon-btn chat-room-edit" data-action="salaEdit" data-id="${esc(s.key)}" aria-label="Editar sala">${icon("edit")}</button>` : ""}</div>`;
   return `
   <header class="page-head"><span class="eyebrow">Chat de la comunidad</span><h1>Conversemos <em>juntos</em></h1>
     <p>Salas de grupo para coordinarnos y compartir. Todo lo que se escribe aquí lo ven los integrantes de la sala; para temas personales o privados, usa otro canal con tu acompañante.</p></header>
   ${tabs("chat")}
-  ${g || `${staff ? `<div class="row-wrap" style="margin:10px 0"><button class="btn btn-gold btn-sm" data-action="salaNew">${icon("plus")} Nueva sala</button>${st().isAdmin ? `<button class="btn btn-ghost btn-sm" data-action="chatCfg">⚙️ Horario y limpieza</button>` : ""}</div>` : ""}
+  ${g || `${staff ? `<div class="row-wrap" style="margin:10px 0"><button class="btn btn-gold btn-sm" data-action="salaNew">${icon("plus")} Nueva sala</button>${st().isAdmin ? `<button class="btn btn-ghost btn-sm" data-action="chatCfg">Horario y limpieza</button>` : ""}</div>` : ""}
     <div class="chat-rooms">${active.map(card).join("")}</div>
     ${archived.length ? `<h3 class="mag-hub-sub" style="margin-top:22px">Salas archivadas</h3><div class="chat-rooms">${archived.map(card).join("")}</div>` : ""}
     <p class="xs muted" style="margin-top:16px">¿No ves una sala que te corresponde? El equipo coordinador asigna las salas.</p>`}`;
@@ -158,14 +158,14 @@ export async function viewRoom(key) {
   <div class="chat-head" style="--sc:${colorOf(sala)}">
     <a class="icon-btn" href="#/chat" aria-label="Volver a las salas">${icon("arrowL")}</a>
     <span class="chat-head-dot"></span>
-    <div style="flex:1;min-width:0"><h1>${esc(sala.name)}</h1><span class="xs muted">${esc(sala.desc || "")}${st().isStaff && sala.custom ? ` · 👥 ${esc(accessText(sala))}` : ""}</span></div>
+    <div style="flex:1;min-width:0"><h1>${esc(sala.name)}</h1><span class="xs muted">${esc(sala.desc || "")}${st().isStaff && sala.custom ? ` · ${esc(accessText(sala))}` : ""}</span></div>
     ${st().isStaff && sala.custom ? `<button class="icon-btn" data-action="salaEdit" data-id="${esc(sala.key)}" aria-label="Editar sala">${icon("edit")}</button>` : ""}
   </div>
   ${g || `<div class="chat-layout">
   <div class="chat-box card">
     <div class="chat-list" id="chatList" aria-live="polite"><div class="muted small" style="text-align:center;padding:30px">Cargando…</div></div>
     <div class="chat-replybar" id="chatReply" hidden></div>
-    ${sala.archived ? `<div class="chat-arch">${icon("lock")} Sala archivada: se puede leer, pero ya no recibe mensajes.</div>` : !chatOpen() ? `<div class="chat-arch">🌙 El chat está abierto de ${esc(cfg.desde)} a ${esc(cfg.hasta)}. Puedes leer los mensajes; vuelve a escribir en ese horario.</div>` : `<form class="chat-compose" id="chatForm" data-sala="${esc(key)}">
+    ${sala.archived ? `<div class="chat-arch">${icon("lock")} Sala archivada: se puede leer, pero ya no recibe mensajes.</div>` : !chatOpen() ? `<div class="chat-arch">El chat está abierto de ${esc(cfg.desde)} a ${esc(cfg.hasta)}. Puedes leer los mensajes; vuelve a escribir en ese horario.</div>` : `<form class="chat-compose" id="chatForm" data-sala="${esc(key)}">
       <details class="chat-buzzpick"><summary class="btn btn-ghost" title="Enviar un zumbido" aria-label="Enviar un zumbido">📳</summary><div class="wall-menu-list" id="chatBuzzList"></div></details>
       <textarea id="chatText" class="textarea" rows="1" maxlength="1500" placeholder="Escribe un mensaje…" aria-label="Mensaje"></textarea>
       <button class="btn btn-primary" type="submit" aria-label="Enviar">${icon("send")}</button>

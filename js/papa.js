@@ -62,12 +62,12 @@ export function slideHTML() {
   return `<article class="car-slide papa-slide" data-theme-c="rose" aria-roledescription="diapositiva">
       <i class="hero-blob b1"></i><i class="hero-blob b3"></i>
       <div class="car-body">
-        <span class="eyebrow">🌍 Con el Papa · ${esc(it.mes)}</span>
+        <span class="eyebrow">Con el Papa · ${esc(it.mes)}</span>
         <span class="car-hand">recemos con la Iglesia</span>
         <h2 class="car-title" id="papaT0">${esc(it.t)}</h2>
         <p class="lead" id="papaX0">${esc(it.x)}</p><button type="button" class="car-more" data-action="carLead">Leer más</button>
         <p class="papa-sn"><b id="papaN">·</b> <span id="papaNl">rosarios rezados este mes</span></p>
-        <div class="actions"><a class="btn btn-gold" href="#/oracion/rosario">📿 Rezar el Rosario</a>${member ? `<button class="btn btn-ghost" data-action="papaSumar">✔ Ya recé uno</button>` : ""}</div>
+        <div class="actions"><a class="btn btn-gold" href="#/oracion/rosario">Rezar el Rosario</a>${member ? `<button class="btn btn-ghost" data-action="papaSumar">✔ Ya recé uno</button>` : ""}</div>
       </div>
       ${illus("leon", "car-illus")}
     </article>`;
@@ -96,25 +96,25 @@ export async function paintHome() {
 const LK = "agape_papa_ultimo";
 export async function sumar() {
   if (!cloud.state().ready) { toast("Para sumar tu rosario, ingresa con tu cuenta", ""); return false; }
-  try { const last = +localStorage.getItem(LK) || 0; if (Date.now() - last < 15 * 60000) { toast("Ya sumaste tu rosario. ¡Gracias! 🙏", ""); return false; } } catch {}
+  try { const last = +localStorage.getItem(LK) || 0; if (Date.now() - last < 15 * 60000) { toast("Ya sumaste tu rosario. ¡Gracias!", ""); return false; } } catch {}
   try {
     await cloud.sumarRosario(mesKey());
     try { localStorage.setItem(LK, String(Date.now())); } catch {}
     const el = document.getElementById("papaN"); if (el) el.textContent = String((+el.textContent || 0) + 1);
-    toast("¡Tu rosario se sumó a la intención del Papa! 🙏", "ok");
+    toast("¡Tu rosario se sumó a la intención del Papa!", "ok");
     return true;
   } catch { toast("No se pudo sumar. Revisa tu conexión.", ""); return false; }
 }
 // Botón para el final del Rosario
 export function finHTML() {
   const it = intencion(); if (!on() || !it || !cloud.state().ready) return "";
-  return `<button class="ros-next-pr papa-ros" data-action="papaSumar">🌍 Sumar este rosario a la intención del Papa</button><span class="ros-papa-t">${esc(it.t)}</span>`;
+  return `<button class="ros-next-pr papa-ros" data-action="papaSumar">Sumar este rosario a la intención del Papa</button><span class="ros-papa-t">${esc(it.t)}</span>`;
 }
 
 // Gestión → Resumen
 export async function adminHTML() {
   await load(true); const k = mesKey(), it = intencion(k), n = (await cloud.rosariosMes(k)) || 0;
-  return `<section class="card" id="papaAdmin"><h3>🌍 Rosarios por la intención del Papa</h3>
+  return `<section class="card" id="papaAdmin"><h3>Rosarios por la intención del Papa</h3>
     <p class="muted small" style="margin-top:4px">En Inicio se muestra la intención del mes y cuántos rosarios lleva la comunidad (este mes: <b>${n}</b>). Se suma con «Ya recé uno» o al terminar el Rosario en la app.</p>
     <label class="row" style="gap:8px;margin-top:10px;font-weight:700"><input type="checkbox" id="papaOn" ${on() ? "checked" : ""}> Mostrar en Inicio</label>
     <div class="field" style="margin-top:10px"><label>Intención de ${esc(mesName(k))}</label><input class="input" id="papaT" maxlength="90" value="${esc(it ? it.t : "")}"></div>
@@ -133,6 +133,6 @@ export function registerActions(actions) {
     const k = mesKey(), off = INT[k] || ["", ""];
     const data = { on: !!document.getElementById("papaOn")?.checked, meta: Math.max(0, Math.min(10000, +document.getElementById("papaMeta")?.value || 0)) };
     if (t && (t !== off[0] || x !== off[1])) Object.assign(data, { mes: k, t, x });
-    try { await cloud.savePapaCfg(data); cfg = data; toast("Guardado 🙏", "ok"); } catch { toast("No se pudo guardar", ""); }
+    try { await cloud.savePapaCfg(data); cfg = data; toast("Guardado", "ok"); } catch { toast("No se pudo guardar", ""); }
   };
 }
