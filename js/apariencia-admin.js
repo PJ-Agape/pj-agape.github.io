@@ -62,7 +62,8 @@ function prevHTML(z) {
   const hand = (z.t || []).find((x) => /hand|eyebrow/.test(x[0]));
   const title = (z.t || []).find((x) => /h1|h2|cw-h/.test(x[0]));
   const desc = (z.t || []).find((x) => /\bp$/.test(x[0]));
-  return `<div class="ap-pv" style="background:${esc(bg)};${img ? `--pv-img:url('${esc(/^data:/.test(img) ? img : new URL(img, location.href).href)}');--pv-velo:${velo / 100};--pv-pos:${esc(f.pos || (z.plaza ? "center bottom" : "center"))}` : ""}">
+  return `<div class="ap-pv${img ? " is-drag" : ""}" data-pvz="${z.id}" style="background:${esc(bg)};${img ? `--pv-img:url('${esc(/^data:/.test(img) ? img : new URL(img, location.href).href)}');--pv-velo:${velo / 100};--pv-pos:${esc(A.posDe(f) || (z.plaza ? "center bottom" : "center"))};--pv-zoom:${(f.zoom || 100) / 100}` : ""}">
+      ${img ? `<span class="ap-pv-hint">Arrastra para mover</span>` : ""}
       ${img ? `<i class="ap-pv-img${z.plaza ? " is-top" : ""}"></i>` : ""}
       ${stk ? `<img class="ap-pv-stk${z.plaza ? " is-mid" : ""}" src="${esc(stk)}" alt="">` : ""}
       <div class="ap-pv-txt">
@@ -83,14 +84,26 @@ function fondoHTML(z) {
       ${f.tipo === "foto" ? opt("foto", "Mi foto", `<span class="ap-fo-x">${icon("check")}</span>`, true) : ""}
     </div>
     <label class="btn btn-soft btn-sm ap-file">${icon("plus")} Subir una foto<input type="file" accept="image/*" data-apfile="${z.id}" hidden></label>
-    ${f.tipo && f.tipo !== "ninguno" ? `<div class="ap-row">
-      <label class="ap-lbl" for="apPos-${z.id}">Mostrar de la imagen</label>
-      <select class="select" id="apPos-${z.id}" data-ap="pos" data-z="${z.id}">${[["center top", "La parte de arriba"], ["center", "El centro"], ["center bottom", "La parte de abajo"]].map(([v, l]) => `<option value="${v}" ${(f.pos || (z.plaza ? "center bottom" : "center")) === v ? "selected" : ""}>${l}</option>`).join("")}</select></div>
+    ${f.tipo && f.tipo !== "ninguno" ? `
+    <div class="ap-row"><label class="ap-lbl" for="apZoom-${z.id}">Tamaño de la imagen</label>
+      <input type="range" id="apZoom-${z.id}" min="100" max="300" step="5" value="${f.zoom || 100}" data-ap="zoom" data-z="${z.id}"></div>
+    <div class="ap-row"><label class="ap-lbl" for="apX-${z.id}">Mover a los lados</label>
+      <input type="range" id="apX-${z.id}" min="0" max="100" step="1" value="${xy(f, z)[0]}" data-ap="x" data-z="${z.id}"></div>
+    <div class="ap-row"><label class="ap-lbl" for="apY-${z.id}">Mover arriba o abajo</label>
+      <input type="range" id="apY-${z.id}" min="0" max="100" step="1" value="${xy(f, z)[1]}" data-ap="y" data-z="${z.id}"></div>
+    <div class="ap-row"><button type="button" class="btn btn-sm btn-soft" data-action="apCentrar" data-z="${z.id}">Centrar y tamaño original</button>
+      <span class="xs muted">También puedes arrastrar la imagen en la vista previa.</span></div>
     ${z.plaza ? "" : `<div class="ap-row"><label class="ap-lbl" for="apVelo-${z.id}">Suavizar la imagen (para que se lean los textos)</label>
       <input type="range" id="apVelo-${z.id}" min="0" max="85" step="5" value="${f.velo != null ? f.velo : 40}" data-ap="velo" data-z="${z.id}"></div>`}` : ""}
   </fieldset>`;
 }
 
+// Posición actual en % (las guardadas como «arriba / centro / abajo» se traducen)
+function xy(f, z) {
+  if (f.x != null || f.y != null) return [f.x ?? 50, f.y ?? 50];
+  const p = f.pos || (z.plaza ? "center bottom" : "center");
+  return [50, /top/.test(p) ? 0 : /bottom/.test(p) ? 100 : 50];
+}
 function stickerHTML(z) {
   const d = draft[z.id], cur = d.sticker === "ninguno" ? "" : d.sticker || z.stk;
   return `<fieldset class="ap-sec"><legend>Sticker</legend>
@@ -166,19 +179,41 @@ function registerActions() {
     repaint(el.dataset.z);
   };
   X.apStk = (el) => { const d = draft[el.dataset.z]; if (el.dataset.v) d.sticker = el.dataset.v; else delete d.sticker; repaint(el.dataset.z); };
+  X.apCentrar = (el) => { const d = draft[el.dataset.z]; d.fondo = { ...(d.fondo || {}), x: 50, y: 50, zoom: 100 }; delete d.fondo.pos; repaint(el.dataset.z); };
   X.apCol = (el) => { const d = draft[el.dataset.z]; if (d.colores) delete d.colores[el.dataset.k]; repaint(el.dataset.z); };
   X.apReset = (el) => { if (!confirm("¿Volver esta parte a como venía? Se borran sus cambios.")) return; draft[el.dataset.z] = {}; save(el.dataset.z); };
   X.apSave = (el) => save(el.dataset.z, el);
   X.apPaperReset = async () => { const c = clone(A.get()); c.global = { ...(c.global || {}) }; delete c.global.paper; await persist(c); toast("El fondo de la app volvió a como venía"); ctx.render(); };
   X.apPaperSave = async () => { const v = document.getElementById("apPaper")?.value; const c = clone(A.get()); c.global = { ...(c.global || {}), paper: v }; await persist(c); toast("Fondo de la app guardado", "ok"); };
   if (wired) return; wired = true;
+  // Arrastrar la imagen en la vista previa: mueve el punto que queda centrado
+  let drag = null;
+  document.addEventListener("pointerdown", (e) => {
+    const pv = e.target.closest && e.target.closest(".ap-pv.is-drag"); if (!pv) return;
+    const id = pv.dataset.pvz, z = A.zona(id), f = (draft[id] || {}).fondo || {};
+    const [x, y] = xy(f, z); const r = pv.getBoundingClientRect();
+    drag = { id, pv, x0: e.clientX, y0: e.clientY, x, y, w: r.width, h: r.height, k: f.zoom ? f.zoom / 100 : 1 };
+    pv.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  document.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+    const d = draft[drag.id]; const cl = (n) => Math.max(0, Math.min(100, Math.round(n)));
+    // arrastrar hacia la derecha muestra más de la izquierda de la imagen
+    const x = cl(drag.x - ((e.clientX - drag.x0) / drag.w) * 100 / drag.k), y = cl(drag.y - ((e.clientY - drag.y0) / drag.h) * 100 / drag.k);
+    d.fondo = { ...(d.fondo || {}), x, y }; delete d.fondo.pos;
+    drag.pv.style.setProperty("--pv-pos", `${x}% ${y}%`);
+    const sx = document.getElementById(`apX-${drag.id}`), sy = document.getElementById(`apY-${drag.id}`); if (sx) sx.value = x; if (sy) sy.value = y;
+  });
+  document.addEventListener("pointerup", () => { drag = null; });
+  document.addEventListener("pointercancel", () => { drag = null; });
   document.addEventListener("input", (e) => {
     const t = e.target; if (!t.dataset || !t.dataset.ap || !draft[t.dataset.z]) return;
     const d = draft[t.dataset.z];
     if (t.dataset.ap === "t") { d.textos = d.textos || {}; if (t.value.trim()) d.textos[t.dataset.s] = t.value; else delete d.textos[t.dataset.s]; }
     if (t.dataset.ap === "c") { d.colores = d.colores || {}; d.colores[t.dataset.k] = t.value; }
     if (t.dataset.ap === "velo") { d.fondo = { ...(d.fondo || {}), velo: +t.value }; }
-    if (t.dataset.ap === "pos") { d.fondo = { ...(d.fondo || {}), pos: t.value }; }
+    if (t.dataset.ap === "zoom") { d.fondo = { ...(d.fondo || {}), zoom: +t.value }; }
+    if (t.dataset.ap === "x" || t.dataset.ap === "y") { const z0 = A.zona(t.dataset.z), [x, y] = xy(d.fondo || {}, z0); d.fondo = { ...(d.fondo || {}), x, y, [t.dataset.ap]: +t.value }; delete d.fondo.pos; }
     prevOnly(t.dataset.z);
   });
   document.addEventListener("change", async (e) => {

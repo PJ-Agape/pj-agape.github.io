@@ -63,6 +63,8 @@ async function foto(id, v) {
 export const fotoDe = foto;
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+// Dónde se centra la imagen: x e y en % (0 = izquierda/arriba, 100 = derecha/abajo); antes se guardaba «pos»
+export const posDe = (f) => (!f ? "" : f.x != null || f.y != null ? `${f.x ?? 50}% ${f.y ?? 50}%` : f.pos || "");
 export const enfasis = (s) => esc(s).replace(/\*(.+?)\*/g, "<em>$1</em>");
 
 // Aplica lo editado a la pantalla recién dibujada
@@ -104,7 +106,9 @@ export function applyZona(el, z, d) {
   el.classList.toggle("ap-sinfondo", !!(f && f.tipo === "ninguno"));
   const velo = f && f.velo != null ? f.velo : 40;
   el.style.setProperty("--ap-velo", String(velo / 100));
-  if (f && f.pos) el.style.setProperty("--ap-pos", f.pos); else el.style.removeProperty("--ap-pos");
+  const pos = posDe(f);
+  if (pos) el.style.setProperty("--ap-pos", pos); else el.style.removeProperty("--ap-pos");
+  if (f && f.zoom > 100) el.style.setProperty("--ap-zoom", String(f.zoom / 100)); else el.style.removeProperty("--ap-zoom");
   if (!f || !f.tipo || f.tipo === "ninguno") { el.style.removeProperty("--ap-img"); return; }
   if (f.tipo === "galeria") el.style.setProperty("--ap-img", `url("${abs(fondoUrl(f.k))}")`);
   if (f.tipo === "foto") foto(z.id, f.v).then((src) => { if (src) el.style.setProperty("--ap-img", `url("${src}")`); });

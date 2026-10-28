@@ -4672,3 +4672,9 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .cap-a-misa .cap-hoy-link { justify-self: center; color: #1351a4; }
 .cap-a-misa + .cap-moment { margin-top: 22px; }
 .cap-a-hero .cap-arch.has-sticker > :is(h1, p, .eyebrow) { padding-right: 0; } .cap-a-hero .cap-title { text-align: center; }
+
+/* Apariencia: tamaño (zoom) y posición de la imagen de fondo */
+.ap-fondo::after, .plaza:not(.fam-plaza)::before { transform: scale(var(--ap-zoom, 1)); transform-origin: var(--ap-pos, center); }
+.ap-pv-img { transform: scale(var(--pv-zoom, 1)); transform-origin: var(--pv-pos, center); }
+.ap-pv.is-drag { cursor: grab; touch-action: none; } .ap-pv.is-drag:active { cursor: grabbing; }
+.ap-pv-hint { position: absolute; left: 8px; top: 8px; z-index: 2; font-size: .7rem; font-weight: 800; background: rgba(11, 37, 102, .78); color: #fff; padding: 3px 8px; border-radius: 999px; pointer-events: none; }
