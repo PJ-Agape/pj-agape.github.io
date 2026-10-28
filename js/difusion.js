@@ -124,11 +124,12 @@ function marcoHTML() {
 
 // --- Stickers ----------------------------------------------------------------
 const STK_IGLESIA = ["leon", "francisco", "benedicto", "juanpablo", "juanpablo2", "samuel", "samuelmisa", "samuelmate", "samueloro", "samuelauto", "samueladora", "curaorando", "curapalabra", "curasaludo", "curaalba", "bendicion", "custodia", "adoracion", "campo", "parroquia", "catedral"];
+const stkLit = (k) => k.startsWith("l_");
 const STK_CHILE = ["virgencarmen", "teresaandes", "albertohurtado", "santoschile"];
 const STK_SANTOS = ["donbosco", "carloacutis", "teresita", "franciscoasis", "sansebastian", "sanmiguel", "jose", "sagradafamilia", "apostoles"];
 const STK_JESUS = ["jesus", "emaus", "buenpastor", "sagradocorazon", "dejadlos", "rey", "virgen", "maria", "espiritu", "eucaristia"];
-const stkGroup = (k) => STK_IGLESIA.includes(k) ? 0 : STK_CHILE.includes(k) ? 1 : STK_SANTOS.includes(k) ? 2 : STK_JESUS.includes(k) ? 3 : k.startsWith("pj:") ? 5 : 4;
-const STK_GROUPS = ["Nuestra Iglesia", "Santos de Chile", "Santos y amigos de Dios", "Jesús y María", "Para el grupo", "Personajes"];
+const stkGroup = (k) => STK_IGLESIA.includes(k) ? 0 : stkLit(k) ? 1 : STK_CHILE.includes(k) ? 2 : STK_SANTOS.includes(k) ? 3 : STK_JESUS.includes(k) ? 4 : k.startsWith("pj:") ? 6 : 5;
+const STK_GROUPS = ["Nuestra Iglesia", "Año litúrgico y sacramentos", "Santos de Chile", "Santos y amigos de Dios", "Jesús y María", "Para el grupo", "Personajes"];
 function stickersHTML() {
   const items = E.STICKERS.map(([k, t], i) => ({ k, t, i, g: stkGroup(k) }));
   return `<div class="card" style="margin-bottom:14px"><p class="small">Toca un sticker para compartirlo o guardarlo. Para tenerlos en WhatsApp, guárdalos y súmalos con una app de stickers (por ejemplo «Sticker Maker»).</p>
