@@ -80,8 +80,8 @@ function rowHTML(it, i, n, gi, d) {
 function libresHTML(d) {
   const L = d.libres || [];
   return `<div class="ap-libs">
-    <h4 class="ap-pan-gh">Stickers sueltos</h4>
-    <p class="xs muted">Ponlos donde quieras: elige uno y arrástralo en la vista previa (puedes bajar dentro de ella). La esquina naranja lo agranda o lo achica.</p>
+    <h4 class="ap-pan-gh">Stickers sueltos en esta pantalla</h4>
+    <p class="xs muted">Agrega stickers donde quieras: aparecen en la vista previa y ahí los arrastras con el dedo o el mouse (puedes bajar dentro de ella). La esquina naranja los agranda o achica.</p>
     ${L.length ? `<ol class="ap-lib-list">${L.map((it, i) => `<li class="ap-lib-it${i === libSel ? " on" : ""}">
       <button type="button" class="ap-lib-th" data-action="apLibSel" data-i="${i}" aria-label="Elegir este sticker">${A.stkHTML(it.v, "ap-stk-mini")}</button>
       <label>Tamaño <output data-libout="w:${i}">${it.w || 90}</output>
@@ -90,7 +90,7 @@ function libresHTML(d) {
         <input type="range" min="-45" max="45" step="1" value="${it.r || 0}" data-applib="r" data-i="${i}"></label>
       <button type="button" class="btn btn-sm btn-ghost" data-action="apLibDel" data-i="${i}">Quitar</button>
     </li>`).join("")}</ol>` : ""}
-    ${pickHTML("apLibAdd", "", "").replace("Elegir un sticker", "Agregar un sticker")}
+    ${pickHTML("apLibAdd", "", "").replace('<summary class="small"><b>Elegir un sticker</b>', '<summary class="btn btn-gold ap-lib-add">＋ Agregar un sticker')}
   </div>`;
 }
 function colsHTML() {

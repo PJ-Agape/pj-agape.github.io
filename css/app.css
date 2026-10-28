@@ -4760,3 +4760,10 @@ html.papel .ap-stk-on { display: block !important; }
 .ap-lib-it output { color: #ef591c; margin-left: 4px; }
 .ap-lib-th { border: 0; background: none; padding: 0; cursor: pointer; }
 @media (max-width: 520px) { .ap-lib-it { grid-template-columns: auto 1fr auto; } .ap-lib-it label:nth-of-type(2) { grid-column: 2; } }
+/* Capilla: el sticker va sobre el borde del arco, no dentro de su curva */
+.cap-a-hero { position: relative; }
+.cap-a-hero.has-sticker > .sticker { position: absolute; right: -6px; top: -12px; width: 84px; z-index: 3; transform: rotate(7deg); filter: drop-shadow(0 4px 8px rgba(11,37,102,.22)); pointer-events: none; }
+@media (min-width: 720px) { .cap-a-hero.has-sticker > .sticker { width: 118px; right: 2%; top: -8px; } }
+.ap-libs > .ap-stk-det > summary.ap-lib-add { display: inline-flex; list-style: none; margin-top: 6px; }
+.ap-libs > .ap-stk-det > summary.ap-lib-add::-webkit-details-marker { display: none; }
+.ap-libs > .ap-stk-det > summary.ap-lib-add .xs { color: inherit; opacity: .75; margin-left: 4px; }

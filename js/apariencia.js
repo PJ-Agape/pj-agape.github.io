@@ -40,7 +40,7 @@ export const ZONAS = [
     t: [[".eyebrow", "Línea pequeña", "Bloque 2 · para encontrarnos"], ["h1", "Título", "Comunidad"], ["p", "Descripción", "El muro, el chat, la agenda y todo lo que compartimos como grupo."]] },
   { id: "plaza", n: "Comunidad · La Plaza", ruta: "#/red", re: /^\/red$/, sel: ".plaza:not(.fam-plaza)", stk: "img/ilus/s081.webp", stkSel: ".plaza-scene img", plaza: true, fondoDef: "parque",
     t: [[".plaza-hand", "Frase manuscrita", "donde nos encontramos"], [".plaza-head h2", "Título (entre *asteriscos* va el destacado)", "La Plaza *Ágape*"], [".plaza-head p", "Descripción", "Lo que vivimos, lo que conversamos y lo que nos decimos: todo en un mismo lugar."]] },
-  { id: "capilla", n: "Orar · encabezado de la Capilla", ruta: "#/oracion", re: /^\/oracion$/, sel: ".cap-arch", stk: "img/stickers/oracion.webp",
+  { id: "capilla", n: "Orar · encabezado de la Capilla", ruta: "#/oracion", re: /^\/oracion$/, sel: ".cap-arch", stk: "img/stickers/oracion.webp", stkHost: ".cap-a-hero",
     t: [[".cap-hand", "Frase manuscrita", "pasa, Él te espera"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "Capilla *Ágape*"]] },
   { id: "rezar", n: "Orar · Para rezar", ruta: "#/oracion", re: /^\/oracion$/, sel: ".cap-fila", stk: "",
     t: [[".cw-h", "Título", "Para rezar"]] },
@@ -326,10 +326,11 @@ export function applyZona(el, z, d) {
   }
   // Sticker
   if (d.sticker) {
-    const img = z.stkSel ? el.querySelector(z.stkSel) : el.querySelector(":scope > .sticker");
+    const host = (z.stkHost && el.closest(z.stkHost)) || el;
+    const img = z.stkSel ? host.querySelector(z.stkSel) : host.querySelector(":scope > .sticker");
     if (d.sticker === "ninguno") { if (img) img.remove(); }
     else if (img) img.outerHTML = stkHTML(d.sticker, img.getAttribute("class") || "sticker");
-    else if (!z.stkSel) { el.classList.add("has-sticker"); el.insertAdjacentHTML("afterbegin", stkHTML(d.sticker, "sticker")); }
+    else if (!z.stkSel) { host.classList.add("has-sticker"); host.insertAdjacentHTML("afterbegin", stkHTML(d.sticker, "sticker")); }
   }
   // Fondo
   const f = d.fondo;

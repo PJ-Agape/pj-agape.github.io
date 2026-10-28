@@ -224,7 +224,7 @@ const STICKERS = {
   "/": [[".home-hi", "amigos"]],
   "/formacion": [[".page-head", "biblia"]],
   "/red": [[".page-head", "comunidad"]],
-  "/oracion": [[".cap-arch", "oracion"]],
+  "/oracion": [[".cap-a-hero", "oracion"]], // fuera del arco: el arco recorta lo que sale de su curva
   "/agenda": [[".page-head", "calendario"]],
 };
 function stickers(v) {
