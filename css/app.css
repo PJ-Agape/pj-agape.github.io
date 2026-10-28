@@ -4733,3 +4733,11 @@ span.ap-stk-mini { display: grid; place-items: center; }
 .ap-pan-it .ap-stk-det { margin-top: 4px; }
 html.papel .ap-stk-on { display: block !important; }
 .hub-cb-art.ap-stk-on { max-width: 140px; }
+.ap-pan-cols { display: grid; gap: 8px; align-content: start; }
+.ap-pan-gh { margin: 8px 0 0; font-size: .9rem; color: #4a5470; }
+.ap-pan-nom { flex: 1; min-width: 120px; display: grid; gap: 1px; }
+.ap-pan-nom b { font-size: .92rem; }
+.ap-pan-real { font-style: italic; }
+.ap-pan-it.is-fuera { opacity: .7; border-style: dashed; }
+.ap-pan-more { margin-top: 4px; }
+.ap-pan-more > summary { cursor: pointer; color: #1351a4; font-weight: 700; }

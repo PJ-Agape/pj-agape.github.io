@@ -35,42 +35,65 @@ export async function adminView() {
   </div>`;
 }
 
-// Orden y tamaño de los paneles de una pantalla, con la pantalla de verdad al lado
+// Orden y tamaño de los paneles de una pantalla, con la pantalla de verdad al lado.
+// La lista se arma leyendo la pantalla que se ve en la vista previa: aparece todo lo que tiene.
+let pgrupos = null; // [{ n, items: [{ k, n, auto, fuera }] }] de la pantalla elegida
+const gruposBase = (s) => [{ n: "", items: s.p.map(([k, n]) => ({ k, n })) }];
+function leerFrame() {
+  const fr = document.getElementById("apPanFrame"), s = A.pantalla(pcur);
+  let v = null; try { v = fr && fr.contentDocument && fr.contentDocument.getElementById("view"); } catch {}
+  if (!v || !v.children.length) return false;
+  const g = A.descubrir(v, s).map((x) => ({ n: x.n, items: x.items.map((it) => ({ k: it.k, n: it.n, auto: !!it.auto, fuera: !it.el, real: it.el ? ((it.el.querySelector("h1, h2, h3") || {}).textContent || "").replace(/\s+/g, " ").trim().slice(0, 48) : "" })) }));
+  if (JSON.stringify(g) === JSON.stringify(pgrupos)) return false;
+  pgrupos = g; return true;
+}
+const grupos = () => pgrupos || gruposBase(A.pantalla(pcur));
+function rowHTML(it, i, n, gi, d) {
+  const k = it.k, nom = it.n, o = (d.p || {})[k] || {};
+  const extra = !it.auto && it.real && it.real.toLowerCase() !== nom.toLowerCase() ? `<span class="xs muted ap-pan-real">«${esc(it.real)}»</span>` : "";
+  return `<li class="ap-pan-it${o.oculto ? " is-off" : ""}${it.fuera ? " is-fuera" : ""}">
+    <div class="ap-pan-top">
+      <span class="ap-pan-n">${i + 1}</span><span class="ap-pan-nom"><b>${esc(nom)}</b>${extra}${it.fuera ? `<span class="xs muted">No aparece ahora en tu vista (otros sí pueden verlo).</span>` : ""}</span>
+      <span class="ap-pan-mv">
+        <button type="button" class="icon-btn" data-action="apPanMv" data-g="${gi}" data-k="${esc(k)}" data-d="-1" ${i ? "" : "disabled"} aria-label="Subir «${esc(nom)}»">${icon("up")}</button>
+        <button type="button" class="icon-btn" data-action="apPanMv" data-g="${gi}" data-k="${esc(k)}" data-d="1" ${i < n - 1 ? "" : "disabled"} aria-label="Bajar «${esc(nom)}»">${icon("down")}</button>
+        <button type="button" class="btn btn-sm ${o.oculto ? "btn-soft" : "btn-ghost"}" data-action="apPanOff" data-k="${esc(k)}" aria-pressed="${!!o.oculto}">${o.oculto ? "Mostrar" : "Ocultar"}</button>
+      </span>
+    </div>
+    ${o.oculto ? `<p class="xs muted">Oculto: nadie lo ve en esta pantalla.</p>` : `
+    <details class="ap-pan-more" ${o.sticker || o.tam || o.ancho ? "open" : ""}><summary class="small">Sticker y tamaño${o.sticker || o.tam || o.ancho ? ` <span class="chip accent">cambiado</span>` : ""}</summary>
+    <div class="ap-pan-stk"><span class="ap-pan-stk-l">Sticker</span>
+      ${o.sticker && o.sticker !== "ninguno" ? A.stkHTML(o.sticker, "ap-stk-mini") : `<span class="xs muted">${o.sticker ? "sin sticker" : "como viene"}</span>`}
+      ${o.sticker ? `<button type="button" class="btn btn-sm btn-ghost" data-action="apPanStk" data-k="${esc(k)}" data-v="">Como viene</button>` : ""}
+      ${o.sticker !== "ninguno" ? `<button type="button" class="btn btn-sm btn-ghost" data-action="apPanStk" data-k="${esc(k)}" data-v="ninguno">Quitar</button>` : ""}
+    </div>
+    ${pickHTML("apPanStk", `data-k="${esc(k)}"`, o.sticker)}
+    <div class="ap-pan-sl">
+      <label>Tamaño <output data-out="t:${esc(k)}">${o.tam || 100}%</output>
+        <input type="range" min="70" max="130" step="5" value="${o.tam || 100}" data-appan="tam" data-k="${esc(k)}"></label>
+      <label>Ancho <output data-out="a:${esc(k)}">${o.ancho || 100}%</output>
+        <input type="range" min="40" max="100" step="5" value="${o.ancho || 100}" data-appan="ancho" data-k="${esc(k)}"></label>
+    </div></details>`}
+  </li>`;
+}
+function colsHTML() {
+  const d = pdraft[pcur] || {};
+  return `${pgrupos ? "" : `<p class="xs muted">Leyendo la pantalla…</p>`}
+    ${grupos().map((g, gi) => {
+      const map = new Map(g.items.map((x) => [x.k, x])), orden = A.ordenDe(g.items.map((x) => x.k), d).map((k) => map.get(k));
+      return `<h4 class="ap-pan-gh">${esc(g.n || "Paneles de la pantalla")}</h4>
+      <ol class="ap-pan-list">${orden.map((it, i) => rowHTML(it, i, orden.length, gi, d)).join("")}</ol>`;
+    }).join("")}`;
+}
 function panelesHTML() {
-  const s = A.pantalla(pcur), d = pdraft[pcur] || {};
-  const n = s.p.length, orden = A.ordenDe(s, d), cambiada = !!(A.get().paneles || {})[pcur];
+  const s = A.pantalla(pcur), cambiada = !!(A.get().paneles || {})[pcur];
   return `<section class="card ap-card ap-pan" id="apPan">
     <h3>Orden y tamaño de los paneles</h3>
-    <p class="small muted">Elige una pantalla y acomoda sus paneles: súbelos, bájalos, ocúltalos o cambia su tamaño y su ancho. A la derecha ves cómo queda.</p>
+    <p class="small muted">Elige una pantalla y acomoda lo que tiene: súbelo, bájalo, ocúltalo, ponle o quítale el sticker y cambia su tamaño. En la vista previa ves cómo queda.</p>
     <div class="ap-row"><label class="ap-lbl" for="apPanSel">Pantalla</label>
       <select class="input" id="apPanSel" data-appan="sel">${A.PANTALLAS.map((x) => `<option value="${x.id}" ${x.id === pcur ? "selected" : ""}>${esc(x.n)}${(A.get().paneles || {})[x.id] ? " · cambiada" : ""}</option>`).join("")}</select></div>
     <div class="ap-pan-grid">
-      <ol class="ap-pan-list">${orden.map((k, i) => {
-        const [, nom] = s.p.find((x) => x[0] === k), o = (d.p || {})[k] || {};
-        return `<li class="ap-pan-it${o.oculto ? " is-off" : ""}">
-          <div class="ap-pan-top">
-            <span class="ap-pan-n">${i + 1}</span><b>${esc(nom)}</b>
-            <span class="ap-pan-mv">
-              <button type="button" class="icon-btn" data-action="apPanMv" data-k="${k}" data-d="-1" ${i ? "" : "disabled"} aria-label="Subir «${esc(nom)}»">${icon("up")}</button>
-              <button type="button" class="icon-btn" data-action="apPanMv" data-k="${k}" data-d="1" ${i < n - 1 ? "" : "disabled"} aria-label="Bajar «${esc(nom)}»">${icon("down")}</button>
-              <button type="button" class="btn btn-sm ${o.oculto ? "btn-soft" : "btn-ghost"}" data-action="apPanOff" data-k="${k}" aria-pressed="${!!o.oculto}">${o.oculto ? "Mostrar" : "Ocultar"}</button>
-            </span>
-          </div>
-          ${o.oculto ? `<p class="xs muted">Oculto: nadie lo ve en esta pantalla.</p>` : `
-          <div class="ap-pan-stk"><span class="ap-pan-stk-l">Sticker</span>
-            ${o.sticker && o.sticker !== "ninguno" ? A.stkHTML(o.sticker, "ap-stk-mini") : `<span class="xs muted">${o.sticker ? "sin sticker" : "como viene"}</span>`}
-            ${o.sticker ? `<button type="button" class="btn btn-sm btn-ghost" data-action="apPanStk" data-k="${k}" data-v="">Como viene</button>` : ""}
-            ${o.sticker !== "ninguno" ? `<button type="button" class="btn btn-sm btn-ghost" data-action="apPanStk" data-k="${k}" data-v="ninguno">Quitar</button>` : ""}
-          </div>
-          ${pickHTML("apPanStk", `data-k="${k}"`, o.sticker)}
-          <div class="ap-pan-sl">
-            <label>Tamaño <output id="apPanT-${k}">${o.tam || 100}%</output>
-              <input type="range" min="70" max="130" step="5" value="${o.tam || 100}" data-appan="tam" data-k="${k}"></label>
-            <label>Ancho <output id="apPanA-${k}">${o.ancho || 100}%</output>
-              <input type="range" min="40" max="100" step="5" value="${o.ancho || 100}" data-appan="ancho" data-k="${k}"></label>
-          </div>`}
-        </li>`;
-      }).join("")}</ol>
+      <div class="ap-pan-cols" id="apPanCols">${colsHTML()}</div>
       <div class="ap-pan-prev">
         <div class="ap-pan-phone"><iframe id="apPanFrame" title="Vista previa de ${esc(s.n)}" src="index.html${s.ruta}" loading="lazy"></iframe></div>
         <a class="ap-ver small" href="${s.ruta}" target="_blank" rel="noopener">Abrir esta pantalla ${icon("arrowR")}</a>
@@ -83,19 +106,22 @@ function panelesHTML() {
     </div>
   </section>`;
 }
-function panRepaint() {
+// Solo se redibuja la lista: la vista previa no se toca (si se mueve, se recarga)
+function panRepaint(full) {
   const box = document.getElementById("apPan"); if (!box) return;
-  const fr = document.getElementById("apPanFrame"), keep = fr && fr.dataset.ruta === A.pantalla(pcur).ruta ? fr : null;
+  const fr = document.getElementById("apPanFrame"), cols = document.getElementById("apPanCols");
   const y = window.scrollY;
-  box.outerHTML = panelesHTML();
-  if (keep) document.getElementById("apPanFrame").replaceWith(keep); // la vista previa no se recarga
+  if (!full && cols && fr && fr.dataset.ruta === A.pantalla(pcur).ruta) {
+    cols.innerHTML = colsHTML();
+    const rb = box.querySelector('[data-action="apPanReset"]'); if (rb) rb.disabled = !(A.get().paneles || {})[pcur];
+  } else box.outerHTML = panelesHTML();
   window.scrollTo(0, y);
   wireFrame(); panPreview();
 }
 function wireFrame() {
   const fr = document.getElementById("apPanFrame"); if (!fr || fr.dataset.ruta) return;
   fr.dataset.ruta = A.pantalla(pcur).ruta;
-  fr.addEventListener("load", () => { [400, 1200, 2500].forEach((t) => setTimeout(panPreview, t)); });
+  fr.addEventListener("load", () => { [500, 1500, 3000, 6000].forEach((t) => setTimeout(() => { panPreview(); if (leerFrame()) panRepaint(); }, t)); });
 }
 function panPreview() {
   const fr = document.getElementById("apPanFrame");
@@ -274,10 +300,14 @@ function registerActions() {
   X.apPaperReset = async () => { const c = clone(A.get()); c.global = { ...(c.global || {}) }; delete c.global.paper; await persist(c); toast("El fondo de la app volvió a como venía"); ctx.render(); };
   X.apPaperSave = async () => { const v = document.getElementById("apPaper")?.value; const c = clone(A.get()); c.global = { ...(c.global || {}), paper: v }; await persist(c); toast("Fondo de la app guardado", "ok"); };
   X.apPanMv = (el) => {
-    const s = A.pantalla(pcur), d = pdraft[pcur] = pdraft[pcur] || {};
-    const o = A.ordenDe(s, d), i = o.indexOf(el.dataset.k), j = i + +el.dataset.d;
+    const d = pdraft[pcur] = pdraft[pcur] || {}, gs = grupos();
+    const ords = gs.map((g) => A.ordenDe(g.items.map((x) => x.k), d));
+    const o = ords[+el.dataset.g] || [], i = o.indexOf(el.dataset.k), j = i + +el.dataset.d;
     if (i < 0 || j < 0 || j >= o.length) return;
-    [o[i], o[j]] = [o[j], o[i]]; d.orden = o; panRepaint();
+    [o[i], o[j]] = [o[j], o[i]];
+    // Se conserva el orden guardado de lo que no está en esta vista (paneles que ven otros)
+    const todos = ords.flat(), resto = (d.orden || []).filter((k) => !todos.includes(k));
+    d.orden = [...todos, ...resto]; panRepaint();
   };
   X.apPanStk = (el) => {
     panSet(el.dataset.k, { sticker: el.dataset.v }); panRepaint();
@@ -293,8 +323,7 @@ function registerActions() {
   X.apPanSave = async (el) => {
     el.disabled = true;
     const c = clone(A.get()); c.paneles = { ...(c.paneles || {}) };
-    const d = clone(pdraft[pcur] || {}), s = A.pantalla(pcur);
-    if (d.orden && d.orden.join() === s.p.map((x) => x[0]).join()) delete d.orden;
+    const d = clone(pdraft[pcur] || {});
     if (d.p && !Object.keys(d.p).length) delete d.p;
     if (Object.keys(d).length) c.paneles[pcur] = d; else delete c.paneles[pcur];
     if (await persist(c)) { toast("Guardado. Ya se ve en la app.", "ok"); panRepaint(); }
@@ -326,7 +355,7 @@ function registerActions() {
     const t = e.target;
     if (t.dataset && (t.dataset.appan === "tam" || t.dataset.appan === "ancho")) {
       panSet(t.dataset.k, { [t.dataset.appan]: +t.value });
-      const out = document.getElementById(`apPan${t.dataset.appan === "tam" ? "T" : "A"}-${t.dataset.k}`); if (out) out.textContent = t.value + "%";
+      const out = [...document.querySelectorAll("[data-out]")].find((x) => x.dataset.out === `${t.dataset.appan === "tam" ? "t" : "a"}:${t.dataset.k}`); if (out) out.textContent = t.value + "%";
       panPreview(); return;
     }
     if (!t.dataset || !t.dataset.ap || !draft[t.dataset.z]) return;
@@ -340,7 +369,7 @@ function registerActions() {
   });
   document.addEventListener("change", async (e) => {
     const t = e.target;
-    if (t.dataset && t.dataset.appan === "sel") { pcur = t.value; panRepaint(); return; }
+    if (t.dataset && t.dataset.appan === "sel") { pcur = t.value; pgrupos = null; panRepaint(true); return; }
     if (t.dataset && t.dataset.ap === "c" && draft[t.dataset.z]) repaint(t.dataset.z);
     if (!t.dataset || !t.dataset.apfile || !t.files || !t.files[0]) return;
     const id = t.dataset.apfile;

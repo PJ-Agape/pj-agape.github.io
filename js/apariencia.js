@@ -65,12 +65,20 @@ export const PANTALLAS = [
     ["radios", "Radios, podcast y playlist", ".home-radios:not(.home-links)"], ["enlaces", "Enlaces de interés", ".home-links"],
     ["puente", "«Sé puente»", ".camino-banner"]] },
   { id: "formacion", n: "Formación", ruta: "#/formacion", re: /^\/formacion$/, p: [
-    ["encabezado", "Encabezado", ".page-head"], ["curso", "El curso de dirigentes", ".hub-cbanner:not(.is-mat):not(.sol-banner)"],
-    ["materiales", "Herramientas de la pastoral", ".hub-cbanner.is-mat"], ["accesos", "Accesos", ".hub-grid"]] },
+    ["encabezado", "Encabezado", ".page-head"], ["curso", "El curso", ".hub-cbanner:not(.is-mat):not(.sol-banner)"],
+    ["materiales", "Materiales", ".hub-cbanner.is-mat"], ["accesos", "Accesos", ".hub-grid"]],
+    g: [[".hub-grid", "Accesos, uno por uno"], [".hub-mat-tags", "Atajos de Materiales"]] },
+  { id: "materiales", n: "Formación · Materiales", ruta: "#/materiales", re: /^\/materiales$/, p: [
+    ["encabezado", "Encabezado", ".page-head"], ["ficheros", "Los ficheros", ".fi-grid"]],
+    g: [[".fi-grid", "Ficheros, uno por uno"]] },
+  { id: "cursos", n: "Formación · Cursos", ruta: "#/itinerario", re: /^\/itinerario$/, p: [
+    ["encabezado", "Encabezado", ".page-head"], ["elegir", "Elegir curso", ".course-switch"], ["avance", "Tu avance", ".progress-card"],
+    ["buscar", "Buscador", ".search"], ["camino", "El camino del curso", "#path"]] },
   { id: "capilla", n: "Orar · Capilla", ruta: "#/oracion", re: /^\/oracion$/, p: [
     ["encabezado", "Encabezado de la Capilla", ".cap-a-hero"], ["rezar", "Para rezar (íconos)", ".cap-fila"],
     ["misa", "La misa y el Evangelio", ".cap-a-misa"], ["momento", "Oración del momento", ".cap-moment"],
-    ["intenciones", "Nuestras intenciones", ".cap-altar"]] },
+    ["intenciones", "Nuestras intenciones", ".cap-altar"]],
+    g: [[".cg", "Íconos de «Para rezar»"]] },
   { id: "salmos", n: "Orar · Salmos", ruta: "#/salmos", re: /^\/salmos$/, p: [
     ["entrada", "Entrada y «Para comenzar»", ".ent-hero"], ["librito", "El librito de los Salmos", ".sal-guide"], ["cita", "Cita final", ".cap-foot"]] },
   { id: "oremus", n: "Orar · Oremus", ruta: "#/oremus", re: /^\/oremus/, wrap: ".oremus", p: [
@@ -81,15 +89,47 @@ export const PANTALLAS = [
   { id: "comunidad", n: "Comunidad", ruta: "#/red", re: /^\/red$/, p: [
     ["encabezado", "Encabezado", ".page-head"], ["desafio", "Desafío de la semana", ".red-desafio"],
     ["agenda", "Próximas fechas", ".ag-panel-slot"], ["plaza", "La Plaza Ágape", ".plaza"],
-    ["accesos", "Accesos", ".hub-grid"], ["final", "Conócenos y WhatsApp", ".red-end"]] },
+    ["accesos", "Accesos", ".hub-grid"], ["final", "Conócenos y WhatsApp", ".red-end"]],
+    g: [[".plaza-doors", "Puertas de La Plaza"], [".hub-grid", "Accesos, uno por uno"]] },
 ];
 export const pantalla = (id) => PANTALLAS.find((x) => x.id === id);
 export const panDe = (id) => (cfg.paneles || {})[id] || {};
 // El orden final: el guardado, y los paneles nuevos (que no estaban al guardar) en su lugar de siempre
-export function ordenDe(s, d) {
-  const keys = s.p.map((x) => x[0]), saved = (d.orden || []).filter((k) => keys.includes(k));
+export function ordenDe(keys, d) {
+  const saved = (d.orden || []).filter((k) => keys.includes(k));
   const out = saved.slice();
   keys.forEach((k, i) => { if (!out.includes(k)) out.splice(Math.min(i, out.length), 0, k); });
+  return out;
+}
+// Lo que hay en la pantalla, tal como está: los paneles (los conocidos y cualquier otro) y las tarjetas de cada grupo
+const slug = (t) => String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32);
+export const nombre = (el) => {
+  const h = el.querySelector("h1, h2, h3, .cw-h, .cg-lbl, strong, b, .eyebrow");
+  return (el.getAttribute("aria-label") || (h && h.textContent) || el.textContent || "").replace(/\s+/g, " ").trim().slice(0, 48);
+};
+const vacio = (el) => !el.textContent.trim() && !el.querySelector("img, svg, canvas, iframe, video");
+const SALTA = ".crumbs, script, style, template, .ap-stk-add, .no-print.fi-hint";
+export function descubrir(v, s) {
+  const box = s.wrap ? v.querySelector(s.wrap) : v; if (!box) return [];
+  const used = new Set(), top = [];
+  for (const [k, n, sel] of s.p) { const e0 = box.querySelector(`:scope > ${sel}`), el = e0 && !used.has(e0) ? e0 : null; if (el) used.add(el); top.push({ k, n, el }); }
+  const seen = {};
+  for (const el of box.children) {
+    if (used.has(el) || el.matches(SALTA) || vacio(el)) continue;
+    const base = "x:" + (el.id || el.classList[0] || el.tagName.toLowerCase()); seen[base] = (seen[base] || 0) + 1;
+    top.push({ k: seen[base] > 1 ? base + seen[base] : base, n: nombre(el) || "Otro panel", el, auto: true });
+  }
+  const pos = (a, b) => (!a.el ? 1 : !b.el ? -1 : a.el.compareDocumentPosition(b.el) & 4 ? -1 : 1);
+  const out = [{ id: "", n: "", box, items: top.sort(pos) }];
+  (s.g || []).forEach(([sel, n], gi) => {
+    const b = v.querySelector(sel); if (!b) return;
+    const sl = {};
+    const items = [...b.children].filter((el) => !el.matches(SALTA)).map((el) => {
+      let k = `g${gi}:` + (slug(nombre(el)) || el.tagName.toLowerCase()); sl[k] = (sl[k] || 0) + 1; if (sl[k] > 1) k += sl[k];
+      return { k, n: nombre(el) || "Tarjeta", el };
+    });
+    if (items.length > 1) out.push({ id: sel, n, box: b, items });
+  });
   return out;
 }
 // Vista previa en Gestión: la pantalla va dentro de un marco y recibe el borrador sin guardarlo
@@ -115,23 +155,22 @@ function panelSticker(el, v) {
   else { el.classList.add("ap-has-stk"); el.insertAdjacentHTML("afterbegin", stkHTML(v, "ap-stk-add")); }
 }
 export function applyPaneles(v, s, d) {
-  const box = s.wrap ? v.querySelector(s.wrap) : v; if (!box) return 0;
-  const found = new Map();
-  for (const [k, , sel] of s.p) { const el = box.querySelector(`:scope > ${sel}`); if (el) found.set(k, el); }
-  // Se reparten los lugares que ocupan, en el orden elegido (lo demás de la pantalla no se mueve)
-  const els = [...found.values()].sort((a, b) => (a.compareDocumentPosition(b) & 4 ? -1 : 1));
-  const marks = els.map((el) => { const m = document.createComment("p"); el.before(m); return m; });
-  ordenDe(s, d).filter((k) => found.has(k)).forEach((k, i) => marks[i].replaceWith(found.get(k)));
-  marks.forEach((m) => m.remove());
-  for (const [k, el] of found) {
-    const o = (d.p || {})[k] || {};
-    if (o.sticker) panelSticker(el, o.sticker);
-    el.classList.toggle("ap-oculto", !!o.oculto);
-    el.classList.toggle("ap-panel", !!(o.tam || o.ancho));
-    if (o.tam && o.tam !== 100) el.style.setProperty("--ap-tam", String(o.tam / 100)); else el.style.removeProperty("--ap-tam");
-    if (o.ancho && o.ancho < 100) el.style.setProperty("--ap-ancho", o.ancho + "%"); else el.style.removeProperty("--ap-ancho");
+  const grupos = descubrir(v, s);
+  for (const g of grupos) {
+    const vivos = g.items.filter((x) => x.el), keys = vivos.map((x) => x.k), by = new Map(vivos.map((x) => [x.k, x.el]));
+    // Se reparten los lugares que ocupan, en el orden elegido (lo demás de la pantalla no se mueve)
+    const marks = vivos.map((x) => { const m = document.createComment("p"); x.el.before(m); return m; });
+    ordenDe(keys, d).forEach((k, i) => marks[i].replaceWith(by.get(k)));
+    for (const [k, el] of by) {
+      const o = (d.p || {})[k] || {};
+      if (o.sticker) panelSticker(el, o.sticker);
+      el.classList.toggle("ap-oculto", !!o.oculto);
+      el.classList.toggle("ap-panel", !!(o.tam || o.ancho));
+      if (o.tam && o.tam !== 100) el.style.setProperty("--ap-tam", String(o.tam / 100)); else el.style.removeProperty("--ap-tam");
+      if (o.ancho && o.ancho < 100) el.style.setProperty("--ap-ancho", o.ancho + "%"); else el.style.removeProperty("--ap-ancho");
+    }
   }
-  return s.p.length - found.size;
+  return grupos.length ? grupos[0].items.filter((x) => !x.el).length : 1;
 }
 export const get = () => cfg;
 export const de = (id) => (cfg.zonas || {})[id] || {};
