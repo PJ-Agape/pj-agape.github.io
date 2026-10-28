@@ -4678,3 +4678,8 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .ap-pv-img { transform: scale(var(--pv-zoom, 1)); transform-origin: var(--pv-pos, center); }
 .ap-pv.is-drag { cursor: grab; touch-action: none; } .ap-pv.is-drag:active { cursor: grabbing; }
 .ap-pv-hint { position: absolute; left: 8px; top: 8px; z-index: 2; font-size: .7rem; font-weight: 800; background: rgba(11, 37, 102, .78); color: #fff; padding: 3px 8px; border-radius: 999px; pointer-events: none; }
+/* Capilla: en pantallas anchas los íconos de «Para rezar» van centrados (sin deslizar) */
+@media (min-width: 640px) {
+  .cap-fila .cg { justify-content: center; flex-wrap: wrap; overflow: visible; margin-right: 0; gap: 18px 26px; }
+  .cap-fila .cap-fila-h { justify-content: center; } .cap-fila .cap-fila-h .muted { display: none; }
+}
