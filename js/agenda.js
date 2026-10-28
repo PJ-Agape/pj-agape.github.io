@@ -313,9 +313,9 @@ export async function fillPanels() {
   const list = groupRuns([...expand(own.filter((e) => e.date && e.title), t, to), ...cumpleEvents(t, shiftIso(t, 31))]
     .filter((e) => e.date >= t && e.date <= to).sort((x, y) => (x.date + (x.start || "")).localeCompare(y.date + (y.start || ""))));
   document.querySelectorAll("[data-ag-panel]").forEach((el) => {
-    const a = el.dataset.agPanel, A = a === "inicio" ? { t: "Destacados", c: "#ef591c", hand: "no te lo pierdas" } : AREAS[a]; if (!A) return;
+    const a = el.dataset.agPanel, A = a === "inicio" ? { t: "Destacados", c: "#ef591c", hand: "no te lo pierdas" } : a === "todas" ? { t: "Próximas fechas", c: "#ef591c", hand: "lo que viene" } : AREAS[a]; if (!A) return;
     // Inicio: lo que se marcó «Destacar en Inicio», de todas las áreas.
-    const l = list.filter((e) => (a === "inicio" ? e.feat === true : areaOf(e) === a)).slice(0, 5);
+    const l = list.filter((e) => (a === "inicio" ? e.feat === true : a === "todas" || areaOf(e) === a)).slice(0, 5);
     if (a === "inicio" && !l.length) { el.innerHTML = ""; return; }
     el.innerHTML = `<section class="card ag-panel" style="--ac:${A.c}">
       <header class="ag-panel-h"><span><span class="eyebrow">${icon("cal")} Agenda · ${esc(A.t)}</span><span class="ag-panel-hand">${esc(A.hand)}</span></span>

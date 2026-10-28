@@ -191,7 +191,7 @@ async function renderNow() {
   ayuda.afterRender();
   a11y.afterRender();
   grupo.afterRender(section);
-  agenda.fillPanels(); // paneles de la Agenda en Comunidad, Capilla y Formación
+  agenda.fillPanels(); // paneles de la Agenda en Hoy y en Comunidad
   helpFab(section);
 }
 // Lo más visto (Gestión → Estadísticas): a qué sección corresponde cada pantalla.
@@ -267,16 +267,15 @@ const openPrayerHTML = () => VEN_ESPIRITU ? `<section class="unit-sec unit-open"
 // ---------------------------------------------------------------------------
 // Cabecera, navegación inferior
 // ---------------------------------------------------------------------------
-// Navegación: Inicio · Formación · Comunidad · Espiritualidad · Agenda
+// Navegación: Hoy · Formación · Orar · Comunidad (la Agenda vive dentro de Comunidad)
 const NAV = [
-  ["inicio", "#/", "Inicio", "home"],
+  ["inicio", "#/", "Hoy", "home"],
   ["formacion", "#/formacion", "Formación", "route"],
+  ["oracion", "#/oracion", "Orar", "flame"],
   ["red", "#/red", "Comunidad", "users"],
-  ["oracion", "#/oracion", "Espiritualidad", "flame"],
-  ["agenda", "#/agenda", "Agenda", "cal"],
 ];
 // Cada sección se marca en su bloque
-const TAB_OF = { itinerario: "formacion", materiales: "formacion", muro: "red", comunidad: "formacion", difusion: "formacion", acompanar: "red" };
+const TAB_OF = { itinerario: "formacion", materiales: "formacion", muro: "red", comunidad: "formacion", difusion: "formacion", acompanar: "red", agenda: "red" };
 const navFor = () => NAV;
 // Franja «Ver como…» (solo equipo): recuerda que es una vista de prueba y cómo volver.
 const VER_COMO = [["visitante", "Visitante sin cuenta"], ["ingreso", "Joven · Ingreso"], ["madurez", "Joven · Madurez"], ["aspirante", "Aspirante"], ["dirigente", "Dirigente"], ["coordinador", "Coordinador"]];
@@ -436,7 +435,7 @@ function viewHome() {
     if (list.length && slot) { slot.innerHTML = list.map((e) => cuenta.html(e, { href: `#/agenda/${e.when}` })).join(""); cuenta.start(); }
   });
   // Inicio liviano: saludo + Evangelio, lo destacado (diapositivas), cuentas regresivas, la intención del Papa y la agenda.
-  // El resto vive en las pestañas de abajo (Formación, Comunidad, Espiritualidad).
+  // El resto vive en las pestañas de abajo (Formación, Orar, Comunidad).
   return `
   ${inicio.greetHTML()}
   ${solicitud.homeCard()}

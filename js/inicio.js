@@ -1,4 +1,4 @@
-// Inicio ordenado en tres bloques (Formación · Comunidad · Espiritualidad), sus páginas
+// Inicio ordenado en tres bloques (Formación · Orar · Comunidad), sus páginas
 // de bloque (#/formacion y #/red) y el buscador de toda la app (#/buscar).
 
 import * as conocer from "./conocer.js";
@@ -40,7 +40,7 @@ export const BLOCKS = {
     d: "El curso de dirigentes, los cursos de la comunidad y los recursos para preparar." },
   red: { t: "Comunidad", hand: "para encontrarnos", href: "#/red", ill: "amigos", c: "#ef591c", soft: "#fde0d2",
     d: "El muro, el chat, la agenda y todo lo que compartimos como grupo." },
-  espiritu: { t: "Espiritualidad", hand: "para rezar", href: "#/oracion", ill: "jesus", c: "#c98a00", soft: "#fff0c2",
+  espiritu: { t: "Orar", hand: "para rezar", href: "#/oracion", ill: "jesus", c: "#c98a00", soft: "#fff0c2",
     d: "La Capilla: el Evangelio del día, intenciones, oraciones, cantos y radios católicas." },
 };
 // e: emoji · t: título · d: descripción · kw: palabras para el buscador · ok: quién lo ve
@@ -195,7 +195,7 @@ export function viewFormacion() {
   ${w.curso ? courseBanner(course, st) : ""}
   ${matBanner(w)}
   <div class="hub-grid">${itemsFor("formacion").filter((x) => inHub(x) && x.href !== "#/itinerario" && x.href !== "#/materiales").map(itemCard).join("")}</div>
-  <div class="ag-panel-slot" data-ag-panel="formacion"></div>`;
+`;
 }
 // La Plaza Ágape: nuestra red social. Junta lo que vivimos (Momentos), lo que conversamos (Muro)
 // y lo que nos decimos (Chat). Cada parte sigue funcionando igual; esto es solo la puerta de entrada.
@@ -228,8 +228,8 @@ export function viewRed() {
   const b = BLOCKS.red;
   return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">Bloque 2 · ${esc(b.hand)}</span><h1>Comunidad</h1><p>${esc(b.d)}</p></header>
   <div id="desafioSlot" class="red-desafio"></div>
+  <div class="ag-panel-slot" data-ag-panel="todas"></div>
   ${plazaHTML()}
-  <div class="ag-panel-slot" data-ag-panel="comunidad"></div>
   <div class="hub-grid">${itemsFor("red").filter(inHub).map(itemCard).join("")}</div>
   <div class="red-end">${conocer.inviteCard()}<div id="waSlot"></div></div>
 `;
