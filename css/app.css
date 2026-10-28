@@ -4579,3 +4579,6 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .cap-moment-b::before, .cap-moment-b::after { display: none; } .cap-moment-b { background-image: none; }
 
 .sticker-grupo { display: block; width: 96px; height: auto; margin: -8px 4px -34px auto; position: relative; z-index: 2; transform: rotate(5deg); filter: drop-shadow(0 4px 8px rgba(11,37,102,.18)); pointer-events: none; }
+/* La Plaza: la ilustración va sola, centrada sobre el fondo, sin el recuadro amarillo de los stickers */
+.plaza-scene { display: flex; justify-content: center; margin: 10px 0 6px; }
+.plaza-scene img.z-sticker { position: static; width: auto; max-width: min(100%, 300px); max-height: 220px; margin: 0; padding: 0; background: none; border: 0; border-radius: 0; box-shadow: none; aspect-ratio: auto; }
