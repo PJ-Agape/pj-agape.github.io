@@ -4577,3 +4577,5 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .cap-moment-b .cap-hand { color: #ef591c; }
 .cap-grid-sec .sticker-caliz { margin-bottom: -26px; }
 .cap-moment-b::before, .cap-moment-b::after { display: none; } .cap-moment-b { background-image: none; }
+
+.sticker-grupo { display: block; width: 96px; height: auto; margin: -8px 4px -34px auto; position: relative; z-index: 2; transform: rotate(5deg); filter: drop-shadow(0 4px 8px rgba(11,37,102,.18)); pointer-events: none; }
