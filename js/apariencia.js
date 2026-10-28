@@ -2,6 +2,9 @@
 // sin tocar el código. Lo que no se cambia queda como viene en la app.
 // Se guarda en content/apariencia (todo menos las fotos) y content/fondo_<zona> (la foto subida de cada zona).
 
+import { illus, illusConCara, SCENE_KEYS } from "./ilustraciones.js";
+import { pjSvg, PJ_KEYS } from "./personajes.js";
+
 const LK = "agape_apariencia";
 let cfg = (() => { try { return JSON.parse(localStorage.getItem(LK) || "null") || {}; } catch { return {}; } })();
 let at = 0, cloud = null;
@@ -12,8 +15,19 @@ export const FONDOS = [["parque", "Parque"], ["cielo", "Cielo"], ["cordillera", 
 export const fondoUrl = (k) => `img/fondos/${k}.svg`;
 // En una variable de CSS, la dirección debe ser completa (si no, se busca junto a la hoja de estilos)
 const abs = (u) => (/^(data:|https?:)/.test(u) ? u : new URL(u, location.href).href);
-// Todos los stickers de la app
-export const STICKERS = ["img/ilus/s002.webp", "img/ilus/s004.webp", "img/ilus/s022.webp", "img/ilus/s023.webp", "img/ilus/s024.webp", "img/ilus/s026.webp", "img/ilus/s030.webp", "img/ilus/s031.webp", "img/ilus/s032.webp", "img/ilus/s033.webp", "img/ilus/s035.webp", "img/ilus/s036.webp", "img/ilus/s037.webp", "img/ilus/s039.webp", "img/ilus/s040.webp", "img/ilus/s041.webp", "img/ilus/s042.webp", "img/ilus/s043.webp", "img/ilus/s044.webp", "img/ilus/s047.webp", "img/ilus/s050.webp", "img/ilus/s051.webp", "img/ilus/s065.webp", "img/ilus/s066.webp", "img/ilus/s078.webp", "img/ilus/s081.webp", "img/ilus/s083.webp", "img/ilus/s084.webp", "img/ilus/s085.webp", "img/ilus/s086.webp", "img/ilus/s087.webp", "img/ilus/s088.webp", "img/ilus/s089.webp", "img/ilus/s090.webp", "img/ilus/s091.webp", "img/ilus/s092.webp", "img/ilus/s093.webp", "img/ilus/s094.webp", "img/ilus/s096.webp", "img/ilus/s097.webp", "img/ilus/s098.webp", "img/ilus/s102.webp", "img/ilus/s104.webp", "img/ilus/s105.webp", "img/ilus/s107.webp", "img/ilus/s109.webp", "img/ilus/s201.webp", "img/ilus/s202.webp", "img/ilus/s203.webp", "img/ilus/s204.webp", "img/ilus/s205.webp", "img/ilus/s206.webp", "img/ilus/s207.webp", "img/ilus/s208.webp", "img/ilus/s209.webp", "img/ilus/s210.webp", "img/ilus/s211.webp", "img/ilus/s212.webp", "img/ilus/s213.webp", "img/ilus/s214.webp", "img/ilus/s215.webp", "img/ilus/s216.webp", "img/ilus/s217.webp", "img/ilus/s218.webp", "img/ilus/s219.webp", "img/ilus/s220.webp", "img/ilus/s221.webp", "img/ilus/s222.webp", "img/ilus/s223.webp", "img/ilus/s224.webp", "img/ilus/s225.webp", "img/ilus/s226.webp", "img/ilus/s227.webp", "img/ilus/s228.webp", "img/ilus/s229.webp", "img/ilus/s230.webp", "img/ilus/s231.webp", "img/ilus/s232.webp", "img/ilus/s233.webp", "img/ilus/s234.webp", "img/ilus/s235.webp", "img/ilus/s236.webp", "img/ilus/s237.webp", "img/ilus/s238.webp", "img/ilus/s239.webp", "img/ilus/s240.webp", "img/ilus/s241.webp", "img/ilus/s242.webp", "img/ilus/s243.webp", "img/ilus/s244.webp", "img/ilus/s245.webp", "img/ilus/s246.webp", "img/stickers/amigos.webp", "img/stickers/biblia.webp", "img/stickers/calendario.webp", "img/stickers/caliz.webp", "img/stickers/comunidad.webp", "img/stickers/grupo.webp", "img/stickers/guitarra.webp", "img/stickers/oracion.webp"];
+// Todos los stickers de la app: las imágenes (img/stickers, img/ilus, img/estilo), los personajes y los dibujos del estudio.
+// Un sticker se guarda como su dirección, «pj:<personaje>» o «dib:<dibujo>».
+export const STICKERS = ["img/stickers/amigos.webp", "img/stickers/biblia.webp", "img/stickers/calendario.webp", "img/stickers/caliz.webp", "img/stickers/comunidad.webp", "img/stickers/grupo.webp", "img/stickers/guitarra.webp", "img/stickers/oracion.webp", "img/ilus/s002.webp", "img/ilus/s004.webp", "img/ilus/s022.webp", "img/ilus/s023.webp", "img/ilus/s024.webp", "img/ilus/s026.webp", "img/ilus/s030.webp", "img/ilus/s031.webp", "img/ilus/s032.webp", "img/ilus/s033.webp", "img/ilus/s035.webp", "img/ilus/s036.webp", "img/ilus/s037.webp", "img/ilus/s039.webp", "img/ilus/s040.webp", "img/ilus/s041.webp", "img/ilus/s042.webp", "img/ilus/s043.webp", "img/ilus/s044.webp", "img/ilus/s047.webp", "img/ilus/s050.webp", "img/ilus/s051.webp", "img/ilus/s065.webp", "img/ilus/s066.webp", "img/ilus/s078.webp", "img/ilus/s081.webp", "img/ilus/s083.webp", "img/ilus/s084.webp", "img/ilus/s085.webp", "img/ilus/s086.webp", "img/ilus/s087.webp", "img/ilus/s088.webp", "img/ilus/s089.webp", "img/ilus/s090.webp", "img/ilus/s091.webp", "img/ilus/s092.webp", "img/ilus/s093.webp", "img/ilus/s094.webp", "img/ilus/s096.webp", "img/ilus/s097.webp", "img/ilus/s098.webp", "img/ilus/s102.webp", "img/ilus/s104.webp", "img/ilus/s105.webp", "img/ilus/s107.webp", "img/ilus/s109.webp", "img/ilus/s201.webp", "img/ilus/s202.webp", "img/ilus/s203.webp", "img/ilus/s204.webp", "img/ilus/s205.webp", "img/ilus/s206.webp", "img/ilus/s207.webp", "img/ilus/s208.webp", "img/ilus/s209.webp", "img/ilus/s210.webp", "img/ilus/s211.webp", "img/ilus/s212.webp", "img/ilus/s213.webp", "img/ilus/s214.webp", "img/ilus/s215.webp", "img/ilus/s216.webp", "img/ilus/s217.webp", "img/ilus/s218.webp", "img/ilus/s219.webp", "img/ilus/s220.webp", "img/ilus/s221.webp", "img/ilus/s222.webp", "img/ilus/s223.webp", "img/ilus/s224.webp", "img/ilus/s225.webp", "img/ilus/s226.webp", "img/ilus/s227.webp", "img/ilus/s228.webp", "img/ilus/s229.webp", "img/ilus/s230.webp", "img/ilus/s231.webp", "img/ilus/s232.webp", "img/ilus/s233.webp", "img/ilus/s234.webp", "img/ilus/s235.webp", "img/ilus/s236.webp", "img/ilus/s237.webp", "img/ilus/s238.webp", "img/ilus/s239.webp", "img/ilus/s240.webp", "img/ilus/s241.webp", "img/ilus/s242.webp", "img/ilus/s243.webp", "img/ilus/s244.webp", "img/ilus/s245.webp", "img/ilus/s246.webp", "img/estilo/sticker-01.webp", "img/estilo/sticker-02.webp", "img/estilo/sticker-03.webp", "img/estilo/sticker-04.webp", "img/estilo/sticker-05.webp", "img/estilo/sticker-06.webp", "img/estilo/sticker-07.webp", "img/estilo/sticker-08.webp", "img/estilo/sticker-09.webp", "img/estilo/sticker-10.webp", "img/estilo/sticker-11.webp", "img/estilo/sticker-12.webp", "img/estilo/sticker-13.webp", "img/estilo/sticker-14.webp", "img/estilo/sticker-15.webp", "img/estilo/sticker-16.webp", "img/estilo/sticker-17.webp"];
+// El set del estudio (Difusión → Stickers), con su frase y borde blanco, exportado a img/estudio
+export const ESTUDIO = ["img/estudio/e001.webp", "img/estudio/e002.webp", "img/estudio/e003.webp", "img/estudio/e004.webp", "img/estudio/e005.webp", "img/estudio/e006.webp", "img/estudio/e007.webp", "img/estudio/e008.webp", "img/estudio/e009.webp", "img/estudio/e010.webp", "img/estudio/e011.webp", "img/estudio/e012.webp", "img/estudio/e013.webp", "img/estudio/e014.webp", "img/estudio/e015.webp", "img/estudio/e016.webp", "img/estudio/e017.webp", "img/estudio/e018.webp", "img/estudio/e019.webp", "img/estudio/e020.webp", "img/estudio/e021.webp", "img/estudio/e022.webp", "img/estudio/e023.webp", "img/estudio/e024.webp", "img/estudio/e025.webp", "img/estudio/e026.webp", "img/estudio/e027.webp", "img/estudio/e028.webp", "img/estudio/e029.webp", "img/estudio/e030.webp", "img/estudio/e031.webp", "img/estudio/e032.webp", "img/estudio/e033.webp", "img/estudio/e034.webp", "img/estudio/e035.webp", "img/estudio/e036.webp", "img/estudio/e037.webp", "img/estudio/e038.webp", "img/estudio/e039.webp", "img/estudio/e040.webp", "img/estudio/e041.webp", "img/estudio/e042.webp", "img/estudio/e043.webp", "img/estudio/e044.webp", "img/estudio/e045.webp", "img/estudio/e046.webp", "img/estudio/e047.webp", "img/estudio/e048.webp", "img/estudio/e049.webp", "img/estudio/e050.webp", "img/estudio/e051.webp", "img/estudio/e052.webp", "img/estudio/e053.webp", "img/estudio/e054.webp", "img/estudio/e055.webp", "img/estudio/e056.webp", "img/estudio/e057.webp", "img/estudio/e058.webp", "img/estudio/e059.webp", "img/estudio/e060.webp", "img/estudio/e061.webp", "img/estudio/e062.webp", "img/estudio/e063.webp", "img/estudio/e064.webp", "img/estudio/e065.webp", "img/estudio/e066.webp", "img/estudio/e067.webp", "img/estudio/e068.webp", "img/estudio/e069.webp", "img/estudio/e070.webp", "img/estudio/e071.webp", "img/estudio/e072.webp", "img/estudio/e073.webp", "img/estudio/e074.webp", "img/estudio/e075.webp", "img/estudio/e076.webp", "img/estudio/e077.webp", "img/estudio/e078.webp", "img/estudio/e079.webp", "img/estudio/e080.webp", "img/estudio/e081.webp", "img/estudio/e082.webp", "img/estudio/e083.webp", "img/estudio/e084.webp", "img/estudio/e085.webp", "img/estudio/e086.webp", "img/estudio/e087.webp", "img/estudio/e088.webp", "img/estudio/e089.webp", "img/estudio/e090.webp", "img/estudio/e091.webp", "img/estudio/e092.webp", "img/estudio/e093.webp", "img/estudio/e094.webp", "img/estudio/e095.webp", "img/estudio/e096.webp", "img/estudio/e097.webp", "img/estudio/e098.webp", "img/estudio/e099.webp", "img/estudio/e100.webp", "img/estudio/e101.webp", "img/estudio/e102.webp", "img/estudio/e103.webp", "img/estudio/e104.webp", "img/estudio/e105.webp", "img/estudio/e106.webp", "img/estudio/e107.webp", "img/estudio/e108.webp", "img/estudio/e109.webp", "img/estudio/e110.webp", "img/estudio/e111.webp", "img/estudio/e112.webp", "img/estudio/e113.webp", "img/estudio/e114.webp", "img/estudio/e115.webp", "img/estudio/e116.webp", "img/estudio/e117.webp", "img/estudio/e118.webp"];
+let dibs = null;
+const dibujos = () => dibs || (dibs = SCENE_KEYS.filter((k) => !/^<img/.test(illus(k)) && illusConCara(k)).map((k) => "dib:" + k));
+export const catalogo = () => [["Del estudio, con su frase", ESTUDIO], ["Ilustraciones", STICKERS], ["Personajes", PJ_KEYS.map((k) => "pj:" + k)], ["Dibujos", dibujos()]].filter(([, l]) => l.length);
+export function stkHTML(v, cls = "") {
+  if (/^pj:/.test(v)) return `<span class="${cls} ap-stk-svg ap-stk-pj">${pjSvg(v.slice(3))}</span>`;
+  if (/^dib:/.test(v)) return `<span class="${cls} ap-stk-svg">${illusConCara(v.slice(4))}</span>`;
+  return `<img class="${cls}" src="${esc(v)}" alt="" loading="lazy" decoding="async">`;
+}
 
 // Zonas editables. sel: el elemento en la pantalla · t: sus textos (selector y texto de fábrica)
 // · stk: sticker de fábrica (o "" si no trae) · fondo: si admite fondo · plaza: fondo detrás (::before)
@@ -86,6 +100,20 @@ if (typeof window !== "undefined" && window.top !== window) window.addEventListe
   cfg = { ...cfg, paneles: { ...(cfg.paneles || {}), [id]: d } };
   applyPaneles(v, s, d);
 });
+// El sticker de un panel: se cambia el que trae, se quita, o se le pone uno en la esquina
+const STK_SEL = [":scope > .sticker", ".cap-guide-art", ".hub-cb-art", ".plaza-scene img", ".sticker", ".z-sticker"];
+function panelSticker(el, v) {
+  if (el.dataset.apStk === v) return;
+  el.dataset.apStk = v;
+  el.querySelectorAll(":scope > .ap-stk-add").forEach((x) => x.remove());
+  let cur = null;
+  for (const sel of STK_SEL) { cur = [...el.querySelectorAll(sel)].find((x) => !x.closest(".car-track") && !(x.parentElement && x.parentElement.closest(".ap-oculto"))); if (cur) break; }
+  if (v === "ninguno") { if (cur) cur.classList.add("ap-oculto"); return; }
+  if (cur && cur.classList.contains("ap-oculto")) cur.classList.remove("ap-oculto");
+  if (cur && /cap-guide-art|hub-cb-art/.test(cur.className)) cur.classList.add("ap-stk-on"), cur.innerHTML = stkHTML(v, "z-illus z-sticker cap-guide-il");
+  else if (cur) cur.outerHTML = stkHTML(v, cur.getAttribute("class") || "sticker");
+  else { el.classList.add("ap-has-stk"); el.insertAdjacentHTML("afterbegin", stkHTML(v, "ap-stk-add")); }
+}
 export function applyPaneles(v, s, d) {
   const box = s.wrap ? v.querySelector(s.wrap) : v; if (!box) return 0;
   const found = new Map();
@@ -97,6 +125,7 @@ export function applyPaneles(v, s, d) {
   marks.forEach((m) => m.remove());
   for (const [k, el] of found) {
     const o = (d.p || {})[k] || {};
+    if (o.sticker) panelSticker(el, o.sticker);
     el.classList.toggle("ap-oculto", !!o.oculto);
     el.classList.toggle("ap-panel", !!(o.tam || o.ancho));
     if (o.tam && o.tam !== 100) el.style.setProperty("--ap-tam", String(o.tam / 100)); else el.style.removeProperty("--ap-tam");
@@ -169,10 +198,10 @@ export function applyZona(el, z, d) {
   }
   // Sticker
   if (d.sticker) {
-    let img = z.stkSel ? el.querySelector(z.stkSel) : el.querySelector(":scope > .sticker");
+    const img = z.stkSel ? el.querySelector(z.stkSel) : el.querySelector(":scope > .sticker");
     if (d.sticker === "ninguno") { if (img) img.remove(); }
-    else if (img) img.src = d.sticker;
-    else if (!z.stkSel) { el.classList.add("has-sticker"); el.insertAdjacentHTML("afterbegin", `<img class="sticker" src="${esc(d.sticker)}" alt="" loading="lazy" decoding="async">`); }
+    else if (img) img.outerHTML = stkHTML(d.sticker, img.getAttribute("class") || "sticker");
+    else if (!z.stkSel) { el.classList.add("has-sticker"); el.insertAdjacentHTML("afterbegin", stkHTML(d.sticker, "sticker")); }
   }
   // Fondo
   const f = d.fondo;

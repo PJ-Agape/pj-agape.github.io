@@ -57,6 +57,12 @@ function panelesHTML() {
             </span>
           </div>
           ${o.oculto ? `<p class="xs muted">Oculto: nadie lo ve en esta pantalla.</p>` : `
+          <div class="ap-pan-stk"><span class="ap-pan-stk-l">Sticker</span>
+            ${o.sticker && o.sticker !== "ninguno" ? A.stkHTML(o.sticker, "ap-stk-mini") : `<span class="xs muted">${o.sticker ? "sin sticker" : "como viene"}</span>`}
+            ${o.sticker ? `<button type="button" class="btn btn-sm btn-ghost" data-action="apPanStk" data-k="${k}" data-v="">Como viene</button>` : ""}
+            ${o.sticker !== "ninguno" ? `<button type="button" class="btn btn-sm btn-ghost" data-action="apPanStk" data-k="${k}" data-v="ninguno">Quitar</button>` : ""}
+          </div>
+          ${pickHTML("apPanStk", `data-k="${k}"`, o.sticker)}
           <div class="ap-pan-sl">
             <label>Tamaño <output id="apPanT-${k}">${o.tam || 100}%</output>
               <input type="range" min="70" max="130" step="5" value="${o.tam || 100}" data-appan="tam" data-k="${k}"></label>
@@ -103,6 +109,17 @@ const panSet = (k, patch) => {
   if (Object.keys(o).length) d.p[k] = o; else delete d.p[k];
 };
 
+// Selector de stickers: se llena recién al abrirlo (son más de 200)
+function pickHTML(action, attrs, cur) {
+  return `<details class="ap-stk-det" data-pick="${action}" data-attrs="${esc(attrs)}" data-cur="${esc(cur || "")}"><summary class="small"><b>Elegir un sticker</b> <span class="xs muted">(${A.catalogo().reduce((n, [, l]) => n + l.length, 0)} para elegir)</span></summary><div class="ap-pick"></div></details>`;
+}
+function fillPick(det) {
+  const box = det.querySelector(".ap-pick"); if (!det.open || !box || box.childElementCount) return;
+  const { pick, attrs, cur } = det.dataset;
+  box.innerHTML = A.catalogo().map(([g, l]) => `<h4 class="ap-pick-h">${esc(g)} <span class="xs muted">· ${l.length}</span></h4>
+    <div class="ap-stks">${l.map((s) => `<button type="button" class="ap-stk${s === cur ? " on" : ""}" data-action="${pick}" ${attrs} data-v="${esc(s)}" aria-label="Elegir este sticker">${A.stkHTML(s, "")}</button>`).join("")}</div>`).join("");
+}
+
 function zonaHTML(z) {
   const d = draft[z.id];
   const cambios = ["fondo", "sticker", "textos", "colores"].filter((k) => d[k] && Object.keys(d[k] || {}).length !== 0 || (k === "sticker" && d.sticker)).length;
@@ -138,7 +155,7 @@ function prevHTML(z) {
   return `<div class="ap-pv${img ? " is-drag" : ""}" data-pvz="${z.id}" style="background:${esc(bg)};${img ? `--pv-img:url('${esc(/^data:/.test(img) ? img : new URL(img, location.href).href)}');--pv-velo:${velo / 100};--pv-pos:${esc(A.posDe(f) || (z.plaza ? "center bottom" : "center"))};--pv-zoom:${(f.zoom || 100) / 100}` : ""}">
       ${img ? `<span class="ap-pv-hint">Arrastra para mover</span>` : ""}
       ${img ? `<i class="ap-pv-img${z.plaza ? " is-top" : ""}"></i>` : ""}
-      ${stk ? `<img class="ap-pv-stk${z.plaza ? " is-mid" : ""}" src="${esc(stk)}" alt="">` : ""}
+      ${stk ? A.stkHTML(stk, `ap-pv-stk${z.plaza ? " is-mid" : ""}`) : ""}
       <div class="ap-pv-txt">
         ${hand ? `<span class="ap-pv-hand" style="${c.accent ? `color:${esc(c.accent)}` : ""}">${A.enfasis(txt(hand[0]))}</span>` : ""}
         ${title ? `<b class="ap-pv-t" style="${c.ink ? `color:${esc(c.ink)};` : ""}${c.accent ? `--pv-acc:${esc(c.accent)}` : ""}">${A.enfasis(txt(title[0]))}</b>` : ""}
@@ -180,12 +197,10 @@ function xy(f, z) {
 function stickerHTML(z) {
   const d = draft[z.id], cur = d.sticker === "ninguno" ? "" : d.sticker || z.stk;
   return `<fieldset class="ap-sec"><legend>Sticker</legend>
-    <div class="ap-row">${cur ? `<img class="ap-stk-cur" src="${esc(cur)}" alt="Sticker actual">` : `<span class="muted small">Sin sticker</span>`}
+    <div class="ap-row">${cur ? A.stkHTML(cur, "ap-stk-cur") : `<span class="muted small">Sin sticker</span>`}
       <button type="button" class="btn btn-sm btn-ghost" data-action="apStk" data-z="${z.id}" data-v="">Como viene</button>
-      ${z.stkSel ? "" : `<button type="button" class="btn btn-sm btn-ghost" data-action="apStk" data-z="${z.id}" data-v="ninguno">Sin sticker</button>`}</div>
-    <details class="ap-stk-det"><summary class="small"><b>Elegir otro sticker</b></summary>
-      <div class="ap-stks">${A.STICKERS.map((s) => `<button type="button" class="ap-stk${s === cur ? " on" : ""}" data-action="apStk" data-z="${z.id}" data-v="${esc(s)}" aria-label="Elegir este sticker"><img src="${esc(s)}" alt="" loading="lazy" decoding="async"></button>`).join("")}</div>
-    </details>
+      <button type="button" class="btn btn-sm btn-ghost" data-action="apStk" data-z="${z.id}" data-v="ninguno">Sin sticker</button></div>
+    ${pickHTML("apStk", `data-z="${z.id}"`, cur)}
   </fieldset>`;
 }
 
@@ -264,6 +279,10 @@ function registerActions() {
     if (i < 0 || j < 0 || j >= o.length) return;
     [o[i], o[j]] = [o[j], o[i]]; d.orden = o; panRepaint();
   };
+  X.apPanStk = (el) => {
+    panSet(el.dataset.k, { sticker: el.dataset.v }); panRepaint();
+    if (!el.dataset.v) { const fr = document.getElementById("apPanFrame"); if (fr) fr.src = fr.src; } // «como viene»: la vista previa vuelve a cargar
+  };
   X.apPanOff = (el) => { const o = ((pdraft[pcur] || {}).p || {})[el.dataset.k] || {}; panSet(el.dataset.k, { oculto: !o.oculto }); panRepaint(); };
   X.apPanReset = async () => {
     if (!confirm("¿Volver los paneles de esta pantalla a como venían?")) return;
@@ -282,6 +301,7 @@ function registerActions() {
     el.disabled = false;
   };
   if (wired) return; wired = true;
+  document.addEventListener("toggle", (e) => { if (e.target.dataset && e.target.dataset.pick) fillPick(e.target); }, true);
   // Arrastrar la imagen en la vista previa: mueve el punto que queda centrado
   let drag = null;
   document.addEventListener("pointerdown", (e) => {

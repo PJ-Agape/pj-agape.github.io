@@ -4712,3 +4712,24 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .ap-pan-prev { display: grid; justify-items: center; gap: 6px; }
 .ap-pan-phone { width: 234px; height: 470px; overflow: hidden; border: 6px solid #0b2566; border-radius: 26px; background: var(--paper, #fff6e5); position: relative; }
 .ap-pan-phone iframe { width: 390px; height: 783px; border: 0; transform: scale(.6); transform-origin: 0 0; position: absolute; inset: 0 auto auto 0; }
+/* Stickers dibujados (personajes y dibujos del estudio) y stickers puestos en un panel */
+.ap-stk-svg { display: block; color: #0b2566; --il-bg: #fff; --il-pop: #ffba03; }
+.ap-stk-svg svg { width: 100%; height: auto; display: block; }
+.ap-stk-pj svg { filter: drop-shadow(0 0 0 #fff) drop-shadow(2px 3px 0 rgba(11,37,102,.18)); }
+.ap-stk .ap-stk-svg { aspect-ratio: 1; display: grid; place-items: center; }
+.ap-stk .ap-stk-svg svg { max-height: 100%; }
+span.ap-stk-cur { width: 64px; height: 64px; display: grid; place-items: center; }
+span.ap-pv-stk { display: grid; place-items: center; }
+.ap-has-stk { position: relative; }
+.ap-stk-add { position: absolute; top: 8px; right: 8px; width: 74px; height: auto; z-index: 3; transform: rotate(6deg); pointer-events: none; filter: drop-shadow(0 4px 8px rgba(11,37,102,.2)); }
+@media (min-width: 720px) { .ap-stk-add { width: 96px; } }
+.ap-pick { max-height: 380px; overflow-y: auto; }
+.ap-pick .ap-stks { max-height: none; overflow: visible; }
+.ap-pick-h { margin: 10px 0 0; font-size: .85rem; }
+.ap-pan-stk { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.ap-pan-stk-l { font-size: .78rem; font-weight: 700; color: #4a5470; }
+.ap-stk-mini { width: 40px; height: 40px; object-fit: contain; }
+span.ap-stk-mini { display: grid; place-items: center; }
+.ap-pan-it .ap-stk-det { margin-top: 4px; }
+html.papel .ap-stk-on { display: block !important; }
+.hub-cb-art.ap-stk-on { max-width: 140px; }
