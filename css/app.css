@@ -4890,3 +4890,5 @@ a.red-cal.card.link { display: flex; flex-direction: row; align-items: center; g
 .ag-kb-card.is-edit label { display: grid; gap: 3px; font-weight: 700; }
 .ag-kb-card.is-edit .input, .ag-kb-card.is-edit .textarea { font-size: .88rem; padding: 7px 9px; }
 @media print { .ag-notas, .ag-prog { display: none !important; } }
+.desafio-admin { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 2px dashed #0b256622; }
+.desafio-admin .xs { margin-right: auto; }
