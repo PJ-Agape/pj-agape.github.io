@@ -343,12 +343,11 @@ function wheelHTML(mk, my, now) {
     { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
     { k: "radio", t: "Radios", go: [["Escuchar", scrollTo("cap-radio")]] },
   ];
-  // Media luna: de izquierda a derecha por arriba, sobre la Misa del día
+  // Alrededor del vitral: un círculo de íconos, el primero arriba y en el sentido del reloj
   const n = wheelItems.length;
-  const pos = (i) => { const t = Math.PI - (i * Math.PI) / (n - 1); return `left:${(50 + 45 * Math.cos(t)).toFixed(2)}%;top:${(86 - 74 * Math.sin(t)).toFixed(2)}%`; };
-  return `<div class="cg cg-arc" role="list" aria-label="Para rezar">${wheelItems.map((x, i) => `<button class="cg-it" data-cg="${i}" role="listitem" aria-label="${esc(x.t)}" style="${pos(i)}">
-      <span class="cg-ico">${WICO[x.k]}</span><span class="cg-lbl">${esc(x.t)}</span></button>`).join("")}
-      <span class="cg-arc-hand" aria-hidden="true">¿dónde quieres entrar?</span></div>
+  const pos = (i) => { const t = -Math.PI / 2 + (i * 2 * Math.PI) / n; return `left:${(50 + 41 * Math.cos(t)).toFixed(2)}%;top:${(50 + 41 * Math.sin(t)).toFixed(2)}%`; };
+  return `<div class="cg cg-ring" role="list" aria-label="Para rezar">${roseWindow()}${wheelItems.map((x, i) => `<button class="cg-it" data-cg="${i}" role="listitem" aria-label="${esc(x.t)}" style="${pos(i)}">
+      <span class="cg-ico">${WICO[x.k]}</span><span class="cg-lbl">${esc(x.t)}</span></button>`).join("")}</div>
     <div class="cg-more" id="cgMore" hidden></div>`;
 }
 function wheelInit() {
@@ -399,14 +398,13 @@ export function view(opt = {}) {
   return `
   <section class="cap-hero" style="--season:${s.hex}">
     <div class="cap-arch">
-      ${roseWindow()}
+      ${wheelHTML(mk, my, now)}
       <span class="cap-hand">pasa, Él te espera</span>
       <h1 class="cap-title">Capilla <em>Ágape</em></h1>
       <div class="cap-chips">
         <span class="cap-season"><i></i>${esc(s.name)} · color ${esc(s.color)}</span>
         <span class="cap-date">${esc(now.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }))}</span>
       </div>
-      ${wheelHTML(mk, my, now)}
       <div class="cap-misa" id="capMisa">${misaHTML()}</div>
       <div class="cap-gospel" id="capGospel">${gospelHTML(s)}</div>
       ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}

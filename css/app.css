@@ -4538,12 +4538,12 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .cw-go { border: 2px solid #0b2566; background: #ffba03; color: #0b2566; font: inherit; font-size: .85rem; font-weight: 800; border-radius: 999px; padding: 8px 16px; cursor: pointer; }
 .cap-grid-sec .cap-papa, .cap-grid-sec .cap-row-det { width: 100%; text-align: left; }
 
-/* Orar: los íconos en media luna, sobre la Misa del día */
-.cg.cg-arc { display: block; position: relative; width: calc(100% + 20px); max-width: 420px; aspect-ratio: 2 / 1.15; margin: 14px -10px 26px; }
-.cg-arc .cg-it { position: absolute; width: 58px; padding: 0; transform: translate(-50%, -50%); background: none; border: 0; box-shadow: none; color: var(--cn, #0b2566); gap: 4px; }
-.cg-arc .cg-it:active { transform: translate(-50%, -50%) scale(.94); box-shadow: none; }
-.cg-arc .cg-ico { width: 46px; height: 46px; background: radial-gradient(circle at 50% 30%, #1d4fa3, #0b2566 80%); box-shadow: 0 3px 0 rgba(11, 37, 102, .35); }
-.cg-arc .cg-ico svg { width: 24px; height: 24px; }
-.cg-arc .cg-lbl { font-size: .62rem; color: var(--cn, #0b2566); white-space: nowrap; }
-.cg-arc-hand { position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); font-family: var(--font-hand, cursive); font-weight: 700; color: #ef591c; font-size: 1.3rem; white-space: nowrap; }
+/* Orar: los íconos alrededor del vitral */
+.cg.cg-ring { display: block; position: relative; width: min(calc(100% + 20px), 360px); aspect-ratio: 1; margin: 26px auto 4px; }
+.cg-ring .cap-rose { position: absolute; left: 50%; top: 50%; width: 46%; margin: 0; transform: translate(-50%, -50%); }
+.cg-ring .cg-it { position: absolute; width: 62px; padding: 0; transform: translate(-50%, -50%); background: none; border: 0; box-shadow: none; color: var(--cn, #0b2566); gap: 3px; }
+.cg-ring .cg-it:active { transform: translate(-50%, -50%) scale(.94); box-shadow: none; }
+.cg-ring .cg-ico { width: 48px; height: 48px; background: radial-gradient(circle at 50% 30%, #1d4fa3, #0b2566 80%); box-shadow: 0 3px 0 rgba(11, 37, 102, .35); }
+.cg-ring .cg-ico svg { width: 24px; height: 24px; }
+.cg-ring .cg-lbl { font-size: .64rem; color: var(--cn, #0b2566); white-space: nowrap; }
 .cg-more { margin-bottom: 8px; }
