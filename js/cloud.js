@@ -13,9 +13,9 @@ export const ROLES = [
   { key: "admin", label: "Administrador", short: "Admin", desc: "Todo: Gestión completa, cuentas, roles, contenido del curso y seguimiento." },
   { key: "coordinador", label: "Coordinador", short: "Coordinación", desc: "Agenda, Portada de Inicio y moderación del muro y del chat. No cambia roles ni el curso." },
   { key: "dirigente", label: "Dirigente", short: "Dirigente", desc: "Hace el curso, participa en el muro y en sus salas de chat." },
-  { key: "aspirante", label: "Aspirante", short: "Aspirante", desc: "Se prepara para ser dirigente: Mi Camino (revista Aspirante), el curso y la sala Aspirantes." },
-  { key: "ingreso", label: "Joven · Ingreso", short: "Ingreso", desc: "Joven del grupo: Mi Camino con la revista de Ingreso, agenda, muro, sala general y capilla." },
-  { key: "madurez", label: "Joven · Madurez", short: "Madurez", desc: "Joven del grupo: Mi Camino con la revista de Madurez, agenda, muro, sala general y capilla." },
+  { key: "aspirante", label: "Aspirante", short: "Aspirante", desc: "Se prepara para ser dirigente: el curso y la sala Aspirantes." },
+  { key: "ingreso", label: "Joven · Ingreso", short: "Ingreso", desc: "Joven del grupo: agenda, muro, sala general y capilla." },
+  { key: "madurez", label: "Joven · Madurez", short: "Madurez", desc: "Joven del grupo: agenda, muro, sala general y capilla." },
 ];
 export const JOVEN = ["ingreso", "madurez"];
 export const isJovenRole = (r) => JOVEN.includes(r);
@@ -638,30 +638,6 @@ export async function chatConfig(force) {
   if (!chatCfg || force) chatCfg = { ...CHAT_DEFAULT, ...((await getContent("chat")) || {}) };
   return chatCfg;
 }
-// Nuestra Revista del año: quién la ve mientras se prepara (content/revista, la cambia un administrador).
-// modo: "admin" (solo administradores), "equipo" (dirigentes y equipo) o "todos".
-export const REVISTA_MODOS = ["admin", "equipo", "todos"];
-let revCfg = (() => { try { return JSON.parse(localStorage.getItem("agape_revista") || "null"); } catch { return null; } })();
-let revAt = 0;
-export async function revistaConfig(force) {
-  if (!enabled) return { modo: "todos" };
-  if (force || !revAt || Date.now() - revAt > 5 * 60000) {
-    revAt = Date.now();
-    const c = await getContent("revista");
-    if (c) { revCfg = c; try { localStorage.setItem("agape_revista", JSON.stringify(c)); } catch {} }
-    else if (!revCfg) revCfg = { modo: "admin" };
-  }
-  return revCfg || { modo: "admin" };
-}
-export function revistaVisible() {
-  if (!enabled) return true;
-  const s = state(), modo = (revCfg && revCfg.modo) || "admin";
-  if (s.isAdmin || modo === "todos") return true;
-  return modo === "equipo" && !!s.ready && !s.isJoven && s.role !== "aspirante";
-}
-// Nuestras familias (los grupos pequeños) es todavía una idea: se muestra junto con la revista, con el mismo interruptor.
-export const familiasVisible = () => revistaVisible();
-export async function saveRevistaConfig(data) { await setContent("revista", data); revCfg = data; revAt = Date.now(); try { localStorage.setItem("agape_revista", JSON.stringify(data)); } catch {} }
 // Oremos con los salmos: textos completos autorizados (content/salmos, lo carga un administrador).
 export const getSalmos = () => getContent("salmos");
 export const getMisaVivo = () => getContent("misaVivo");
@@ -883,18 +859,6 @@ export async function saveCurso(course) {
 }
 export const deleteCurso = (id) => fb.deleteDoc(fb.doc(db, "cursos", id));
 
-// Archivo de revistas de años anteriores (content/archivo): lo lee cualquiera, lo edita un administrador.
-export async function getArchivo() {
-  if (!enabled || !db) return null;
-  try {
-    const snap = await withTimeout(fb.getDoc(fb.doc(db, "content", "archivo")), 6000);
-    return snap.exists() ? safeJSON(snap.data().json, { items: [] }) : { items: [] };
-  } catch { return null; }
-}
-export async function saveArchivo(data) {
-  await fb.setDoc(fb.doc(db, "content", "archivo"), { json: JSON.stringify(data), updatedAt: fb.serverTimestamp(), updatedBy: account.email });
-}
-
 // ---------------------------------------------------------------------------
 // Banco de dinámicas (lo ven quienes tienen cuenta; lo alimentan los guías).
 // ---------------------------------------------------------------------------
@@ -903,39 +867,14 @@ export const saveDinamica = saveIn("dinamicas");
 export const deleteDinamica = (id) => fb.deleteDoc(fb.doc(db, "dinamicas", id));
 
 // ---------------------------------------------------------------------------
-// Acompañamiento: jóvenes, sesiones (asistencia), cumpleaños y cuadro de honor.
-// Los jóvenes no necesitan cuenta; si la tienen, el equipo la vincula para que vean su pasaporte.
+// Acompañamiento: la lista de jóvenes y sus cumpleaños.
+// Los jóvenes no necesitan cuenta; si la tienen, el equipo la vincula para que vean su ficha privada.
 // ---------------------------------------------------------------------------
 export const watchJovenes = watchCol("jovenes");
-export const watchSesiones = watchCol("sesiones");
 export const saveJoven = saveIn("jovenes");
 export const patchJoven = (id, data) => fb.updateDoc(fb.doc(db, "jovenes", id), data);
 export const deleteJoven = (id) => fb.deleteDoc(fb.doc(db, "jovenes", id));
 export const listJovenes = () => all("jovenes");
-export const listSesiones = () => all("sesiones");
-// Nuestras familias: 10 grupos (familias/f1..f10). El equipo los arma; sus integrantes eligen el nombre.
-export async function listFamilias() {
-  if (!enabled || !db) return [];
-  try { return snapRows(await withTimeout(fb.getDocs(fb.collection(db, "familias")), 8000)); } catch { return null; }
-}
-export const saveFamilia = (id, data) => fb.setDoc(fb.doc(db, "familias", id), { ...data, updatedAt: fb.serverTimestamp() });
-// Familia elige su ícono: «e:🐟» (emoji) o «i:buenpastor» (ilustración de la app)
-export const iconoFamilia = (id, icono) => fb.updateDoc(fb.doc(db, "familias", id), { icono, updatedAt: fb.serverTimestamp() });
-// Mini portal de cada familia: su muro y su agenda (solo la familia y el equipo)
-const famCol = (fid, c) => fb.collection(db, "familias", fid, c);
-export function watchFam(fid, c, cb, onErr) {
-  if (!enabled || !db) { onErr && onErr(new Error("offline")); return () => {}; }
-  return fb.onSnapshot(famCol(fid, c), (qs) => cb(snapRows(qs)), (e) => { console.warn("Familia:", e); onErr && onErr(e); });
-}
-export const postFamMuro = (fid, texto) => fb.setDoc(fb.doc(famCol(fid, "muro")), { texto, autorUid: user.uid, autorNombre: shortName(account.name), autorAvatar: account.avatar || "", likes: {}, createdAt: fb.serverTimestamp() });
-export const likeFamMuro = (fid, pid, on) => toggleMark(["familias", fid, "muro", pid], "likes", on);
-export const deleteFamMuro = (fid, pid) => fb.deleteDoc(fb.doc(db, "familias", fid, "muro", pid));
-export const saveFamEvento = (fid, id, data) => fb.setDoc(id ? fb.doc(db, "familias", fid, "agenda", id) : fb.doc(famCol(fid, "agenda")), { ...data, porUid: user.uid, porNombre: shortName(account.name), updatedAt: fb.serverTimestamp() });
-export async function getFamEval(fid, id) { const s = await fb.getDoc(fb.doc(db, "familias", fid, "evals", id)); return s.exists() ? s.data() : null; }
-export const saveFamEval = (fid, id, data) => fb.setDoc(fb.doc(db, "familias", fid, "evals", id), { ...data, at: fb.serverTimestamp() });
-export const listFamEvals = (fid) => fb.getDocs(famCol(fid, "evals")).then(snapRows);
-export const deleteFamEvento = (fid, id) => fb.deleteDoc(fb.doc(db, "familias", fid, "agenda", id));
-export const nombrarFamilia = (id, nombre) => fb.updateDoc(fb.doc(db, "familias", id), { nombre, nombrePor: account ? account.name || "" : "", updatedAt: fb.serverTimestamp() });
 // Grupo de WhatsApp de la app (privado/whatsapp): lo ven solo cuentas activas; lo edita el equipo.
 let waCache;
 export async function getGrupoWA(force) {
@@ -945,8 +884,6 @@ export async function getGrupoWA(force) {
   return waCache;
 }
 export async function saveGrupoWA(d) { await fb.setDoc(fb.doc(db, "privado", "whatsapp"), { ...d, updatedAt: fb.serverTimestamp(), updatedBy: account.email }); waCache = d; }
-export const saveSesion = (fecha, data) => fb.setDoc(fb.doc(db, "sesiones", fecha), { ...data, by: account.email, at: fb.serverTimestamp() });
-export const deleteSesion = (fecha) => fb.deleteDoc(fb.doc(db, "sesiones", fecha));
 // Ficha privada del joven (fichas/{id de la lista de jóvenes}): datos para emergencias, nunca públicos.
 export async function getJoven(id) {
   if (!enabled || !db) return null;
@@ -1010,8 +947,6 @@ export async function saveCumples(d) {
 // Mensaje de bienvenida para quienes se suman al grupo (plantilla editable; no lleva datos privados).
 export const getBienvenida = () => getContent("bienvenida");
 export const saveBienvenida = (d) => setContent("bienvenida", d);
-export const getHonor = () => getContent("honor");
-export const saveHonor = (d) => setContent("honor", d);
 export const getFamilias = () => getContent("familias");
 export const saveFamilias = (d) => setContent("familias", d);
 export const getDesafio = () => getContent("desafio");

@@ -1,66 +1,14 @@
 // Gestión, etapa 2: lo que antes se hacía en pantallas sueltas, ahora dentro del panel.
-//  · Familias en una tabla: las 10 de una vez (nombre, etapa, dirigentes; integrantes salen de la asignación)
 //  · Moderación: reportes del muro (publicaciones y respuestas) y del chat en un solo lugar
 //  · Consentimientos: qué familias firmaron y qué autorizaron (solo administración)
 
 import * as cloud from "./cloud.js";
 import { esc, icon, toast } from "./util.js";
-import { IDS, COLORS, ETAPAS, corto, derive, uidsOf, etapaSugerida } from "./familias-ag.js";
-import { famIcon } from "./familia-portal.js";
 
 const st = () => cloud.state();
 let ctx = null;
 export function setup(c) { ctx = c; registerActions(); }
-
-// ---------------------------------------------------------------------------
-// Familias en una tabla  (#/admin/grupos)
-// ---------------------------------------------------------------------------
-let T = null; // { rows, people, jovenes, draft: {fid: {nombre, etapa, dir:Set}} }
-export function familiasHTML() {
-  setTimeout(paintFam, 0);
-  return `<header class="page-head"><span class="eyebrow">Gestión · Personas</span><h1>Las <em>familias</em></h1>
-    <p>Las 10 familias en una sola tabla. Elige su etapa y sus dirigentes; los integrantes salen solos de <a href="#/admin/asignar">Asignar jóvenes</a>. Un dirigente está en una sola familia.</p></header>
-    <div id="gfBox"><p class="muted" style="padding:24px;text-align:center">Cargando las familias…</p></div>`;
-}
-async function loadFam() {
-  const [rows, people, jovenes] = await Promise.all([cloud.listFamilias(), cloud.listPeople().catch(() => []), cloud.listJovenes().catch(() => [])]);
-  const by = Object.fromEntries((rows || []).map((r) => [r.id, r]));
-  T = { rows: by, people: people.filter((p) => ["admin", "coordinador", "dirigente"].includes(p.role)).sort((a, b) => a.name.localeCompare(b.name, "es")), jovenes, draft: {} };
-  IDS.forEach((id) => { const r = by[id] || {}; T.draft[id] = { nombre: r.nombre || "", etapa: r.etapa || "", dir: new Set((r.dirigentes || []).map((d) => d.uid)) }; });
-}
-const dirName = (uid) => (T.people.find((p) => p.uid === uid) || {}).name || "";
-function intsOf(id) {
-  const others = new Set(IDS.filter((x) => x !== id).flatMap((x) => [...T.draft[x].dir]));
-  return derive([...T.draft[id].dir], T.jovenes, others);
-}
-function changed(id) {
-  const r = T.rows[id] || {}, d = T.draft[id];
-  return (r.nombre || "") !== d.nombre || (r.etapa || "") !== d.etapa || JSON.stringify((r.dirigentes || []).map((x) => x.uid).sort()) !== JSON.stringify([...d.dir].sort());
-}
-async function paintFam() {
-  const box = document.getElementById("gfBox"); if (!box) return;
-  if (!T) await loadFam().catch(() => { T = null; });
-  if (!T) { box.innerHTML = `<div class="note">No se pudieron cargar las familias. Revisa tu conexión.</div>`; return; }
-  const usados = {}; IDS.forEach((id) => T.draft[id].dir.forEach((u) => { usados[u] = id; }));
-  const libres = T.people.filter((p) => !usados[p.uid]);
-  const nCambios = IDS.filter(changed).length;
-  box.innerHTML = `<div class="gf-tablewrap"><table class="gf-table">
-    <thead><tr><th>Familia</th><th>Nombre</th><th>Etapa</th><th>Dirigentes</th><th>Integrantes</th></tr></thead>
-    <tbody>${IDS.map((id, i) => {
-      const d = T.draft[id], ints = intsOf(id), sug = etapaSugerida(T.jovenes, new Set(ints.map((j) => j.id)));
-      return `<tr class="${changed(id) ? "dirty" : ""}" style="--fc:${COLORS[i]}">
-        <th><span class="gf-n">${famIcon({ ...(T.rows[id] || {}), i })}</span></th>
-        <td><input class="input" maxlength="40" data-gf="nombre" data-id="${id}" value="${esc(d.nombre)}" placeholder="Familia ${i + 1}" aria-label="Nombre de la familia ${i + 1}"></td>
-        <td><select class="select" data-gf="etapa" data-id="${id}" aria-label="Etapa de la familia ${i + 1}"><option value="">—</option>${Object.entries(ETAPAS).map(([k, v]) => `<option value="${k}" ${d.etapa === k ? "selected" : ""}>${esc(v[0])}</option>`).join("")}</select>
-          ${sug && sug !== d.etapa ? `<button class="gf-sug" data-action="gfSug" data-id="${id}" data-e="${sug}" title="La mayoría de sus integrantes">Sugerida: ${esc(ETAPAS[sug][0])}</button>` : ""}</td>
-        <td><div class="fam-chips">${[...d.dir].map((u) => `<span class="fam-chip dir">⭐ ${esc(corto(dirName(u)) || "¿?")} <button class="gf-x" data-action="gfDirOut" data-id="${id}" data-u="${esc(u)}" aria-label="Quitar">×</button></span>`).join("")}
-          ${libres.length ? `<select class="select gf-add" data-gf="dir" data-id="${id}" aria-label="Agregar dirigente"><option value="">+ dirigente</option>${libres.map((p) => `<option value="${esc(p.uid)}">${esc(p.name)}</option>`).join("")}</select>` : ""}</div></td>
-        <td><b>${ints.length}</b> <span class="xs muted">${esc(ints.slice(0, 4).map((j) => j.nombre).join(", "))}${ints.length > 4 ? "…" : ""}</span></td></tr>`;
-    }).join("")}</tbody></table></div>
-    <div class="row-wrap gf-save"><span class="small">${nCambios ? `<b>${nCambios}</b> familia${nCambios > 1 ? "s" : ""} con cambios` : "Sin cambios"}</span><span class="spacer"></span>
-      ${nCambios ? `<button class="btn btn-ghost btn-sm" data-action="gfReset">Deshacer</button>` : ""}<button class="btn btn-primary" data-action="gfSave" ${nCambios ? "" : "disabled"}>${icon("check")} Guardar cambios</button></div>
-    <p class="xs muted">${libres.length ? `Dirigentes sin familia: ${esc(libres.map((p) => corto(p.name)).join(", "))}.` : "Todos los dirigentes tienen familia."} Los integrantes y la etapa sugerida se recalculan al instante.</p>`;
-}
+const corto = (n) => { const p = String(n || "").trim().split(/\s+/); return p.length > 1 ? `${p[0]} ${p[1][0].toUpperCase()}.` : p[0] || ""; };
 
 // ---------------------------------------------------------------------------
 // Moderación  (#/admin/moderacion)
@@ -127,24 +75,8 @@ async function paintCons() {
 }
 
 // ---------------------------------------------------------------------------
-let wired = false;
 function registerActions() {
   const A = ctx.actions;
-  A.gfSug = (el) => { T.draft[el.dataset.id].etapa = el.dataset.e; paintFam(); };
-  A.gfDirOut = (el) => { T.draft[el.dataset.id].dir.delete(el.dataset.u); paintFam(); };
-  A.gfReset = async () => { T = null; paintFam(); };
-  A.gfSave = async (el) => {
-    el.disabled = true;
-    try {
-      for (const id of IDS.filter(changed)) {
-        const d = T.draft[id], r = T.rows[id] || {}, ints = intsOf(id);
-        const dirigentes = [...d.dir].map((uid) => ({ uid, nombre: dirName(uid) }));
-        await cloud.saveFamilia(id, { nombre: d.nombre.trim().slice(0, 40), nombrePor: d.nombre === (r.nombre || "") ? r.nombrePor || "" : "", icono: r.icono || "", etapa: d.etapa,
-          dirigentes, integrantes: ints, uids: uidsOf(dirigentes, ints) });
-      }
-      toast("Familias guardadas 👨‍👩‍👧‍👦", "ok"); T = null; paintFam();
-    } catch (e) { console.warn(e); toast("No se pudo guardar. Revisa tu conexión.", ""); el.disabled = false; }
-  };
   A.gmHide = async (el) => {
     const on = el.dataset.on === "1";
     try { if (el.dataset.k === "post") await cloud.updatePost(el.dataset.id, { hidden: on }); else await cloud.updateReply(el.dataset.p, el.dataset.id, { hidden: on }); toast(on ? "Oculto" : "Visible de nuevo"); paintMod(); }
@@ -163,19 +95,4 @@ function registerActions() {
       toast("Borrado"); paintMod();
     } catch { toast("No se pudo borrar", ""); }
   };
-  if (wired) return; wired = true;
-  document.addEventListener("change", (e) => {
-    const t = e.target; if (!t.dataset || !t.dataset.gf || !T) return;
-    const d = T.draft[t.dataset.id];
-    if (t.dataset.gf === "etapa") d.etapa = t.value;
-    if (t.dataset.gf === "dir" && t.value) d.dir.add(t.value);
-    if (t.dataset.gf !== "nombre") paintFam();
-  });
-  document.addEventListener("input", (e) => {
-    const t = e.target; if (!t.dataset || t.dataset.gf !== "nombre" || !T) return;
-    T.draft[t.dataset.id].nombre = t.value;
-    const tr = t.closest("tr"); if (tr) tr.classList.toggle("dirty", changed(t.dataset.id));
-    const n = IDS.filter(changed).length, b = document.querySelector("[data-action=gfSave]"), s = document.querySelector(".gf-save .small");
-    if (b) b.disabled = !n; if (s) s.innerHTML = n ? `<b>${n}</b> familia${n > 1 ? "s" : ""} con cambios` : "Sin cambios";
-  });
 }

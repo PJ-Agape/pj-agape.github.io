@@ -1,12 +1,9 @@
-// Trivia Ágape: preguntas sobre la comunidad, el Camino Ágape, la app y la fe.
-// Parte de las preguntas sale del contenido vivo de la app (los encuentros del Camino y
-// las evaluaciones del curso), así que la trivia crece cuando crece el contenido.
+// Trivia Ágape: preguntas sobre la comunidad, la app y la fe.
+// Parte de las preguntas sale del contenido vivo de la app (las evaluaciones del curso),
+// así que la trivia crece cuando crece el contenido.
 // Se juega en el teléfono; el mejor puntaje queda solo en este dispositivo.
-import { esc, icon, fetchJSON } from "./util.js";
+import { esc, icon } from "./util.js";
 import * as S from "./store.js";
-import { revistaVisible } from "./cloud.js";
-// Mientras Nuestra Revista está oculta, la trivia no pregunta por el Camino Ágape ni por Mi Camino.
-const sinRevista = (l) => (revistaVisible() ? l : l.filter((x) => !/Mi Camino/.test(x[0])));
 
 let ctx = null; // { actions, onAfterRender, onLeave }
 export function setup(c) { ctx = c; registerActions(); }
@@ -28,28 +25,12 @@ const BANCO = {
     ["¿Con qué va de la mano toda nuestra planificación?", ["Con el año litúrgico de la Iglesia", "Con el calendario escolar", "Con las vacaciones", "Con los cumpleaños del grupo"], "Temas y dinámicas siguen el calendario de la Iglesia."],
     ["¿A qué diócesis pertenecemos?", ["San Bartolomé de Chillán", "Santiago", "Concepción", "Los Ángeles"], "Somos parte de la Diócesis San Bartolomé de Chillán, en Ñuble."],
   ],
-  camino: [
-    ["¿Cuál es el orden de las etapas del Camino Ágape?", ["Ingreso → Madurez → Aspirante", "Aspirante → Ingreso → Madurez", "Madurez → Ingreso → Aspirante", "Ingreso → Aspirante → Madurez"], "Tres etapas, de un año cada una."],
-    ["¿Cuál es el lema de la etapa de Ingreso?", ["Bienvenido a casa", "Llamados a servir", "Mi fe en primera persona", "Amor que transforma"], "En Ingreso descubrimos que la comunidad es un lugar donde soy acogido tal como soy."],
-    ["¿Cuál es el lema de la etapa de Madurez?", ["Mi fe en primera persona", "Bienvenido a casa", "Llamados a servir", "Todo comienza hoy"], "Pasar de «me enseñaron» a «yo creo»."],
-    ["¿Cuál es el lema de la etapa de Aspirante?", ["Llamados a servir", "Mi fe en primera persona", "Bienvenido a casa", "Siempre unidos"], "Quien decide servir hace el curso «El Arte de Encontrarnos» y recibe su envío."],
-    ["¿Qué recibe cada joven al terminar Ingreso?", ["La cruz del grupo", "Una Biblia", "Un diploma", "Una polera"], "La cruz del grupo es el signo de esa etapa."],
-    ["¿Qué recibe cada joven al terminar Madurez?", ["Una Biblia con una dedicatoria de su comunidad", "La cruz del grupo", "Un rosario", "Una medalla"], "La Biblia acompaña el paso a una fe más propia."],
-    ["¿Cuándo empieza el año del grupo?", ["En marzo, en plena Cuaresma", "En enero", "En Navidad", "En julio"], "Empieza en Cuaresma y termina con la fiesta de Cristo Rey, en noviembre."],
-    ["¿Con qué fiesta termina el año del grupo?", ["Cristo Rey", "Navidad", "Pentecostés", "Todos los Santos"], "Cristo Rey, en noviembre, cierra el año."],
-    ["¿Cuánto dura más o menos un encuentro semanal?", ["90 minutos", "30 minutos", "3 horas", "Todo el día"], "Todos empiezan y terminan juntos; al centro, cada etapa trabaja en su grupo."],
-    ["¿Qué momento del encuentro «no se salta»?", ["La convivencia", "Los avisos", "La foto", "La lista"], "En la convivencia también se hace comunidad."],
-    ["El paso de una etapa a otra depende de…", ["Un crecimiento que el joven y sus acompañantes reconocen", "Sacarse buenas notas", "Tener asistencia perfecta", "La edad"], "No depende de notas ni de asistencia perfecta: se conversa, se discierne y se celebra."],
-    ["¿Con quién se reza cada mes en el Camino Ágape?", ["Con la intención que propone el Papa", "Solo con el grupo", "Con otra parroquia", "Con el colegio"], "Cada mes rezamos con la intención que el Papa León XIV propone a toda la Iglesia."],
-  ],
   app: [
     ["¿Dónde están Momentos, Muro, Chat y Juegos?", ["En La Plaza Ágape", "En la Capilla", "En Materiales", "En Mi cuaderno"], "La Plaza Ágape es nuestra red social: lo que vivimos, conversamos y jugamos."],
-    ["¿Qué encuentras en «Mi pasaporte»?", ["Tus encuentros, tu racha y tus sellos", "Tus datos personales", "Las canciones favoritas", "Las fotos del grupo"], "Cada encuentro, servicio y celebración deja un sello."],
     ["En la Capilla, ¿qué puedes dejar para que la comunidad rece contigo?", ["Tus intenciones", "Un comentario", "Una foto", "Una canción"], "Rezamos unos por otros: así nos sabemos comunidad."],
     ["¿Qué guarda «Mi cuaderno»?", ["Lo que escribiste en las reflexiones", "Las tareas del colegio", "Los cumpleaños", "Los mensajes del chat"], "Tus respuestas a las reflexiones quedan guardadas para volver a ellas."],
     ["¿Cómo se llama el curso para dirigentes?", ["El Arte de Encontrarnos", "Escuela de Líderes", "Camino de Emaús", "Jóvenes que Sirven"], "Lo hace quien termina Aspirante y decide servir."],
-    ["¿Qué muestra «Mi Camino»?", ["El encuentro de tu etapa de esta semana", "El mapa para llegar a la parroquia", "Tu avance en los juegos", "La agenda del mes"], "Ahí está lo que tu etapa trabaja cada semana."],
-    ["¿Dónde está el Cancionero?", ["En Materiales", "En el Chat", "En Mi pasaporte", "En la Agenda"], "En Materiales: canciones con acordes, para proyectar y exportar."],
+    ["¿Dónde está el Cancionero?", ["En Materiales", "En el Chat", "En Mi perfil", "En la Agenda"], "En Materiales: canciones con acordes, para proyectar y exportar."],
     ["¿Qué marcas cuando cumples el desafío de la semana?", ["¡Lo cumplí!", "Me gusta", "Listo", "Enviar"], "El desafío sale del encuentro de cada semana."],
     ["En El Impostor, si pillan al impostor…", ["Todavía puede ganar si adivina la palabra", "Pierde todo el grupo", "Se acaba el juego para siempre", "Gana el que votó primero"], "¡Hasta el final hay esperanza!"],
     ["En ¡En la frente!, ¿qué haces si adivinaste la palabra?", ["Inclinar la pantalla hacia el suelo", "Gritar «¡Ágape!»", "Agitar el celular", "Apagar la pantalla"], "Hacia el suelo es punto; hacia el techo, paso."],
@@ -77,7 +58,6 @@ const BANCO = {
 const TEMAS = {
   mix: { l: "Mezcla", d: "Un poco de todo" },
   comunidad: { l: "Nuestra comunidad", d: "Quiénes somos y cómo caminamos" },
-  camino: { l: "Camino Ágape", d: "Etapas, encuentros y lemas" },
   app: { l: "La app", d: "¿Cuánto conoces agAPPe?" },
   fe: { l: "Biblia y fe", d: "Lo que creemos y celebramos" },
   curso: { l: "Curso de dirigentes", d: "Situaciones del curso" },
@@ -87,20 +67,6 @@ const N = 10, SECS = 20;
 // ---------------------------------------------------------------------------
 // Preguntas que salen del contenido vivo
 // ---------------------------------------------------------------------------
-let caminoCache = null;
-async function caminoDyn() {
-  try { caminoCache = caminoCache || (await fetchJSON("data/encuentros.json")); } catch { return []; }
-  const enc = (caminoCache.encuentros || []).filter((e) => e.tema && e.lema && e.evangelio?.ref);
-  const out = [];
-  for (const e of enc) {
-    const others = shuffle(enc.filter((x) => x !== e));
-    const lemas = [...new Set(others.map((x) => x.lema).filter((l) => l !== e.lema))].slice(0, 3);
-    const refs = [...new Set(others.map((x) => x.evangelio.ref).filter((r) => r !== e.evangelio.ref))].slice(0, 3);
-    if (lemas.length === 3) out.push([`¿Qué lema acompaña el encuentro «${e.tema}»?`, [e.lema, ...lemas], `Encuentro ${e.n}${e.domingo ? `, ${e.domingo}` : ""}.`]);
-    if (refs.length === 3) out.push([`El encuentro «${e.tema}» se ilumina con el Evangelio de…`, [e.evangelio.ref, ...refs], e.evangelio.resumen ? e.evangelio.resumen.split(". ")[0] + "." : ""]);
-  }
-  return out;
-}
 function cursoDyn() {
   const out = [];
   try {
@@ -129,10 +95,9 @@ let timer = null;
 const stop = () => { if (timer) clearInterval(timer); timer = null; };
 
 async function pool(cat) {
-  if (cat === "camino") return [...BANCO.camino, ...shuffle(await caminoDyn()).slice(0, 12)]; // mitad y mitad
   if (cat === "curso") return cursoDyn();
-  if (cat === "mix") return sinRevista([...BANCO.comunidad, ...(revistaVisible() ? BANCO.camino : []), ...BANCO.app, ...BANCO.fe, ...(await caminoDyn()).slice(0, 12), ...shuffle(cursoDyn()).slice(0, 6)]);
-  return sinRevista(BANCO[cat] || []);
+  if (cat === "mix") return [...BANCO.comunidad, ...BANCO.app, ...BANCO.fe, ...shuffle(cursoDyn()).slice(0, 6)];
+  return BANCO[cat] || [];
 }
 async function start(cat) {
   const all = await pool(cat);
@@ -164,7 +129,7 @@ export { triviaArt as artSvg } from "./juegos-arte.js";
 import { triviaArt as artSvg } from "./juegos-arte.js";
 
 function setupHTML() {
-  const cats = Object.entries(TEMAS).filter(([k]) => (k !== "curso" || hasCurso()) && (k !== "camino" || revistaVisible()));
+  const cats = Object.entries(TEMAS).filter(([k]) => (k !== "curso" || hasCurso()));
   return `<a class="imp-back" href="#/juegos">${icon("left")} Juegos</a>
   <header class="imp-hero tv-hero">
     <span class="imp-mask" aria-hidden="true">${artSvg()}</span>

@@ -1,4 +1,4 @@
-// Gestión → Inicio y enlaces: el saludo, La Plaza Ágape, Nuestras familias, las radios católicas y los enlaces de interés.
+// Gestión → Inicio y enlaces: el saludo, La Plaza Ágape, las radios católicas y los enlaces de interés.
 // Lo editan administradores y coordinadores; los cambios se ven al instante, sin «Publicar».
 import { esc, icon, toast } from "./util.js";
 import { DEFAULTS, DOOR_NAMES, REDES, cfg, savedRaw, adopt } from "./inicio-config.js";
@@ -40,7 +40,6 @@ export function adminView() {
 
     <section class="card ia-sec"><h2>La Plaza Ágape</h2>${head("plaza")}<div class="ia-doors">${doors("plaza")}</div></section>
 
-    <section class="card ia-sec"><h2>Nuestras familias</h2><p class="muted small">Solo la ven quienes tienen cuenta. «Asistencia» aparece solo a los guías.</p>${head("familias")}<div class="ia-doors">${doors("familias")}</div></section>
 
     <section class="card ia-sec"><h2>Música y redes sociales</h2>
       <p class="muted small">La playlist aparece en Inicio, junto a las radios y el podcast. Las redes, como botones pequeños en el pie de página de toda la app.</p>

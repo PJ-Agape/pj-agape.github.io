@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ["data/encuentros.json", "scripts/agenda-ics.mjs", "js/repeat.js"]
+    paths: ["scripts/agenda-ics.mjs", "js/repeat.js"]
 permissions:
   contents: write
 concurrency: { group: agenda-ics, cancel-in-progress: false }

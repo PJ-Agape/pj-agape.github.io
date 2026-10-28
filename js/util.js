@@ -37,15 +37,10 @@ export function download(filename, text, type = "application/json") {
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 }
 
-// JSON del sitio (encuentros, Evangelio…): una sola descarga aunque varias secciones lo pidan al mismo
+// JSON del sitio (Evangelio, salmos…): una sola descarga aunque varias secciones lo pidan al mismo
 // tiempo; se vuelve a pedir pasados unos minutos. Cada sección recibe su propia copia.
 const jsonCache = new Map();
-// Nuestra Revista puede estar oculta mientras el equipo la prepara: entonces su programa
-// (data/encuentros.json) no se entrega a quien no debe verla, y cada parte que lo usa lo omite.
-let revistaGate = () => true;
-export const setRevistaGate = (fn) => { revistaGate = fn; };
 export function fetchJSON(url, ttl = 5 * 60 * 1000) {
-  if (/(^|\/)data\/encuentros\.json$/.test(url) && !revistaGate()) return Promise.reject(new Error("revista oculta"));
   const hit = jsonCache.get(url);
   if (!hit || Date.now() - hit.t > ttl) {
     const p = fetch(url, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : Promise.reject(new Error("HTTP " + r.status))));

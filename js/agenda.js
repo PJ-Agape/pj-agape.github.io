@@ -1,10 +1,9 @@
 // Agenda oficial de la Pastoral Juvenil Ágape: calendario tipo planner con los
 // encuentros y actividades del grupo, más las últimas noticias del muro.
-// La ve cualquiera; la editan los administradores. Los encuentros de Camino Ágape
-// aparecen solos a partir del programa del año.
+// La ve cualquiera; la editan los administradores.
 
 import * as fondo from "./fondo-cuenta.js";
-import { esc, icon, toast, fetchJSON } from "./util.js";
+import { esc, icon, toast } from "./util.js";
 import { illus, SCENE_KEYS, sceneLabel } from "./ilustraciones.js";
 import { REPEATS, isRepeat, occurrences, describe as repeatText, rrule } from "./repeat.js";
 // Texto de cada opción según la fecha elegida: «Cada mes, el 3er sábado».
@@ -98,26 +97,8 @@ async function paintConf(id) {
       <button class="icon-btn" data-action="agConfDel" data-id="${esc(id)}" data-cid="${esc(r.id)}" aria-label="Quitar">${icon("x")}</button></li>`).join("")}</ul>` : ""}`;
 }
 
-let events = null, camino = [], showCamino = true, month = null, selDay = null, openId = null;
+let events = null, month = null, selDay = null, openId = null;
 
-// Encuentros de Camino Ágape a partir del programa (se muestran el domingo de cada semana).
-async function loadCamino() {
-  if (camino.length) return;
-  try {
-    const d = await fetchJSON("data/encuentros.json");
-    camino = d.encuentros.map((e) => {
-      const m = String(e.fecha).match(/(\d+) de (\w+) de (\d{4})/);
-      if (!m) return null;
-      return {
-        id: "camino-" + e.n, camino: true, type: "encuentro",
-        date: `${m[3]}-${pad(MESES.indexOf(m[2]) + 1)}-${pad(+m[1])}`,
-        title: `Encuentro N° ${e.n}: ${e.tema}`,
-        desc: `${e.domingo}. Evangelio: ${e.evangelio.ref}. El encuentro se realiza durante esta semana; el equipo confirma día y hora.`,
-        audience: "Todas las etapas",
-      };
-    }).filter(Boolean);
-  } catch { camino = []; }
-}
 // Expande los eventos que se repiten en sus fechas (id de cada fecha: «id@AAAA-MM-DD»).
 function expand(list, from, to) {
   return list.flatMap((e) => (isRepeat(e) ? occurrences(e, from, to).map((d) => ({ ...e, id: `${e.id}@${d}`, baseId: e.id, date: d })) : [e]));
@@ -127,7 +108,7 @@ function all() {
   const m0 = iso(month || new Date()), t = todayIso();
   const from = shiftIso(m0 < t ? m0 : t, -45), to = shiftIso(m0 > t ? m0 : t, 400);
   const own = expand((events || []).filter((e) => e.date), from, to);
-  return [...own, ...(showCamino ? camino : []), ...cumpleEvents(from, to)].sort((a, b) => (a.date + (a.start || "")).localeCompare(b.date + (b.start || "")));
+  return [...own, ...cumpleEvents(from, to)].sort((a, b) => (a.date + (a.start || "")).localeCompare(b.date + (b.start || "")));
 }
 // Las fechas seguidas de una misma serie (cada día, de lunes a viernes…) se juntan en una sola tarjeta
 // «14 – 18 oct». Una serie semanal o mensual sigue mostrándose fecha por fecha.
@@ -157,7 +138,7 @@ export function viewAgenda(day) {
   if (day) { const d = parse(day); month = new Date(d.getFullYear(), d.getMonth(), 1); selDay = day; }
   if (!month) month = new Date(now.getFullYear(), now.getMonth(), 1);
   ctx.onAfterRender(async () => {
-    await Promise.all([loadCamino(), loadCumples()]);
+    await loadCumples();
     const stop = ctx.cloud.watchAgenda((rows) => { events = rows; paint(); }, () => { events = events || []; paint(); });
     ctx.onLeave(stop);
     paint();
@@ -168,7 +149,6 @@ export function viewAgenda(day) {
     <p>Encuentros, celebraciones y actividades de la pastoral, siempre al día. Lo que está aquí es lo oficial.</p></header>
   <div class="row-wrap" style="margin:14px 0 4px">
     ${admin ? `<button class="btn btn-primary btn-sm" data-action="agNew">${icon("plus")} Nuevo evento</button>` : ""}
-    ${camino.length ? `<label class="chip ag-toggle"><input type="checkbox" id="agCamino" ${showCamino ? "checked" : ""}> Mostrar los encuentros del grupo</label>` : ""}
     <span class="spacer"></span><button class="btn btn-sm btn-gold" data-action="agSub">${icon("grid")} Suscribirme al calendario</button>
   </div>
   <div class="ag-layout">
@@ -224,20 +204,20 @@ function paintList() {
       <button class="ag-ev-head" data-action="agOpen" data-id="${esc(e.id)}" aria-expanded="${open}">
         ${run ? `<span class="ag-date ag-range"><b>${d.getDate()}</b><i aria-hidden="true">–</i><b>${e.until ? d2.getDate() : "…"}</b><small>${MES3(d)}${e.until && d2.getMonth() !== d.getMonth() ? `–${MES3(d2)}` : ""}</small></span>`
           : `<span class="ag-date"><b>${d.getDate()}</b><small>${MESES[d.getMonth()].slice(0, 3)}</small></span>`}
-        <span class="ag-ev-main"><span class="ag-type">${t.label}${e.camino ? " · Camino" : ""}${e.baseId && !run ? " · ↻" : ""}${e.feat ? ` · <span class="ag-feat">${icon("sparkle")} En Inicio</span>` : ""}${e.familias ? " · 🏠" : ""}${e.count ? " · ⏳" : ""}${autz.hasAuth(e) ? " · ✍️ Autorización" : ""}</span><strong>${e.cumple ? "🎂 " : ""}${esc(e.title)}</strong>
+        <span class="ag-ev-main"><span class="ag-type">${t.label}${e.baseId && !run ? " · ↻" : ""}${e.feat ? ` · <span class="ag-feat">${icon("sparkle")} En Inicio</span>` : ""}${e.familias ? " · 🏠" : ""}${e.count ? " · ⏳" : ""}${autz.hasAuth(e) ? " · ✍️ Autorización" : ""}</span><strong>${e.cumple ? "🎂 " : ""}${esc(e.title)}</strong>
           ${run ? `<span class="ag-run">${esc(rangeText(e))} · ${esc(repeatText(e).split(",")[0].toLowerCase())}</span>` : ""}
           <span class="muted small">${[e.start ? `${esc(e.start)}${e.end ? `–${esc(e.end)}` : ""}` : "", esc(e.place || e.audience || "")].filter(Boolean).join(" · ")}</span></span>
       </button>
       ${open ? `<div class="ag-ev-body">
         ${e.desc ? `<p>${esc(e.desc)}</p>` : ""}
         ${isRepeat(e) ? `<p class="small ag-rep">↻ ${esc(repeatText(e))}</p>` : ""}
-        ${e.audience && !e.camino && !e.cumple ? `<p class="small"><b>Para:</b> ${esc(e.audience)}</p>` : ""}
+        ${e.audience && !e.cumple ? `<p class="small"><b>Para:</b> ${esc(e.audience)}</p>` : ""}
         ${e.place ? `<p class="small"><b>Lugar:</b> ${esc(e.place)}</p>` : ""}
         <div class="row-wrap" style="margin-top:8px">
           <button class="btn btn-sm btn-ghost" data-action="agIcs" data-id="${esc(e.id)}">${icon("dl")} Agregar a mi calendario</button>
           ${autz.hasAuth(e) ? `<button class="btn btn-sm btn-gold" data-action="agAuthPdf" data-id="${esc(e.id)}">✍️ Autorización (PDF)</button>` : ""}
           ${e.invFam ? `<a class="btn btn-sm btn-primary" href="${waHref(e)}" target="_blank" rel="noopener">${icon("send")} Invitar a mi familia</a>` : ""}
-          ${admin && !e.camino && !e.cumple ? `<button class="btn btn-sm btn-soft" data-action="agEdit" data-id="${esc(e.baseId || e.id)}">${icon("edit")} Editar${e.baseId ? " la serie" : ""}</button>
+          ${admin && !e.cumple ? `<button class="btn btn-sm btn-soft" data-action="agEdit" data-id="${esc(e.baseId || e.id)}">${icon("edit")} Editar${e.baseId ? " la serie" : ""}</button>
             ${e.baseId ? `<button class="btn btn-sm btn-ghost" data-action="agSkip" data-id="${esc(e.baseId)}" data-date="${esc(e.date)}">${icon("x")} Saltar esta fecha</button>` : ""}
             <button class="btn btn-sm btn-danger" data-action="agDel" data-id="${esc(e.baseId || e.id)}" data-rep="${e.baseId ? 1 : 0}">${icon("trash")} Borrar${e.baseId ? " la serie" : ""}</button>` : ""}
         </div>
@@ -327,10 +307,10 @@ function ics(e) {
 export const panelSlot = (area) => `<div class="ag-panel-slot" data-ag-panel="${area}"></div>`;
 export async function fillPanels() {
   if (!document.querySelector("[data-ag-panel]")) return;
-  await Promise.all([loadCamino(), loadCumples().catch(() => {})]);
+  await loadCumples().catch(() => {});
   let own = []; try { own = (await ctx.cloud.listAgenda()) || []; } catch {}
   const t = todayIso(), to = shiftIso(t, 120);
-  const list = groupRuns([...expand(own.filter((e) => e.date && e.title), t, to), ...camino, ...cumpleEvents(t, shiftIso(t, 31))]
+  const list = groupRuns([...expand(own.filter((e) => e.date && e.title), t, to), ...cumpleEvents(t, shiftIso(t, 31))]
     .filter((e) => e.date >= t && e.date <= to).sort((x, y) => (x.date + (x.start || "")).localeCompare(y.date + (y.start || ""))));
   document.querySelectorAll("[data-ag-panel]").forEach((el) => {
     const a = el.dataset.agPanel, A = a === "inicio" ? { t: "Destacados", c: "#ef591c", hand: "no te lo pierdas" } : AREAS[a]; if (!A) return;
@@ -418,7 +398,6 @@ function registerActions() {
     ics(base ? { ...base } : e);
   };
   document.addEventListener("change", (e) => {
-    if (e.target.id === "agCamino") { showCamino = e.target.checked; paint(); }
     if (e.target.id === "agCount") { const o = $("#agCountOpts"); if (o) o.hidden = !e.target.checked; const b = $("#agCountBg"); if (b) b.hidden = !e.target.checked; }
     if (e.target.id === "agInv" && e.target.checked) { const fam = $("#agFam"); if (fam) fam.checked = true; }
     if (e.target.id === "agAuth") { const o = $("#agAuthOpts"); if (o) o.hidden = !e.target.checked; const fam = $("#agFam"); if (e.target.checked && fam) fam.checked = true; }

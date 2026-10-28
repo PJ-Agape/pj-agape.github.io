@@ -26,12 +26,9 @@ function who() {
   return {
     s, joven, asp, guest: cloud.enabled && !s.ready,
     curso: S.hasVisibleCourse(), // hay un curso para esta persona (los visitantes y jóvenes ven solo los abiertos, como la guía)
-    equipo: !cloud.enabled || (!!s.ready && !joven && !asp), // revistas, materiales, dinámicas, guía
+    equipo: !cloud.enabled || (!!s.ready && !joven && !asp), // materiales, dinámicas, guía
     guia: !cloud.enabled || !!s.isGuide,
     cuenta: !cloud.enabled || !!s.ready,
-    camino: (joven || asp) && (!cloud.enabled || cloud.revistaVisible()), // Mi Camino (encuentros por etapa)
-    revista: !cloud.enabled || cloud.revistaVisible(),       // Nuestra Revista (puede estar oculta mientras se prepara)
-    familias: !cloud.enabled || cloud.familiasVisible(),     // Nuestras familias (oculta junto con la revista)
   };
 }
 
@@ -48,12 +45,10 @@ export const BLOCKS = {
 };
 // e: emoji · t: título · d: descripción · kw: palabras para el buscador · ok: quién lo ve
 const ITEMS = [
-  { b: "formacion", e: "🧭", t: "Mi Camino", d: "El encuentro de tu etapa de esta semana.", href: "#/mi-camino", kw: "etapa ingreso madurez encuentro semana", ok: (w) => w.camino },
   { b: "formacion", e: "🎓", t: "Cursos", d: "La guía de agAPPe y los cursos de formación.", href: "#/itinerario", kw: "curso cursos formacion itinerario unidades modulos guia tutorial bienvenido agappe manual como funciona", ok: (w) => w.curso },
   { b: "formacion", e: "📓", t: "Mi cuaderno", d: "Lo que escribiste en las reflexiones.", href: "#/cuaderno", kw: "cuaderno notas reflexion respuestas", ok: (w) => w.curso, hub: false },
-  { b: "formacion", e: "📰", t: "Nuestra Revista", d: "Los encuentros del grupo, semana a semana.", href: "#/encuentros", kw: "revista encuentros semanales coordinacion etapas camino", ok: (w) => w.equipo && w.revista, hub: false }, // vive en Materiales → Revistas
   { b: "formacion", e: "🪪", t: "Credenciales", d: "Tarjetas de solapa con foto, nombre y parroquia para los encuentros.", href: "#/credenciales", kw: "credenciales credencial tarjeta solapa lanyard portacredencial gafete nombre encuentro retiro", ok: (w) => w.equipo || w.asp, hub: false }, // vive en Materiales → Para imprimir
-  { b: "formacion", e: "🧰", t: "Materiales", d: "Revistas, presentaciones, guías, banco de dinámicas y todo lo que se imprime.", href: "#/materiales", kw: "materiales recursos documentos biblioteca links imprimir presentaciones guias dinamicas credenciales", ok: (w) => w.equipo || w.asp },
+  { b: "formacion", e: "🧰", t: "Materiales", d: "Presentaciones, guías, banco de dinámicas y todo lo que se imprime.", href: "#/materiales", kw: "materiales recursos documentos biblioteca links imprimir presentaciones guias dinamicas credenciales", ok: (w) => w.equipo || w.asp },
   { b: "formacion", e: "🧰", t: "Materiales", d: "Difusión, cancionero, oraciones y la biblioteca digital.", href: "#/materiales", kw: "materiales recursos biblioteca difusion cancionero oremus", ok: (w) => !w.equipo && !w.asp },
   { b: "formacion", e: "🎲", t: "Dinámicas", d: "Juegos, rompehielos y dinámicas de oración.", href: "#/dinamicas", kw: "dinamicas juegos rompehielos actividades", ok: (w) => w.equipo, hub: false },
   { b: "formacion", e: "🌉", t: "¿Quieres ser dirigente?", d: "Presentación «Sé puente».", href: "presentaciones/se-puente.html", ext: true, kw: "dirigente se puente vocacion servir", ok: (w) => w.guest || w.joven },
@@ -62,11 +57,7 @@ const ITEMS = [
   { b: "red", e: "🎲", t: "Juegos", d: "El Impostor, ¡En la frente!, Trivia Ágape y más.", href: "#/juegos", kw: "juegos jugar trivia preguntas impostor mimica mimicas frente adivinar charadas dinamica plaza", ok: () => true, hub: false }, // en La Plaza Ágape
   { b: "red", e: "💬", t: "Chat", d: "Salas para conversar en grupo.", href: "#/chat", kw: "chat salas mensajes conversar zumbido plaza", ok: () => true, hub: false }, // en La Plaza Ágape
   { b: "red", e: "📅", t: "Agenda", d: "Encuentros, misas y actividades.", href: "#/agenda", kw: "agenda calendario actividades fechas misa retiro", ok: () => true, hub: false }, // franja propia en Comunidad
-  { b: "red", e: "👨‍👩‍👧‍👦", t: "Nuestras familias", d: "Los grupos pequeños de la pastoral: su nombre, su dirigente y quiénes la forman.", href: "#/nuestras-familias", kw: "grupos familias comunidades equipos nombre", ok: (w) => w.familias && w.cuenta && cloud.enabled,
-    hub: false, // tarjeta propia en Comunidad
-    links: [["👨‍👩‍👧‍👦 Ver las familias", "#/nuestras-familias", (w) => w.familias], ["🛂 Mi pasaporte", "#/pasaporte", (w) => w.cuenta], ["🤝 Asistencia", "#/acompanar", (w) => w.guia]] },
-  { b: "red", e: "🛂", t: "Mi pasaporte", d: "Tus encuentros, tu racha y tus sellos.", href: "#/pasaporte", kw: "pasaporte sellos racha asistencia", ok: (w) => w.cuenta && cloud.enabled, hub: false },
-  { b: "red", e: "🤝", t: "Asistencia", d: "Pasar lista y acompañar a los jóvenes.", href: "#/acompanar", kw: "acompanar lista asistencia jovenes guia sellos", ok: (w) => w.guia && cloud.enabled, hub: false },
+  { b: "red", e: "🤝", t: "Jóvenes", d: "La lista del grupo y sus fichas privadas.", href: "#/acompanar", kw: "acompanar lista jovenes guia fichas cumpleanos", ok: (w) => w.guia && cloud.enabled, hub: false },
   // El equipo encuentra la difusión y la guía de servicio en Materiales; los jóvenes (sin Materiales) siguen viendo la difusión aquí.
   { b: "red", e: "📣", t: "Estudio de difusión", d: "Marco de foto, historias, fondos y stickers.", href: "#/difusion", kw: "difusion stickers fondos de pantalla marco foto historias invitacion afiche", ok: (w) => w.cuenta, hub: (w) => !w.equipo },
   { b: "red", e: "🏛️", t: "Guía de servicio", d: "Presentación: identidad, roles, cargos y reuniones.", href: "presentaciones/guia-de-servicio.html", ext: true, kw: "guia servicio pastoral identidad roles cargos reuniones comunidad presentacion", ok: (w) => w.equipo, hub: false },
@@ -82,7 +73,6 @@ const ITEMS = [
 ];
 const descFor = (k, w) => k !== "formacion" ? BLOCKS[k].d
   : w.equipo ? BLOCKS.formacion.d
-  : w.camino ? "Mi Camino: el encuentro de tu etapa, semana a semana."
   : "Crecer en la fe y aprender a acompañar a otros.";
 export const itemsFor = (b) => { const w = who(); return ITEMS.filter((x) => x.b === b && x.ok(w)); };
 const inHub = (x) => { const h = x.hub; return h === undefined ? true : typeof h === "function" ? h(who()) : h; };
@@ -131,8 +121,7 @@ export function doorsHTML() {
 export function blocksHTML() {
   const w = who(), course = S.activeCourse(), st = S.courseState(course);
   const status = {
-    formacion: w.camino && !w.curso ? "Tu encuentro de esta semana te espera"
-      : w.curso ? `<span class="blk-bar"><i style="width:${st.totalSessions ? Math.round((st.readSessions / st.totalSessions) * 100) : 0}%"></i></span>${st.readSessions}/${st.totalSessions} unidades del curso`
+    formacion: w.curso ? `<span class="blk-bar"><i style="width:${st.totalSessions ? Math.round((st.readSessions / st.totalSessions) * 100) : 0}%"></i></span>${st.readSessions}/${st.totalSessions} unidades del curso`
       : "Ingresa para empezar tu camino",
     red: `<span id="blkRed">${w.cuenta ? "Lo que pasa en el grupo" : "La agenda está abierta para todos"}</span>`,
     espiritu: `<span id="blkGospel">Pasa, Él te espera</span>`,
@@ -161,8 +150,8 @@ export function blocksHTML() {
 // Materiales, en grande como el curso: lo que trae cada uno según si tiene cuenta.
 function matBanner(w) {
   const team = w.equipo || w.asp; // los aspirantes también ven los materiales completos
-  const L = { Revistas: "#/encuentros", Difusión: "#/difusion", Cancionero: "#/cancionero", Oremus: "#/oremus", Dinámicas: "#/dinamicas" };
-  const parts = team ? ["Revistas", "Presentaciones", "Difusión", "Cancionero", "Oremus", "Dinámicas", "Para imprimir", "Biblioteca digital"]
+  const L = { Difusión: "#/difusion", Cancionero: "#/cancionero", Oremus: "#/oremus", Dinámicas: "#/dinamicas" };
+  const parts = team ? ["Presentaciones", "Difusión", "Cancionero", "Oremus", "Dinámicas", "Para imprimir", "Biblioteca digital"]
     : ["Difusión", "Cancionero", "Oremus", "Biblioteca digital"];
   return `<section class="hub-cbanner is-mat" aria-labelledby="hubMT">
     <div class="hub-cb-txt">
@@ -202,14 +191,11 @@ function courseBanner(course, st) {
 export function viewFormacion() {
   const w = who(), course = S.activeCourse(), st = S.courseState(course);
   const b = BLOCKS.formacion;
-  if (w.camino) ctx.onAfterRender(() => ctx.camJ.homeCard());
   return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">Bloque 1 · ${esc(b.hand)}</span><h1>Formación</h1><p>${esc(descFor("formacion", w))}</p></header>
-  ${w.camino ? `<div id="mcSlot"></div>` : ""}
   ${w.curso ? courseBanner(course, st) : ""}
   ${matBanner(w)}
-  <div class="hub-grid">${itemsFor("formacion").filter((x) => inHub(x) && x.href !== "#/itinerario" && x.href !== "#/mi-camino" && x.href !== "#/materiales").map(itemCard).join("")}</div>
-  <div class="ag-panel-slot" data-ag-panel="formacion"></div>
-  ${w.guest && w.revista ? `<p class="muted small" style="margin-top:14px">Mi Camino y los encuentros de tu etapa se abren cuando <a href="#/perfil">ingresas con tu cuenta</a>.</p>` : ""}`;
+  <div class="hub-grid">${itemsFor("formacion").filter((x) => inHub(x) && x.href !== "#/itinerario" && x.href !== "#/materiales").map(itemCard).join("")}</div>
+  <div class="ag-panel-slot" data-ag-panel="formacion"></div>`;
 }
 // La Plaza Ágape: nuestra red social. Junta lo que vivimos (Momentos), lo que conversamos (Muro)
 // y lo que nos decimos (Chat). Cada parte sigue funcionando igual; esto es solo la puerta de entrada.
@@ -234,25 +220,6 @@ function plazaHTML() {
     </div>
   </section>`;
 }
-// Nuestras familias: tarjeta grande como La Plaza, con sus accesos (familias, pasaporte y asistencia).
-function familiasHTML(w) {
-  if (!(w.cuenta && cloud.enabled)) return "";
-  // Mientras Nuestras familias está oculta, la tarjeta queda solo con el pasaporte y la asistencia, sin hablar de familias.
-  const c0 = inicioCfg().familias, d = c0.doors;
-  const c = w.familias ? c0 : { hand: "tu camino en Ágape", title: "Tus *encuentros*", text: "Tu pasaporte con tus sellos y, para los guías, la asistencia." };
-  return `<section class="plaza fam-plaza" aria-labelledby="famPT">
-    <div class="plaza-head">
-      ${c.hand ? `<span class="plaza-hand">${esc(c.hand)}</span>` : ""}
-      <h2 id="famPT">${emT(c.title)}</h2>
-      ${c.text ? `<p>${esc(c.text)}</p>` : ""}
-    </div>
-    <div class="plaza-doors">
-      ${w.familias ? pdoor(d.familias, "#/nuestras-familias", "is-fam", icon("users")) : ""}
-      ${pdoor(d.pasaporte, "#/pasaporte", "is-pas", icon("award"))}
-      ${w.guia ? pdoor(d.asistencia, "#/acompanar", "is-asi", icon("check")) : ""}
-    </div>
-  </section>`;
-}
 // Trae los cambios del equipo (textos y radios) y vuelve a pintar si algo cambió.
 export function refreshInicioCfg(repaint) {
   cloud.getInicioCfg?.().then((v) => { if (v && adoptInicio(v) && repaint) repaint(); }).catch(() => {});
@@ -262,10 +229,8 @@ export function viewRed() {
   return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">Bloque 2 · ${esc(b.hand)}</span><h1>Comunidad</h1><p>${esc(b.d)}</p></header>
   <div id="desafioSlot" class="red-desafio"></div>
   ${plazaHTML()}
-  ${familiasHTML(who())}
   <div class="ag-panel-slot" data-ag-panel="comunidad"></div>
   <div class="hub-grid">${itemsFor("red").filter(inHub).map(itemCard).join("")}</div>
-  <div id="acHomeSlot"></div>
   <div class="red-end">${conocer.inviteCard()}<div id="waSlot"></div></div>
 `;
 }

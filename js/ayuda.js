@@ -12,7 +12,7 @@ const CUENTA = ["joven", "aspirante", "dirigente", "coordinador", "admin"];
 const GUIAS = ["dirigente", "coordinador", "admin"];
 const EQUIPO = ["coordinador", "admin"];
 const TEMAS = [
-  ["inicio", "Primeros pasos"], ["camino", "Mi Camino"], ["agenda", "Agenda"], ["muro", "Muro y chat"],
+  ["inicio", "Primeros pasos"], ["agenda", "Agenda"], ["muro", "Muro y chat"],
   ["oracion", "Capilla y cancionero"], ["itinerario", "Formación"], ["comunidad", "Acompañar"], ["admin", "Gestión"],
 ];
 const T = [
@@ -25,14 +25,9 @@ const T = [
   { t: "inicio", q: "¿Cómo agrando la letra o hago que la app me lea?", who: ["visitante", ...CUENTA], a: ["Abre «Accesibilidad» (al final de cualquier página o en Mi perfil).", "Elige el tamaño de la letra y activa «Lectura fácil» si quieres textos más claros.", "Activa «Escuchar» y aparecerá un botón para que el teléfono te lea en voz alta."], go: "#/accesibilidad", el: "#a11yPanel" },
   { t: "comunidad", q: "¿Cómo acompaño a un joven con discapacidad?", who: GUIAS, a: ["Pregúntale a la persona y a su familia qué le ayuda y qué le gusta. No decidas en su lugar.", "Dale tiempo: espera su respuesta y no respondas por ella.", "Explica con ejemplos concretos y frases cortas; muestra en vez de solo decir.", "Ofrece formas de participar sin hablar en público: escribir, dibujar, encender la vela, tocar un instrumento.", "En las dinámicas, adapta las reglas para que todos puedan jugar.", "Muéstrale «Accesibilidad»: letra grande, lectura fácil y «Escuchar»."], go: "#/accesibilidad" },
   { t: "inicio", q: "¿Cómo elijo mi avatar?", who: CUENTA, a: ["Entra a Mi perfil (tu nombre, arriba a la derecha).", "Arma tu monito (peinado, cara, ropa, fondo…) o elige un personaje o un sticker de Ágape.", "Toca «Guardar avatar». Se verá en el chat y en el muro."], go: "#/perfil", el: "#avCard" },
-  { t: "inicio", q: "¿Qué es el desafío de la semana?", who: CUENTA, a: ["Es un gesto concreto para vivir lo del encuentro durante la semana. Aparece en Inicio.", "Cuando lo hagas, toca «¡Lo cumplí!». Los demás verán que lo cumpliste."], go: "#/", el: "[data-action=desDone]" },
-  { t: "inicio", q: "¿Dónde veo mi pasaporte y mis sellos?", who: CUENTA, a: ["En Mi perfil → «Mi pasaporte», o en Comunidad → «Mi pasaporte».", "Cada encuentro al que vas suma; los sellos los entregan tus dirigentes."], go: "#/pasaporte" },
+  { t: "inicio", q: "¿Qué es el desafío de la semana?", who: CUENTA, a: ["Es un gesto concreto para vivir durante la semana. Aparece en Comunidad cuando el equipo lo propone.", "Cuando lo hagas, toca «¡Lo cumplí!». Los demás verán que lo cumpliste."], go: "#/red", el: "[data-action=desDone]" },
   { t: "inicio", q: "Soy nuevo: ¿quiero ser dirigente, por dónde parto?", who: ["visitante"], a: ["Mira la presentación «Sé puente»: cuenta qué es ser dirigente en Ágape.", "Después conversa con alguien del equipo: ellos te invitan a la app."], href: "presentaciones/se-puente.html" },
 
-  // Mi Camino
-  { t: "camino", q: "¿Qué encuentro me toca esta semana?", who: ["joven", "aspirante"], a: ["Abre «Mi Camino» en el menú.", "Arriba está el encuentro de esta semana de tu etapa. Los siguientes se abren solos cada semana."], go: "#/mi-camino" },
-  { t: "camino", q: "¿Por qué no veo la frase ni el desafío del encuentro?", who: ["joven", "aspirante"], a: ["Se abren después de vivir el encuentro, para no adelantar la sorpresa de la dinámica.", "Cuando hayas ido, toca «Ya viví este encuentro»."], go: "#/mi-camino", el: "[data-action=mcVivido]" },
-  { t: "camino", q: "¿Quién lee lo que escribo en las preguntas?", who: ["joven", "aspirante", "dirigente"], a: ["Nadie más que tú: ni tus dirigentes ni el equipo pueden leerlo.", "Se guarda solo mientras escribes."] },
 
   // Agenda
   { t: "agenda", q: "¿Cómo tengo la agenda en el calendario de mi celular?", who: ["visitante", ...CUENTA], a: ["En Agenda, toca «Suscribirme al calendario».", "Elige Google Calendar o iPhone. Se hace una sola vez y los cambios llegan solos."], go: "#/agenda", el: "[data-action=agSub]" },
@@ -65,16 +60,14 @@ const T = [
   { t: "itinerario", q: "¿Puedo leer la unidad completa en vez de la presentación?", who: ["aspirante", ...GUIAS], a: ["Sí. Dentro de la presentación toca «📄 Texto completo» arriba a la derecha."] },
 
   // Acompañar
-  { t: "comunidad", q: "¿Cómo paso lista en el encuentro?", who: GUIAS, a: ["En Acompañar → Asistencia, toca a cada joven que vino.", "Toca «Guardar asistencia». Los sellos automáticos se entregan solos."], go: "#/acompanar", el: "[data-action=acSave]" },
-  { t: "comunidad", q: "¿Cómo agrego a un joven a la lista?", who: GUIAS, a: ["En Acompañar → Jóvenes, toca «Agregar joven».", "Nombre, etapa y cumpleaños (día y mes). Marca la autorización de la familia solo si la firmaron."], go: "#/acompanar/jovenes", el: "[data-action=acNew]" },
-  { t: "comunidad", q: "¿Cómo publico el cuadro de honor del mes?", who: GUIAS, a: ["En Acompañar → Cuadro de honor, revisa el mes.", "Toca «Publicar en Inicio». Solo aparecen quienes tienen autorización de su familia."], go: "#/acompanar/honor", el: "[data-action=acPublish]" },
+  { t: "comunidad", q: "¿Cómo agrego a un joven a la lista?", who: GUIAS, a: ["En Acompañar, toca «Agregar joven».", "Nombre, etapa y cumpleaños (día y mes). Marca la autorización de la familia solo si la firmaron."], go: "#/acompanar", el: "[data-action=acNew]" },
 
   // Gestión
   { t: "admin", q: "¿Cómo invito a alguien a la app?", who: ["admin"], a: ["En Gestión → Dirigentes, toca «Invitar».", "Escribe su correo de Google y elige el rol.", "Si es un joven, primero descarga el consentimiento, que lo firme su familia y regístralo."], go: "#/admin/dirigentes", el: "[data-action=aInvite]" },
   { t: "admin", q: "¿Cómo cambio las Novedades de Inicio?", who: EQUIPO, a: ["En Gestión → Portada, edita, oculta u ordena las diapositivas.", "Con «Nueva diapositiva» creas una con fechas de inicio y término."], go: "#/admin/portada", el: "[data-action=pNew]" },
   { t: "admin", q: "¿Cómo edito la página para familias?", who: EQUIPO, a: ["En Gestión → Familias cambias bienvenida, carta, preguntas y contacto.", "Ahí también está el enlace y el código QR para compartirla."], go: "#/admin/familias", el: "#famForm" },
   { t: "admin", q: "¿Cómo veo la app como la ve un joven?", who: EQUIPO, a: ["En Mi perfil o en Gestión, toca «Ver como…» y elige el perfil.", "Arriba aparece una franja amarilla. «Volver a mi vista» te devuelve a la tuya."], go: "#/perfil", el: "[data-action=vaOpen]" },
-  { t: "admin", q: "¿Cómo propongo el desafío de la semana?", who: EQUIPO, a: ["En Inicio, toca «Proponer un desafío de la semana» (o el lápiz en la tarjeta).", "Mientras esté vigente reemplaza al de la revista."], go: "#/", el: "[data-action=desNew]" },
+  { t: "admin", q: "¿Cómo propongo el desafío de la semana?", who: EQUIPO, a: ["En Comunidad, toca «Proponer un desafío de la semana» (o el lápiz en la tarjeta).", "Elige desde y hasta cuándo se muestra."], go: "#/red", el: "[data-action=desNew]" },
 ];
 
 export function perfil() {
@@ -83,7 +76,7 @@ export function perfil() {
   if (["ingreso", "madurez"].includes(s.role)) return "joven";
   return s.role || "dirigente";
 }
-export const helpFor = (who) => T.filter((x) => x.who.includes(who) && (x.t !== "camino" || !ctx || !ctx.cloud.enabled || ctx.cloud.revistaVisible()));
+export const helpFor = (who) => T.filter((x) => x.who.includes(who));
 
 let q = "";
 export function view(tema) {

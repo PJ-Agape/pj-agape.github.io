@@ -102,7 +102,6 @@ async function fetchAll() {
   }
   if (isOn("formacion") && now >= at(8, lunes())) {
     const st = cloud.state();
-    if ((st.isJoven || st.role === "aspirante") && cloud.revistaVisible()) out.push({ ts: at(8, lunes()), e: "🧭", href: "#/mi-camino", t: "Tu encuentro de esta semana te espera", d: "Míralo en Mi Camino y prepárate para vivirlo." });
     if (!st.isJoven) { const c = S.activeCourse(), cs = S.courseState(c);
       if (!cs.complete) out.push({ ts: at(8, lunes()), e: "🎓", href: "#/itinerario", t: "Recuerda avanzar en tu formación", d: `Llevas ${cs.readSessions} de ${cs.totalSessions} unidades. ¡Una más esta semana!` }); }
   }

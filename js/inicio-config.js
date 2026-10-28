@@ -1,5 +1,5 @@
 // Textos y enlaces de Inicio que el equipo puede cambiar desde Gestión → Inicio y enlaces:
-// el saludo, La Plaza Ágape, Nuestras familias, las radios católicas y los enlaces de interés.
+// el saludo, La Plaza Ágape, las radios católicas y los enlaces de interés.
 // Se guarda en el mismo documento de la Portada (content/portada, campo «inicio»), que editan
 // administradores y coordinadores. Lo que no se cambia usa el texto original de abajo.
 import { RADIOS as RADIOS_BASE } from "./capilla.js";
@@ -14,15 +14,6 @@ export const DEFAULTS = {
       muro: { kicker: "Lo que conversamos", title: "Muro", text: "Avisos, temas, preguntas y encuestas.", on: true },
       chat: { kicker: "Lo que nos decimos", title: "Chat", text: "Salas para conversar en grupo.", on: true },
       juegos: { kicker: "Lo que jugamos", title: "Juegos", text: "Cartas, trivia, sopas de letras y más.", on: true },
-    },
-  },
-  familias: {
-    hand: "nadie camina solo", title: "Nuestras *familias*",
-    text: "Los grupos pequeños de la pastoral: su nombre, su dirigente y quiénes la forman.",
-    doors: {
-      familias: { kicker: "Nuestro grupo", title: "Ver las familias", text: "Cada familia con su muro y su agenda.", on: true },
-      pasaporte: { kicker: "Mi camino", title: "Mi pasaporte", text: "Tus encuentros, tu racha y tus sellos.", on: true },
-      asistencia: { kicker: "Para guías", title: "Asistencia", text: "Pasar lista y acompañar a los jóvenes.", on: true },
     },
   },
   radios: RADIOS_BASE.map((r) => ({ ...r })),
@@ -42,7 +33,7 @@ export const BRAND_ICO = {
   tiktok: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M14.5 3h3c.2 1.9 1.5 3.4 3.5 3.6v3.1c-1.3 0-2.5-.4-3.5-1v6.4A5.9 5.9 0 1 1 11.6 9.2v3.2a2.8 2.8 0 1 0 2.9 2.8V3Z"/></svg>',
   facebook: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M13.6 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.9v3h2.6V21h3.1Z"/></svg>',
 };
-export const DOOR_NAMES = { momentos: "Momentos", muro: "Muro", chat: "Chat", juegos: "Juegos", familias: "Ver las familias", pasaporte: "Mi pasaporte", asistencia: "Asistencia" };
+export const DOOR_NAMES = { momentos: "Momentos", muro: "Muro", chat: "Chat", juegos: "Juegos" };
 
 const KEY = "agape_inicio_cfg_v1";
 let saved = {};

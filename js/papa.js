@@ -20,7 +20,7 @@ const INT = {
   "2026-10": ["Por la pastoral de la salud mental", "Recemos para que la pastoral de la salud mental se integre en toda la Iglesia, ayudando a superar el estigma y la discriminación hacia las personas con enfermedades mentales."],
   "2026-11": ["Por el buen uso de la riqueza", "Oremos por un buen uso de la riqueza para que, no cediendo a la tentación del egoísmo, esté siempre al servicio del bien común y la solidaridad con los que tienen menos."],
   "2026-12": ["Por las familias monoparentales", "Oremos por las familias que experimentan la ausencia de una madre o de un padre, para que encuentren en la Iglesia apoyo y acompañamiento, y en la fe ayuda y fuerza en los momentos difíciles."],
-  // 2027 (popesprayer.va; marzo a noviembre, igual que en Nuestra Revista)
+  // 2027 (popesprayer.va; marzo a noviembre)
   "2027-01": ["Por el descubrimiento de la fuerza de la oración", "Para que la Iglesia redescubra la oración como un encuentro personal con el Señor, que transforma el corazón y el mundo."],
   "2027-02": ["Por el cuidado de quienes cuidan", "Por quienes cuidan la salud de otros, para que reciban el apoyo que necesitan y sigan adelante con paciencia y fortaleza."],
   "2027-03": ["Por el respeto de la dignidad de la vida humana", "Oremos para que, ante una cultura centrada en la productividad y la inmediatez, seamos capaces de descubrir y valorar la dignidad única de cada persona."],

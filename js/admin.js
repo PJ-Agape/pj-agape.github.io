@@ -6,13 +6,11 @@ import * as evAdmin from "./evangelio-admin.js";
 import * as gEq from "./gestion-equipo.js";
 import * as agenda from "./agenda.js";
 import * as acompanar from "./acompanar.js";
-import * as famReg from "./familias-registro.js";
 import * as grupo from "./grupo.js";
 import * as novedades from "./novedades.js";
 import * as saludos from "./saludos.js";
 import * as conocer from "./conocer.js";
 import * as papa from "./papa.js";
-import * as familiasAg from "./familias-ag.js";
 import * as S from "./store.js";
 import * as portada from "./portada.js";
 import * as inicioAdmin from "./inicio-admin.js";
@@ -34,9 +32,7 @@ async function conocerView() { const h = await conocer.adminView(); conocer.afte
 // Pantallas que viven en la app y se muestran también dentro de Gestión (mismo contenido, con el menú al lado)
 const EMBED = {
   agenda: () => agenda.viewAgenda(),
-  honor: () => acompanar.viewMain("honor"),
-  acompanar: () => acompanar.viewMain("asistencia"),
-  registro: () => famReg.viewRegistro(),
+  acompanar: () => acompanar.viewMain(),
 };
 export async function renderAdmin(sub, _api) {
   api = _api;
@@ -45,11 +41,7 @@ export async function renderAdmin(sub, _api) {
   if (cloudOn) {
     const st = api.cloud.state();
     if (!st.ready) return cloudGate(st);
-    const pg0f = sub.split("/").filter(Boolean)[0] || "";
-    if (["grupos", "registro"].includes(pg0f) && !api.cloud.familiasVisible())
-      return shell(pg0f, `<header class="page-head"><span class="eyebrow">Gestión</span><h1>Nuestras familias</h1></header>
-        <div class="note">Está oculta junto con Nuestra Revista mientras el equipo define cómo organizarse. Un administrador la muestra en Gestión → Resumen.</div>`);
-    // Gestión se ajusta al rol: coordinación ve casi todo; los dirigentes, su tablero «Hoy» y su familia.
+    // Gestión se ajusta al rol: coordinación ve casi todo; los dirigentes, su tablero «Hoy» y sus jóvenes.
     if (!st.isAdmin) {
       const pg0 = sub.split("/").filter(Boolean)[0] || "";
       if (st.canCourses && (pg0 === "formacion" || !st.isGuide)) return shell("formacion", await cursosCom.view(pg0 === "formacion" ? sub : "formacion"));
@@ -60,7 +52,7 @@ export async function renderAdmin(sub, _api) {
         <a class="btn btn-primary" style="margin-top:16px" href="#/">Volver al inicio</a></div>`;
       const pg = sub.split("/").filter(Boolean)[0] || "hoy";
       const COORD = { hoy: () => hoy.html(), portada: () => portada.adminView(), inicio: () => inicioAdmin.adminView(), familias: () => familiasAdmin.adminView(), saludos: () => saludos.adminView(), conocer: () => conocerView(), asignar: () => asignarView(),
-        grupos: () => gEq.familiasHTML(), moderacion: () => gEq.moderacionHTML(), ...EMBED };
+        moderacion: () => gEq.moderacionHTML(), ...EMBED };
       const GUIA = { hoy: COORD.hoy, acompanar: EMBED.acompanar };
       const ok = st.isStaff ? COORD[pg] : GUIA[pg];
       return shell(ok ? pg : "hoy", await (ok || COORD.hoy)());
@@ -83,10 +75,9 @@ export async function renderAdmin(sub, _api) {
     case "saludos": body = await saludos.adminView(); break;
     case "conocer": body = cloudOn ? await conocerView() : summaryView(draft); break;
     case "familias": body = cloudOn ? familiasAdmin.adminView() : summaryView(draft); break;
-    case "grupos": body = cloudOn ? gEq.familiasHTML() : summaryView(draft); break;
     case "moderacion": body = cloudOn ? gEq.moderacionHTML() : summaryView(draft); break;
     case "consentimientos": body = cloudOn ? gEq.consentHTML() : summaryView(draft); break;
-    case "agenda": case "honor": case "acompanar": case "registro": body = await EMBED[page](); break;
+    case "agenda": case "acompanar": body = await EMBED[page](); break;
     case "evangelio": body = cloudOn ? await evAdmin.adminView() : summaryView(draft); break;
     case "materiales": body = cardsView(draft, "materials"); break;
     case "oracion": body = cardsView(draft, "devotional"); break;
@@ -100,29 +91,19 @@ export async function renderAdmin(sub, _api) {
 
 // Menú de Gestión, uno solo para todos los roles: cada uno ve lo que le toca.
 // Lo que todavía vive en su propia pantalla (Agenda, Acompañar, Muro…) se abre con ↗.
-async function myFamId() {
-  try { const me = api.cloud.myUid(); const r = (await api.cloud.listFamilias()) || []; return (r.find((f) => (f.uids || []).includes(me)) || {}).id || ""; } catch { return ""; }
-}
-let famIdCache = null;
 function navGroups() {
   const st = cloudOn ? api.cloud.state() : { isAdmin: true, isStaff: true, isGuide: true };
-  const A = st.isAdmin, C = st.isStaff, fam = famIdCache;
-  const FV = !cloudOn || api.cloud.familiasVisible(); // Nuestras familias: oculta junto con la revista
+  const A = st.isAdmin, C = st.isStaff;
   const g = [
     ["", [["hoy", "#/admin", "Hoy", "sparkle", cloudOn]]],
     ["Personas", [
       ["dirigentes", "#/admin/dirigentes", "Cuentas e invitaciones", "users", cloudOn && A],
       ["conocer", "#/admin/conocer", "Quiero conocer Ágape", "send", cloudOn && C],
       ["asignar", "#/admin/asignar", "Asignar jóvenes", "check", cloudOn && C],
-      ["grupos", "#/admin/grupos", "Las 10 familias", "users", cloudOn && C && FV],
       ["consentimientos", "#/admin/consentimientos", "Consentimientos", "lock", cloudOn && A],
-      ["", fam ? `#/nuestras-familias/${fam}` : "#/nuestras-familias", "Mi familia", "users", cloudOn && !C && FV, true],
     ]],
     ["Seguimiento", [
-      ["registro", "#/admin/registro", "Asistencia y planillas", "grid", cloudOn && C && FV],
-      ["", fam ? `#/nuestras-familias/${fam}/registro` : "#/nuestras-familias", "Registro de mi familia", "grid", cloudOn && !C && FV, true],
-      ["acompanar", "#/admin/acompanar", "Acompañar y pasaportes", "check", cloudOn],
-      ["honor", "#/admin/honor", "Cuadro de honor", "award", cloudOn && C],
+      ["acompanar", "#/admin/acompanar", "Jóvenes y fichas", "check", cloudOn],
       ["resumen", "#/admin/resumen", "Ajustes, estadísticas e intención del Papa", "grid", A],
     ]],
     ["Comunicación", [
@@ -140,7 +121,6 @@ function navGroups() {
       ["materiales", "#/admin/materiales", "Materiales", "book", A],
       ["oracion", "#/admin/oracion", "Oración", "flame", A],
       ["evangelio", "#/admin/evangelio", "Evangelio y fiestas", "book", cloudOn && A],
-      ["", "#/encuentros", "Nuestra Revista", "book", true, true],
       ["", "#/cancionero", "Cancionero", "flame", C, true],
       ["", "#/dinamicas", "Dinámicas", "sparkle", true, true],
     ]],
@@ -150,7 +130,6 @@ function navGroups() {
 function shell(page, body) {
   const dirty = S.draftIsDirty();
   const st = cloudOn ? api.cloud.state() : { isAdmin: true };
-  if (cloudOn && famIdCache === null) { famIdCache = ""; myFamId().then((id) => { famIdCache = id; if (id) { const n = document.querySelector(".admin-side"); if (n) n.outerHTML = navHTML(page, dirty, st); } }); }
   return `
   <div class="admin-shell">
     ${navHTML(page, dirty, st)}
@@ -218,18 +197,6 @@ async function doLogin(pass) {
 // ---------------------------------------------------------------------------
 // Resumen
 // ---------------------------------------------------------------------------
-// Nuestra Revista del año: quién la ve mientras el equipo la prepara.
-async function revistaCard() {
-  const c = await api.cloud.revistaConfig(true).catch(() => ({ modo: "admin" }));
-  const admin = api.cloud.state().isAdmin, modo = c.modo || "admin";
-  const O = [["admin", "Oculta", "Solo los administradores la ven, para prepararla."], ["equipo", "Para el equipo", "La ven los dirigentes y el equipo. Los jóvenes todavía no."], ["todos", "Para todos", "Se abre Mi Camino para los jóvenes, el desafío de la semana y los encuentros en la agenda."]];
-  return `<section class="card" id="revAdmin"><h3>Nuestra Revista y Nuestras familias: quién las ve</h3>
-    <p class="muted small" style="margin-top:4px">Mientras están ocultas, la revista no aparece en Mi Camino, Materiales, la agenda, el desafío de la semana, la trivia ni la página para familias, y Nuestras familias (los grupos pequeños, su registro y su asistencia) no aparece en Comunidad ni en Gestión.</p>
-    <div class="nov-tipos">${O.map(([k, t, dd]) => `<label class="nov-tipo"><input type="radio" name="revModo" value="${k}" ${modo === k ? "checked" : ""} ${admin ? "" : "disabled"}>
-      <span><b>${esc(t)}</b><small>${esc(dd)}</small></span></label>`).join("")}</div>
-    ${admin ? `<button class="btn btn-primary btn-sm" data-action="aRevSave" style="margin-top:10px">Guardar</button>` : `<p class="xs muted" style="margin-top:8px">Solo un administrador puede cambiar esto.</p>`}
-  </section>`;
-}
 async function summaryView(d) {
   const phases = d.courses.reduce((a, c) => a + c.phases.length, 0);
   const sessions = d.courses.reduce((a, c) => a + c.phases.reduce((b, p) => b + p.sessions.length, 0), 0);
@@ -242,7 +209,6 @@ async function summaryView(d) {
   ${cloudOn ? await followSummary() : ""}
   ${cloudOn ? await visitsCard() : ""}
   ${cloudOn ? await grupo.adminHTML() : ""}
-  ${cloudOn ? await revistaCard() : ""}
   ${cloudOn ? await novedades.adminHTML() : ""}
   ${cloudOn ? await papa.adminHTML() : ""}
   ${legacy ? `<div class="card" style="border-color:var(--gold)">
@@ -710,7 +676,7 @@ function peopleCards(list, course, t) {
     if (g.k === "joven") {
       const gs = j ? [j.guia, j.guia2].filter(Boolean).map((x) => names[x] || j[x === j.guia ? "guiaNombre" : "guia2Nombre"] || "—") : [];
       body = `<span class="chip">${esc(api.cloud.roleLabel(u.role))}</span>
-        <p class="xs muted">${j ? `${(j.fechas || []).length} encuentros · ` : ""}Activo ${ago(r.last)}</p>
+        <p class="xs muted">Activo ${ago(r.last)}</p>
         <p class="small">${gs.length ? `🤝 Lo acompaña: <b>${esc(gs.join(" y "))}</b>` : `<span class="muted">Sin dirigente asignado</span>`}</p>`;
     } else {
       body = `${prog}
@@ -741,7 +707,7 @@ function eligibleGuides() {
     .sort((a, b) => String(a.name).localeCompare(String(b.name), "es"));
 }
 // Asignar es «pintar»: eliges un dirigente arriba y tocas a los jóvenes que acompañará. Cada toque se guarda solo.
-let asgSel = "", asgMode = "guia", asgFilter = "", famSyncT = null;
+let asgSel = "", asgMode = "guia", asgFilter = "";
 const ASG_COL = ["#1351a4", "#ef591c", "#0f7a52", "#c98a00", "#8a3fb0", "#0b6fb3", "#b4233c", "#3d6b2a"];
 const ini = (n) => String(n || "?").trim().split(/\s+/).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join("");
 const first = (n) => String(n || "").split(" ")[0];
@@ -798,8 +764,8 @@ async function asignarView() {
   ${asgSel ? `<p class="small asg-hint" style="--gc:${color[asgSel]}">Tocando jóvenes para <b>${esc(nameOf(asgSel))}</b> · ${asgMode === "guia" ? "a cargo" : "de apoyo"}</p>` : `<p class="small muted asg-hint">Elige primero un dirigente arriba.</p>`}
   ${["ingreso", "madurez", "aspirante"].map((e) => { const xs = list.filter((j) => j.etapa === e).sort((a, b) => String(a.nombre).localeCompare(String(b.nombre), "es"));
     return xs.length ? `<section class="asg-sec2"><h3>${ETAPA_L[e]}${e === "aspirante" ? " (predirigentes)" : ""} · ${xs.length}</h3><div class="asg-grid">${xs.map(chip).join("")}</div></section>` : ""; }).join("")
-    || `<div class="note">${asgFilter === "sin" ? "Todos los jóvenes tienen dirigente." : `No hay jóvenes activos en la lista de Acompañar. <a href="#/acompanar/jovenes">Agrégalos ahí</a>.`}</div>`}`}
-  <p class="xs muted" style="margin-top:14px">La lista de jóvenes es la de Acompañar (con o sin cuenta). Cada dirigente ve a «sus» jóvenes en Acompañar, y las familias se arman solas con esta asignación.</p>`;
+    || `<div class="note">${asgFilter === "sin" ? "Todos los jóvenes tienen dirigente." : `No hay jóvenes activos en la lista de Acompañar. <a href="#/acompanar">Agrégalos ahí</a>.`}</div>`}`}
+  <p class="xs muted" style="margin-top:14px">La lista de jóvenes es la de Acompañar (con o sin cuenta). Cada dirigente ve a «sus» jóvenes en Acompañar.</p>`;
 }
 // Reparto parejo, por etapa, de los jóvenes sin dirigente a cargo. Devuelve { idJoven: uidDirigente }.
 function suggestAsg() {
@@ -846,8 +812,8 @@ async function personView(uid) {
   ${(() => { const jv = (jovenesAll || []).find((j) => j.uid === u.uid); return jv ? `<div class="card"><h3>Ficha privada</h3>
     <p class="muted small" style="margin-top:4px">RUT, edad, dirección, contacto de emergencia, alergias y lo que la familia quiera informar. No se publica: la ven el equipo, sus dirigentes y la propia persona.</p>
     <div class="row-wrap" style="margin-top:12px"><a class="btn btn-sm btn-primary" href="#/ficha/${encodeURIComponent(jv.id)}">${icon("lock")} Abrir la ficha privada</a>
-      <a class="btn btn-sm btn-ghost" href="#/acompanar/joven/${encodeURIComponent(jv.id)}">Ver su pasaporte</a></div></div>`
-    : YOUTH.includes(u.role) ? `<div class="card"><h3>Ficha privada</h3><p class="muted small" style="margin-top:4px">Para tener su ficha privada, agrégalo a la lista de jóvenes en <a href="#/acompanar/jovenes">Acompañar</a> y vincula su cuenta.</p></div>` : ""; })()}
+      <a class="btn btn-sm btn-ghost" href="#/acompanar/joven/${encodeURIComponent(jv.id)}">Ver en la lista de jóvenes</a></div></div>`
+    : YOUTH.includes(u.role) ? `<div class="card"><h3>Ficha privada</h3><p class="muted small" style="margin-top:4px">Para tener su ficha privada, agrégalo a la lista de jóvenes en <a href="#/acompanar">Acompañar</a> y vincula su cuenta.</p></div>` : ""; })()}
   ${reqFichaHTML(u)}
   ${YOUTH.includes(u.role) || u.consent ? `<div class="card"><h3>Consentimiento de la familia</h3>
     <p class="muted small" style="margin-top:4px">El papel firmado se guarda en la carpeta de consentimientos de la pastoral; aquí queda registrado qué autorizó la familia. Si cambia algo (por ejemplo, ya no autoriza fotos), edítalo aquí.</p>
@@ -963,7 +929,7 @@ const SPECS = {
   },
   box: () => [["title", "Título de la sección", "text"], ["desc", "Descripción", "textarea"]],
   invite: (o) => [["email", "Correo de Google", "text", null, "nombre@gmail.com"], ["name", "Nombre y apellido", "text"], ["parish", "Capilla o parroquia", "text"],
-    ["role", "Rol", "select", [["ingreso", "Joven · Ingreso (Mi Camino)"], ["madurez", "Joven · Madurez (Mi Camino)"], ["aspirante", "Aspirante (Mi Camino, curso y sala Aspirantes)"], ["dirigente", "Dirigente (hace el curso)"], ["coordinador", "Coordinador (agenda, portada y moderación)"], ["admin", "Administrador (gestión completa)"]]],
+    ["role", "Rol", "select", [["ingreso", "Joven · Ingreso"], ["madurez", "Joven · Madurez"], ["aspirante", "Aspirante (curso y sala Aspirantes)"], ["dirigente", "Dirigente (hace el curso)"], ["coordinador", "Coordinador (agenda, portada y moderación)"], ["admin", "Administrador (gestión completa)"]]],
     ...(YOUTH.includes(o.role) ? [
       ["", "Consentimiento de la familia", "heading"],
       ["", "Antes de crear la cuenta de un joven, su papá, mamá o apoderado/a firma el consentimiento. Guárdalo en la carpeta de consentimientos; aquí solo queda registrado.", "note"],
@@ -1185,7 +1151,7 @@ function bindActions() {
 
   // Seguimiento de dirigentes
   A.aPeopleRefresh = async () => { await loadPeople(true); api.render(); toast("Datos actualizados"); };
-  // Guarda a cargo / apoyo de un joven y, al rato, deja las familias al día.
+  // Guarda a cargo / apoyo de un joven.
   const asgWrite = async (j, guia, guia2) => {
     const names = Object.fromEntries((people?.users || []).map((u) => [u.uid, u.name || u.email]));
     const g2 = guia2 && guia2 !== guia ? guia2 : "";
@@ -1193,8 +1159,6 @@ function bindActions() {
     Object.assign(j, { guia, guiaNombre: guia ? names[guia] || "" : "", guia2: g2, guia2Nombre: g2 ? names[g2] || "" : "" });
     try { await api.cloud.patchJoven(j.id, { nombre: j.nombre, etapa: j.etapa, guia: j.guia, guiaNombre: j.guiaNombre, guia2: j.guia2, guia2Nombre: j.guia2Nombre }); }
     catch (e) { Object.assign(j, prev); throw e; }
-    clearTimeout(famSyncT);
-    famSyncT = setTimeout(() => familiasAg.sync(jovenesAll).catch(() => 0), 2500); // las familias toman a sus integrantes de esta asignación
   };
   const asgRender = () => { const y = window.scrollY; keepPeople = true; Promise.resolve(api.render()).then(() => window.scrollTo(0, y)); };
   A.aAsgPick = (el) => { asgSel = asgSel === el.dataset.uid ? "" : el.dataset.uid; asgRender(); };
@@ -1295,7 +1259,7 @@ function bindActions() {
   // Mensaje de bienvenida para WhatsApp: el mismo para todas las cuentas nuevas.
   const inviteMsg = (email, name) => {
     const url = location.origin + location.pathname, n = name ? " " + name.split(" ")[0] : "";
-    const que = "Aquí vas a encontrar el encuentro de tu etapa cada semana, la Capilla para rezar, el muro y el chat del grupo, juegos y mucho más.";
+    const que = "Aquí vas a encontrar la Capilla para rezar, el muro y el chat del grupo, juegos y mucho más.";
     return `¡Hola${n}! Te damos la bienvenida a *agAPPe*, la casa virtual de la Pastoral Juvenil Ágape.
 
 Ya tienes tu cuenta. ${que}
@@ -1407,11 +1371,6 @@ Te recomendamos partir por «Bienvenido a agAPPe», en Formación: es un recorri
     S.saveDraft(d);
     download("contenido.json", JSON.stringify(d, null, 2));
     toast("Descargado. Ahora súbelo a la carpeta data en GitHub.", "ok", 4500);
-  };
-  A.aRevSave = async () => {
-    const modo = document.querySelector("input[name=revModo]:checked")?.value || "admin";
-    try { await api.cloud.saveRevistaConfig({ modo }); toast(modo === "todos" ? "Nuestra Revista quedó abierta para todos" : modo === "equipo" ? "Nuestra Revista quedó visible para el equipo" : "Nuestra Revista quedó oculta", "ok"); }
-    catch (err) { console.warn(err); toast("No se pudo guardar", ""); }
   };
   A.aImportLegacy = () => commit((d) => {
     const l = S.legacyContent();

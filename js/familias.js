@@ -1,5 +1,5 @@
-// Página pública para las familias (familias/): quiénes somos, esta semana, próximas
-// actividades (con autorizaciones para descargar), cómo cuidamos, cuadro de honor,
+// Página pública para las familias (familias/): quiénes somos, próximas
+// actividades (con autorizaciones para descargar), cómo cuidamos,
 // preguntas frecuentes y contacto. Solo lectura: no pide cuenta ni muestra datos personales.
 
 import { CONFIG } from "./config.js";
@@ -39,35 +39,8 @@ async function eventos() {
     return qs.docs.map((d) => ({ id: d.id, ...d.data() }));
   } catch { return []; }
 }
-// Nuestra Revista puede estar oculta mientras el equipo la prepara: entonces no se muestra aquí.
-async function camino() {
-  const rv = await content("revista");
-  if (!rv || rv.modo !== "todos") return null;
-  try { return await fetch(BASE + "data/encuentros.json", { cache: "no-cache" }).then((r) => r.json()); } catch { return null; }
-}
-
 // ---------------------------------------------------------------------------
 const longDate = (s) => { const d = parse(s); return d.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }); };
-function semana(c) {
-  if (!c) return null;
-  const t = parse(today); let best = null;
-  for (const e of c.encuentros || []) {
-    const m = String(e.fecha).match(/(\d+) de (\w+) de (\d{4})/); if (!m) continue;
-    const diff = (t - new Date(+m[3], MESES.indexOf(m[2]), +m[1])) / 86400000;
-    if (diff > -6 && diff <= 7 && (!best || Math.abs(diff) < Math.abs(best.diff))) best = { e, diff };
-  }
-  return best && best.e;
-}
-// Fuera del año de encuentros (Adviento, Navidad y verano): el texto de esa pausa.
-function fuera(c) {
-  if (!c || !(c.encuentros || []).length) return "";
-  const dt = (e) => { const m = String(e.fecha).match(/(\d+) de (\w+) de (\d{4})/); return m ? new Date(+m[3], MESES.indexOf(m[2]), +m[1]) : null; };
-  const first = dt(c.encuentros[0]), last = dt(c.encuentros[c.encuentros.length - 1]), t = parse(today);
-  const lit = (c.pausas || []).filter((p) => p.liturgico);
-  if (first && t < new Date(first.getTime() - 6 * 86400000)) return (lit[0] && lit[0].texto) || "El grupo retoma sus encuentros en marzo.";
-  if (last && t > new Date(last.getTime() + 6 * 86400000)) return (lit[1] && lit[1].texto) || "El grupo retoma sus encuentros en marzo.";
-  return "";
-}
 let EVS = [];
 function proximas(list) {
   const to = shift(today, 120);
@@ -150,16 +123,12 @@ function contactHTML(c) {
 
 async function main() {
   await initDb();
-  const [saved, evs, cam, hon, gos] = await Promise.all([content("familias"), eventos(), camino(), content("honor"),
+  const [saved, evs, gos] = await Promise.all([content("familias"), eventos(),
     fetch("../data/evangelio.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null)]);
   const ev = gos && gos.days ? gos.days[today] : null;
   const C = merge(saved);
   EVS = proximas(evs);
-  const sem = semana(cam);
   const carta = C.carta.texto && (!C.carta.hasta || today <= C.carta.hasta);
-  const cur = today.slice(0, 7), prev = shift(today.slice(0, 8) + "01", -1).slice(0, 7);
-  const showHon = hon && (hon.mes === cur || hon.mes === prev) && (hon.items || []).length;
-  const etapas = (cam && cam.etapas) || [];
 
   $("#fam").innerHTML = `
   <section class="fam-hero">
@@ -186,17 +155,6 @@ async function main() {
     ${C.carta.titulo ? `<h2>${esc(C.carta.titulo)}</h2>` : ""}<div class="fam-carta-t">${esc(C.carta.texto).replace(/\n/g, "<br>")}</div>
     ${C.carta.firma ? `<p class="fam-firma">${esc(C.carta.firma)}</p>` : ""}</section>` : ""}
 
-  ${!sem && fuera(cam) ? `<section class="fam-sec fam-semana"><div><span class="fam-k">Esta semana en el grupo</span>
-      <h2>En estos meses nos estamos preparando para el año siguiente.</h2>
-      <p>${esc(fuera(cam))}</p></div>${illus("familia")}</section>` : ""}
-  ${sem ? `<section class="fam-sec fam-semana">
-    <div><span class="fam-k">Esta semana conversamos sobre</span>
-      <h2>${esc(sem.tema)}</h2>
-      <p class="fam-lema">«${esc(sem.lema)}» · ${esc(sem.evangelio && sem.evangelio.ref || "")}</p>
-      ${sem.evangelio && sem.evangelio.resumen ? `<p>${esc(sem.evangelio.resumen)}</p>` : ""}
-      <div class="fam-mesa"><b>Para conversar en la mesa</b>Pregúntenle qué le quedó del encuentro «${esc(sem.tema)}». Y cuéntenle ustedes qué significa en su vida «${esc(sem.lema)}».</div>
-    </div>${illus("mesa")}</section>` : ""}
-
   <section class="fam-sec" id="actividades">
     <span class="fam-k">Agenda</span><h2>Próximas actividades</h2>
     ${EVS.length ? `<div class="fam-evs">${EVS.map(evHTML).join("")}</div>` : `<p class="muted">Pronto publicaremos las próximas actividades.</p>`}
@@ -206,7 +164,6 @@ async function main() {
   <section class="fam-sec">
     <span class="fam-k">Quiénes somos</span><h2>Un grupo que es <span class="mk">hogar.</span></h2>
     <p class="fam-lead">${esc(C.horario)}</p>
-    ${etapas.length ? `<div class="fam-etapas">${etapas.map((e, i) => `<div class="fam-etapa e${i}"><b>${esc(e.name)}</b><i>«${esc(e.lema)}»</i><span>${esc(e.who)}</span></div>`).join("")}</div>` : ""}
   </section>
 
   <section class="fam-sec fam-cuidado">
@@ -214,10 +171,6 @@ async function main() {
       <ul>${C.cuidado.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
     ${illus("acogida")}
   </section>
-
-  ${showHon ? `<section class="fam-sec fam-honor"><span class="fam-k">🏆 Cuadro de honor · ${esc(hon.titulo || "")}</span>
-    <ul>${hon.items.map((x) => `<li><b>${esc(x.n)}</b><span>${esc((x.m || []).join(" · "))}</span></li>`).join("")}</ul>
-    <p class="xs muted">Solo aparecen quienes tienen autorización de su familia.</p></section>` : ""}
 
   <section class="fam-sec">
     <span class="fam-k">Preguntas frecuentes</span><h2>Lo que más nos preguntan</h2>

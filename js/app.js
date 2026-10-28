@@ -3,10 +3,9 @@
 import { CONFIG } from "./config.js";
 import * as S from "./store.js";
 import * as cloud from "./cloud.js";
-import { esc, rich, plain, icon, toast, initials, setRevistaGate } from "./util.js";
+import { esc, rich, plain, icon, toast, initials } from "./util.js";
 import { ORACIONES } from "./devocionario.js";
 import * as wall from "./muro.js";
-import * as camino from "./encuentros.js";
 import * as chat from "./chat.js";
 import * as avisos from "./avisos.js";
 import * as agenda from "./agenda.js";
@@ -26,7 +25,6 @@ import { cfg as inicioCfg, REDES, BRAND_ICO } from "./inicio-config.js";
 import * as solicitud from "./solicitud.js";
 import * as conocer from "./conocer.js";
 import * as ficha from "./ficha.js";
-import * as camJ from "./mi-camino.js";
 import * as ayuda from "./ayuda.js";
 import * as cuenta from "./cuenta.js";
 import * as a11y from "./accesible.js";
@@ -34,10 +32,6 @@ import * as grupo from "./grupo.js";
 import * as inicio from "./inicio.js";
 import * as novedades from "./novedades.js";
 import * as papa from "./papa.js";
-import * as familiasAg from "./familias-ag.js";
-import * as famReg from "./familias-registro.js";
-import * as famPortal from "./familia-portal.js";
-import * as evalua from "./evaluacion.js";
 import { illus } from "./ilustraciones.js";
 
 // Secciones que se descargan recién al abrirlas (juegos, imprimir, credenciales, difusión y lo de Gestión):
@@ -92,11 +86,6 @@ const routes = [
   [/^\/chat$/, () => chat.viewRooms(), "muro"],
   [/^\/chat\/([A-Za-z0-9_-]+)$/, (k) => chat.viewRoom(k), "muro"],
   [/^\/muro\/([^/]+)$/, (id) => wall.viewPost(id), "muro"],
-  [/^\/encuentros$/, () => camino.viewHub(), "comunidad"],
-  [/^\/encuentros\/([a-z]+)$/, (k) => camino.viewRevista(k), "comunidad"],
-  [/^\/encuentros\/([a-z]+)\/(\d+)$/, (k, n) => camino.viewRevista(k, null, n), "comunidad"],
-  [/^\/archivo\/(\d{4})$/, async (y) => (await camino.viewHub(y)) ?? viewNotFound(), "materiales"],
-  [/^\/archivo\/(\d{4})\/([a-z]+)$/, async (y, k) => (await camino.viewRevista(k, y)) ?? viewNotFound(), "materiales"],
   [/^\/comunidad$/, () => { location.replace("presentaciones/guia-de-servicio.html"); return null; }, "comunidad"],
   [/^\/itinerario$/, viewItinerary, "itinerario"],
   [/^\/(?:unidad|encuentro)\/(\d+)\/([^/]+)$/, viewEncounter, "itinerario"],
@@ -115,12 +104,7 @@ const routes = [
   [/^\/conocer(?:\?(.*))?$/, (q) => conocer.view(q || ""), "perfil"],
   [/^\/ficha\/([^/?]+)$/, (id) => ficha.view(decodeURIComponent(id)), "acompanar"],
   [/^\/(?:recorrido|tutorial|guia)(?:\?.*)?$/, () => { location.replace("#/formacion"); return null; }, "formacion"],
-  [/^\/nuestras-familias$/, () => familiasAg.view(), "familiasag"],
-  [/^\/nuestras-familias\/registro$/, () => famReg.viewRegistro(), "familiasag"],
-  [/^\/nuestras-familias\/(f\d+)\/registro(?:\/(\d{4}-\d{2}-\d{2}))?$/, (id, f) => famReg.viewFamilia(id, f), "familiasag"],
-  [/^\/nuestras-familias\/(f\d+)\/(\d{4}-\d{2}-\d{2})$/, (id, f) => famReg.viewFamilia(id, f), "familiasag"],
-  [/^\/nuestras-familias\/(f\d+)(?:\/(muro|agenda))?$/, (id, t) => famPortal.view(id, t), "familiasag"],
-  [/^\/red$/, () => { onAfterRender(() => { acompanar.homeCards(); desafio.homeCard(); momentos.homeStrip(); inicio.refreshInicioCfg(() => { if (location.hash === "#/red") render(); }); }); return inicio.viewRed(); }, "red"],
+  [/^\/red$/, () => { onAfterRender(() => { desafio.homeCard(); momentos.homeStrip(); inicio.refreshInicioCfg(() => { if (location.hash === "#/red") render(); }); }); return inicio.viewRed(); }, "red"],
   [/^\/momentos$/, () => momentos.view(), "red"],
   [/^\/juegos$/, () => juegos.view(), "red"],
   [/^\/juegos\/impostor$/, () => juegos.impostor(), "red"],
@@ -135,20 +119,19 @@ const routes = [
   [/^\/podcast$/, () => podcast.view(), "red"],
   [/^\/credenciales$/, () => mod.credenciales().then((m) => m.view()), "materiales"],
   [/^\/buscar(?:\?q=(.*))?$/, (q) => inicio.viewBuscar(q || ""), "buscar"],
-  [/^\/mi-camino$/, () => camJ.view(), "camino"],
   [/^\/ayuda(?:\?t=([a-z]+))?$/, (t) => ayuda.view(t), "ayuda"],
   [/^\/difusion$/, () => mod.difusion().then((m) => m.view()), "difusion"],
   [/^\/accesibilidad$/, () => a11y.viewPage(), "perfil"],
-  [/^\/mi-camino\/(\d+)$/, (n) => camJ.view(n), "camino"],
   [/^\/cancionero$/, () => cancionero.viewList(), "oracion"],
   [/^\/salmos$/, () => salmos.viewList(), "oracion"],
   [/^\/salmos\/libro$/, () => salmos.viewLibro(), "oracion"],
   [/^\/salmos\/(\d{1,3})(?:\?e=([a-z]+))?$/, (n, e) => salmos.viewOne(n, e), "oracion"],
   [/^\/dinamicas$/, () => mod.dinamicas().then((m) => m.viewList()), "materiales"],
   [/^\/acompanar$/, () => acompanar.viewMain(), "acompanar"],
-  [/^\/acompanar\/(asistencia|jovenes|honor)$/, (t) => acompanar.viewMain(t), "acompanar"],
+  [/^\/acompanar\/(?:asistencia|jovenes|honor)$/, () => { location.replace("#/acompanar"); return null; }, "acompanar"],
   [/^\/acompanar\/joven\/([^/?]+)$/, (id) => acompanar.viewJoven(id), "acompanar"],
-  [/^\/pasaporte$/, () => acompanar.viewMine(), "perfil"],
+  // Lo que se llevó al respaldo (revista, Mi Camino, familias, pasaporte): los enlaces viejos vuelven al inicio.
+  [/^\/(?:encuentros|archivo|mi-camino|nuestras-familias|pasaporte)(?:\/.*)?$/, () => { location.replace("#/"); return null; }, "inicio"],
   [/^\/dinamicas\/([^/?]+)$/, (id) => mod.dinamicas().then((m) => m.viewOne(id)), "materiales"],
   [/^\/cancionero\/misa\/([^/?]+)$/, (id) => cancionero.viewMisa(id), "oracion"],
   [/^\/cancionero\/hoja(?:\?misa=([^&]+))?$/, (m) => cancionero.viewHoja(m), "oracion"],
@@ -171,7 +154,6 @@ async function renderNow() {
   if (!S.content()) return; // aún cargando: el arranque dibuja apenas termina
   S.setPreviewOpen(cloud.enabled && !!cloud.viewingAs());
   const path = decodeURIComponent(location.hash.replace(/^#/, "")) || "/";
-  await cloud.revistaConfig().catch(() => null); // quién ve Nuestra Revista (se guarda por 5 minutos)
   let match = null, fn = viewNotFound, section = "";
   for (const [re, f, sec] of routes) {
     const m = path.match(re);
@@ -182,20 +164,16 @@ async function renderNow() {
     location.replace("#/perfil"); return;
   }
   // Con cuentas: el curso pide iniciar sesión; el resto de la app queda abierto.
-  // Formación, Materiales y revistas del Camino Ágape: solo para cuentas invitadas.
+  // Formación y Materiales: solo para cuentas invitadas.
   // La portada de Materiales la ven todos (sin cuenta, solo difusión, música, oración y la biblioteca).
-  const recursos = (section === "materiales" && path !== "/materiales") || /^\/encuentros(\/|$)/.test(path);
+  const recursos = section === "materiales" && path !== "/materiales";
   // Jóvenes de Ingreso y Madurez: las secciones del equipo quedan fuera de su espacio.
   // Los cursos abiertos (como «Bienvenido a agAPPe») los recorren todos: jóvenes y visitantes sin cuenta.
   const cursoAbierto = section === "itinerario" && !/^\/(constancia|cuaderno)$/.test(path) && S.hasVisibleCourse();
   if (cloud.enabled && cloud.state().isJoven && ((section === "itinerario" && !cursoAbierto && path !== "/cuaderno") || section === "comunidad" || recursos)) fn = viewSoloEquipo;
-  // Nuestra Revista (y Mi Camino, que sale de ella) quedan ocultas mientras el equipo la prepara.
-  if (/^\/(encuentros|mi-camino|archivo)(\/|$)/.test(path) && !cloud.revistaVisible()) fn = viewRevistaPronto;
-  // Nuestras familias: aún es una idea; queda oculta junto con la revista.
-  if (/^\/nuestras-familias(\/|$)/.test(path) && !cloud.familiasVisible()) fn = viewFamiliasPronto;
   // Cursos en revisión: si todos están ocultos, el curso no se abre (salvo para administradores).
   if (section === "itinerario" && !/^\/(constancia|cuaderno)$/.test(path) && !S.hasVisibleCourse() && !(cloud.enabled && !cloud.state().ready)) fn = viewEnRevision;
-  if (cloud.enabled && ((section === "itinerario" && !cursoAbierto) || section === "muro" || recursos) && !cloud.state().ready && fn !== viewRevistaPronto) fn = () => viewLogin(recursos ? "recursos" : section === "muro" ? "muro" : "curso");
+  if (cloud.enabled && ((section === "itinerario" && !cursoAbierto) || section === "muro" || recursos) && !cloud.state().ready) fn = () => viewLogin(recursos ? "recursos" : section === "muro" ? "muro" : "curso");
   document.body.classList.toggle("is-admin", section === "admin");
   applyTheme();
   renderChrome(section);
@@ -220,11 +198,11 @@ function helpFab(section) {
   let b = document.getElementById("helpFab");
   if (section === "ayuda" || section === "admin" && !cloud.state().isStaff) { if (b) b.remove(); return; }
   if (!b) { b = document.createElement("a"); b.id = "helpFab"; b.className = "help-fab"; b.setAttribute("aria-label", "Ayuda"); b.title = "Ayuda: ¿cómo hago…?"; b.textContent = "?"; document.body.appendChild(b); }
-  const t = { muro: "muro", red: "muro", agenda: "agenda", oracion: "oracion", itinerario: "itinerario", formacion: "itinerario", comunidad: "comunidad", camino: "camino", admin: "admin" }[section] || "inicio";
+  const t = { muro: "muro", red: "muro", agenda: "agenda", oracion: "oracion", itinerario: "itinerario", formacion: "itinerario", comunidad: "comunidad", admin: "admin" }[section] || "inicio";
   b.href = `#/ayuda?t=${t}`;
 }
 // Identidad visual: ilustración de trazo simple en el encabezado de cada sección.
-const HEAD_ILLUS = { formacion: "apostoles", red: "amigos", buscar: "pregunta", camino: "camino", agenda: "futuro", comunidad: "equipo", itinerario: "camino", materiales: "biblia", oracion: "jesus", muro: "amigos", perfil: "acogida", verificar: "envio", difusion: "envio" };
+const HEAD_ILLUS = { formacion: "apostoles", red: "amigos", buscar: "pregunta", agenda: "futuro", comunidad: "equipo", itinerario: "camino", materiales: "biblia", oracion: "jesus", muro: "amigos", perfil: "acogida", verificar: "envio", difusion: "envio" };
 function decorate(v, section) {
   const hero = v.querySelector(".hero");
   if (hero && !hero.querySelector(".z-illus")) {
@@ -287,7 +265,7 @@ const NAV = [
   ["agenda", "#/agenda", "Agenda", "cal"],
 ];
 // Cada sección se marca en su bloque
-const TAB_OF = { itinerario: "formacion", materiales: "formacion", camino: "formacion", muro: "red", comunidad: "formacion", difusion: "formacion", pasaporte: "red", acompanar: "red", familiasag: "red" };
+const TAB_OF = { itinerario: "formacion", materiales: "formacion", muro: "red", comunidad: "formacion", difusion: "formacion", acompanar: "red" };
 const navFor = () => NAV;
 // Franja «Ver como…» (solo equipo): recuerda que es una vista de prueba y cómo volver.
 const VER_COMO = [["visitante", "Visitante sin cuenta"], ["ingreso", "Joven · Ingreso"], ["madurez", "Joven · Madurez"], ["aspirante", "Aspirante"], ["dirigente", "Dirigente"], ["coordinador", "Coordinador"]];
@@ -1076,7 +1054,6 @@ function viewMaterials() {
   const full = !cloud.enabled || (!!st0.ready && !st0.isJoven);
   const OPEN = ["difusion", "musica", "oracion"];
   const FILES = [
-    ...(cloud.revistaVisible() ? [["revistas", "Revistas", "#1351a4", "Nuestra Revista de este año y las de años anteriores.", [row("#/encuentros", "book", "Nuestra Revista", "Los encuentros del grupo, semana a semana"), archivoHTML()], null]] : []),
     ["presentaciones", "Presentaciones", "#ef591c", "Para proyectar a pantalla completa.", [
       row("presentaciones/se-puente.html", "sparkle", "Sé puente", "Para invitar a futuros dirigentes al curso", true),
       row("presentaciones/el-arte-de-encontrarnos.html", "grid", "El Arte de Encontrarnos", "Para el consejo pastoral, el párroco y las familias", true),
@@ -1100,14 +1077,12 @@ function viewMaterials() {
     ["imprimir", "Para imprimir", "#fde0d2", "Listos para llevar en papel.", [
       row("#/credenciales", "award", "Credenciales", "Tarjetas de solapa con foto, nombre y parroquia para los encuentros"),
       row("#/imprimir/curso", "print", "La formación de dirigentes", "El curso completo o un módulo, como cuaderno de trabajo"),
-      cloud.revistaVisible() ? row("#/encuentros", "print", "Nuestra Revista", "Se imprimen completas o solo el encuentro de la semana") : "",
       row("#/cancionero", "print", "Cancionero en PDF", "Desde el cancionero: Exportar → PDF"),
       ...prints.map(guide),
     ]],
   ].map((f) => { f[4] = f[4].filter(Boolean); return f; }).filter((f) => f[4].length && (full || OPEN.includes(f[0])));
-  if (full) onAfterRender(() => loadArchivo().then((ch) => { const b = $("#fiArchivo"); if (ch && b) b.outerHTML = archivoHTML(); }));
   return `<header class="page-head"><span class="eyebrow">Herramientas de la pastoral</span><h1>${esc(full ? m.title : "Materiales")}</h1><p>${esc(full ? m.desc : "Para invitar a otros, cantar, rezar y conocer más nuestra fe.")}</p></header>
-    ${guest ? `<p class="fi-hint">Con tu cuenta se abren también las revistas, presentaciones, guías y dinámicas del equipo.</p>` : ""}
+    ${guest ? `<p class="fi-hint">Con tu cuenta se abren también las presentaciones, guías y dinámicas del equipo.</p>` : ""}
     <p class="fi-hint">Toca un fichero para abrirlo.</p>
     <div class="fi-grid">${FILES.map(([k, t, col, d, items, count], i) => `
       <details class="fichero" id="fi-${k}" style="--fi:${col}" ${fiOpen.has(k) ? "open" : ""} data-fi="${k}">
@@ -1119,67 +1094,6 @@ function viewMaterials() {
       ${libraryHTML(lib, FILES.length + 1)}
     </div>`;
 }
-// Revistas por año: las ediciones del Camino Ágape (en la app) y lo que el equipo archiva con enlace.
-let archivo = null;
-try { archivo = JSON.parse(localStorage.getItem("agape_archivo") || "null"); } catch {}
-async function loadArchivo() {
-  const a = cloud.getArchivo ? await cloud.getArchivo() : null;
-  if (!a) return false;
-  const ch = JSON.stringify(a) !== JSON.stringify(archivo);
-  archivo = a; try { localStorage.setItem("agape_archivo", JSON.stringify(a)); } catch {}
-  return ch;
-}
-const REV_SHORT = [["principal", "Principal"], ["coordinacion", "Coordinación"], ["ingreso", "Ingreso"], ["madurez", "Madurez"], ["aspirante", "Aspirante"]];
-function archivoHTML() {
-  const admin = cloud.enabled && cloud.state().isAdmin;
-  const years = new Map();
-  camino.EDICIONES.forEach((e) => { const y = years.get(e.year) || { year: e.year, items: [] }; y.items.push({ ed: e }); years.set(e.year, y); });
-  ((archivo && archivo.items) || []).forEach((it, i) => { const y = years.get(+it.year) || { year: +it.year, items: [] }; y.items.push({ link: it, i }); years.set(+it.year, y); });
-  const list = [...years.values()].sort((a, b) => b.year - a.year);
-  return `<div id="fiArchivo" class="fi-years">
-    ${list.map((y) => `<div class="fi-year"><span class="fi-y">${y.year}</span><div class="fi-y-items">${y.items.map((x) => x.ed ? `
-      <a class="fi-row" href="${x.ed.actual ? "#/encuentros" : `#/archivo/${x.ed.year}`}"><span class="fi-txt"><b>Nuestra Revista ${x.ed.year} · ${esc(x.ed.ciclo)}</b>
-        <small>${x.ed.actual ? "Edición actual · " : ""}${esc(x.ed.rango)}</small></span>${icon("right")}</a>
-      <div class="fi-revs">${REV_SHORT.map(([k, l]) => `<a class="chip" href="${x.ed.actual ? "#/encuentros" : `#/archivo/${x.ed.year}`}/${k}">${l}</a>`).join("")}</div>`
-      : `<div class="fi-row-wrap"><a class="fi-row" href="${esc(x.link.url)}" target="_blank" rel="noopener"><span class="fi-txt"><b>${esc(x.link.title)}</b>${x.link.note ? `<small>${esc(x.link.note)}</small>` : ""}</span>${icon("arrowR")}</a>
-        ${admin ? `<button class="icon-btn fi-del" data-action="arcDel" data-i="${x.i}" aria-label="Quitar del archivo">${icon("x")}</button>` : ""}</div>`).join("")}</div></div>`).join("")}
-    ${admin ? `<button class="btn btn-sm btn-ghost" style="margin-top:10px" data-action="arcNew">${icon("plus")} Archivar una revista</button>` : ""}
-  </div>`;
-}
-actions.arcNew = () => {
-  let d = document.getElementById("arcDlg");
-  if (!d) { d = document.createElement("dialog"); d.id = "arcDlg"; d.className = "sheet"; document.body.appendChild(d); }
-  d.innerHTML = `<form method="dialog" id="arcForm">
-    <div class="sheet-head"><div style="flex:1"><span class="eyebrow">Materiales · Revistas</span><h2>Archivar una revista</h2></div>
-      <button type="button" class="icon-btn" data-action="arcClose" aria-label="Cerrar">${icon("x")}</button></div>
-    <div class="sheet-body stack" style="--gap:12px">
-      <div class="ag-form-row">
-        <div class="field"><label>Año</label><input class="input" type="number" name="year" min="1990" max="2100" required value="${new Date().getFullYear()}"></div>
-        <div class="field"><label>Título</label><input class="input" name="title" required maxlength="120" placeholder="Revista Madurez 2026 (impresa)"></div>
-      </div>
-      <div class="field"><label>Enlace</label><input class="input" name="url" required maxlength="500" placeholder="https://drive.google.com/…"><span class="xs muted">Un PDF o una carpeta de Drive con permiso de lectura para quien tenga el enlace.</span></div>
-      <div class="field"><label>Nota (opcional)</label><input class="input" name="note" maxlength="140" placeholder="Encuentros de marzo a noviembre"></div>
-    </div>
-    <div class="sheet-foot"><span class="spacer"></span><button type="button" class="btn btn-ghost" data-action="arcClose">Cancelar</button><button class="btn btn-primary" type="submit">Archivar</button></div>
-  </form>`;
-  d.showModal();
-};
-actions.arcClose = () => document.getElementById("arcDlg")?.close();
-actions.arcDel = async (el) => {
-  if (!confirm("¿Quitar esta revista del archivo? El archivo original no se borra.")) return;
-  const items = [...((archivo && archivo.items) || [])]; items.splice(+el.dataset.i, 1);
-  try { await cloud.saveArchivo({ items }); archivo = { items }; render(); toast("Quitada del archivo"); } catch { toast("No se pudo guardar", ""); }
-};
-document.addEventListener("submit", async (e) => {
-  if (e.target.id !== "arcForm") return;
-  e.preventDefault();
-  const f = new FormData(e.target);
-  const it = { year: +f.get("year"), title: String(f.get("title") || "").trim(), url: String(f.get("url") || "").trim(), note: String(f.get("note") || "").trim() };
-  if (!/^https?:\/\//.test(it.url)) { toast("El enlace debe empezar con https://", ""); return; }
-  const items = [...((archivo && archivo.items) || []), it];
-  try { await cloud.saveArchivo({ items }); archivo = { items }; document.getElementById("arcDlg")?.close(); render(); toast("Revista archivada"); }
-  catch { toast("No se pudo guardar. Revisa tu conexión.", ""); }
-});
 // Ficheros desplegables: se recuerda cuáles quedaron abiertos (en esta pestaña), así al volver siguen igual.
 const fiOpen = new Set((() => { try { return JSON.parse(sessionStorage.getItem("agape_fi_open") || "[]"); } catch { return []; } })());
 document.addEventListener("toggle", (e) => {
@@ -1354,31 +1268,12 @@ function viewEnRevision() {
     <p class="muted" style="margin-top:8px">El equipo está preparando la nueva versión del curso. Tu avance queda guardado.</p>
     <a class="btn btn-primary" style="margin-top:16px" href="#/formacion">Volver a Formación</a></div>`;
 }
-function viewFamiliasPronto() {
-  return `<div class="card" style="max-width:520px;margin:6vh auto 0;text-align:center;padding:32px">
-    ${illus("amigos", "")}
-    <h1 class="display" style="font-size:1.6rem;margin-top:10px">Esto todavía no está disponible</h1>
-    <p class="muted" style="margin-top:8px">Te esperamos en la comunidad, el muro y la capilla.</p>
-    <div class="row-wrap" style="justify-content:center;margin-top:16px"><a class="btn btn-primary" href="#/red">Ir a Comunidad</a><a class="btn btn-ghost" href="#/oracion">Ir a la Capilla</a></div></div>`;
-}
-function viewRevistaPronto() {
-  return `<div class="card" style="max-width:520px;margin:6vh auto 0;text-align:center;padding:32px">
-    ${illus("camino", "")}
-    <h1 class="display" style="font-size:1.6rem;margin-top:10px">Nuestra Revista se está preparando</h1>
-    <p class="muted" style="margin-top:8px">El equipo está armando los encuentros del próximo año. Mientras tanto, te esperamos en la comunidad, el muro y la capilla.</p>
-    <div class="row-wrap" style="justify-content:center;margin-top:16px"><a class="btn btn-primary" href="#/red">Ir a Comunidad</a><a class="btn btn-ghost" href="#/oracion">Ir a la Capilla</a></div></div>`;
-}
 function viewSoloEquipo() {
-  if (!cloud.revistaVisible()) return `<div class="card" style="max-width:520px;margin:6vh auto 0;text-align:center;padding:32px">
+  return `<div class="card" style="max-width:520px;margin:6vh auto 0;text-align:center;padding:32px">
     ${illus("camino", "")}
     <h1 class="display" style="font-size:1.6rem;margin-top:10px">Esto es para el equipo de dirigentes</h1>
     <p class="muted" style="margin-top:8px">Tu espacio está en la comunidad: el muro, el chat, la agenda, los juegos y la capilla.</p>
     <a class="btn btn-primary" style="margin-top:16px" href="#/red">Ir a Comunidad</a></div>`;
-  return `<div class="card" style="max-width:520px;margin:6vh auto 0;text-align:center;padding:32px">
-    ${illus("camino", "")}
-    <h1 class="display" style="font-size:1.6rem;margin-top:10px">Esto es para el equipo de dirigentes</h1>
-    <p class="muted" style="margin-top:8px">Tu espacio está en <b>Mi Camino</b>: el encuentro de tu etapa de cada semana, tu desafío y tu pasaporte.</p>
-    <a class="btn btn-primary" style="margin-top:16px" href="#/mi-camino">Ir a Mi Camino</a></div>`;
 }
 function viewLogin(kind = "curso") {
   const st = cloud.state();
@@ -1398,9 +1293,9 @@ function viewLogin(kind = "curso") {
   return `<div class="welcome">
     <section class="hero" style="margin-bottom:18px;text-align:center">
       <img class="welcome-logo" src="icons/logo-320.webp" width="116" height="116" alt="Logo Ágape Joven PJ">
-      <span class="eyebrow">${MU ? "Muro y chat" : R ? "Materiales y revistas" : "Curso de formación de dirigentes"}</span>
+      <span class="eyebrow">${MU ? "Muro y chat" : R ? "Materiales" : "Curso de formación de dirigentes"}</span>
       <h1>${MU ? `Lo que conversa el <em>grupo</em>` : R ? `Recursos para <em>dirigentes</em>` : `Tu camino de <em>formación</em>`}</h1>
-      <p class="lead">${MU ? "El muro y el chat son del grupo: para cuidar a los jóvenes, solo los ven quienes tienen cuenta. Ingresa con tu cuenta de Google." : R ? "Las revistas del Camino Ágape, las presentaciones, las guías y el banco de dinámicas son para quienes tienen cuenta. Ingresa con tu cuenta de Google para verlos." : "Ingresa con tu cuenta de Google para avanzar a tu ritmo, guardar tu cuaderno y recibir tu constancia. Tu avance te sigue en cualquier dispositivo."}</p>
+      <p class="lead">${MU ? "El muro y el chat son del grupo: para cuidar a los jóvenes, solo los ven quienes tienen cuenta. Ingresa con tu cuenta de Google." : R ? "Las presentaciones, las guías y el banco de dinámicas son para quienes tienen cuenta. Ingresa con tu cuenta de Google para verlos." : "Ingresa con tu cuenta de Google para avanzar a tu ritmo, guardar tu cuaderno y recibir tu constancia. Tu avance te sigue en cualquier dispositivo."}</p>
     </section>
     <div class="card" style="text-align:center;padding:28px">
       ${msg || `<button class="btn btn-primary btn-block google-btn" data-action="signIn">${googleIcon()} Continuar con Google</button>
@@ -1434,7 +1329,6 @@ function viewAccount() {
     <section class="card cum-card" id="cumCard" ${myCum === false ? "hidden" : ""}>${cumCardHTML()}</section>
     ${a11y.panelHTML()}
     <div class="row-wrap" style="justify-content:center;margin-top:14px">
-      <a class="btn btn-soft" href="#/pasaporte">${icon("award")} Mi pasaporte</a>
       ${st.isGuide ? `<a class="btn btn-soft" href="#/acompanar">${icon("check")} Acompañar</a>` : ""}
     </div>
     <div class="row-wrap" style="justify-content:center;margin-top:16px">
@@ -1588,8 +1482,6 @@ actions.install = async () => {
 // ---------------------------------------------------------------------------
 wall.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 window.addEventListener("agape:logro", () => toast("🎉 ¡Felicitaciones! Compartimos tu logro en el muro de la comunidad", "ok", 6000));
-camino.setup({ actions, render: () => render(), cloud });
-setRevistaGate(() => cloud.revistaVisible());
 chat.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 avisos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 agenda.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
@@ -1611,18 +1503,13 @@ ficha.setup({ actions, render: () => render(), onAfterRender, cloud });
 cancionero.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 salmos.setup({ actions, render: () => render(), onAfterRender, cloud });
 acompanar.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
-camJ.setup({ actions, render: () => render(), cloud, S, onAfterRender });
 ayuda.setup({ actions, render: () => render(), onAfterRender, cloud });
 desafio.setup({ actions, render: () => render(), cloud });
 momentos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 juegos.setup({ actions, render: () => render(), onAfterRender, onLeave });
 podcast.setup({ actions, render: () => render(), onAfterRender, cloud });
-inicio.setup({ actions, render: () => render(), onAfterRender, camJ, agenda, wall });
+inicio.setup({ actions, render: () => render(), onAfterRender, agenda, wall });
 papa.registerActions(actions);
-familiasAg.setup({ actions, onAfterRender });
-famReg.setup({ actions, onAfterRender });
-famPortal.setup({ actions, onAfterRender, onLeave });
-evalua.setup({ actions });
 capilla.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, content: () => S.content() });
 oremus.setup({ actions, onAfterRender });
 // Control remoto (palo de selfie, control de presentaciones) en todo lo que se proyecta: canciones, oraciones y salmos.

@@ -1,7 +1,7 @@
 // Ficha privada de cada joven (#/ficha/{id}): los datos que el equipo necesita para cuidarlo en los
 // encuentros y salidas (RUT, edad, dirección, contacto de emergencia, alergias…). Nunca se publica.
 // La ven y editan el equipo coordinador, los dirigentes que lo acompañan y el propio joven si tiene cuenta.
-// El perfil público sigue siendo su pasaporte (nombre e inicial, avatar, lema y sellos).
+// Lo ven el equipo, sus dirigentes y la propia persona.
 import { esc, icon, toast } from "./util.js";
 import { xlsxBlob } from "./xlsx-mini.js";
 
@@ -49,7 +49,7 @@ async function load(jid) {
 }
 function pageHTML() {
   const { j, f, own } = cur, n = first(j.nombre), e = edad(f.nacimiento);
-  const crumbs = own ? `<a href="#/pasaporte">Mi pasaporte</a>` : `<a href="#/acompanar/jovenes">Jóvenes</a>${icon("right")}<a href="#/acompanar/joven/${encodeURIComponent(j.id)}">${esc(j.nombre)}</a>`;
+  const crumbs = own ? `<a href="#/perfil">Mi perfil</a>` : `<a href="#/acompanar">Jóvenes</a>${icon("right")}<a href="#/acompanar/joven/${encodeURIComponent(j.id)}">${esc(j.nombre)}</a>`;
   const upd = f.updatedAt && f.updatedAt.toDate ? f.updatedAt.toDate().toLocaleDateString("es-CL") : "";
   return `<nav class="crumbs">${crumbs}${icon("right")}<span>Ficha privada</span></nav>
   <header class="page-head"><span class="eyebrow">${icon("lock")} Ficha privada</span><h1>${esc(own ? "Mis datos" : j.nombre)}${e !== "" ? ` <span class="fi-edad">${e} años</span>` : ""}</h1>

@@ -1,7 +1,7 @@
-// Desafío de la semana (tarjeta en Inicio). Sale de la revista del Camino Ágape de esa
-// semana o, si el equipo lo define, de Gestión. Cada uno marca «¡Lo cumplí!».
+// Desafío de la semana (tarjeta en Comunidad). Lo propone el equipo desde la misma tarjeta.
+// Cada uno marca «¡Lo cumplí!».
 
-import { esc, icon, toast, fetchJSON } from "./util.js";
+import { esc, icon, toast } from "./util.js";
 import { svg as avatarSvg } from "./avatares.js";
 
 let ctx = null; // { actions, render, cloud }
@@ -14,20 +14,6 @@ const ETAPA_L = { ingreso: "Ingreso", madurez: "Madurez", aspirante: "Aspirante"
 function monday(d = new Date()) { const x = new Date(d); x.setHours(12, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
 const weekOf = () => { const m = monday(), s = new Date(m); s.setDate(s.getDate() + 6); return { desde: iso(m), hasta: iso(s) }; };
 
-let camino = null;
-async function caminoWeek() {
-  try { camino = camino || (await fetchJSON("data/encuentros.json")); } catch { return null; }
-  const t = new Date(); t.setHours(12, 0, 0, 0);
-  let best = null;
-  for (const e of camino.encuentros || []) {
-    const m = String(e.fecha).match(/(\d+) de (\w+) de (\d{4})/); if (!m) continue;
-    const d = new Date(+m[3], MESES.indexOf(m[2]), +m[1], 12);
-    const diff = (t - d) / 86400000; // días desde el encuentro
-    if (diff > -6 && diff <= 7 && (!best || Math.abs(diff) < Math.abs(best.diff))) best = { e, diff };
-  }
-  return best ? best.e : null;
-}
-
 let cur = null; // { key, title, items: [{etapa, text}], source }
 export async function homeCard() {
   const slot = document.getElementById("desafioSlot"); if (!slot || !ctx.cloud.enabled) return;
@@ -35,11 +21,7 @@ export async function homeCard() {
   const custom = await ctx.cloud.getDesafio();
   if (custom && custom.texto && (!custom.desde || today >= custom.desde) && (!custom.hasta || today <= custom.hasta)) {
     cur = { key: `c-${custom.desde || "x"}`, title: custom.titulo || "Desafío de la semana", items: [{ text: custom.texto }], source: "equipo" };
-  } else {
-    const e = await caminoWeek();
-    if (e) cur = { key: `e-${e.n}`, title: `Desafío de la semana · ${e.tema}`, items: Object.entries(e.etapas || {}).filter(([, v]) => v && v.desafio).map(([k, v]) => ({ etapa: k, text: v.desafio })), source: "camino" };
-    else cur = null;
-  }
+  } else cur = null;
   paint();
 }
 let done = null;
@@ -56,7 +38,7 @@ async function paint() {
   const items = pref && cur.items.some((i) => i.etapa === pref) ? cur.items.filter((i) => i.etapa === pref) : cur.items;
   const s = document.getElementById("desafioSlot"); if (!s) return;
   s.innerHTML = `<section class="card desafio">
-    <div class="desafio-head"><span class="desafio-ico" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><circle cx="22" cy="26" r="17"/><circle cx="22" cy="26" r="10"/><circle cx="22" cy="26" r="3.4" fill="currentColor"/><path d="M22 26 L41 7 M35 6 L41 7 L42 13"/></svg></span><div style="flex:1"><span class="desafio-hand">esta semana te desafiamos</span>${((t) => t && !/^desaf[ií]o de la semana$/i.test(t) ? `<h3>${esc(t)}</h3>` : "")(cur.title.replace(/^Desafío de la semana · /, "").trim())}<span class="desafio-src">${cur.source === "camino" ? "Desafío de la semana · Nuestra Revista" : "Desafío de la semana · propuesto por el equipo"}</span></div>
+    <div class="desafio-head"><span class="desafio-ico" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><circle cx="22" cy="26" r="17"/><circle cx="22" cy="26" r="10"/><circle cx="22" cy="26" r="3.4" fill="currentColor"/><path d="M22 26 L41 7 M35 6 L41 7 L42 13"/></svg></span><div style="flex:1"><span class="desafio-hand">esta semana te desafiamos</span>${((t) => t && !/^desaf[ií]o de la semana$/i.test(t) ? `<h3>${esc(t)}</h3>` : "")(cur.title.replace(/^Desafío de la semana · /, "").trim())}<span class="desafio-src">Desafío de la semana · propuesto por el equipo</span></div>
       ${st().isStaff ? `<button class="icon-btn" data-action="desNew" aria-label="Proponer otro desafío">${icon("edit")}</button>` : ""}</div>
     <div class="desafio-list">${items.map((i) => `<p>${i.etapa ? `<span class="chip">${esc(ETAPA_L[i.etapa] || i.etapa)}</span> ` : ""}${esc(i.text)}</p>`).join("")}</div>
     <div class="desafio-foot">
@@ -78,7 +60,7 @@ function editor() {
         <div class="field"><label>Desde</label><input class="input" type="date" name="desde" value="${w.desde}"></div>
         <div class="field"><label>Hasta</label><input class="input" type="date" name="hasta" value="${w.hasta}"></div>
       </div>
-      <p class="xs muted">Mientras esté vigente, reemplaza al desafío de Nuestra Revista.</p>
+      <p class="xs muted">Se muestra en Comunidad entre las fechas que elijas.</p>
     </div>
     <div class="sheet-foot"><span class="spacer"></span><button type="button" class="btn btn-ghost" data-action="desClose">Cancelar</button><button class="btn btn-primary" type="submit">Publicar</button></div></form>`;
   d.showModal();

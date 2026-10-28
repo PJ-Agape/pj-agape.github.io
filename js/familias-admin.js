@@ -18,7 +18,7 @@ export function adminView() {
   const inp = (name, val, ph = "", type = "text") => `<input class="input" type="${type}" name="${name}" value="${esc(val)}" placeholder="${esc(ph)}">`;
   return `
   <header class="page-head"><span class="eyebrow">Gestión</span><h1>Página para familias</h1>
-    <p>Una página pública, sin cuenta, para papás y apoderados. Muestra quiénes somos, el tema de la semana, las actividades marcadas «Visible para familias» en la Agenda (con su autorización para descargar), el cuadro de honor y el contacto.</p></header>
+    <p>Una página pública, sin cuenta, para papás y apoderados. Muestra quiénes somos, las actividades marcadas «Visible para familias» en la Agenda (con su autorización para descargar) y el contacto.</p></header>
   <div class="card fam-share">
     <div class="fam-qr">${qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true })}</div>
     <div style="flex:1;min-width:220px"><h3>Compártela</h3><p class="small muted">En el grupo de apoderados, en la reunión de padres o impresa en el diario mural de la parroquia.</p>
@@ -30,7 +30,6 @@ export function adminView() {
     <section class="card stack" style="--gap:12px"><h3>Bienvenida y horarios</h3>
       <div class="field"><label>Quiénes somos (2 o 3 líneas)</label>${area("bienvenida", C.bienvenida, 3)}</div>
       <div class="field"><label>Cuándo y dónde nos reunimos</label>${area("horario", C.horario, 2, "Ej: Los sábados de 16:00 a 18:00 en el salón parroquial.")}</div>
-      <p class="xs muted">Las etapas (Ingreso, Madurez, Aspirante) se muestran solas desde Nuestra Revista.</p>
     </section>
     <section class="card stack" style="--gap:12px"><h3>Carta a las familias <span class="chip">opcional</span></h3>
       <p class="small muted">Un saludo breve del equipo o del párroco. Se muestra arriba de todo hasta la fecha que elijas.</p>

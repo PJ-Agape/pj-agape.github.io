@@ -1,5 +1,5 @@
-// Genera agenda.ics (calendario para suscribirse) a partir de la Agenda de Firestore
-// y de los encuentros del Camino Ágape. Lo ejecuta cada hora una acción de GitHub.
+// Genera agenda.ics (calendario para suscribirse) a partir de la Agenda de Firestore.
+// Lo ejecuta cada hora una acción de GitHub.
 // Uso: node scripts/agenda-ics.mjs [salida]   (sin dependencias; Node 18+)
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { rrule } from "../js/repeat.js";
@@ -30,29 +30,6 @@ async function agenda() {
     page = j.nextPageToken || "";
   } while (page);
   return rows.filter((e) => /^\d{4}-\d{2}-\d{2}$/.test(e.date || "") && e.title);
-}
-
-// Nuestra Revista oculta (content/revista con modo distinto de «todos»): sus encuentros no van al calendario público.
-async function revistaAbierta() {
-  try {
-    const r = await fetch(`https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents/content/revista?key=${KEY}`);
-    if (!r.ok) return false;
-    const j = await r.json();
-    return (JSON.parse(val(j.fields?.json) || "null") || {}).modo === "todos";
-  } catch { return false; }
-}
-
-// --- Camino Ágape (mismo criterio que la Agenda de la app) ---
-function camino() {
-  if (!existsSync("data/encuentros.json")) return [];
-  const d = JSON.parse(readFileSync("data/encuentros.json", "utf8"));
-  return d.encuentros.map((e) => {
-    const m = String(e.fecha).match(/(\d+) de (\w+) de (\d{4})/);
-    if (!m) return null;
-    return { id: "camino-" + e.n, date: `${m[3]}-${String(MESES.indexOf(m[2]) + 1).padStart(2, "0")}-${m[1].padStart(2, "0")}`,
-      title: `Encuentro N° ${e.n}: ${e.tema}`, type: "encuentro",
-      desc: `${e.domingo}. Evangelio: ${e.evangelio.ref}. El encuentro se realiza durante esta semana; el equipo confirma día y hora.` };
-  }).filter(Boolean);
 }
 
 // --- iCalendar ---
@@ -104,7 +81,6 @@ function write(out, list, name, desc, fam) {
   if (strip(prev) !== strip(ics)) { writeFileSync(out, ics); console.log(`${out}: ${list.length} eventos`); }
   else console.log(`${out} sin cambios`);
 }
-const conCamino = await revistaAbierta();
-write(OUT, [...own, ...(conCamino ? camino() : [])].sort(byDate), "Agenda Ágape", "Agenda oficial de la Pastoral Juvenil Ágape · Parroquia San Miguel de Yungay", false);
+write(OUT, [...own].sort(byDate), "Agenda Ágape", "Agenda oficial de la Pastoral Juvenil Ágape · Parroquia San Miguel de Yungay", false);
 // Calendario para familias: solo los eventos marcados «Visible para familias».
 write(process.argv[3] || "familias.ics", own.filter((e) => e.familias === true).sort(byDate), "Ágape · Familias", "Actividades de la Pastoral Juvenil Ágape para las familias · Parroquia San Miguel de Yungay", true);
