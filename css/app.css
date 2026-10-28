@@ -153,7 +153,7 @@ p { margin: 0; }
   .profile-chip { margin-left: auto; padding-right: 4px; }
   .profile-chip span.name { display: none; }
   .bottom-nav {
-    display: grid; grid-template-columns: repeat(6, 1fr);
+    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
     height: var(--bottom-h); padding-bottom: env(safe-area-inset-bottom);
     background: color-mix(in srgb, var(--surface) 92%, transparent);
@@ -2891,7 +2891,7 @@ html.a11y-contraste :focus-visible { outline: 4px solid #ef591c !important; outl
 /* Barra de abajo: más grande y con el color de cada bloque */
 @media (max-width: 760px) {
   :root { --bottom-h: calc(74px + env(safe-area-inset-bottom)); }
-  .bottom-nav { grid-template-columns: repeat(5, 1fr); border-top: 3px solid var(--pp-bd, var(--z-b, var(--cn, #0b2566))); }
+  .bottom-nav { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 1fr; border-top: 3px solid var(--pp-bd, var(--z-b, var(--cn, #0b2566))); }
   .bottom-nav a { font-size: .74rem; font-weight: 800; color: var(--ink-2); gap: 4px; --tc: var(--cn, #0b2566); }
   .bottom-nav a[data-k="formacion"] { --tc: var(--cb, #1351a4); }
   .bottom-nav a[data-k="red"] { --tc: #ef591c; }
