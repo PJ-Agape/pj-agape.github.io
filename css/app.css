@@ -906,7 +906,6 @@ a.wall-title:hover h3 { color: var(--accent-text); }
 .z-cover-foot { font-size: .8rem; font-weight: 600; opacity: .85; }
 
 /* intro de etapa */
-.z-sticker { position: absolute; right: 26px; top: 22px; background: #ffba03; border: 3px solid var(--pp-bd, var(--z-navy)); border-radius: 16px; padding: 10px 14px; font-weight: 800; font-size: .85rem; width: 200px; box-shadow: var(--pp-sh-m, 4px 4px 0 var(--z-navy)); z-index: 1; }
 .z-intro .z-h:first-of-type { margin-top: 84px; }
 .z-road { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 8px 0 28px; color: var(--zb); }
 .zine[data-rev="ingreso"] .z-road { color: var(--cb, #1351a4); }
@@ -979,7 +978,6 @@ a.wall-title:hover h3 { color: var(--accent-text); }
 
 @media (max-width: 560px) {
   .z-page { padding: 26px 20px; border-radius: 22px; box-shadow: var(--pp-sh-m, 5px 5px 0 var(--z-navy)); }
-  .z-sticker { position: relative; right: auto; top: auto; margin: 0 0 14px auto; }
   .z-intro .z-h:first-of-type { margin-top: 0; }
   .z-road { grid-template-columns: repeat(2, 1fr); row-gap: 22px; }
   .z-road-line { display: none; }
@@ -1030,8 +1028,6 @@ a.wall-title:hover h3 { color: var(--accent-text); }
 .z-lema, .z-cover-card { align-self: flex-start; justify-self: start; }
 .z-blob.b2 { top: -60px; left: -60px; width: 180px; height: 180px; }
 @media print {
-  .z-sticker { width: 70mm; font-size: 12pt; padding: 4mm 5mm; }
-  .z-sticker .z-write i { height: 10mm; }
   .z-lema { font-size: 26pt; }
 }
 
