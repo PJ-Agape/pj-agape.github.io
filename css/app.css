@@ -4524,32 +4524,18 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .pf-det > :not(summary) { margin-top: 10px; }
 .pf-out { margin: 22px auto 0; display: flex; }
 
-/* Orar: la rueda de la Capilla (se gira con el dedo; el de arriba es el elegido) */
-.cap-wheel-sec { margin-top: 22px; display: grid; gap: 10px; justify-items: center; text-align: center; }
-.cw-h { font-family: var(--font-display); font-size: 1.5rem; margin: -4px 0 4px; }
-.cw { --size: min(88vw, 360px); --r: calc(var(--size) * .385); --step: 45deg; position: relative; width: var(--size); height: var(--size); border-radius: 50%;
-  background: radial-gradient(circle at 50% 38%, #1d4fa3 0%, #0b2566 62%, #071a4a 100%); border: 3px solid var(--pp-bd, #0b2566);
-  box-shadow: var(--pp-sh-m, 5px 5px 0 #0b2566), inset 0 0 0 10px rgba(255, 186, 3, .08); touch-action: none; user-select: none; -webkit-user-select: none; }
-.cw::before { content: ""; position: absolute; inset: 14%; border-radius: 50%; border: 1.5px dashed rgba(255, 207, 92, .35); pointer-events: none; }
-.cw-ring { position: absolute; inset: 0; border-radius: 50%; transform: rotate(var(--rot)); outline: none; cursor: grab; }
-.cw-ring:active { cursor: grabbing; }
-.cw-anim .cw-ring, .cw-anim .cw-it { transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
-.cw-it { position: absolute; left: 50%; top: 50%; width: 62px; height: 62px; margin: -31px 0 0 -31px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; justify-items: center; gap: 2px; color: #ffcf5c;
-  transform: rotate(var(--a)) translateY(calc(-1 * var(--r))) rotate(calc(-1 * (var(--a) + var(--rot)))); font: inherit; }
-.cw-ico { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; background: #102f78; border: 2px solid #ffba03; box-shadow: 0 2px 0 rgba(0, 0, 0, .25); transition: transform .25s, background .25s, color .25s; }
-.cw-ico svg { width: 26px; height: 26px; }
-.cw-lbl { font-size: .62rem; font-weight: 800; line-height: 1.05; color: #fff1c7; max-width: 76px; text-shadow: 0 1px 0 rgba(0, 0, 0, .35); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cw-it.on .cw-ico { background: #ffba03; color: #0b2566; transform: scale(1.18); box-shadow: 0 0 0 4px rgba(255, 186, 3, .28), 0 3px 0 rgba(0, 0, 0, .25); }
-.cw-it.on .cw-lbl { opacity: 0; }
-.cw-it:focus-visible .cw-ico { outline: 3px solid #fff; outline-offset: 2px; }
-.cw-pointer { position: absolute; left: 50%; top: -2px; width: 0; height: 0; margin-left: -10px; border: 10px solid transparent; border-top: 14px solid #ffba03; z-index: 2; filter: drop-shadow(0 2px 0 #0b2566); pointer-events: none; }
-.cw-center { position: absolute; left: 50%; top: 50%; width: 46%; height: 46%; transform: translate(-50%, -50%); border-radius: 50%; display: grid; align-content: center; justify-items: center; gap: 3px; padding: 8px;
-  background: radial-gradient(circle, #163f92, #0b2566); border: 2px solid rgba(255, 186, 3, .55); color: #fff6e0; z-index: 1; }
-.cw-c-ico { width: 30px; height: 30px; color: #ffba03; } .cw-c-ico svg { width: 100%; height: 100%; }
-.cw-center b { font-family: var(--font-display); font-size: 1.02rem; line-height: 1.1; }
-.cw-center small { font-size: .66rem; line-height: 1.2; color: #cfe0ff; max-width: 92%; }
-.cw-c-btns { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 3px; }
-.cw-go { border: 2px solid #0b2566; background: #ffba03; color: #0b2566; font: inherit; font-size: .72rem; font-weight: 800; border-radius: 999px; padding: 4px 11px; cursor: pointer; }
-.cw-nav { display: flex; align-items: center; gap: 14px; }
-.cap-wheel-sec .cap-papa, .cap-wheel-sec .cap-row-det { width: 100%; text-align: left; }
-@media (prefers-reduced-motion: reduce) { .cw-anim .cw-ring, .cw-anim .cw-it { transition: none; } }
+/* Orar: íconos dorados sobre azul, de a tres por fila */
+.cap-grid-sec { margin-top: 22px; display: grid; gap: 12px; }
+.cw-h { font-family: var(--font-display); font-size: 1.4rem; margin: 0; }
+.cg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.cg-it { display: grid; justify-items: center; gap: 8px; padding: 16px 6px 12px; border-radius: 20px; cursor: pointer; font: inherit; color: #fff1c7;
+  background: radial-gradient(circle at 50% 30%, #1d4fa3, #0b2566 75%); border: 2px solid var(--pp-bd, #0b2566); box-shadow: var(--pp-sh-s, 3px 3px 0 #0b2566); transition: transform .15s; }
+.cg-it:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #0b2566; }
+.cg-it:focus-visible { outline: 3px solid #ffba03; outline-offset: 3px; }
+.cg-ico { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; color: #ffba03; background: #102f78; border: 2px solid #ffba03; }
+.cg-ico svg { width: 28px; height: 28px; }
+.cg-lbl { font-size: .8rem; font-weight: 800; line-height: 1.1; text-align: center; }
+.cg-it.on .cg-ico { background: #ffba03; color: #0b2566; }
+.cg-more { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.cw-go { border: 2px solid #0b2566; background: #ffba03; color: #0b2566; font: inherit; font-size: .85rem; font-weight: 800; border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+.cap-grid-sec .cap-papa, .cap-grid-sec .cap-row-det { width: 100%; text-align: left; }

@@ -315,8 +315,8 @@ function setAltar(open) {
   if (open) setTimeout(() => document.getElementById("velaText")?.focus({ preventScroll: true }), 50);
 }
 // ---------------------------------------------------------------------------
-// La rueda de la Capilla: se gira con el dedo y el ícono de arriba es el elegido.
-// Un toque en un ícono lo trae arriba; un toque en el elegido (o en «Entrar») abre ese lugar.
+// Para rezar: íconos dorados sobre azul, de a tres por fila. Un toque abre ese lugar;
+// si tiene dos formas (Un rato con Jesús), aparecen debajo para elegir.
 // ---------------------------------------------------------------------------
 const WI = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const WICO = {
@@ -327,88 +327,44 @@ const WICO = {
   oremus: WI('<path d="M12 3v18M7 8h10"/>'),
   cancionero: WI('<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>'),
   intenciones: WI('<path d="M12 3c2 2.5 3 4.2 3 5.8a3 3 0 0 1-6 0C9 7.2 10 5.5 12 3z"/><rect x="9" y="12" width="6" height="9" rx="1"/>'),
+  momento: WI('<circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>'),
   radio: WI('<rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M7 8 17 3.5"/><circle cx="15.5" cy="14" r="2.6"/><path d="M6.5 12.5h4M6.5 15.5h4"/>'),
 };
 let wheelItems = [];
-function wheelHTML(mk, my, now) {
+function wheelHTML(mk, my, now, m) {
+  const scrollTo = (id, block = "start") => () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block });
   wheelItems = [
-    { k: "evangelio", t: "Evangelio", d: "La Palabra de hoy", go: [["Leer", () => { const b = document.getElementById("capGospel"); if (b) b.scrollIntoView({ behavior: "smooth", block: "center" }); }]] },
-    { k: "rato", t: "Un rato con Jesús", s: "Con Jesús", d: "Oración guiada · 10 minutos", go: [["En casa", () => ctx.actions.capGuide({ dataset: { k: "casa" } })], ["Ante el Santísimo", () => ctx.actions.capGuide({ dataset: { k: "adoracion" } })]] },
-    { k: "rosario", t: "Rosario", d: `Hoy: ${my.name.toLowerCase()}`, go: [["Rezar", () => ctx.actions.capRosario({ dataset: { set: mk } })]] },
-    { k: "salmos", t: "Salmos", d: "Un salmo para cómo llegas", go: [["Entrar", "#/salmos"]] },
-    { k: "oremus", t: "Oremus", d: "Nuestras oraciones", go: [["Entrar", "#/oremus"]] },
-    { k: "cancionero", t: "Cancionero", d: "Cantar es rezar dos veces", go: [["Entrar", "#/cancionero"]] },
-    { k: "intenciones", t: "Intenciones", d: "Enciende una vela", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(() => document.getElementById("cap-velas")?.scrollIntoView({ behavior: "smooth", block: "start" }), 60); }]] },
-    { k: "radio", t: "Radios", d: "Radios católicas en vivo", go: [["Escuchar", () => document.getElementById("cap-radio")?.scrollIntoView({ behavior: "smooth", block: "start" })]] },
+    { k: "evangelio", t: "Evangelio", go: [["Leer", scrollTo("capGospel", "center")]] },
+    { k: "rosario", t: "Rosario", go: [["Rezar", () => ctx.actions.capRosario({ dataset: { set: mk } })]] },
+    { k: "rato", t: "Con Jesús", go: [["En casa o donde estés", () => ctx.actions.capGuide({ dataset: { k: "casa" } })], ["Ante el Santísimo", () => ctx.actions.capGuide({ dataset: { k: "adoracion" } })]] },
+    { k: "salmos", t: "Salmos", go: [["Entrar", "#/salmos"]] },
+    { k: "oremus", t: "Oremus", go: [["Entrar", "#/oremus"]] },
+    { k: "cancionero", t: "Cancionero", go: [["Entrar", "#/cancionero"]] },
+    { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
+    { k: "momento", t: m.key === "noche" ? "Noche" : m.key === "manana" ? "Mañana" : m.key === "tarde" ? "Tarde" : "Mediodía", go: [["Abrir", () => { const d = document.getElementById("capMomento"); if (d) { d.open = true; d.scrollIntoView({ behavior: "smooth", block: "center" }); } }]] },
+    { k: "radio", t: "Radios", go: [["Escuchar", scrollTo("cap-radio")]] },
   ];
-  const n = wheelItems.length, step = 360 / n;
-  return `<div class="cw" id="capWheel" style="--rot:0deg">
-      <div class="cw-pointer" aria-hidden="true"></div>
-      <div class="cw-ring" id="cwRing" role="listbox" aria-label="Lugares de la Capilla" tabindex="0">
-        ${wheelItems.map((x, i) => `<button class="cw-it${i ? "" : " on"}" style="--a:${i * step}deg" data-i="${i}" role="option" aria-selected="${!i}" aria-label="${esc(x.t)}">
-          <span class="cw-ico">${WICO[x.k]}</span><span class="cw-lbl">${esc(x.s || x.t)}</span></button>`).join("")}
-      </div>
-      <div class="cw-center" aria-live="polite" id="cwCenter"></div>
-    </div>
-    <div class="cw-nav"><button class="icon-btn" data-cw="-1" aria-label="Anterior">${icon("left")}</button><span class="xs muted">Desliza el dedo para girar</span><button class="icon-btn" data-cw="1" aria-label="Siguiente">${icon("right")}</button></div>`;
+  return `<div class="cg" role="list">${wheelItems.map((x, i) => `<button class="cg-it" data-cg="${i}" role="listitem" aria-label="${esc(x.t)}">
+      <span class="cg-ico">${WICO[x.k]}</span><span class="cg-lbl">${esc(x.t)}</span></button>`).join("")}</div>
+    <div class="cg-more" id="cgMore" hidden></div>`;
 }
-let wheelSel = 0;
 function wheelInit() {
-  const wrap = document.getElementById("capWheel"), ring = document.getElementById("cwRing"); if (!wrap || !ring) return;
-  const n = wheelItems.length, step = 360 / n;
-  let rot = -wheelSel * step;
-  const center = () => {
-    const x = wheelItems[wheelSel];
-    document.getElementById("cwCenter").innerHTML = `<span class="cw-c-ico">${WICO[x.k]}</span><b>${esc(x.t)}</b><small>${esc(x.d)}</small>
-      <span class="cw-c-btns">${x.go.map(([l], j) => `<button class="cw-go" data-go="${j}">${esc(l)}</button>`).join("")}</span>`;
-    ring.querySelectorAll(".cw-it").forEach((b, i) => { b.classList.toggle("on", i === wheelSel); b.setAttribute("aria-selected", i === wheelSel); });
-  };
-  const set = (r, anim) => { rot = r; wrap.classList.toggle("cw-anim", !!anim); wrap.style.setProperty("--rot", `${rot}deg`); };
-  const snap = () => {
-    const i = Math.round(-rot / step), sel = ((i % n) + n) % n;
-    set(-i * step, true);
-    if (sel !== wheelSel) { wheelSel = sel; try { navigator.vibrate && navigator.vibrate(8); } catch {} }
-    center();
-  };
-  const goTo = (i) => { // gira por el camino más corto hasta dejar el ícono i arriba
-    let d = ((i - wheelSel) % n + n) % n; if (d > n / 2) d -= n;
-    set(rot - d * step, true); wheelSel = i; center();
-  };
-  const enter = (j = 0) => { const g = wheelItems[wheelSel].go[j]; if (!g) return; typeof g[1] === "function" ? g[1]() : (location.hash = g[1]); };
-  set(rot, false); center();
-  // Arrastrar: el ángulo del dedo respecto del centro de la rueda
-  let drag = null;
-  const ang = (e) => { const r = ring.getBoundingClientRect(); return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI; };
-  ring.addEventListener("pointerdown", (e) => { drag = { a0: ang(e), r0: rot, x: e.clientX, y: e.clientY, moved: false, t: e.target.closest(".cw-it") }; ring.setPointerCapture(e.pointerId); wrap.classList.remove("cw-anim"); });
-  ring.addEventListener("pointermove", (e) => {
-    if (!drag) return;
-    if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 6) return;
-    drag.moved = true;
-    let d = ang(e) - drag.a0; if (d > 180) d -= 360; if (d < -180) d += 360;
-    set(drag.r0 + d, false);
-    const i = Math.round(-rot / step), sel = ((i % n) + n) % n;
-    if (sel !== wheelSel) { wheelSel = sel; center(); }
+  const box = document.querySelector(".cg"); if (!box) return;
+  const more = document.getElementById("cgMore");
+  const run = (g) => (typeof g[1] === "function" ? g[1]() : (location.hash = g[1]));
+  box.addEventListener("click", (e) => {
+    const b = e.target.closest(".cg-it"); if (!b) return;
+    const x = wheelItems[+b.dataset.cg];
+    box.querySelectorAll(".cg-it").forEach((y) => y.classList.toggle("on", y === b && x.go.length > 1));
+    if (x.go.length === 1) { more.hidden = true; run(x.go[0]); return; }
+    more.hidden = false;
+    more.innerHTML = x.go.map(([l], j) => `<button class="cw-go" data-j="${j}">${esc(l)}</button>`).join("");
+    more.onclick = (ev) => { const c = ev.target.closest("[data-j]"); if (c) run(x.go[+c.dataset.j]); };
   });
-  const up = () => {
-    if (!drag) return;
-    const d = drag; drag = null;
-    if (d.moved) { snap(); return; }
-    if (d.t) { const i = +d.t.dataset.i; if (i === wheelSel) enter(); else goTo(i); }
-  };
-  ring.addEventListener("pointerup", up);
-  ring.addEventListener("pointercancel", () => { if (drag) { drag = null; snap(); } });
-  ring.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); goTo((wheelSel + 1) % n); }
-    if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); goTo((wheelSel - 1 + n) % n); }
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); enter(); }
-  });
-  wrap.parentElement.querySelectorAll("[data-cw]").forEach((b) => { b.onclick = () => goTo((wheelSel + +b.dataset.cw + n) % n); });
-  document.getElementById("cwCenter").addEventListener("click", (e) => { const b = e.target.closest(".cw-go"); if (b) enter(+b.dataset.go); });
 }
 
 export function view(opt = {}) {
   focusVela = opt.vela || null; focusDone = false;
-  wheelSel = { silencio: 1, maria: 2, rosario: 2, velas: 6, radio: 7 }[opt.focus] ?? 0;
   if (opt.focus === "velas" || opt.vela) altarOpen = true;
   const d = ctx.content().devotional || { title: "", desc: "", cards: [] };
   const s = season(), m = moment(), now = new Date();
@@ -453,12 +409,11 @@ export function view(opt = {}) {
     </div>
   </section>
 
-  <section class="cap-wheel-sec" aria-labelledby="cwTitle">
-    <span class="cap-hand">¿dónde quieres entrar?</span>
-    <h2 class="cw-h" id="cwTitle">Gira y <em>elige</em></h2>
-    ${wheelHTML(mk, my, now)}
+  <section class="cap-grid-sec" aria-labelledby="cwTitle">
+    <h2 class="cw-h" id="cwTitle">Para <em>rezar</em></h2>
+    ${wheelHTML(mk, my, now, m)}
     ${papa.capillaHTML()}
-    <details class="cap-row cap-row-det"><summary><span class="cap-row-ico" aria-hidden="true">${icon("sparkle")}</span>
+    <details class="cap-row cap-row-det" id="capMomento"><summary><span class="cap-row-ico" aria-hidden="true">${icon("sparkle")}</span>
       <span class="cap-row-txt"><b>${esc(m.label)}</b><small>${esc(m.hand)}</small></span>${icon("down")}</summary>
       <p class="cap-prayer">${esc(m.text).replace(/\n/g, "<br>")}</p></details>
   </section>
