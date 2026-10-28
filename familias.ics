@@ -134,18 +134,6 @@ DESCRIPTION:Misa: 11:30 hrs.\, en el templo.\n🚶 Punto de partida: Entrad
 CATEGORIES:Encuentro
 END:VEVENT
 BEGIN:VEVENT
-UID:p2JhLSxD6pKvLBr1jNFS@pj-agape
-DTSTAMP:20261028T154059Z
-DTSTART;VALUE=DATE:20261108
-DTEND;VALUE=DATE:20261109
-RRULE:FREQ=DAILY;UNTIL=20261208
-SUMMARY:Mes de María
-DESCRIPTION:Tu rosario\, Si puedes algún ramo de flores\n\nPastoral Juveni
- l Ágape · pj-agape.github.io/Formacion_Monitores/familias/
-CATEGORIES:Festividad
-TRANSP:TRANSPARENT
-END:VEVENT
-BEGIN:VEVENT
 UID:LclK9bInSwkQPlhQsxE9@pj-agape
 DTSTAMP:20261028T160942Z
 DTSTART;TZID=America/Santiago:20261114T190000
