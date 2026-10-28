@@ -123,11 +123,12 @@ function marcoHTML() {
 }
 
 // --- Stickers ----------------------------------------------------------------
+const STK_IGLESIA = ["leon", "francisco", "benedicto", "juanpablo", "juanpablo2", "samuel", "samuelmisa", "samuelmate", "samueloro", "samuelauto", "samueladora", "curaorando", "curapalabra", "curasaludo", "curaalba", "bendicion", "custodia", "adoracion", "campo", "parroquia", "catedral"];
 const STK_CHILE = ["virgencarmen", "teresaandes", "albertohurtado", "santoschile"];
-const STK_SANTOS = ["donbosco", "carloacutis", "teresita", "franciscoasis", "juanpablo", "sansebastian", "sanmiguel", "jose", "sagradafamilia", "apostoles"];
+const STK_SANTOS = ["donbosco", "carloacutis", "teresita", "franciscoasis", "sansebastian", "sanmiguel", "jose", "sagradafamilia", "apostoles"];
 const STK_JESUS = ["jesus", "emaus", "buenpastor", "sagradocorazon", "dejadlos", "rey", "virgen", "maria", "espiritu", "eucaristia"];
-const stkGroup = (k) => STK_CHILE.includes(k) ? 0 : STK_SANTOS.includes(k) ? 1 : STK_JESUS.includes(k) ? 2 : k.startsWith("pj:") ? 4 : 3;
-const STK_GROUPS = ["Santos de Chile", "Santos y amigos de Dios", "Jesús y María", "Para el grupo", "Personajes"];
+const stkGroup = (k) => STK_IGLESIA.includes(k) ? 0 : STK_CHILE.includes(k) ? 1 : STK_SANTOS.includes(k) ? 2 : STK_JESUS.includes(k) ? 3 : k.startsWith("pj:") ? 5 : 4;
+const STK_GROUPS = ["Nuestra Iglesia", "Santos de Chile", "Santos y amigos de Dios", "Jesús y María", "Para el grupo", "Personajes"];
 function stickersHTML() {
   const items = E.STICKERS.map(([k, t], i) => ({ k, t, i, g: stkGroup(k) }));
   return `<div class="card" style="margin-bottom:14px"><p class="small">Toca un sticker para compartirlo o guardarlo. Para tenerlos en WhatsApp, guárdalos y súmalos con una app de stickers (por ejemplo «Sticker Maker»).</p>
@@ -162,9 +163,9 @@ async function paint() {
   const id = ++painting;
   if (st.tab === "stickers") {
     await E.preload(E.STICKERS.flatMap(([k, , c]) => E.stickerIlls(k, c)));
-    for (const [i, [k, t, c]] of E.STICKERS.entries()) {
+    for (const [i, [k, t, c, sinFrase]] of E.STICKERS.entries()) {
       const cv = document.querySelector(`[data-stk="${i}"]`); if (!cv || id !== painting) return;
-      E.sticker(cv.getContext("2d"), k, t, c);
+      E.sticker(cv.getContext("2d"), k, sinFrase ? "" : t, c);
       if (i % 6 === 5) await new Promise((r) => setTimeout(r));
     }
     return;
