@@ -391,15 +391,31 @@ function viewHome() {
         <span class="xs muted">${st.readSessions} de ${st.totalSessions} unidades</span></span>
       <span class="home-go-btn" aria-hidden="true">${icon("arrowR")}</span></a>`;
   })() : "";
-  // Lo destacado: una sola diapositiva (la primera vigente de Gestión → Portada), sin carrusel.
-  const destacado = () => {
-    const x = portada.current().find((y) => !y.course);
-    return x ? `<div class="home-news" id="homeCarousel"><section class="carousel car-one" aria-label="Destacado"><div class="car-track">${portada.slideHTML(x)}</div></section></div>` : "";
+  // Lo destacado: las diapositivas de Gestión → Portada (y la intención del Papa). No avanzan solas:
+  // se pasan deslizando el dedo o con las flechas. El curso ya está en «Continuar».
+  const carousel = () => {
+    const slides = portada.current().filter((x) => !x.course);
+    if (papa.enCarrusel()) slides.splice(Math.min(1, slides.length), 0, { papa: true, label: "Con el Papa" });
+    if (!slides.length) return "";
+    return `<section class="home-news" id="homeCarousel"><div class="carousel" aria-roledescription="carrusel" aria-label="Destacados">
+    <div class="car-track" id="carTrack">${slides.map((x) => (x.papa ? papa.slideHTML() : portada.slideHTML(x))).join("")}</div>
+    ${slides.length > 1 ? `<div class="car-ctrl">
+      <button class="icon-btn" data-action="carGo" data-d="-1" aria-label="Anterior">${icon("left")}</button>
+      <div class="car-dots" role="tablist">${slides.map((x, i) => `<button role="tab" aria-label="${esc((x.label || x.title || "").replace(/\*/g, ""))}" data-action="carTo" data-i="${i}" class="${i ? "" : "on"}"></button>`).join("")}</div>
+      <button class="icon-btn" data-action="carGo" data-d="1" aria-label="Siguiente">${icon("right")}</button>
+    </div>` : ""}
+  </div></section>`;
   };
   onAfterRender(() => portada.refresh().then((changed) => {
     const el = document.getElementById("homeCarousel");
-    if (changed && el) el.outerHTML = destacado();
+    if (!changed || !el) return;
+    el.outerHTML = carousel(); startCarousel(); papa.paintHome().catch(() => {});
   }));
+  onAfterRender(startCarousel);
+  onAfterRender(() => papa.paintHome().then((r) => {
+    const has = !!document.querySelector(".papa-slide");
+    if (r && has !== (r.on && !!r.it)) { const el = document.getElementById("homeCarousel"); if (el) { el.outerHTML = carousel(); startCarousel(); papa.paintHome(); } }
+  }).catch(() => {}));
   onAfterRender(async () => {
     const list = cuenta.pickAll(await cloud.listAgenda(), 3);
     const slot = document.getElementById("countSlot");
@@ -411,7 +427,7 @@ function viewHome() {
   ${inicio.greetHTML()}
   ${solicitud.homeCard()}
   ${go}
-  ${destacado()}
+  ${carousel()}
   <div id="countSlot"></div>
   <div class="ag-panel-slot" data-ag-panel="inicio"></div>
   <div id="famInvSlot"></div>
@@ -422,8 +438,6 @@ function viewHome() {
   <div id="installSlot"></div>
   `;
 }
-// «Leer más» en la diapositiva destacada: abre el texto completo.
-actions.carLead = (el) => { const p = el.previousElementSibling; if (!p) return; const o = p.classList.toggle("open"); el.textContent = o ? "Mostrar menos" : "Leer más"; };
 // Radios católicas, podcast y playlist: una franja liviana al final de Orar (se abren en la página de cada una).
 const RADIO_ICO = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M7 8 17 3.5"/><circle cx="15.5" cy="14" r="2.6"/><path d="M6.5 12.5h4M6.5 15.5h4"/></svg>`;
 function radiosHTML() {
@@ -444,33 +458,43 @@ function radiosHTML() {
   </nav>` : ""}`;
 }
 const LINK_ICO = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>`;
-let carTimer = null, carI = 0;
+let carI = 0;
 function startCarousel() {
   const track = document.getElementById("carTrack");
-  clearInterval(carTimer);
   if (!track) return;
   carI = 0;
   const n = track.children.length;
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const show = (i) => {
-    carI = (i + n) % n;
+  const show = (i, anim = true) => {
+    carI = Math.max(0, Math.min(n - 1, i)); // sin vuelta circular: al final, se queda en la última
+    track.style.transition = anim ? "" : "none";
     track.style.transform = `translateX(${-carI * 100}%)`;
     [...track.children].forEach((s, k) => { s.setAttribute("aria-hidden", k !== carI); s.inert = k !== carI; });
     document.querySelectorAll(".car-dots button").forEach((b, k) => { b.classList.toggle("on", k === carI); b.setAttribute("aria-selected", k === carI); });
   };
-  const play = () => { clearInterval(carTimer); if (!reduce && n > 1) carTimer = setInterval(() => { if (!document.getElementById("carTrack")) return clearInterval(carTimer); show(carI + 1); }, 7000); };
-  actions.carGo = (el) => { show(carI + +el.dataset.d); play(); };
-  // «Leer más» en una diapositiva: abre el texto completo y detiene el carrusel mientras se lee
-  actions.carLead = (el) => { const p = el.previousElementSibling; if (!p) return; const o = p.classList.toggle("open"); el.textContent = o ? "Mostrar menos" : "Leer más"; clearInterval(carTimer); if (!o) play(); };
-  actions.carTo = (el) => { show(+el.dataset.i); play(); };
+  actions.carGo = (el) => show(carI + +el.dataset.d);
+  actions.carLead = (el) => { const p = el.previousElementSibling; if (!p) return; const o = p.classList.toggle("open"); el.textContent = o ? "Mostrar menos" : "Leer más"; };
+  actions.carTo = (el) => show(+el.dataset.i);
+  // La diapositiva sigue al dedo y, al soltar, se acomoda en la más cercana.
   const box = track.parentElement;
-  box.onmouseenter = () => clearInterval(carTimer);
-  box.onmouseleave = play;
-  box.addEventListener("focusin", () => clearInterval(carTimer));
-  let sx = null;
-  box.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
-  box.addEventListener("touchend", (e) => { if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) { show(carI + (dx < 0 ? 1 : -1)); play(); } sx = null; }, { passive: true });
-  show(0); play();
+  let sx = null, sy = null, dx = 0, horiz = null;
+  box.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; dx = 0; horiz = null; }, { passive: true });
+  box.addEventListener("touchmove", (e) => {
+    if (sx == null) return;
+    const mx = e.touches[0].clientX - sx, my = e.touches[0].clientY - sy;
+    if (horiz === null && Math.hypot(mx, my) > 8) horiz = Math.abs(mx) > Math.abs(my);
+    if (!horiz) return;
+    dx = mx;
+    const edge = (carI === 0 && dx > 0) || (carI === n - 1 && dx < 0) ? 0.3 : 1; // en los extremos, resiste
+    track.style.transition = "none";
+    track.style.transform = `translateX(calc(${-carI * 100}% + ${dx * edge}px))`;
+  }, { passive: true });
+  box.addEventListener("touchend", () => {
+    if (sx == null) return;
+    const w = box.clientWidth || 1;
+    if (horiz && Math.abs(dx) > w * 0.18) show(carI + (dx < 0 ? 1 : -1)); else show(carI);
+    sx = null;
+  }, { passive: true });
+  show(0, false);
   // «Leer más» solo donde el texto quedó cortado
   requestAnimationFrame(() => track.querySelectorAll(".car-more").forEach((b) => { const p = b.previousElementSibling; if (p && !p.classList.contains("open")) b.hidden = p.scrollHeight <= p.clientHeight + 2; }));
 }
