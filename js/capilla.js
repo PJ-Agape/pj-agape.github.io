@@ -314,8 +314,101 @@ function setAltar(open) {
   const t = sec.querySelector(".cap-altar-btn span"); if (t) t.textContent = open ? "Ocultar las intenciones" : "Deja aquí tus intenciones";
   if (open) setTimeout(() => document.getElementById("velaText")?.focus({ preventScroll: true }), 50);
 }
+// ---------------------------------------------------------------------------
+// La rueda de la Capilla: se gira con el dedo y el ícono de arriba es el elegido.
+// Un toque en un ícono lo trae arriba; un toque en el elegido (o en «Entrar») abre ese lugar.
+// ---------------------------------------------------------------------------
+const WI = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const WICO = {
+  evangelio: WI('<path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1v13c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5v13"/>'),
+  rato: WI('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>'),
+  rosario: WI('<circle cx="12" cy="8.5" r="6"/><path d="M12 14.5v3M12 18v4M10 20h4"/><circle cx="12" cy="2.5" r=".7" fill="currentColor"/><circle cx="6" cy="8.5" r=".7" fill="currentColor"/><circle cx="18" cy="8.5" r=".7" fill="currentColor"/>'),
+  salmos: WI('<path d="M7 4c-2 4-2 9 1 12h8c3-3 3-8 1-12"/><path d="M6.5 6h11M10 6v10M12 6v10M14 6v10M9 20h6M12 16v4"/>'),
+  oremus: WI('<path d="M12 3v18M7 8h10"/>'),
+  cancionero: WI('<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>'),
+  intenciones: WI('<path d="M12 3c2 2.5 3 4.2 3 5.8a3 3 0 0 1-6 0C9 7.2 10 5.5 12 3z"/><rect x="9" y="12" width="6" height="9" rx="1"/>'),
+  radio: WI('<rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M7 8 17 3.5"/><circle cx="15.5" cy="14" r="2.6"/><path d="M6.5 12.5h4M6.5 15.5h4"/>'),
+};
+let wheelItems = [];
+function wheelHTML(mk, my, now) {
+  wheelItems = [
+    { k: "evangelio", t: "Evangelio", d: "La Palabra de hoy", go: [["Leer", () => { const b = document.getElementById("capGospel"); if (b) b.scrollIntoView({ behavior: "smooth", block: "center" }); }]] },
+    { k: "rato", t: "Un rato con Jesús", s: "Con Jesús", d: "Oración guiada · 10 minutos", go: [["En casa", () => ctx.actions.capGuide({ dataset: { k: "casa" } })], ["Ante el Santísimo", () => ctx.actions.capGuide({ dataset: { k: "adoracion" } })]] },
+    { k: "rosario", t: "Rosario", d: `Hoy: ${my.name.toLowerCase()}`, go: [["Rezar", () => ctx.actions.capRosario({ dataset: { set: mk } })]] },
+    { k: "salmos", t: "Salmos", d: "Un salmo para cómo llegas", go: [["Entrar", "#/salmos"]] },
+    { k: "oremus", t: "Oremus", d: "Nuestras oraciones", go: [["Entrar", "#/oremus"]] },
+    { k: "cancionero", t: "Cancionero", d: "Cantar es rezar dos veces", go: [["Entrar", "#/cancionero"]] },
+    { k: "intenciones", t: "Intenciones", d: "Enciende una vela", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(() => document.getElementById("cap-velas")?.scrollIntoView({ behavior: "smooth", block: "start" }), 60); }]] },
+    { k: "radio", t: "Radios", d: "Radios católicas en vivo", go: [["Escuchar", () => document.getElementById("cap-radio")?.scrollIntoView({ behavior: "smooth", block: "start" })]] },
+  ];
+  const n = wheelItems.length, step = 360 / n;
+  return `<div class="cw" id="capWheel" style="--rot:0deg">
+      <div class="cw-pointer" aria-hidden="true"></div>
+      <div class="cw-ring" id="cwRing" role="listbox" aria-label="Lugares de la Capilla" tabindex="0">
+        ${wheelItems.map((x, i) => `<button class="cw-it${i ? "" : " on"}" style="--a:${i * step}deg" data-i="${i}" role="option" aria-selected="${!i}" aria-label="${esc(x.t)}">
+          <span class="cw-ico">${WICO[x.k]}</span><span class="cw-lbl">${esc(x.s || x.t)}</span></button>`).join("")}
+      </div>
+      <div class="cw-center" aria-live="polite" id="cwCenter"></div>
+    </div>
+    <div class="cw-nav"><button class="icon-btn" data-cw="-1" aria-label="Anterior">${icon("left")}</button><span class="xs muted">Desliza el dedo para girar</span><button class="icon-btn" data-cw="1" aria-label="Siguiente">${icon("right")}</button></div>`;
+}
+let wheelSel = 0;
+function wheelInit() {
+  const wrap = document.getElementById("capWheel"), ring = document.getElementById("cwRing"); if (!wrap || !ring) return;
+  const n = wheelItems.length, step = 360 / n;
+  let rot = -wheelSel * step;
+  const center = () => {
+    const x = wheelItems[wheelSel];
+    document.getElementById("cwCenter").innerHTML = `<span class="cw-c-ico">${WICO[x.k]}</span><b>${esc(x.t)}</b><small>${esc(x.d)}</small>
+      <span class="cw-c-btns">${x.go.map(([l], j) => `<button class="cw-go" data-go="${j}">${esc(l)}</button>`).join("")}</span>`;
+    ring.querySelectorAll(".cw-it").forEach((b, i) => { b.classList.toggle("on", i === wheelSel); b.setAttribute("aria-selected", i === wheelSel); });
+  };
+  const set = (r, anim) => { rot = r; wrap.classList.toggle("cw-anim", !!anim); wrap.style.setProperty("--rot", `${rot}deg`); };
+  const snap = () => {
+    const i = Math.round(-rot / step), sel = ((i % n) + n) % n;
+    set(-i * step, true);
+    if (sel !== wheelSel) { wheelSel = sel; try { navigator.vibrate && navigator.vibrate(8); } catch {} }
+    center();
+  };
+  const goTo = (i) => { // gira por el camino más corto hasta dejar el ícono i arriba
+    let d = ((i - wheelSel) % n + n) % n; if (d > n / 2) d -= n;
+    set(rot - d * step, true); wheelSel = i; center();
+  };
+  const enter = (j = 0) => { const g = wheelItems[wheelSel].go[j]; if (!g) return; typeof g[1] === "function" ? g[1]() : (location.hash = g[1]); };
+  set(rot, false); center();
+  // Arrastrar: el ángulo del dedo respecto del centro de la rueda
+  let drag = null;
+  const ang = (e) => { const r = ring.getBoundingClientRect(); return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI; };
+  ring.addEventListener("pointerdown", (e) => { drag = { a0: ang(e), r0: rot, x: e.clientX, y: e.clientY, moved: false, t: e.target.closest(".cw-it") }; ring.setPointerCapture(e.pointerId); wrap.classList.remove("cw-anim"); });
+  ring.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+    if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 6) return;
+    drag.moved = true;
+    let d = ang(e) - drag.a0; if (d > 180) d -= 360; if (d < -180) d += 360;
+    set(drag.r0 + d, false);
+    const i = Math.round(-rot / step), sel = ((i % n) + n) % n;
+    if (sel !== wheelSel) { wheelSel = sel; center(); }
+  });
+  const up = () => {
+    if (!drag) return;
+    const d = drag; drag = null;
+    if (d.moved) { snap(); return; }
+    if (d.t) { const i = +d.t.dataset.i; if (i === wheelSel) enter(); else goTo(i); }
+  };
+  ring.addEventListener("pointerup", up);
+  ring.addEventListener("pointercancel", () => { if (drag) { drag = null; snap(); } });
+  ring.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); goTo((wheelSel + 1) % n); }
+    if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); goTo((wheelSel - 1 + n) % n); }
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); enter(); }
+  });
+  wrap.parentElement.querySelectorAll("[data-cw]").forEach((b) => { b.onclick = () => goTo((wheelSel + +b.dataset.cw + n) % n); });
+  document.getElementById("cwCenter").addEventListener("click", (e) => { const b = e.target.closest(".cw-go"); if (b) enter(+b.dataset.go); });
+}
+
 export function view(opt = {}) {
   focusVela = opt.vela || null; focusDone = false;
+  wheelSel = { silencio: 1, maria: 2, rosario: 2, velas: 6, radio: 7 }[opt.focus] ?? 0;
   if (opt.focus === "velas" || opt.vela) altarOpen = true;
   const d = ctx.content().devotional || { title: "", desc: "", cards: [] };
   const s = season(), m = moment(), now = new Date();
@@ -339,7 +432,7 @@ export function view(opt = {}) {
     ctx.onLeave(stop);
     paintVelas();
   });
-  ctx.onAfterRender(() => { papa.paintHome().catch(() => {}); });
+  ctx.onAfterRender(() => { papa.paintHome().catch(() => {}); wheelInit(); });
   const row = (attrs, ico, t, sub) => `<${attrs.startsWith("href") ? "a" : "button"} class="cap-row" ${attrs}>
       <span class="cap-row-ico" aria-hidden="true">${ico}</span>
       <span class="cap-row-txt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("right")}</${attrs.startsWith("href") ? "a" : "button"}>`;
@@ -360,15 +453,11 @@ export function view(opt = {}) {
     </div>
   </section>
 
-  <section class="cap-list" aria-label="Para rezar">
-    <h2 class="cap-list-h">Para rezar</h2>
-    <div id="cap-silencio">${row('data-action="capGuide" data-k="casa"', icon("flame"), "Un rato con Jesús", "Oración guiada de unos 10 minutos")}
-      <button class="cap-row-sub" data-action="capGuide" data-k="adoracion">Estoy ante el Santísimo ${icon("right")}</button></div>
-    <div id="cap-maria">${row(`data-action="capRosario" data-set="${mk}"`, rosaryIcon(), "Rosario", `Hoy, ${esc(DAYNAME[now.getDay()])}: ${esc(my.name.toLowerCase())}`)}
-      ${papa.capillaHTML()}</div>
-    ${row('href="#/salmos"', icon("book"), "Salmos", "Un salmo para cómo llegas hoy")}
-    ${row('href="#/oremus"', icon("book"), "Oremus", "Nuestras oraciones y las de siempre")}
-    ${row('href="#/cancionero"', '<span class="cap-row-note">♪</span>', "Cancionero", "Cantar es rezar dos veces")}
+  <section class="cap-wheel-sec" aria-labelledby="cwTitle">
+    <span class="cap-hand">¿dónde quieres entrar?</span>
+    <h2 class="cw-h" id="cwTitle">Gira y <em>elige</em></h2>
+    ${wheelHTML(mk, my, now)}
+    ${papa.capillaHTML()}
     <details class="cap-row cap-row-det"><summary><span class="cap-row-ico" aria-hidden="true">${icon("sparkle")}</span>
       <span class="cap-row-txt"><b>${esc(m.label)}</b><small>${esc(m.hand)}</small></span>${icon("down")}</summary>
       <p class="cap-prayer">${esc(m.text).replace(/\n/g, "<br>")}</p></details>
