@@ -108,7 +108,7 @@ export const nombre = (el) => {
   return (el.getAttribute("aria-label") || (h && h.textContent) || el.textContent || "").replace(/\s+/g, " ").trim().slice(0, 48);
 };
 const vacio = (el) => !el.textContent.trim() && !el.querySelector("img, svg, canvas, iframe, video");
-const SALTA = ".crumbs, script, style, template, .ap-stk-add, .no-print.fi-hint";
+const SALTA = ".crumbs, script, style, template, .ap-stk-add, .ap-libres, .no-print.fi-hint";
 export function descubrir(v, s) {
   const box = s.wrap ? v.querySelector(s.wrap) : v; if (!box) return [];
   const used = new Set(), top = [];
@@ -138,8 +138,84 @@ if (typeof window !== "undefined" && window.top !== window) window.addEventListe
   const { id, d } = e.data.apPaneles, s = pantalla(id), v = document.getElementById("view");
   if (!s || !v) return;
   cfg = { ...cfg, paneles: { ...(cfg.paneles || {}), [id]: d } };
+  libEdit = !!e.data.apPaneles.edit; libSel = e.data.apPaneles.sel ?? -1;
   applyPaneles(v, s, d);
+  applyLibres(v, s, d.libres || []);
 });
+
+// Stickers sueltos: van en una capa sobre la pantalla, amarrados a un panel (x e y en % del panel),
+// así siguen en su lugar aunque los paneles cambien de orden o la pantalla de ancho.
+let libEdit = false, libSel = -1;
+export function applyLibres(v, s, list = []) {
+  v.querySelectorAll(":scope > .ap-libres").forEach((x) => x.remove());
+  v._apLib = null;
+  if (!list.length) return;
+  v.classList.add("ap-con-libres");
+  const capa = document.createElement("div");
+  capa.className = "ap-libres" + (libEdit ? " is-edit" : ""); capa.setAttribute("aria-hidden", "true");
+  capa.innerHTML = list.map((it, i) => !it.v ? "" : `<div class="ap-libre${i === libSel ? " on" : ""}" data-i="${i}" style="--w:${+it.w || 90}px;--r:${+it.r || 0}deg">${stkHTML(it.v, "ap-libre-img")}${libEdit ? `<i class="ap-libre-h" data-h="1"></i>` : ""}</div>`).join("");
+  v.appendChild(capa);
+  v._apLib = { s, list };
+  ubicar(v);
+  if (!v._apRO && typeof ResizeObserver !== "undefined") { v._apRO = new ResizeObserver(() => ubicar(v)); v._apRO.observe(v); }
+  [300, 1200, 3000].forEach((t) => setTimeout(() => ubicar(v), t)); // imágenes y paneles que llegan después
+}
+const anclas = (v, s) => ((descubrir(v, s)[0] || {}).items || []).filter((x) => x.el && !x.el.classList.contains("ap-oculto") && x.el.getClientRects().length);
+// El panel que está bajo un punto (o el más cercano) y el punto en % de ese panel
+function anclaEn(v, s, px, py) {
+  let best = null, dist = 1e9;
+  for (const a of anclas(v, s)) {
+    const r = a.el.getBoundingClientRect(), d = py < r.top ? r.top - py : py > r.bottom ? py - r.bottom : 0;
+    if (d < dist) { dist = d; best = { a, r }; }
+  }
+  if (!best) return null;
+  const { a, r } = best, rd = (n) => Math.round(n * 10) / 10;
+  return { k: a.k, x: rd(((px - r.left) / r.width) * 100), y: rd(((py - r.top) / r.height) * 100) };
+}
+function ubicar(v) {
+  const L = v._apLib, capa = v.querySelector(":scope > .ap-libres"); if (!L || !capa) return;
+  const vr = v.getBoundingClientRect(), by = new Map(anclas(v, L.s).map((x) => [x.k, x.el]));
+  L.list.forEach((it, i) => {
+    const el = capa.querySelector(`[data-i="${i}"]`); if (!el) return;
+    if (!it.k && libEdit) { // recién agregado: al centro de lo que se está viendo
+      const p = anclaEn(v, L.s, innerWidth / 2, innerHeight / 2);
+      if (p) { Object.assign(it, p); avisar({ t: "mover", i, ...p }); }
+    }
+    const a = by.get(it.k);
+    if (!a) { el.hidden = true; return; }
+    el.hidden = false;
+    const r = a.getBoundingClientRect();
+    el.style.left = `${r.left - vr.left + ((it.x ?? 50) / 100) * r.width}px`;
+    el.style.top = `${r.top - vr.top + ((it.y ?? 50) / 100) * r.height}px`;
+  });
+}
+const avisar = (m) => { try { window.parent.postMessage({ apLib: m }, location.origin); } catch {} };
+// En la vista previa de Gestión: arrastrar para mover y la esquina para agrandar
+if (typeof window !== "undefined" && window.top !== window) {
+  let drag = null;
+  document.addEventListener("pointerdown", (e) => {
+    const el = e.target.closest && e.target.closest(".ap-libres.is-edit .ap-libre"); if (!el) return;
+    const v = el.closest(".ap-con-libres"), i = +el.dataset.i, r = el.getBoundingClientRect();
+    drag = { el, v, i, h: !!e.target.dataset.h, x0: e.clientX, y0: e.clientY, l0: parseFloat(el.style.left), t0: parseFloat(el.style.top), cx: r.left + r.width / 2, cy: r.top + r.height / 2 };
+    el.setPointerCapture(e.pointerId); e.preventDefault();
+    v.querySelectorAll(".ap-libre.on").forEach((x) => x.classList.toggle("on", x === el)); el.classList.add("on");
+    libSel = i; avisar({ t: "sel", i });
+  });
+  document.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+    if (drag.h) { drag.w = Math.max(36, Math.min(320, Math.round(2 * Math.max(Math.abs(e.clientX - drag.cx), Math.abs(e.clientY - drag.cy))))); drag.el.style.setProperty("--w", drag.w + "px"); }
+    else { drag.el.style.left = `${drag.l0 + e.clientX - drag.x0}px`; drag.el.style.top = `${drag.t0 + e.clientY - drag.y0}px`; drag.moved = true; }
+  });
+  document.addEventListener("pointerup", () => {
+    if (!drag) return;
+    const d = drag; drag = null;
+    if (d.h && d.w) { const it = d.v._apLib && d.v._apLib.list[d.i]; if (it) it.w = d.w; avisar({ t: "tam", i: d.i, w: d.w }); return; }
+    if (!d.moved) return;
+    const r = d.el.getBoundingClientRect(), L = d.v._apLib;
+    const p = L && anclaEn(d.v, L.s, r.left + r.width / 2, r.top + r.height / 2);
+    if (p) { Object.assign(L.list[d.i], p); avisar({ t: "mover", i: d.i, ...p }); ubicar(d.v); }
+  });
+}
 // El sticker de un panel: se cambia el que trae, se quita, o se le pone uno en la esquina
 const STK_SEL = [":scope > .sticker", ".cap-guide-art", ".hub-cb-art", ".plaza-scene img", ".sticker", ".z-sticker"];
 function panelSticker(el, v) {
@@ -212,7 +288,8 @@ export function apply(v, path) {
     if (!s.re.test(path) || !(cfg.paneles || {})[s.id]) continue;
     const d = cfg.paneles[s.id];
     // Algunos paneles llegan un momento después: se acomodan otra vez
-    if (applyPaneles(v, s, d)) setTimeout(() => { if (s.re.test((location.hash || "#/").slice(1).split("?")[0])) applyPaneles(v, s, d); }, 900);
+    if (applyPaneles(v, s, d)) setTimeout(() => { if (s.re.test((location.hash || "#/").slice(1).split("?")[0])) { applyPaneles(v, s, d); ubicar(v); } }, 900);
+    applyLibres(v, s, d.libres || []);
   }
   for (const z of ZONAS) {
     if (!z.re.test(path)) continue;

@@ -37,6 +37,7 @@ export async function adminView() {
 
 // Orden y tamaño de los paneles de una pantalla, con la pantalla de verdad al lado.
 // La lista se arma leyendo la pantalla que se ve en la vista previa: aparece todo lo que tiene.
+let libSel = -1; // sticker suelto elegido
 let pgrupos = null; // [{ n, items: [{ k, n, auto, fuera }] }] de la pantalla elegida
 const gruposBase = (s) => [{ n: "", items: s.p.map(([k, n]) => ({ k, n })) }];
 function leerFrame() {
@@ -76,9 +77,26 @@ function rowHTML(it, i, n, gi, d) {
     </div></details>`}
   </li>`;
 }
+function libresHTML(d) {
+  const L = d.libres || [];
+  return `<div class="ap-libs">
+    <h4 class="ap-pan-gh">Stickers sueltos</h4>
+    <p class="xs muted">Ponlos donde quieras: elige uno y arrástralo en la vista previa (puedes bajar dentro de ella). La esquina naranja lo agranda o lo achica.</p>
+    ${L.length ? `<ol class="ap-lib-list">${L.map((it, i) => `<li class="ap-lib-it${i === libSel ? " on" : ""}">
+      <button type="button" class="ap-lib-th" data-action="apLibSel" data-i="${i}" aria-label="Elegir este sticker">${A.stkHTML(it.v, "ap-stk-mini")}</button>
+      <label>Tamaño <output data-libout="w:${i}">${it.w || 90}</output>
+        <input type="range" min="36" max="320" step="2" value="${it.w || 90}" data-applib="w" data-i="${i}"></label>
+      <label>Girar <output data-libout="r:${i}">${it.r || 0}°</output>
+        <input type="range" min="-45" max="45" step="1" value="${it.r || 0}" data-applib="r" data-i="${i}"></label>
+      <button type="button" class="btn btn-sm btn-ghost" data-action="apLibDel" data-i="${i}">Quitar</button>
+    </li>`).join("")}</ol>` : ""}
+    ${pickHTML("apLibAdd", "", "").replace("Elegir un sticker", "Agregar un sticker")}
+  </div>`;
+}
 function colsHTML() {
   const d = pdraft[pcur] || {};
-  return `${pgrupos ? "" : `<p class="xs muted">Leyendo la pantalla…</p>`}
+  return `${libresHTML(d)}
+    ${pgrupos ? "" : `<p class="xs muted">Leyendo la pantalla…</p>`}
     ${grupos().map((g, gi) => {
       const map = new Map(g.items.map((x) => [x.k, x])), orden = A.ordenDe(g.items.map((x) => x.k), d).map((k) => map.get(k));
       return `<h4 class="ap-pan-gh">${esc(g.n || "Paneles de la pantalla")}</h4>
@@ -125,7 +143,7 @@ function wireFrame() {
 }
 function panPreview() {
   const fr = document.getElementById("apPanFrame");
-  try { fr && fr.contentWindow && fr.contentWindow.postMessage({ apPaneles: { id: pcur, d: pdraft[pcur] || {} } }, location.origin); } catch {}
+  try { fr && fr.contentWindow && fr.contentWindow.postMessage({ apPaneles: { id: pcur, d: pdraft[pcur] || {}, edit: true, sel: libSel } }, location.origin); } catch {}
 }
 const panSet = (k, patch) => {
   const d = pdraft[pcur] = pdraft[pcur] || {};
@@ -309,6 +327,14 @@ function registerActions() {
     const todos = ords.flat(), resto = (d.orden || []).filter((k) => !todos.includes(k));
     d.orden = [...todos, ...resto]; panRepaint();
   };
+  X.apLibAdd = (el) => {
+    const d = pdraft[pcur] = pdraft[pcur] || {};
+    d.libres = [...(d.libres || []), { v: el.dataset.v, w: 96, r: 6 }];
+    libSel = d.libres.length - 1; panRepaint();
+    toast("Listo: arrástralo en la vista previa hasta donde quieras.", "ok", 3500);
+  };
+  X.apLibSel = (el) => { libSel = +el.dataset.i; panRepaint(); };
+  X.apLibDel = (el) => { const d = pdraft[pcur] || {}; (d.libres || []).splice(+el.dataset.i, 1); libSel = -1; panRepaint(); };
   X.apPanStk = (el) => {
     panSet(el.dataset.k, { sticker: el.dataset.v }); panRepaint();
     if (!el.dataset.v) { const fr = document.getElementById("apPanFrame"); if (fr) fr.src = fr.src; } // «como viene»: la vista previa vuelve a cargar
@@ -324,12 +350,23 @@ function registerActions() {
     el.disabled = true;
     const c = clone(A.get()); c.paneles = { ...(c.paneles || {}) };
     const d = clone(pdraft[pcur] || {});
+    if (d.libres) { d.libres = d.libres.filter((x) => x.v && x.k); if (!d.libres.length) delete d.libres; }
     if (d.p && !Object.keys(d.p).length) delete d.p;
     if (Object.keys(d).length) c.paneles[pcur] = d; else delete c.paneles[pcur];
     if (await persist(c)) { toast("Guardado. Ya se ve en la app.", "ok"); panRepaint(); }
     el.disabled = false;
   };
   if (wired) return; wired = true;
+  // Lo que se hace en la vista previa (mover, agrandar, elegir un sticker suelto) vuelve al borrador
+  window.addEventListener("message", (e) => {
+    const fr = document.getElementById("apPanFrame");
+    if (e.origin !== location.origin || !fr || e.source !== fr.contentWindow || !e.data || !e.data.apLib) return;
+    const m = e.data.apLib, it = ((pdraft[pcur] || {}).libres || [])[m.i]; if (!it) return;
+    if (m.t === "mover") Object.assign(it, { k: m.k, x: m.x, y: m.y });
+    if (m.t === "tam") it.w = m.w;
+    libSel = m.i;
+    const cols = document.getElementById("apPanCols"); if (cols) { const y = scrollY; cols.innerHTML = colsHTML(); scrollTo(0, y); }
+  });
   document.addEventListener("toggle", (e) => { if (e.target.dataset && e.target.dataset.pick) fillPick(e.target); }, true);
   // Arrastrar la imagen en la vista previa: mueve el punto que queda centrado
   let drag = null;
@@ -353,6 +390,12 @@ function registerActions() {
   document.addEventListener("pointercancel", () => { drag = null; });
   document.addEventListener("input", (e) => {
     const t = e.target;
+    if (t.dataset && t.dataset.applib) {
+      const it = ((pdraft[pcur] || {}).libres || [])[+t.dataset.i]; if (!it) return;
+      it[t.dataset.applib] = +t.value; libSel = +t.dataset.i;
+      const out = [...document.querySelectorAll("[data-libout]")].find((x) => x.dataset.libout === `${t.dataset.applib}:${t.dataset.i}`); if (out) out.textContent = t.value + (t.dataset.applib === "r" ? "°" : "");
+      panPreview(); return;
+    }
     if (t.dataset && (t.dataset.appan === "tam" || t.dataset.appan === "ancho")) {
       panSet(t.dataset.k, { [t.dataset.appan]: +t.value });
       const out = [...document.querySelectorAll("[data-out]")].find((x) => x.dataset.out === `${t.dataset.appan === "tam" ? "t" : "a"}:${t.dataset.k}`); if (out) out.textContent = t.value + "%";
