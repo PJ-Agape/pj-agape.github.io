@@ -42,18 +42,21 @@ if (rss.ok) {
   }
   if (!items.length) falla(`Sin videos: ${via}, página ${h.length} bytes`);
 }
-// La Misa del día se titula «Santa Misa de Hoy | Viernes, XXIX Semana… (23-10-2026) | …».
+// La Misa del día se titula «Santa Misa de Hoy | Viernes, XXIX Semana… (23-10-2026) | …»; en fiestas y
+// solemnidades a veces solo «Santa Misa | Fiesta, Santos Simón y Judas… (28-10-2026) | …» (sin «de Hoy»).
+const esMisa = (t) => !/homil[ií]a|rosario|adoraci[oó]n/i.test(t) &&
+  (/misa de hoy/i.test(t) || (/^\s*(la\s+)?santa misa\b/i.test(t) && /\b\d{1,2}[-./]\d{1,2}[-./]\d{4}\b/.test(t)));
 // Se usa la fecha del título; si no trae, la de publicación (hora de Chile).
 const nuevos = {};
 for (const { id, title, pub } of items) {
   console.log("·", pub, title);
-  if (!id || !/misa de hoy/i.test(title) || /homil[ií]a|rosario/i.test(title)) continue;
+  if (!id || !esMisa(title)) continue;
   const f = title.match(/\b(\d{1,2})[-./](\d{1,2})[-./](\d{4})\b/);
   const p = tz(pub ? new Date(pub) : new Date());
   const iso = f ? `${f[3]}-${f[2].padStart(2, "0")}-${f[1].padStart(2, "0")}` : isoOf(p);
   if (!nuevos[iso]) nuevos[iso] = { id, title }; // el más nuevo primero
 }
-const viejos = Object.fromEntries(Object.entries(prev.days || {}).filter(([, x]) => /misa de hoy/i.test(x.title || "")));
+const viejos = Object.fromEntries(Object.entries(prev.days || {}).filter(([, x]) => esMisa(x.title || "")));
 const days = Object.fromEntries(Object.entries({ ...viejos, ...nuevos }).sort(([a], [b]) => b.localeCompare(a)));
 // Solo los últimos 10 días.
 const desde = isoOf(new Date(tz(new Date()).getTime() - 10 * 864e5));
