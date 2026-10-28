@@ -85,8 +85,19 @@ CATEGORIES:Liturgia
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:RFDt5TeGdonRpAvV0gww@pj-agape
+DTSTAMP:20261028T160357Z
+DTSTART;TZID=America/Santiago:20261030T140300
+DTEND;TZID=America/Santiago:20261030T140300
+SUMMARY:Misa en Sector El avellano
+LOCATION:Capilla sector El avellano
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
+ es/familias/
+CATEGORIES:Misa
+END:VEVENT
+BEGIN:VEVENT
 UID:3CvJPI64qAowRztBN3Ta@pj-agape
-DTSTAMP:20261020T221211Z
+DTSTAMP:20261027T232824Z
 DTSTART;TZID=America/Santiago:20261101T113000
 DTEND;TZID=America/Santiago:20261101T113000
 SUMMARY:Misa de todos los Santos
@@ -96,8 +107,35 @@ DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
 CATEGORIES:Liturgia
 END:VEVENT
 BEGIN:VEVENT
+UID:ds0n0K8NLQouTxqomsG3@pj-agape
+DTSTAMP:20261028T160741Z
+DTSTART;TZID=America/Santiago:20261106T200000
+DTEND;TZID=America/Santiago:20261106T200000
+RRULE:FREQ=WEEKLY;UNTIL=20261209T035959Z
+SUMMARY:Dirigir oración Mes de María
+LOCATION:Templo Parroquial
+DESCRIPTION:Rosario\, flores.\n\nPastoral Juvenil Ágape · pj-agape.github
+ .io/Formacion_Monitores/familias/
+CATEGORIES:Festividad
+END:VEVENT
+BEGIN:VEVENT
+UID:c3XJb9XW8mjxRYAZW0bm@pj-agape
+DTSTAMP:20261028T160650Z
+DTSTART;TZID=America/Santiago:20261107T113000
+DTEND;TZID=America/Santiago:20261107T113000
+SUMMARY:Peregrinación a Portezuelo
+LOCATION:Templo Parroquial
+DESCRIPTION:Misa: 11:30 hrs.\, en el templo.\n🚶 Punto de partida: Entrad
+ a del pueblo\, a la altura del primer lomo de toro.\n🎟️ Valor del pas
+ aje: $7.000 por persona.\n📝 Inscripciones: Secretaría parroquial.\n
+ 🎶 Coro Ágape: Pendiente de confirmar si deberá animar la peregrinaci
+ ón y la posterior Misa.\n\nPastoral Juvenil Ágape · pj-agape.github.io/
+ Formacion_Monitores/familias/
+CATEGORIES:Encuentro
+END:VEVENT
+BEGIN:VEVENT
 UID:p2JhLSxD6pKvLBr1jNFS@pj-agape
-DTSTAMP:20261024T124946Z
+DTSTAMP:20261028T154059Z
 DTSTART;VALUE=DATE:20261108
 DTEND;VALUE=DATE:20261109
 RRULE:FREQ=DAILY;UNTIL=20261208
@@ -108,6 +146,28 @@ CATEGORIES:Festividad
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
+UID:LclK9bInSwkQPlhQsxE9@pj-agape
+DTSTAMP:20261028T160942Z
+DTSTART;TZID=America/Santiago:20261114T190000
+DTEND;TZID=America/Santiago:20261114T190000
+SUMMARY:Festival de la voz en Tucapel
+LOCATION:Teatro Tucapel
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
+ es/familias/
+CATEGORIES:Encuentro
+END:VEVENT
+BEGIN:VEVENT
+UID:TMXYgiZ2NftSXs4kE8nG@pj-agape
+DTSTAMP:20261028T160853Z
+DTSTART;TZID=America/Santiago:20261119T100000
+DTEND;TZID=America/Santiago:20261119T100000
+SUMMARY:Visita de Mons. Andrés Ferrada Moreira
+LOCATION:Templo Parroquial
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
+ es/familias/
+CATEGORIES:Encuentro
+END:VEVENT
+BEGIN:VEVENT
 UID:VeMwHiLQVTKbhMDx6w2u@pj-agape
 DTSTAMP:20261024T110306Z
 DTSTART;VALUE=DATE:20261120
@@ -116,6 +176,41 @@ SUMMARY:Inscripciones Encuentro juvenil en Quillon
 DESCRIPTION:Llenar planilla y realizar el pago por participante\n\nPastoral
   Juvenil Ágape · pj-agape.github.io/Formacion_Monitores/familias/
 CATEGORIES:Actividad
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:jrzWkvhvVNzQHXLE0QF4@pj-agape
+DTSTAMP:20261028T161046Z
+DTSTART;TZID=America/Santiago:20261121T200000
+DTEND;TZID=America/Santiago:20261121T200000
+SUMMARY:Celebración de Cristo Rey
+LOCATION:Templo Parroquial
+DESCRIPTION:Idea: Adoración y Alabanzas antes de misa y terminar con peque
+ ña procesión. (Próxima reunión llevar otras ideas)\n\nPastoral Juvenil
+  Ágape · pj-agape.github.io/Formacion_Monitores/familias/
+CATEGORIES:Festividad
+END:VEVENT
+BEGIN:VEVENT
+UID:yb6aKvUvwP7dOdSnUCDB@pj-agape
+DTSTAMP:20261028T161134Z
+DTSTART;TZID=America/Santiago:20261121T213000
+DTEND;TZID=America/Santiago:20261121T213000
+SUMMARY:Encuentro Ágape
+LOCATION:Salón parroquial
+DESCRIPTION:Coordina Maxi\n\nPastoral Juvenil Ágape · pj-agape.github.io/
+ Formacion_Monitores/familias/
+CATEGORIES:Encuentro
+END:VEVENT
+BEGIN:VEVENT
+UID:tKIpPKerMk5DpByAx44q@pj-agape
+DTSTAMP:20261028T162050Z
+DTSTART;VALUE=DATE:20261208
+DTEND;VALUE=DATE:20261209
+SUMMARY:Procesión Inmaculada Concepción
+LOCATION:Templo Parroquial
+DESCRIPTION:Apoyo en el tránsito durante la procesión.\n\nPastoral Juveni
+ l Ágape · pj-agape.github.io/Formacion_Monitores/familias/
+CATEGORIES:Festividad
 TRANSP:TRANSPARENT
 END:VEVENT
 END:VCALENDAR
