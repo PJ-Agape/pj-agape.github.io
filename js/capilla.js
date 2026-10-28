@@ -327,11 +327,11 @@ const WICO = {
   oremus: WI('<path d="M12 3v18M7 8h10"/>'),
   cancionero: WI('<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>'),
   intenciones: WI('<path d="M12 3c2 2.5 3 4.2 3 5.8a3 3 0 0 1-6 0C9 7.2 10 5.5 12 3z"/><rect x="9" y="12" width="6" height="9" rx="1"/>'),
-  momento: WI('<circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>'),
+  misa: WI('<path d="M7 3h10l-1.5 7a3.5 3.5 0 0 1-7 0z"/><path d="M12 13.5V19M8 21h8"/>'),
   radio: WI('<rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M7 8 17 3.5"/><circle cx="15.5" cy="14" r="2.6"/><path d="M6.5 12.5h4M6.5 15.5h4"/>'),
 };
 let wheelItems = [];
-function wheelHTML(mk, my, now, m) {
+function wheelHTML(mk, my, now) {
   const scrollTo = (id, block = "start") => () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block });
   wheelItems = [
     { k: "evangelio", t: "Evangelio", go: [["Leer", scrollTo("capGospel", "center")]] },
@@ -341,7 +341,7 @@ function wheelHTML(mk, my, now, m) {
     { k: "oremus", t: "Oremus", go: [["Entrar", "#/oremus"]] },
     { k: "cancionero", t: "Cancionero", go: [["Entrar", "#/cancionero"]] },
     { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
-    { k: "momento", t: m.key === "noche" ? "Noche" : m.key === "manana" ? "Mañana" : m.key === "tarde" ? "Tarde" : "Mediodía", go: [["Abrir", () => { const d = document.getElementById("capMomento"); if (d) { d.open = true; d.scrollIntoView({ behavior: "smooth", block: "center" }); } }]] },
+    { k: "misa", t: "Misa de hoy", go: [["Ver", scrollTo("capMisa", "center")]] },
     { k: "radio", t: "Radios", go: [["Escuchar", scrollTo("cap-radio")]] },
   ];
   return `<div class="cg" role="list">${wheelItems.map((x, i) => `<button class="cg-it" data-cg="${i}" role="listitem" aria-label="${esc(x.t)}">
@@ -407,15 +407,17 @@ export function view(opt = {}) {
       <div class="cap-gospel" id="capGospel">${gospelHTML(s)}</div>
       ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}
     </div>
+    <article class="cap-moment">
+      <span class="eyebrow">${esc(m.label)}</span>
+      <span class="cap-hand sm">${esc(m.hand)}</span>
+      <p class="cap-prayer">${esc(m.text).replace(/\n/g, "<br>")}</p>
+    </article>
   </section>
 
   <section class="cap-grid-sec" aria-labelledby="cwTitle">
     <h2 class="cw-h" id="cwTitle">Para <em>rezar</em></h2>
-    ${wheelHTML(mk, my, now, m)}
+    ${wheelHTML(mk, my, now)}
     ${papa.capillaHTML()}
-    <details class="cap-row cap-row-det" id="capMomento"><summary><span class="cap-row-ico" aria-hidden="true">${icon("sparkle")}</span>
-      <span class="cap-row-txt"><b>${esc(m.label)}</b><small>${esc(m.hand)}</small></span>${icon("down")}</summary>
-      <p class="cap-prayer">${esc(m.text).replace(/\n/g, "<br>")}</p></details>
   </section>
 
   <section class="cap-room cap-altar${altarOpen ? " is-open" : ""}" id="cap-velas">
