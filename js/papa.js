@@ -72,6 +72,16 @@ export function slideHTML() {
       ${illus("leon", "car-illus")}
     </article>`;
 }
+// Fila en Orar: la intención del mes, cuántos rosarios lleva la comunidad y «Ya recé uno».
+export function capillaHTML() {
+  const it = on() && intencion(); if (!it) return "";
+  const member = cloud.state().ready;
+  return `<div class="cap-row cap-papa">
+      <span class="cap-row-txt"><small>Con el Papa · ${esc(it.mes)}</small><b id="papaT0">${esc(it.t)}</b>
+        <span class="small"><b id="papaN">·</b> <span id="papaNl">rosarios rezados este mes</span></span></span>
+      ${member ? `<button class="btn btn-sm btn-soft" data-action="papaSumar">Ya recé uno</button>` : ""}
+    </div>`;
+}
 // Completa el número (y el texto del equipo) una vez que llegan los datos
 export async function paintHome() {
   await load(); const it = intencion();

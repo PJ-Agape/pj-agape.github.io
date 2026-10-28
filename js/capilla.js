@@ -7,7 +7,6 @@ import { ORACIONES } from "./devocionario.js";
 import * as papa from "./papa.js";
 import { illus } from "./ilustraciones.js";
 import { avatar } from "./avatares.js";
-import { capillaHTML as salmosHTML } from "./salmos.js";
 
 // Misa en vivo: la de hoy del canal de Magnificat TV (data/misa-vivo.json, la busca cada hora la
 // acción del Evangelio). Si hoy no hay, el enlace que dejó el administrador (content/misaVivo) o la
@@ -340,6 +339,10 @@ export function view(opt = {}) {
     ctx.onLeave(stop);
     paintVelas();
   });
+  ctx.onAfterRender(() => { papa.paintHome().catch(() => {}); });
+  const row = (attrs, ico, t, sub) => `<${attrs.startsWith("href") ? "a" : "button"} class="cap-row" ${attrs}>
+      <span class="cap-row-ico" aria-hidden="true">${ico}</span>
+      <span class="cap-row-txt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("right")}</${attrs.startsWith("href") ? "a" : "button"}>`;
   let num = 0; // los rincones se numeran solos, en orden
   return `
   <section class="cap-hero" style="--season:${s.hex}">
@@ -347,51 +350,29 @@ export function view(opt = {}) {
       ${roseWindow()}
       <span class="cap-hand">pasa, Él te espera</span>
       <h1 class="cap-title">Capilla <em>Ágape</em></h1>
-      <p class="cap-sub">Un lugar tranquilo para estar con Jesús, solo o en comunidad.</p>
       <div class="cap-chips">
         <span class="cap-season"><i></i>${esc(s.name)} · color ${esc(s.color)}</span>
         <span class="cap-date">${esc(now.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }))}</span>
       </div>
       <div class="cap-misa" id="capMisa">${misaHTML()}</div>
       <div class="cap-gospel" id="capGospel">${gospelHTML(s)}</div>
-      ${salmosHTML()}
-    </div>
-    <article class="cap-moment">
-      <span class="eyebrow">${esc(m.label)}</span>
-      <span class="cap-hand sm">${esc(m.hand)}</span>
-      <p class="cap-prayer">${esc(m.text).replace(/\n/g, "<br>")}</p>
-      <div class="cap-moment-btns">
-        <a class="btn cap-oremus" href="#/oremus">${icon("book")} Oremus <small>nuestras oraciones y las de siempre</small></a>
-        <a class="btn cap-oremus" href="#/salmos">${icon("book")} Orar con los Salmos</a>
-        <a class="btn cap-oremus" href="#/cancionero"><span aria-hidden="true">♪</span> Cancionero <small>cantar es rezar dos veces</small></a>
-        ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}
-      </div>
-    </article>
-  </section>
-
-  <section class="cap-guide" id="cap-silencio" aria-labelledby="capGuideT">
-    <div class="cap-guide-art">${illus("oracion", "cap-guide-il")}</div>
-    <div class="cap-guide-txt">
-      <span class="cap-hand">Él te está esperando</span>
-      <h2 id="capGuideT">Un rato con <em>Jesús</em></h2>
-      <p>Una guía de oración personal, paso a paso, al estilo de Santa Teresa de Jesús: escuchar su Palabra, pensarla, conversar con Él y quedarte a su lado. Son unos 10 minutos.</p>
-      <div class="cap-guide-btns">
-        <button class="btn cap-guide-btn" data-action="capGuide" data-k="casa">${icon("flame")} En casa o donde estés</button>
-        <button class="btn cap-guide-btn alt" data-action="capGuide" data-k="adoracion">${icon("sparkle")} Ante el Santísimo</button>
-      </div>
+      ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}
     </div>
   </section>
 
-  <section class="cap-rosbanner" id="cap-maria" aria-labelledby="capRosT">
-    <div class="cap-rosbanner-art">${virgenLinea("cap-rosbanner-il")}</div>
-    <div class="cap-rosbanner-txt">
-      <span class="cap-hand">con María, cuenta a cuenta</span>
-      <h2 id="capRosT">Reza el <em>Rosario</em></h2>
-      <p>Hoy, ${esc(DAYNAME[now.getDay()])}, rezamos los <strong>${esc(my.name.toLowerCase())}</strong>. Oremos por nuestra Iglesia, por el Papa y sus intenciones, por nuestro párroco, nuestra comunidad y por todos los jóvenes.</p>
-      <button class="btn cap-rosbanner-btn" data-action="capRosario" data-set="${mk}">${rosaryIcon()} Rezar el Rosario ahora</button>
-    </div>
+  <section class="cap-list" aria-label="Para rezar">
+    <h2 class="cap-list-h">Para rezar</h2>
+    <div id="cap-silencio">${row('data-action="capGuide" data-k="casa"', icon("flame"), "Un rato con Jesús", "Oración guiada de unos 10 minutos")}
+      <button class="cap-row-sub" data-action="capGuide" data-k="adoracion">Estoy ante el Santísimo ${icon("right")}</button></div>
+    <div id="cap-maria">${row(`data-action="capRosario" data-set="${mk}"`, rosaryIcon(), "Rosario", `Hoy, ${esc(DAYNAME[now.getDay()])}: ${esc(my.name.toLowerCase())}`)}
+      ${papa.capillaHTML()}</div>
+    ${row('href="#/salmos"', icon("book"), "Salmos", "Un salmo para cómo llegas hoy")}
+    ${row('href="#/oremus"', icon("book"), "Oremus", "Nuestras oraciones y las de siempre")}
+    ${row('href="#/cancionero"', '<span class="cap-row-note">♪</span>', "Cancionero", "Cantar es rezar dos veces")}
+    <details class="cap-row cap-row-det"><summary><span class="cap-row-ico" aria-hidden="true">${icon("sparkle")}</span>
+      <span class="cap-row-txt"><b>${esc(m.label)}</b><small>${esc(m.hand)}</small></span>${icon("down")}</summary>
+      <p class="cap-prayer">${esc(m.text).replace(/\n/g, "<br>")}</p></details>
   </section>
-
 
   <section class="cap-room cap-altar${altarOpen ? " is-open" : ""}" id="cap-velas">
     <div class="cap-altar-top" data-action="capAltar" role="button" tabindex="0" aria-expanded="${altarOpen}" aria-controls="capAltarBody">
@@ -420,7 +401,7 @@ export function view(opt = {}) {
   </section>
 
 
-  <p class="cap-foot">«Donde dos o tres se reúnen en mi nombre, ahí estoy yo en medio de ellos» <span>Mt 18,20</span></p>`.replace(/<span class="cap-num">\d+<\/span>/g, () => `<span class="cap-num">${String(++num).padStart(2, "0")}</span>`);
+  <div id="cap-radio">${ctx.radios ? ctx.radios() : ""}</div>`.replace(/<span class="cap-num">\d+<\/span>/g, () => `<span class="cap-num">${String(++num).padStart(2, "0")}</span>`);
 }
 
 // ---------------------------------------------------------------------------
