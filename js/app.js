@@ -1299,34 +1299,54 @@ function viewAccount() {
   const st = cloud.state();
   if (!st.ready) return viewLogin();
   const a = st.account;
-  return `<div class="welcome">
-    <header class="page-head"><span class="eyebrow">Mi cuenta</span><h1>${esc(a.name)}</h1>
-      <p>${esc(a.email)} · <span class="chip ${cloud.isStaffRole(a.role) ? "warn" : "accent"}">${esc(cloud.roleLabel(a.role))}</span></p></header>
-    <form class="card stack" id="accountForm" style="--gap:14px">
-      <div class="field"><label for="acName">Nombre y apellido</label><input class="input big" id="acName" name="name" required value="${esc(a.name)}"></div>
-      <div class="field"><label for="acParish">Capilla o parroquia</label><input class="input big" id="acParish" name="parish" value="${esc(a.parish || "")}"></div>
-      <p class="xs muted">Tu nombre aparecerá en la constancia. Tu avance se guarda en tu cuenta; tu cuaderno es privado y solo tú puedes leerlo.</p>
-      <button class="btn btn-primary btn-block" type="submit">Guardar cambios</button>
-    </form>
-    <section class="card av-card" id="avCard">${avPicker()}</section>
-    <section class="card cum-card" id="cumCard" ${myCum === false ? "hidden" : ""}>${cumCardHTML()}</section>
-    ${a11y.panelHTML()}
-    <div class="row-wrap" style="justify-content:center;margin-top:14px">
-      ${st.isGuide ? `<a class="btn btn-soft" href="#/acompanar">${icon("check")} Acompañar</a>` : ""}
-    </div>
-    <div class="row-wrap" style="justify-content:center;margin-top:16px">
-      ${st.isGuide ? `<a class="btn btn-soft" href="#/admin">${icon("gear")} Gestión</a>` : ""}
-      ${st.isStaff ? `<button class="btn btn-soft" data-action="vaOpen">${icon("eye")} Ver como…</button>` : ""}
-      <a class="btn btn-soft" href="#/ayuda">Ayuda</a>
-      <button class="btn btn-ghost" data-action="signOut">${icon("out")} Cerrar sesión</button>
-    </div>
+  // Mi avance: cada curso que esta cuenta puede hacer, con su barra y su botón.
+  const courses = ((S.content() || {}).courses || []);
+  const avance = courses.map((c) => {
+    const cs = S.courseState(c), pct = cs.totalSessions ? Math.round((cs.readSessions / cs.totalSessions) * 100) : 0;
+    return `<button class="pf-course" data-action="goCourse" data-id="${esc(c.id)}">
+      <span class="pf-course-t"><b>${esc(c.title)}</b><span class="mini-bar"><i style="width:${pct}%"></i></span>
+        <small>${cs.complete ? "Completado" : `${cs.readSessions} de ${cs.totalSessions} unidad${cs.totalSessions === 1 ? "" : "es"}`}</small></span>
+      <span class="pf-course-go">${cs.complete ? icon("award") : icon("arrowR")}</span></button>`;
+  }).join("");
+  const fila = (href, ic, t, extra = "") => `<a class="pf-row" href="${href}" ${extra}>${icon(ic)}<span>${t}</span>${icon("right")}</a>`;
+  return `<div class="welcome pf">
+    <header class="pf-head">
+      <span class="pf-av">${AV.isValid(a.avatar) ? AV.svg(a.avatar) : `<span class="avatar">${esc(initials(a.name))}</span>`}</span>
+      <div><h1>${esc(a.name)}</h1><span class="chip ${cloud.isStaffRole(a.role) ? "warn" : "accent"}">${esc(cloud.roleLabel(a.role))}</span></div>
+    </header>
+    ${avance ? `<section class="pf-sec"><h2>Mi avance</h2>${avance}</section>` : ""}
+    <section class="pf-sec"><h2>Mi cuenta</h2>
+      <details class="pf-det"><summary>${icon("edit")}<span>Mis datos</span>${icon("down")}</summary>
+        <form class="stack" id="accountForm" style="--gap:14px;margin-top:12px">
+          <p class="small muted">${esc(a.email)}</p>
+          <div class="field"><label for="acName">Nombre y apellido</label><input class="input big" id="acName" name="name" required value="${esc(a.name)}"></div>
+          <div class="field"><label for="acParish">Capilla o parroquia</label><input class="input big" id="acParish" name="parish" value="${esc(a.parish || "")}"></div>
+          <p class="xs muted">Tu nombre aparecerá en la constancia. Tu avance se guarda en tu cuenta; tu cuaderno es privado y solo tú puedes leerlo.</p>
+          <button class="btn btn-primary btn-block" type="submit">Guardar cambios</button>
+        </form></details>
+      <details class="pf-det"><summary>${icon("users")}<span>Mi avatar</span>${icon("down")}</summary><section class="av-card" id="avCard">${avPicker()}</section></details>
+      <details class="pf-det" ${myCum === false ? "hidden" : ""} id="cumDet"><summary>${icon("cal")}<span>Mi cumpleaños</span>${icon("down")}</summary><section class="cum-card" id="cumCard">${cumCardHTML()}</section></details>
+      <details class="pf-det"><summary>${icon("eye")}<span>Accesibilidad</span>${icon("down")}</summary>${a11y.panelHTML()}</details>
+      ${fila("#/ayuda", "book", "Ayuda")}
+    </section>
+    ${st.isGuide ? `<section class="pf-sec"><h2>Equipo</h2>
+      ${fila("#/acompanar", "check", "Jóvenes y fichas")}
+      ${fila("#/admin", "gear", "Gestión")}
+      ${st.isStaff ? `<button class="pf-row" data-action="vaOpen">${icon("eye")}<span>Ver la app como…</span>${icon("right")}</button>` : ""}
+    </section>` : ""}
+    <button class="btn btn-ghost pf-out" data-action="signOut">${icon("out")} Cerrar sesión</button>
     <div id="installSlot" style="margin-top:14px"></div>
   </div>`;
 }
+actions.goCourse = (el) => {
+  S.setActiveCourse(el.dataset.id);
+  const c = S.activeCourse(), cs = S.courseState(c);
+  location.hash = resumeLink(c, cs);
+};
 // Mi cumpleaños (Mi cuenta): cada uno elige si lo comparte con la comunidad (solo día y mes).
 let myCum = undefined; // undefined: cargando · null: no compartido · "MM-DD"
 function cumCardHTML() {
-  if (myCum === undefined) onAfterRender(() => cloud.getMyCumple().then((md) => { myCum = md; const c = document.getElementById("cumCard"); if (c) { c.innerHTML = cumCardHTML(); c.hidden = md === false; } }));
+  if (myCum === undefined) onAfterRender(() => cloud.getMyCumple().then((md) => { myCum = md; const c = document.getElementById("cumCard"); if (c) c.innerHTML = cumCardHTML(); const det = document.getElementById("cumDet"); if (det) det.hidden = md === false; }));
   if (myCum === false) return ""; // las reglas aún no están publicadas: la tarjeta no se muestra
   const head = `<h3>Mi cumpleaños</h3><p class="muted small">Si lo compartes, aparece en la Agenda y en Inicio para que la comunidad te salude. Solo se ve el día y el mes, con tu nombre e inicial.</p>`;
   if (!cloud.canShareCumple()) return `${head}<p class="note small" style="margin-top:10px">Para mostrar tu cumpleaños, tu familia tiene que autorizarlo en el consentimiento. Pídeselo a tu dirigente.</p>`;
