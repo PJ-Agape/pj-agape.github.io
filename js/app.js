@@ -431,6 +431,7 @@ function viewHome() {
   <div id="countSlot"></div>
   <div class="ag-panel-slot" data-ag-panel="inicio"></div>
   <div id="famInvSlot"></div>
+  ${radiosHTML()}
   ${cloud.enabled && !cloud.state().ready ? `<a class="card link camino-banner" href="presentaciones/se-puente.html" target="_blank" rel="noopener" style="margin-top:16px">
     <span class="tile-ico tile-brand" style="margin:0">${icon("sparkle")}</span>
     <span style="flex:1"><span class="eyebrow">¿Quieres ser dirigente?</span><strong>Sé puente</strong>
@@ -438,11 +439,11 @@ function viewHome() {
   <div id="installSlot"></div>
   `;
 }
-// Radios católicas, podcast y playlist: una franja liviana al final de Orar (se abren en la página de cada una).
+// Radios católicas, podcast, playlist y enlaces de interés: una franja liviana al final de Hoy (se abren en la página de cada una).
 const RADIO_ICO = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M7 8 17 3.5"/><circle cx="15.5" cy="14" r="2.6"/><path d="M6.5 12.5h4M6.5 15.5h4"/></svg>`;
 function radiosHTML() {
   const rs = inicioCfg().radios, pl = inicioCfg().playlist || {};
-  onAfterRender(() => inicio.refreshInicioCfg(() => { if (location.hash === "#/oracion") render(); }));
+  onAfterRender(() => inicio.refreshInicioCfg(() => { if (location.hash === "" || location.hash === "#/") render(); }));
   onAfterRender(() => podcast.refreshQuiet(() => { if (podcast.hasEpisodes()) document.querySelector(".hr-pod small")?.remove(); }));
   return `<nav class="home-radios" aria-label="Radios católicas en vivo">
     ${rs.length ? `<span class="hr-lbl">${RADIO_ICO} Radios católicas</span>` : ""}
@@ -1537,7 +1538,7 @@ juegos.setup({ actions, render: () => render(), onAfterRender, onLeave });
 podcast.setup({ actions, render: () => render(), onAfterRender, cloud });
 inicio.setup({ actions, render: () => render(), onAfterRender, agenda, wall });
 papa.registerActions(actions);
-capilla.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, content: () => S.content(), radios: () => radiosHTML() });
+capilla.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, content: () => S.content() });
 oremus.setup({ actions, onAfterRender });
 // Control remoto (palo de selfie, control de presentaciones) en todo lo que se proyecta: canciones, oraciones y salmos.
 remoto.iniciar({

@@ -449,7 +449,7 @@ export function view(opt = {}) {
   </section>
 
 
-  <div id="cap-radio">${ctx.radios ? ctx.radios() : ""}</div>`.replace(/<span class="cap-num">\d+<\/span>/g, () => `<span class="cap-num">${String(++num).padStart(2, "0")}</span>`);
+`.replace(/<span class="cap-num">\d+<\/span>/g, () => `<span class="cap-num">${String(++num).padStart(2, "0")}</span>`);
 }
 
 // ---------------------------------------------------------------------------
