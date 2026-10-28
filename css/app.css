@@ -4459,3 +4459,12 @@ html.papel :is(.ag-empty, .chat-empty) > svg.z-illus { display: none; }
 
 /* Ilustraciones como stickers (imagen): misma caja que los dibujos SVG de antes (4:3). */
 img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 5px 9px rgba(11,37,102,.16)); }
+
+/* Hoy: Continuar y una sola diapositiva destacada */
+.card.link.home-go { display: flex; align-items: center; gap: 14px; margin-top: 16px; padding: 16px 18px; }
+.home-go-txt { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.home-go-txt strong { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.2; }
+.home-go-txt .mini-bar { margin-top: 6px; }
+.home-go-btn { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--gold, #ffba03); color: var(--cn, #0b2566); border: 2px solid var(--pp-bd, var(--cn, #0b2566)); }
+.car-one { margin-top: 16px; }
+.car-one .car-track { transform: none !important; }

@@ -385,65 +385,42 @@ function viewHome() {
   onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); });
   const course = S.activeCourse();
   const st = S.courseState(course);
-  const p = S.getProfile();
-  const first = (p.name || "").split(" ")[0];
-
-  const courseSlide = `<article class="car-slide car-go" data-theme-c="blue" aria-roledescription="diapositiva" data-go="${resumeLink(course, st)}" title="Abrir el curso donde quedaste">
-      <i class="hero-blob b1"></i><i class="hero-blob b3"></i>
-      <div class="car-body">
-        <span class="eyebrow">${first ? `Hola, ${esc(first)} · ` : ""}${course.abierto ? "Para todos" : "Curso de formación de dirigentes"}</span>
-        <h2 class="car-title">${heroTitle(course.title)}</h2>
-        <p class="lead">${esc(S.courseDesc(course))}</p><button type="button" class="car-more" data-action="carLead">Leer más</button>
-        <div class="actions">
-          <a class="btn btn-gold" href="${resumeLink(course, st)}">Ir a la formación ${icon("arrowR")}</a>
-        </div>
-        <div class="hero-progress">
-          <div class="bar"><i style="width:${st.totalSessions ? Math.round((st.readSessions / st.totalSessions) * 100) : 0}%"></i></div>
-          <span class="small"><b>${st.readSessions}/${st.totalSessions}</b> unidades</span>
-        </div>
-      </div>
-      ${illus("apostoles", "car-illus")}
-    </article>`;
-  const carousel = () => {
-    const slides = portada.current().filter((x) => !x.course || S.hasVisibleCourse());
-    if (papa.enCarrusel()) slides.splice(Math.min(1, slides.length), 0, { papa: true, label: "Con el Papa" });
-    if (!slides.length) return "";
-    return `<section class="carousel" id="homeCarousel" aria-roledescription="carrusel" aria-label="Bienvenida">
-    <div class="car-track" id="carTrack">${slides.map((x) => (x.papa ? papa.slideHTML() : x.course ? courseSlide : portada.slideHTML(x))).join("")}</div>
-    ${slides.length > 1 ? `<div class="car-ctrl">
-      <button class="icon-btn" data-action="carGo" data-d="-1" aria-label="Anterior">${icon("left")}</button>
-      <div class="car-dots" role="tablist">${slides.map((x, i) => `<button role="tab" aria-label="${esc((x.label || x.title || "").replace(/\*/g, ""))}" data-action="carTo" data-i="${i}" class="${i ? "" : "on"}"></button>`).join("")}</div>
-      <button class="icon-btn" data-action="carGo" data-d="1" aria-label="Siguiente">${icon("right")}</button>
-    </div>` : ""}
-  </section>`;
+  // Continuar: la unidad donde quedaste (o la siguiente), en una sola tarjeta.
+  const go = S.hasVisibleCourse() && course && !st.complete ? (() => {
+    const nx = st.next, ses = nx && nx.type === "session" ? nx.session : null;
+    const pct = st.totalSessions ? Math.round((st.readSessions / st.totalSessions) * 100) : 0;
+    const now = ses ? `${ses.id ? esc(ses.id) + " · " : ""}${esc(ses.title)}` : nx ? "Te falta la evaluación del módulo" : "";
+    return `<a class="card link home-go" href="${resumeLink(course, st)}">
+      <span class="home-go-txt"><span class="eyebrow">${st.readSessions ? "Continuar" : "Empezar"} · ${esc(course.title)}</span>
+        ${now ? `<strong>${now}</strong>` : ""}
+        <span class="mini-bar"><i style="width:${pct}%"></i></span>
+        <span class="xs muted">${st.readSessions} de ${st.totalSessions} unidades</span></span>
+      <span class="home-go-btn" aria-hidden="true">${icon("arrowR")}</span></a>`;
+  })() : "";
+  // Lo destacado: una sola diapositiva (la primera vigente de Gestión → Portada), sin carrusel.
+  const destacado = () => {
+    const x = portada.current().find((y) => !y.course);
+    return x ? `<div class="home-news" id="homeCarousel"><section class="carousel car-one" aria-label="Destacado"><div class="car-track">${portada.slideHTML(x)}</div></section></div>` : "";
   };
   onAfterRender(() => portada.refresh().then((changed) => {
     const el = document.getElementById("homeCarousel");
-    if (!changed || !el) return;
-    el.outerHTML = carousel(); startCarousel();
-  }));
-  onAfterRender(startCarousel);
-
-  onAfterRender(() => papa.paintHome().then((r) => {
-    // si el equipo la ocultó (o la apagó en Gestión), se rehace el carrusel sin ella
-    const has = !!document.querySelector(".papa-slide");
-    if (r && has !== (r.on && !!r.it)) { const el = document.getElementById("homeCarousel"); if (el) { el.outerHTML = carousel(); startCarousel(); papa.paintHome(); } }
+    if (changed && el) el.outerHTML = destacado();
   }));
   onAfterRender(async () => {
     const list = cuenta.pickAll(await cloud.listAgenda(), 3);
     const slot = document.getElementById("countSlot");
     if (list.length && slot) { slot.innerHTML = list.map((e) => cuenta.html(e, { href: `#/agenda/${e.when}` })).join(""); cuenta.start(); }
   });
-  // Inicio liviano: saludo + Evangelio, lo destacado (diapositivas), cuentas regresivas, la intención del Papa y la agenda.
+  // Hoy: el saludo con el Evangelio, Continuar, lo destacado y las próximas fechas.
   // El resto vive en las pestañas de abajo (Formación, Orar, Comunidad).
   return `
   ${inicio.greetHTML()}
   ${solicitud.homeCard()}
-  <section class="home-news">${carousel()}</section>
-  <div class="ag-panel-slot" data-ag-panel="inicio"></div>
+  ${go}
+  ${destacado()}
   <div id="countSlot"></div>
+  <div class="ag-panel-slot" data-ag-panel="inicio"></div>
   <div id="famInvSlot"></div>
-  ${radiosHTML()}
   ${cloud.enabled && !cloud.state().ready ? `<a class="card link camino-banner" href="presentaciones/se-puente.html" target="_blank" rel="noopener" style="margin-top:16px">
     <span class="tile-ico tile-brand" style="margin:0">${icon("sparkle")}</span>
     <span style="flex:1"><span class="eyebrow">¿Quieres ser dirigente?</span><strong>Sé puente</strong>
@@ -451,6 +428,8 @@ function viewHome() {
   <div id="installSlot"></div>
   `;
 }
+// «Leer más» en la diapositiva destacada: abre el texto completo.
+actions.carLead = (el) => { const p = el.previousElementSibling; if (!p) return; const o = p.classList.toggle("open"); el.textContent = o ? "Mostrar menos" : "Leer más"; };
 // Radios católicas: una franja liviana en Inicio (se abren en la página de cada radio).
 const RADIO_ICO = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M7 8 17 3.5"/><circle cx="15.5" cy="14" r="2.6"/><path d="M6.5 12.5h4M6.5 15.5h4"/></svg>`;
 function radiosHTML() {
