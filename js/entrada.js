@@ -15,23 +15,23 @@ export function head(o) {
       <h1 class="cap-title">${em(o.title)}</h1>
       <p class="cap-sub">${esc(o.sub)}</p>
     </div>
-    <div class="cap-moment sal-llegas">
+    <div class="cap-moment sal-llegas" data-ent="${esc(o.id)}">
       <span class="eyebrow">Para comenzar</span>
       <span class="cap-hand sm">${esc(o.side.hand)}</span>
       <p class="sal-llegas-p">${esc(o.side.text)}</p>
       <div class="sal-siento">${o.side.chips.map(([l, attrs]) => `<${/href=/.test(attrs) ? "a" : "button type=\"button\""} class="sal-feel" ${attrs}>${esc(l)}</${/href=/.test(attrs) ? "a" : "button"}>`).join("")}</div>
     </div>
   </section>
-  ${o.guide ? guide(o.guide) : ""}`;
+  ${o.guide ? guide({ ...o.guide, id: o.id }) : ""}`;
 }
 export function guide(g) {
-  return `<section class="cap-guide sal-guide">
+  return `<section class="cap-guide sal-guide"${g.id ? ` data-ent="${esc(g.id)}"` : ""}>
     <div class="cap-guide-art">${g.ill.includes("/") ? `<img class="z-illus z-sticker cap-guide-il" src="${esc(g.ill)}" alt="" loading="lazy" decoding="async">` : illus(g.ill, "cap-guide-il")}</div>
     <div class="cap-guide-txt">
       <span class="cap-hand">${esc(g.hand)}</span>
       <h2>${em(g.title)}</h2>
       <p>${esc(g.text)}</p>
-      <div class="cap-guide-btns"><a class="cap-guide-btn" href="${g.btn[0]}">${icon(g.btn[2] || "book")} ${esc(g.btn[1])}</a></div>
+      <div class="cap-guide-btns"><a class="cap-guide-btn" href="${g.btn[0]}">${icon(g.btn[2] || "book")} <span class="ent-btn-l">${esc(g.btn[1])}</span></a></div>
     </div>
   </section>`;
 }
