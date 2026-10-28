@@ -1469,11 +1469,11 @@ actions.install = async () => {
 // ---------------------------------------------------------------------------
 // Arranque
 // ---------------------------------------------------------------------------
-wall.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
+wall.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, fotos: (id) => momentos.homeStrip(id) });
 window.addEventListener("agape:logro", () => toast("🎉 ¡Felicitaciones! Compartimos tu logro en el muro de la comunidad", "ok", 6000));
 chat.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 avisos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
-agenda.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
+agenda.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, tabs: (k) => chat.tabs(k) });
 portada.setup({ actions, render: () => render(), onAfterRender, cloud });
 S.setCourseRule((c) => {
   if (cloud.enabled ? !!cloud.state().isAdmin : S.isAdmin()) return true;

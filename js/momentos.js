@@ -40,12 +40,12 @@ async function load(reset) {
 // ---------------------------------------------------------------------------
 // Franja en Comunidad (solo aparece cuando los Momentos están habilitados)
 // ---------------------------------------------------------------------------
-export async function homeStrip() {
-  // Fotos recientes dentro de la puerta «Momentos» de La Plaza Ágape
-  const pics = document.getElementById("plazaPics"); if (!pics || !ctx.cloud.enabled || !st().ready) return;
+export async function homeStrip(id = "plazaPics") {
+  // Fotos recientes: en la puerta «Muro» de La Plaza Ágape y arriba del muro
+  const pics = document.getElementById(id); if (!pics || !ctx.cloud.enabled || !st().ready) return;
   let rows = [];
   try { rows = await ctx.cloud.listMomentos(3); } catch (e) { return; }
-  if (!document.getElementById("plazaPics") || !rows.length) return;
+  if (!document.getElementById(id) || !rows.length) return;
   pics.innerHTML = rows.map((r) => `<img src="${esc(r.img)}" alt="" loading="lazy">`).join("");
 }
 
@@ -57,7 +57,8 @@ export function view() {
   if (ctx.cloud.enabled && !s.ready) return `<div class="card" style="text-align:center;padding:30px"><h2 class="display">Momentos Ágape</h2>
     <p class="muted" style="margin-top:8px">Las fotos de la comunidad son para quienes tienen cuenta.</p><a class="btn btn-primary" style="margin-top:14px" href="#/perfil">Ingresar</a></div>`;
   ctx.onAfterRender(async () => { if (posts === null) { await load(true); } paint(); });
-  return `<header class="page-head mom-head"><span class="eyebrow">Comunidad</span><h1>Momentos <em>Ágape</em></h1>
+  return `<nav class="crumbs"><a href="#/muro">Muro</a>${icon("right")}<span>Momentos</span></nav>
+    <header class="page-head mom-head"><h1>Momentos <em>Ágape</em></h1>
       <p>Las fotos de lo que vivimos juntos. Reacciona y deja un comentario con cariño.</p></header>
     ${s.isStaff ? `<button class="btn btn-gold mom-new" data-action="momNew">${icon("plus")} Subir un momento</button>` : ""}
     <div id="momList" class="mom-list"><p class="muted small">Cargando…</p></div>`;

@@ -10,8 +10,7 @@ export const DEFAULTS = {
     hand: "donde nos encontramos", title: "La Plaza *Ágape*",
     text: "Lo que vivimos, lo que conversamos y lo que nos decimos: todo en un mismo lugar.",
     doors: {
-      momentos: { kicker: "Lo que vivimos", title: "Momentos", text: "Las fotos del grupo, para reaccionar y comentar.", on: true },
-      muro: { kicker: "Lo que conversamos", title: "Muro", text: "Avisos, temas, preguntas y encuestas.", on: true },
+      muro: { kicker: "Lo que vivimos y conversamos", title: "Muro", text: "Avisos, temas, encuestas y las fotos del grupo.", on: true },
       chat: { kicker: "Lo que nos decimos", title: "Chat", text: "Salas para conversar en grupo.", on: true },
       juegos: { kicker: "Lo que jugamos", title: "Juegos", text: "Cartas, trivia, sopas de letras y más.", on: true },
     },
@@ -33,7 +32,7 @@ export const BRAND_ICO = {
   tiktok: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M14.5 3h3c.2 1.9 1.5 3.4 3.5 3.6v3.1c-1.3 0-2.5-.4-3.5-1v6.4A5.9 5.9 0 1 1 11.6 9.2v3.2a2.8 2.8 0 1 0 2.9 2.8V3Z"/></svg>',
   facebook: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M13.6 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.9v3h2.6V21h3.1Z"/></svg>',
 };
-export const DOOR_NAMES = { momentos: "Momentos", muro: "Muro", chat: "Chat", juegos: "Juegos" };
+export const DOOR_NAMES = { muro: "Muro", chat: "Chat", juegos: "Juegos" };
 
 const KEY = "agape_inicio_cfg_v1";
 let saved = {};

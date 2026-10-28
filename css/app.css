@@ -4490,3 +4490,11 @@ img.z-sticker { aspect-ratio: 4 / 3; height: auto; max-width: 100%; object-fit: 
 .cap-row-det > summary::-webkit-details-marker { display: none; }
 .cap-row-det .cap-prayer { margin: 12px 0 2px; }
 #cap-radio { margin-top: 18px; }
+
+/* Muro: las fotos (Momentos) arriba, en la misma pantalla */
+.card.link.wall-fotos { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "t go" "pics pics"; align-items: center; gap: 8px 12px; margin-top: 14px; padding: 14px 16px; }
+.wall-fotos-t { grid-area: t; display: grid; gap: 2px; } .wall-fotos-t small { color: var(--ink-3); font-size: .84rem; }
+.wall-fotos > svg { grid-area: go; width: 18px; height: 18px; opacity: .6; }
+.wall-fotos-pics { grid-area: pics; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.wall-fotos-pics:empty { display: none; }
+.wall-fotos-pics img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 2px solid var(--pp-bd, var(--cn, #0b2566)); display: block; }

@@ -213,8 +213,7 @@ function plazaHTML() {
       ${c.text ? `<p>${esc(c.text)}</p>` : ""}
     </div>
     <div class="plaza-doors">
-      ${pdoor(d.momentos, "#/momentos", "is-mom", icon("sparkle"), `<span class="plaza-pics" id="plazaPics" aria-hidden="true"></span>`)}
-      ${pdoor(d.muro, "#/muro", "is-muro", icon("grid"))}
+      ${pdoor(d.muro, "#/muro", "is-muro", icon("grid"), `<span class="plaza-pics" id="plazaPics" aria-hidden="true"></span>`)}
       ${pdoor(d.chat, "#/chat", "is-chat", icon("chat"))}
       ${pdoor(d.juegos, "#/juegos", "is-jg", icon("dice"))}
     </div>
