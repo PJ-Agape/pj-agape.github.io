@@ -339,13 +339,16 @@ function wheelHTML(mk, my, now) {
     { k: "rato", t: "Con Jesús", go: [["En casa o donde estés", () => ctx.actions.capGuide({ dataset: { k: "casa" } })], ["Ante el Santísimo", () => ctx.actions.capGuide({ dataset: { k: "adoracion" } })]] },
     { k: "salmos", t: "Salmos", go: [["Entrar", "#/salmos"]] },
     { k: "oremus", t: "Oremus", go: [["Entrar", "#/oremus"]] },
-    { k: "cancionero", t: "Cancionero", go: [["Entrar", "#/cancionero"]] },
+    { k: "cancionero", t: "Cantos", go: [["Entrar", "#/cancionero"]] },
     { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
-    { k: "misa", t: "Misa de hoy", go: [["Ver", scrollTo("capMisa", "center")]] },
     { k: "radio", t: "Radios", go: [["Escuchar", scrollTo("cap-radio")]] },
   ];
-  return `<div class="cg" role="list">${wheelItems.map((x, i) => `<button class="cg-it" data-cg="${i}" role="listitem" aria-label="${esc(x.t)}">
-      <span class="cg-ico">${WICO[x.k]}</span><span class="cg-lbl">${esc(x.t)}</span></button>`).join("")}</div>
+  // Media luna: de izquierda a derecha por arriba, sobre la Misa del día
+  const n = wheelItems.length;
+  const pos = (i) => { const t = Math.PI - (i * Math.PI) / (n - 1); return `left:${(50 + 45 * Math.cos(t)).toFixed(2)}%;top:${(86 - 74 * Math.sin(t)).toFixed(2)}%`; };
+  return `<div class="cg cg-arc" role="list" aria-label="Para rezar">${wheelItems.map((x, i) => `<button class="cg-it" data-cg="${i}" role="listitem" aria-label="${esc(x.t)}" style="${pos(i)}">
+      <span class="cg-ico">${WICO[x.k]}</span><span class="cg-lbl">${esc(x.t)}</span></button>`).join("")}
+      <span class="cg-arc-hand" aria-hidden="true">¿dónde quieres entrar?</span></div>
     <div class="cg-more" id="cgMore" hidden></div>`;
 }
 function wheelInit() {
@@ -403,6 +406,7 @@ export function view(opt = {}) {
         <span class="cap-season"><i></i>${esc(s.name)} · color ${esc(s.color)}</span>
         <span class="cap-date">${esc(now.toLocaleDateString("es-CL", { weekday: "long", day: "numeric", month: "long" }))}</span>
       </div>
+      ${wheelHTML(mk, my, now)}
       <div class="cap-misa" id="capMisa">${misaHTML()}</div>
       <div class="cap-gospel" id="capGospel">${gospelHTML(s)}</div>
       ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}
@@ -414,11 +418,7 @@ export function view(opt = {}) {
     </article>
   </section>
 
-  <section class="cap-grid-sec" aria-labelledby="cwTitle">
-    <h2 class="cw-h" id="cwTitle">Para <em>rezar</em></h2>
-    ${wheelHTML(mk, my, now)}
-    ${papa.capillaHTML()}
-  </section>
+  <section class="cap-grid-sec">${papa.capillaHTML()}</section>
 
   <section class="cap-room cap-altar${altarOpen ? " is-open" : ""}" id="cap-velas">
     <div class="cap-altar-top" data-action="capAltar" role="button" tabindex="0" aria-expanded="${altarOpen}" aria-controls="capAltarBody">
