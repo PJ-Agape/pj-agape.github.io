@@ -1,6 +1,6 @@
 // Service worker: permite usar la app sin conexión.
 // Sube este número cuando cambies archivos de la app (html, css, js) para renovar la caché.
-const VERSION = "agape-v387";
+const VERSION = "agape-v388";
 const SHELL = [
   "./", "index.html", "css/app.css",
   "js/app.js", "js/avisos.js", "js/emaus.js", "js/admin.js", "js/importar-curso.js", "js/cursos-comunidad.js", "js/store.js", "js/util.js", "js/config.js", "js/cloud.js", "js/muro.js", "js/chat.js", "js/agenda.js", "js/ilustraciones.js", "js/portada.js", "js/capilla.js", "js/cancionero.js", "js/salmos.js", "js/oremus.js", "js/remoto.js", "js/salmos-notas.js", "js/libro.js", "js/acordes-import.js", "js/juegos.js", "js/frente.js", "js/trivia.js", "js/curso-print.js", "js/ultima.js", "js/stickers-img.js", "js/palabras.js", "js/memorice.js", "js/mahjong.js", "js/sopa.js", "js/crucigrama.js", "js/podcast.js", "js/inicio-config.js", "js/inicio-admin.js", "js/credenciales.js", "js/solicitud.js", "js/conocer.js", "js/ficha.js", "js/xlsx-mini.js", "js/repeat.js", "js/avatares.js", "js/personajes.js", "js/inicio.js", "js/novedades.js", "js/papa.js", "js/devocionario.js", "js/dinamicas-banco.js", "js/ayuda.js", "js/dinamicas.js", "js/acompanar.js", "js/desafio.js", "js/momentos.js", "js/qrcode.mjs", "js/qrcode-utf8.mjs",

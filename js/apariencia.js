@@ -64,6 +64,16 @@ export const ZONAS = [
     t: [[".cap-hand", "Frase manuscrita", "pasa, Él te espera"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "Capilla *Ágape*"]] },
   { id: "rezar", n: "Orar · Para rezar", ruta: "#/oracion", re: /^\/oracion$/, sel: ".cap-fila", stk: "",
     t: [[".cw-h", "Título", "Para rezar"]] },
+  { id: "cono_head", n: "Quiero conocer Ágape · encabezado", ruta: "#/conocer?o=amigo", re: /^\/conocer/, sel: ".page-head.has-illus", stk: "img/ilus/s022.webp", stkSel: ".head-illus",
+    t: [[".eyebrow", "Línea pequeña", "Pastoral Juvenil Ágape · Yungay"], ["h1", "Título (entre *asteriscos* va el destacado)", "Quiero *conocer* Ágape"], ["p", "Descripción", "Somos jóvenes de la Parroquia San Miguel de Yungay que nos juntamos para hacer amigos, conversar de la vida y crecer en la fe. Si te da curiosidad, déjanos un contacto y te invitamos al próximo encuentro."]] },
+  { id: "cono_cards", n: "Quiero conocer Ágape · las tres tarjetas", ruta: "#/conocer?o=amigo", re: /^\/conocer/, sel: ".cono-grid", stk: "", noStk: true,
+    t: [[".cono-it:nth-child(1) h3", "Tarjeta 1 · título", "En el salón parroquial"], [".cono-it:nth-child(1) p", "Tarjeta 1 · texto", "Nos reunimos en comunidad, rezamos y la pasamos muy bien."],
+      [".cono-it:nth-child(2) h3", "Tarjeta 2 · título", "Una comunidad de amigos"], [".cono-it:nth-child(2) p", "Tarjeta 2 · texto", "Un lugar para hacer amigos, conversar de la vida y sentirte parte de algo."],
+      [".cono-it:nth-child(3) h3", "Tarjeta 3 · título", "La fe en tu bolsillo"], [".cono-it:nth-child(3) p", "Tarjeta 3 · texto", "En agAPPe tienes el Evangelio de cada día, la Capilla, juegos y la agenda del grupo. Puedes probarla ahora mismo."]] },
+  { id: "cono_form", n: "Quiero conocer Ágape · formulario", ruta: "#/conocer?o=amigo", re: /^\/conocer/, sel: "#conoBox", stk: "", noStk: true,
+    t: [["#conoFT", "Título", "Te invitamos"], [".cono-form-p", "Texto", "Son menos de dos minutos. Te escribimos por WhatsApp para contarte cuándo es el próximo encuentro."], [".cono-btn-l", "Texto del botón", "Quiero que me inviten"]] },
+  { id: "cono_invite", n: "Comunidad · Invita a alguien", ruta: "#/red", re: /^\/(red|conocer)/, sel: ".cono-invite", stk: "", noStk: true,
+    t: [["h2", "Título", "Invita a alguien a Ágape"], ["p", "Texto", "¿Tienes un amigo o amiga que podría venir? Mándale la invitación por WhatsApp: le llega una página para conocernos y dejar su contacto."], ["[data-wa-msg]", "Mensaje que se manda por WhatsApp (el enlace se agrega solo al final)", "¡Hola! Te invito a conocer Ágape, la Pastoral Juvenil de la Parroquia San Miguel de Yungay. Nos reunimos en comunidad, rezamos y la pasamos muy bien. Mira de qué se trata y déjanos tu contacto:"]] },
   { id: "agenda", n: "Agenda · encabezado", ruta: "#/agenda", re: /^\/agenda/, sel: ".page-head", stk: "img/stickers/calendario.webp",
     t: [[".eyebrow", "Línea pequeña", "Ventana oficial del grupo"], ["h1", "Título (entre *asteriscos* va el destacado)", "Agenda *Ágape*"], ["p", "Descripción", "Encuentros, celebraciones y actividades de la pastoral, siempre al día. Lo que está aquí es lo oficial."]] },
   { id: "salmos", n: "Orar · Salmos · encabezado", ruta: "#/salmos", re: /^\/salmos$/, sel: '.ent-hero[data-ent="salmos"] .cap-arch', stk: "",
@@ -345,7 +355,7 @@ export function applyZona(el, z, d) {
     if (c) el.style.setProperty(p, c); else el.style.removeProperty(p);
   }
   // Sticker
-  if (d.sticker) {
+  if (d.sticker && !z.noStk) {
     const host = (z.stkHost && el.closest(z.stkHost)) || el;
     const img = z.stkSel ? host.querySelector(z.stkSel) : host.querySelector(":scope > .sticker");
     if (d.sticker === "ninguno") { if (img) img.remove(); }

@@ -3,6 +3,7 @@
 // Los menores de 18 dejan además el contacto de su mamá, papá o apoderado.
 // Gestión → Personas → «Quiero conocer Ágape» muestra la lista, los enlaces de la campaña y el QR del afiche.
 // Enlaces con origen: #/conocer?o=instagram (lo guarda en «campana» para saber qué canal funcionó).
+import * as AP from "./apariencia.js";
 import { esc, icon, toast, download } from "./util.js";
 import { illus } from "./ilustraciones.js";
 
@@ -64,7 +65,7 @@ function formHTML() {
   let antes = "";
   try { const d = localStorage.getItem(SENT_KEY); if (d) antes = d; } catch {}
   return `<h2 id="conoFT" class="display">Te invitamos</h2>
-    <p class="muted" style="margin-top:4px">Son menos de dos minutos. Te escribimos por WhatsApp para contarte cuándo es el próximo encuentro.</p>
+    <p class="muted cono-form-p" style="margin-top:4px">Son menos de dos minutos. Te escribimos por WhatsApp para contarte cuándo es el próximo encuentro.</p>
     ${antes ? `<div class="note accent" style="margin-top:12px">Ya nos dejaste tus datos el ${esc(new Date(antes).toLocaleDateString("es-CL", { day: "numeric", month: "long" }))}. Si quieres, puedes enviarlos de nuevo.</div>` : ""}
     <form id="conoForm" class="stack" style="--gap:14px;margin-top:16px" novalidate>
       <fieldset class="cono-quien"><legend class="label">¿Quién escribe?</legend>
@@ -93,7 +94,7 @@ function formHTML() {
         <textarea class="textarea" id="coMsg" name="mensaje" rows="2" maxlength="300"></textarea></div>
       <div class="cono-hp" aria-hidden="true"><label>No completar <input name="web" tabindex="-1" autocomplete="off"></label></div>
       <label class="cono-check"><input type="checkbox" name="consiente" required><span>Acepto que el equipo de Ágape use estos datos solo para invitarme al grupo. Nunca se publican ni se comparten, y puedo pedir que los borren cuando quiera.</span></label>
-      <button class="btn btn-primary btn-block" type="submit">${icon("send")} Quiero que me inviten</button>
+      <button class="btn btn-primary btn-block" type="submit">${icon("send")} <span class="cono-btn-l">Quiero que me inviten</span></button>
     </form>`;
 }
 
@@ -162,7 +163,9 @@ function registerActions() {
 // «Invitar» (Comunidad): quien ya tiene cuenta no ve la página, solo comparte el enlace por WhatsApp.
 // El enlace lleva ?o=amigo, así queda marcado «Me invitó un amigo o amiga».
 // ---------------------------------------------------------------------------
-const INVITE_TXT = () => `¡Hola! Te invito a conocer Ágape, la Pastoral Juvenil de la Parroquia San Miguel de Yungay. Nos reunimos en comunidad, rezamos y la pasamos muy bien. Mira de qué se trata y déjanos tu contacto: ${linkFor("amigo")}`;
+// El mensaje se puede cambiar en Gestión → Apariencia («Comunidad · Invita a alguien»); el enlace va siempre al final.
+export const INVITE_DEF = "¡Hola! Te invito a conocer Ágape, la Pastoral Juvenil de la Parroquia San Miguel de Yungay. Nos reunimos en comunidad, rezamos y la pasamos muy bien. Mira de qué se trata y déjanos tu contacto:";
+const INVITE_TXT = () => `${((AP.de("cono_invite").textos || {})["[data-wa-msg]"] || INVITE_DEF).trim()} ${linkFor("amigo")}`;
 const inviteHref = () => `https://wa.me/?text=${encodeURIComponent(INVITE_TXT())}`;
 export function inviteCard() {
   if (!ctx.cloud.enabled || !ctx.cloud.state().ready) return "";

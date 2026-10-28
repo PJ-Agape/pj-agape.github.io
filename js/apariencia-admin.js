@@ -239,6 +239,7 @@ function xy(f, z) {
   return [50, /top/.test(p) ? 0 : /bottom/.test(p) ? 100 : 50];
 }
 function stickerHTML(z) {
+  if (z.noStk) return "";
   const d = draft[z.id], cur = d.sticker === "ninguno" ? "" : d.sticker || z.stk;
   return `<fieldset class="ap-sec"><legend>Sticker</legend>
     <div class="ap-row">${cur ? A.stkHTML(cur, "ap-stk-cur") : `<span class="muted small">Sin sticker</span>`}
@@ -256,7 +257,7 @@ function textosHTML(z) {
       const long = def.length > 60;
       const id = `apT-${z.id}-${i}`;
       return `<div class="field"><label for="${id}">${esc(l)}</label>${long
-        ? `<textarea class="textarea" id="${id}" rows="2" maxlength="220" placeholder="${esc(def)}" data-ap="t" data-z="${z.id}" data-s="${esc(s)}">${esc(t[s] || "")}</textarea>`
+        ? `<textarea class="textarea" id="${id}" rows="2" maxlength="${Math.max(220, def.length * 2)}" placeholder="${esc(def)}" data-ap="t" data-z="${z.id}" data-s="${esc(s)}">${esc(t[s] || "")}</textarea>`
         : `<input class="input" id="${id}" maxlength="80" placeholder="${esc(def)}" value="${esc(t[s] || "")}" data-ap="t" data-z="${z.id}" data-s="${esc(s)}">`}</div>`;
     }).join("")}
     <p class="xs muted">Vacío = el texto de siempre (en gris).</p>
