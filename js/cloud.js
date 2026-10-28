@@ -384,6 +384,34 @@ export async function countVisit() {
     try { localStorage.setItem(lk, k); } catch {}
   } catch {}
 }
+// Lo más visto: cuántos celulares o computadores abrieron cada sección en el día (vistas/AAAA-MM-DD → {sección: n}).
+// Cada sección cuenta una sola vez por dispositivo y día. No se guarda quién es. Solo el equipo lo puede leer.
+// Las claves deben coincidir con la lista de firestore.rules (match /vistas/{day}).
+export const VISTAS = {
+  inicio: "Inicio", evangelio: "Evangelio del día", capilla: "Capilla", rosario: "Rosario", rato: "Un rato con Jesús",
+  intenciones: "Intenciones", radio: "Radios", salmos: "Salmos", oremus: "Oremus", cancionero: "Cancionero",
+  comunidad: "Comunidad", muro: "Muro", chat: "Chat", momentos: "Momentos", juegos: "Juegos", podcast: "Podcast",
+  agenda: "Agenda", formacion: "Formación", curso: "Cursos", materiales: "Materiales", dinamicas: "Dinámicas",
+  difusion: "Estudio de difusión", ayuda: "Ayuda", buscar: "Buscador",
+};
+export async function countView(sec) {
+  if (!enabled || !db || !VISTAS[sec]) return;
+  const k = dayKey(), lk = "agape_vistas_dia";
+  let m;
+  try { m = JSON.parse(localStorage.getItem(lk) || "null"); } catch { return; }
+  if (!m || m.d !== k) m = { d: k, s: [] };
+  if (m.s.includes(sec)) return;
+  m.s.push(sec); // se marca antes de escribir: si falla, no se reintenta en cada cambio de pantalla
+  try { localStorage.setItem(lk, JSON.stringify(m)); } catch { return; }
+  try { await fb.setDoc(fb.doc(db, "vistas", k), { [sec]: fb.increment(1) }, { merge: true }); } catch {}
+}
+export async function viewStats(days = 30) {
+  if (!enabled || !db) return [];
+  const out = [];
+  for (let i = days - 1; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); out.push(dayKey(d)); }
+  const rows = await Promise.all(out.map((k) => withTimeout(fb.getDoc(fb.doc(db, "vistas", k)), 6000).then((sn) => (sn.exists() ? sn.data() : {})).catch(() => ({}))));
+  return out.map((k, i) => ({ dia: k, ...rows[i] }));
+}
 // Rosarios por la intención del Papa: un contador por mes (rosarios/AAAA-MM, campo n). Lo ve todo el mundo; suman quienes tienen cuenta.
 export async function rosariosMes(mes) {
   if (!enabled || !db) return null;

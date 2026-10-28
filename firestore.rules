@@ -500,6 +500,22 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // Lo más visto (vistas/AAAA-MM-DD): cada escritura suma 1 a una sola sección de la lista.
+    // La lista debe coincidir con VISTAS de js/cloud.js.
+    function vistaOk(antes, despues) {
+      let cambio = despues.diff(antes).affectedKeys();
+      return despues.keys().hasOnly(['inicio', 'evangelio', 'capilla', 'rosario', 'rato', 'intenciones', 'radio',
+          'salmos', 'oremus', 'cancionero', 'comunidad', 'muro', 'chat', 'momentos', 'juegos', 'podcast', 'agenda',
+          'formacion', 'curso', 'materiales', 'dinamicas', 'difusion', 'ayuda', 'buscar'])
+        && cambio.size() == 1
+        && despues[cambio.toList()[0]] == antes.get(cambio.toList()[0], 0) + 1;
+    }
+    match /vistas/{day} {
+      allow read: if isStaff();
+      allow create: if day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') && vistaOk({}, request.resource.data);
+      allow update: if vistaOk(resource.data, request.resource.data);
+    }
+
     match /stats/{day} {
       allow read: if isStaff();
       allow create: if day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')

@@ -525,23 +525,51 @@ async function followSummary() {
 
 // Visitas (contador anónimo por día) y actividad de las cuentas (última vez que entraron)
 async function visitsCard() {
-  const [st, data] = await Promise.all([api.cloud.visitStats(30).catch(() => []), loadPeople().catch(() => null)]);
-  const sum = (xs, k) => xs.reduce((a, x) => a + x[k], 0);
-  const last7 = st.slice(-7), today = st[st.length - 1] || { v: 0, c: 0, g: 0 };
+  const [st, vs, data] = await Promise.all([api.cloud.visitStats(30).catch(() => []), api.cloud.viewStats(30).catch(() => []), loadPeople().catch(() => null)]);
+  const sum = (xs, k) => xs.reduce((a, x) => a + (+x[k] || 0), 0);
+  const last7 = st.slice(-7), prev7 = st.slice(-14, -7), today = st[st.length - 1] || { v: 0, c: 0, g: 0 };
   const max = Math.max(1, ...st.slice(-14).map((x) => x.v));
-  const DIAS = ["do", "lu", "ma", "mi", "ju", "vi", "sá"];
+  const DIAS = ["do", "lu", "ma", "mi", "ju", "vi", "sá"], MES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+  const fecha = (k) => { const d = new Date(k + "T12:00:00"); return `${DIAS[d.getDay()]} ${d.getDate()} ${MES[d.getMonth()]}`; };
   const bars = st.slice(-14).map((x) => { const d = new Date(x.dia + "T12:00:00"), h = Math.round((x.v / max) * 100), hc = x.v ? Math.round((x.c / x.v) * h) : 0;
     return `<div class="vis-col" title="${x.dia}: ${x.v} visitas (${x.c} con cuenta, ${x.g} visitantes)"><span class="vis-n">${x.v || ""}</span><div class="vis-bar" style="height:${h}%"><i style="height:${hc ? (hc / h) * 100 : 0}%"></i></div><small>${DIAS[d.getDay()]}<br>${d.getDate()}</small></div>`; }).join("");
   const users = data ? data.users.filter((u) => u.active !== false) : [];
   const since = (n) => users.filter((u) => { const d = tsDate(u.lastSeen); return d && Date.now() - d.getTime() < n * 864e5; }).length;
-  const stat = (n, l) => `<div class="card stat"><b>${n}</b><span class="muted small">${l}</span></div>`;
+  const stat = (n, l, sub = "") => `<div class="card stat"><b>${n}</b><span class="muted small">${l}</span>${sub ? `<span class="xs muted">${sub}</span>` : ""}</div>`;
   const none = !sum(st, "v");
-  return `<section class="card vis-card"><h3>📈 Visitas a la app</h3>
+  // Comparación con la semana anterior y el mejor día del mes
+  const a7 = sum(last7, "v"), p7 = sum(prev7, "v");
+  const trend = p7 ? `${a7 >= p7 ? "+" : "−"}${Math.abs(Math.round(((a7 - p7) / p7) * 100))}% vs. la semana anterior` : "";
+  const best = st.reduce((b, x) => (x.v > (b ? b.v : 0) ? x : b), null);
+  const avg = Math.round(sum(st, "v") / Math.max(1, st.filter((x) => x.v).length));
+  // Lo más visto: suma de cada sección en el período
+  const NAMES = api.cloud.VISTAS || {};
+  const rank = (days) => {
+    const tot = {};
+    vs.slice(-days).forEach((d) => Object.keys(NAMES).forEach((k) => { tot[k] = (tot[k] || 0) + (+d[k] || 0); }));
+    return Object.entries(tot).filter(([, n]) => n).sort((x, y) => y[1] - x[1]);
+  };
+  const list = (rows) => {
+    if (!rows.length) return `<p class="muted small">Todavía no hay datos de este período.</p>`;
+    const top = rows[0][1];
+    const row = ([k, n]) => `<li class="vis-rk"><span class="vis-rk-n">${esc(NAMES[k] || k)}</span><span class="mini-bar"><i style="width:${Math.max(4, Math.round((n / top) * 100))}%"></i></span><b>${n}</b></li>`;
+    return `<ol class="vis-rank">${rows.slice(0, 8).map(row).join("")}</ol>
+      ${rows.length > 8 ? `<details class="vis-more"><summary class="small">Ver las otras ${rows.length - 8}</summary><ol class="vis-rank" start="9">${rows.slice(8).map(row).join("")}</ol></details>` : ""}`;
+  };
+  const r7 = rank(7), r30 = rank(30), noViews = !r30.length;
+  const quiet = r30.length ? Object.keys(NAMES).filter((k) => !r30.some(([x]) => x === k)) : [];
+  return `<section class="card vis-card"><h3>Visitas a la app</h3>
     <p class="muted small" style="margin-top:4px">Se cuenta una visita por celular o computador al día. No se guarda quién es: solo cuántos entraron, con cuenta o como visitantes.</p>
-    <div class="grid grid-4" style="margin-top:12px">${stat(today.v, "visitas hoy")}${stat(sum(last7, "v"), "últimos 7 días")}${stat(sum(st, "v"), "últimos 30 días")}${stat(sum(st, "g"), "visitantes sin cuenta (30 días)")}</div>
+    <div class="grid grid-4" style="margin-top:12px">${stat(today.v, "visitas hoy")}${stat(a7, "últimos 7 días", trend)}${stat(sum(st, "v"), "últimos 30 días", none ? "" : `${avg} al día en promedio`)}${stat(best && best.v ? best.v : 0, "mejor día del mes", best && best.v ? fecha(best.dia) : "")}</div>
     ${none ? `<p class="note" style="margin-top:12px">Aún no hay visitas registradas. Empiezan a contarse cuando se publiquen las reglas de Firebase con el contador.</p>` : `<div class="vis-chart" aria-label="Visitas de los últimos 14 días">${bars}</div>
-    <p class="xs muted"><span class="vis-key c"></span> con cuenta <span class="vis-key g"></span> visitantes</p>`}
-    <h4 style="margin-top:16px">Cuentas que entraron</h4>
+    <p class="xs muted"><span class="vis-key c"></span> con cuenta <span class="vis-key g"></span> visitantes · ${sum(st, "g")} visitas sin cuenta en 30 días</p>`}
+    <h4 style="margin-top:18px">Lo más visto</h4>
+    <p class="muted small" style="margin-top:2px">Cuántos celulares o computadores abrieron cada sección. Cada sección cuenta una vez por día en cada uno.</p>
+    ${noViews ? `<p class="note" style="margin-top:10px">Se empieza a contar cuando se publiquen las reglas nuevas de Firebase (la parte <b>vistas</b>).</p>` : `
+    <div class="row-wrap" style="gap:6px;margin:10px 0 6px"><button class="chip accent" data-action="aVisPer" data-p="7">7 días</button><button class="chip" data-action="aVisPer" data-p="30">30 días</button></div>
+    <div data-vis-per="7">${list(r7)}</div><div data-vis-per="30" hidden>${list(r30)}</div>
+    ${quiet.length ? `<p class="xs muted" style="margin-top:8px">Sin visitas en 30 días: ${esc(quiet.map((k) => NAMES[k]).join(", "))}.</p>` : ""}`}
+    <h4 style="margin-top:18px">Cuentas que entraron</h4>
     <div class="grid grid-4" style="margin-top:8px">${stat(since(1), "hoy")}${stat(since(7), "en 7 días")}${stat(since(30), "en 30 días")}${stat(users.length - since(30), "hace más de 30 días o nunca")}</div>
   </section>`;
 }
@@ -1150,6 +1178,11 @@ function bindActions() {
   };
 
   // Seguimiento de dirigentes
+  A.aVisPer = (el) => {
+    const card = el.closest(".vis-card"); if (!card) return;
+    card.querySelectorAll("[data-action=aVisPer]").forEach((b) => b.classList.toggle("accent", b === el));
+    card.querySelectorAll("[data-vis-per]").forEach((d) => { d.hidden = d.dataset.visPer !== el.dataset.p; });
+  };
   A.aPeopleRefresh = async () => { await loadPeople(true); api.render(); toast("Datos actualizados"); };
   // Guarda a cargo / apoyo de un joven.
   const asgWrite = async (j, guia, guia2) => {

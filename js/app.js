@@ -184,6 +184,7 @@ async function renderNow() {
   decorate(v, section);
   v.classList.remove("view-enter"); void v.offsetWidth; v.classList.add("view-enter");
   if (path !== lastPath) window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  if (path !== lastPath && cloud.enabled && !cloud.viewingAs()) { const k = vistaDe(path); if (k) cloud.countView(k); }
   lastPath = path;
   updateInstallSlot();
   afterRender.splice(0).forEach((f) => f());
@@ -193,6 +194,16 @@ async function renderNow() {
   agenda.fillPanels(); // paneles de la Agenda en Comunidad, Capilla y Formación
   helpFab(section);
 }
+// Lo más visto (Gestión → Estadísticas): a qué sección corresponde cada pantalla.
+const VISTA_RUTAS = [
+  [/^\/$/, "inicio"], [/^\/evangelio/, "evangelio"], [/^\/oracion\/velas/, "intenciones"], [/^\/oracion\/(rosario|maria)/, "rosario"],
+  [/^\/oracion\/silencio/, "rato"], [/^\/oracion\/radio/, "radio"], [/^\/oracion/, "capilla"], [/^\/oremus/, "oremus"], [/^\/salmos/, "salmos"],
+  [/^\/cancionero/, "cancionero"], [/^\/red$/, "comunidad"], [/^\/muro/, "muro"], [/^\/chat/, "chat"], [/^\/momentos/, "momentos"],
+  [/^\/juegos/, "juegos"], [/^\/podcast/, "podcast"], [/^\/agenda/, "agenda"], [/^\/formacion$/, "formacion"],
+  [/^\/(itinerario|unidad|encuentro|vivir|cuaderno|constancia)/, "curso"], [/^\/(materiales|imprimir|credenciales)/, "materiales"],
+  [/^\/dinamicas/, "dinamicas"], [/^\/difusion/, "difusion"], [/^\/ayuda/, "ayuda"], [/^\/buscar/, "buscar"],
+];
+const vistaDe = (path) => { const p = path.split("?")[0]; const r = VISTA_RUTAS.find(([re]) => re.test(p)); return r ? r[1] : ""; };
 // Botón flotante «?»: abre la Ayuda en el tema de la sección donde estás.
 function helpFab(section) {
   let b = document.getElementById("helpFab");
