@@ -774,6 +774,20 @@ export async function listConfirmaciones(id) {
 export const deleteConfirmacion = (id, cid) => fb.deleteDoc(fb.doc(db, "agenda", id, "confirmaciones", cid));
 export const patchEvent = (id, data) => fb.updateDoc(fb.doc(db, "agenda", id), data);
 
+// Programación del mes (Agenda): notas sin fecha y el tablero Pendiente / En curso / Realizado.
+// Una ficha por nota o tarea, con su mes («AAAA-MM»). La ven y la editan los guías (equipo y dirigentes).
+export function watchPrograma(mes, cb, onErr) {
+  if (!enabled || !db) { onErr && onErr(new Error("offline")); return () => {}; }
+  return fb.onSnapshot(fb.query(fb.collection(db, "programa"), fb.where("mes", "==", mes)), (qs) => cb(snapRows(qs)), (e) => { console.warn("programa:", e && e.code); onErr && onErr(e); });
+}
+export async function savePrograma(id, data) {
+  const ref = id ? fb.doc(db, "programa", id) : fb.doc(fb.collection(db, "programa"));
+  const por = (account && (account.name || account.email)) || "";
+  await fb.setDoc(ref, { ...data, por: String(por).slice(0, 80), at: fb.serverTimestamp() }, { merge: true });
+  return ref.id;
+}
+export const deletePrograma = (id) => fb.deleteDoc(fb.doc(db, "programa", id));
+
 // ---------------------------------------------------------------------------
 // Portada de Inicio (carrusel). Se guarda como content/portada: la lee cualquiera,
 // la editan los administradores (misma regla que el contenido publicado).

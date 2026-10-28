@@ -143,7 +143,9 @@ export function viewAgenda(day) {
     ctx.onLeave(stop);
     paint();
   });
-  const admin = ctx.cloud.state().isStaff;
+  const admin = ctx.cloud.state().isStaff, guia = ctx.cloud.state().isGuide;
+  prog.mes = ""; // se vuelve a escuchar al dibujar
+  ctx.onLeave(() => { if (prog.stop) prog.stop(); prog.stop = null; prog.mes = ""; });
   return `
   <header class="page-head"><span class="eyebrow">Ventana oficial del grupo</span><h1>Agenda <em>Ágape</em></h1>
     <p>Encuentros, celebraciones y actividades de la pastoral, siempre al día. Lo que está aquí es lo oficial.</p></header>
@@ -166,8 +168,10 @@ export function viewAgenda(day) {
     </section>
     <aside class="ag-side">
       <section class="card ag-list-card"><h3 id="agListTitle">Próximas fechas</h3><div id="agList" class="ag-list"><p class="muted small">Cargando…</p></div></section>
+      ${guia ? `<section class="card ag-notas" id="agNotas" aria-live="polite"></section>` : ""}
     </aside>
-  </div>`;
+  </div>
+  ${guia ? `<section class="ag-prog" id="agProg" aria-label="Programación del mes"></section>` : ""}`;
 }
 
 function paint() {
@@ -191,7 +195,109 @@ function paint() {
   }
   grid.innerHTML = DIAS.map((d) => `<span class="ag-dow">${d}</span>`).join("") + cells.join("");
   paintList();
+  progSync();
 }
+// ---------------------------------------------------------------------------
+// Programación del mes (solo guías): notas sin fecha y tablero Pendiente / En curso / Realizado.
+// Sigue al mes que se ve en el calendario.
+// ---------------------------------------------------------------------------
+const prog = { mes: "", rows: null, stop: null, edit: "" };
+const COLS = [["pend", "Pendiente", "lo que falta"], ["curso", "En curso", "manos a la obra"], ["hecho", "Realizado", "¡listo! ¿cómo resultó?"]];
+const mesKey = () => `${month.getFullYear()}-${pad(month.getMonth() + 1)}`;
+const mesNom = () => MESES[month.getMonth()];
+function progSync() {
+  if (!document.getElementById("agProg")) return;
+  const mes = mesKey();
+  if (prog.mes === mes) return paintProg();
+  if (prog.stop) prog.stop();
+  prog.mes = mes; prog.rows = null; prog.edit = "";
+  paintProg();
+  prog.stop = ctx.cloud.watchPrograma(mes, (rows) => { if (prog.mes === mes) { prog.rows = rows; paintProg(); } }, () => { prog.rows = prog.rows || []; paintProg(); });
+}
+const porOrden = (a, b) => (a.orden || 0) - (b.orden || 0);
+function paintProg() {
+  const nb = document.getElementById("agNotas"), kb = document.getElementById("agProg"); if (!kb) return;
+  const rows = prog.rows, notas = (rows || []).filter((r) => r.tipo === "nota").sort(porOrden), tareas = (rows || []).filter((r) => r.tipo === "tarea").sort(porOrden);
+  if (nb) nb.innerHTML = `<h3>${icon("edit")} Notas de ${esc(mesNom())}</h3>
+    <p class="xs muted">Lo que hay que hacer este mes pero todavía no tiene fecha. Solo lo ven el equipo y los dirigentes.</p>
+    <form class="ag-add" data-agadd="nota"><input class="input" name="t" maxlength="300" required placeholder="Ej: Retiro de Adviento (falta la fecha)" aria-label="Nueva nota"><button class="btn btn-sm btn-primary" type="submit">${icon("plus")} Anotar</button></form>
+    ${rows === null ? `<p class="muted small">Cargando…</p>` : notas.length ? `<ul class="ag-notas-l">${notas.map((n) => `<li>
+      <span class="ag-nota-t">${esc(n.t)}${n.por ? `<small>${esc(n.por.split(" ")[0])}</small>` : ""}</span>
+      <span class="ag-nota-b">
+        ${ctx.cloud.state().isStaff ? `<button class="btn btn-sm btn-ghost" data-action="agNotaCal" data-id="${esc(n.id)}" title="Ponerle fecha en la agenda">${icon("cal")} Agendar</button>` : ""}
+        <button class="btn btn-sm btn-ghost" data-action="agNotaTab" data-id="${esc(n.id)}" title="Pasarla al tablero, como pendiente">${icon("right")} Al tablero</button>
+        <button class="icon-btn" data-action="agProgDel" data-id="${esc(n.id)}" aria-label="Borrar la nota">${icon("trash")}</button></span></li>`).join("")}</ul>` : `<p class="muted small ag-notas-vacio">Sin notas para ${esc(mesNom())}.</p>`}`;
+  const n = (k) => tareas.filter((t) => (t.est || "pend") === k).length, tot = tareas.length;
+  const pct = tot ? Math.round((n("hecho") / tot) * 100) : 0;
+  kb.innerHTML = `<header class="ag-prog-h"><div><span class="eyebrow">Programación del mes</span><h2>Tablero de <em>${esc(mesNom())}</em></h2></div>
+      <div class="ag-prog-sum">${tot ? `<span>${n("pend")} pendiente${n("pend") === 1 ? "" : "s"} · ${n("curso")} en curso · ${n("hecho")} realizada${n("hecho") === 1 ? "" : "s"}</span>
+        <span class="ag-prog-bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Avance del mes"><i style="width:${pct}%"></i></span><b>${pct}%</b>` : `<span class="muted small">Agrega las actividades del mes y muévelas a medida que avanzan.</span>`}</div></header>
+    <div class="ag-kb">${COLS.map(([k, l, h], ci) => `<section class="ag-kb-col is-${k}" data-col="${k}">
+      <h3>${l} <b>${n(k)}</b><small>${h}</small></h3>
+      ${k === "pend" ? `<form class="ag-add" data-agadd="tarea"><input class="input" name="t" maxlength="300" required placeholder="Nueva actividad o tarea" aria-label="Nueva tarea"><button class="btn btn-sm btn-primary" type="submit" aria-label="Agregar">${icon("plus")}</button></form>` : ""}
+      <div class="ag-kb-list">${tareas.filter((t) => (t.est || "pend") === k).map((t) => cardHTML(t, ci)).join("") || `<p class="ag-kb-vacio">${rows === null ? "Cargando…" : "Arrastra o mueve tarjetas aquí"}</p>`}</div>
+    </section>`).join("")}</div>`;
+}
+function cardHTML(t, ci) {
+  if (prog.edit === t.id) return `<form class="ag-kb-card is-edit" data-agedit="${esc(t.id)}">
+      <label class="xs">Actividad<input class="input" name="t" maxlength="300" required value="${esc(t.t)}"></label>
+      <label class="xs">Responsable <span class="muted">(opcional)</span><input class="input" name="resp" maxlength="60" value="${esc(t.resp || "")}" placeholder="Ej: Camila y Tomás"></label>
+      <label class="xs">${(t.est || "pend") === "hecho" ? "Evaluación: ¿cómo resultó? ¿qué mejorar?" : "Notas"} <span class="muted">(opcional)</span><textarea class="textarea" name="ev" rows="3" maxlength="600">${esc(t.ev || "")}</textarea></label>
+      <div class="row-wrap"><button class="btn btn-sm btn-primary" type="submit">${icon("check")} Guardar</button><button class="btn btn-sm btn-ghost" type="button" data-action="agKbEdit" data-id="">Cancelar</button>
+        <span class="spacer"></span><button class="btn btn-sm btn-danger" type="button" data-action="agProgDel" data-id="${esc(t.id)}">${icon("trash")}</button></div>
+    </form>`;
+  return `<article class="ag-kb-card" draggable="true" data-kb="${esc(t.id)}">
+    <strong>${esc(t.t)}</strong>
+    ${t.resp ? `<span class="ag-kb-resp">${icon("users")} ${esc(t.resp)}</span>` : ""}
+    ${t.ev ? `<p class="ag-kb-ev${(t.est || "pend") === "hecho" ? " is-eval" : ""}">${esc(t.ev)}</p>` : (t.est === "hecho" ? `<button class="ag-kb-evadd" data-action="agKbEdit" data-id="${esc(t.id)}">+ Agregar evaluación</button>` : "")}
+    <div class="ag-kb-b">
+      <button class="icon-btn" data-action="agKbMv" data-id="${esc(t.id)}" data-d="-1" ${ci ? "" : "disabled"} aria-label="Mover a la columna anterior">${icon("left")}</button>
+      <button class="icon-btn" data-action="agKbMv" data-id="${esc(t.id)}" data-d="1" ${ci < 2 ? "" : "disabled"} aria-label="Mover a la columna siguiente">${icon("right")}</button>
+      <span class="spacer"></span>
+      <button class="icon-btn" data-action="agKbEdit" data-id="${esc(t.id)}" aria-label="Editar">${icon("edit")}</button>
+    </div></article>`;
+}
+async function progSave(id, data, ok) {
+  try { await ctx.cloud.savePrograma(id, data); if (ok) toast(ok, "ok"); return true; }
+  catch (e) { console.warn(e); toast(e && e.code === "permission-denied" ? "Falta publicar las reglas nuevas de Firebase (programa)." : "No se pudo guardar. Revisa tu conexión.", "", 5000); return false; }
+}
+const progRow = (id) => (prog.rows || []).find((r) => r.id === id);
+function progActions(A) {
+  A.agNotaTab = (el) => { const r = progRow(el.dataset.id); if (r) progSave(r.id, { tipo: "tarea", est: "pend", orden: Date.now() }, "Pasó al tablero como pendiente"); };
+  A.agNotaCal = (el) => { const r = progRow(el.dataset.id); if (!r) return; openForm(null, { title: r.t, date: selDay && selDay.startsWith(prog.mes) ? selDay : `${prog.mes}-01` }); toast("Elige la fecha y guarda el evento. Después puedes borrar la nota.", "", 4500); };
+  A.agProgDel = (el) => { const r = progRow(el.dataset.id); if (!r || !confirm(`¿Borrar «${r.t}»?`)) return; ctx.cloud.deletePrograma(r.id).catch(() => toast("No se pudo borrar.")); prog.edit = ""; };
+  A.agKbEdit = (el) => { prog.edit = el.dataset.id || ""; paintProg(); document.querySelector(`[data-agedit="${prog.edit}"] input`)?.focus(); };
+  A.agKbMv = (el) => {
+    const r = progRow(el.dataset.id); if (!r) return;
+    const i = COLS.findIndex(([k]) => k === (r.est || "pend")), j = Math.max(0, Math.min(2, i + +el.dataset.d));
+    if (i !== j) { r.est = COLS[j][0]; paintProg(); progSave(r.id, { est: r.est, orden: Date.now() }); }
+  };
+  document.addEventListener("submit", async (e) => {
+    const f = e.target; if (!f.dataset) return;
+    if (f.dataset.agadd) {
+      e.preventDefault();
+      const t = f.t.value.trim(); if (!t || !prog.mes) return;
+      f.t.value = "";
+      await progSave(null, { mes: prog.mes, tipo: f.dataset.agadd, t, est: "pend", orden: Date.now() });
+      document.querySelector(`[data-agadd="${f.dataset.agadd}"] input`)?.focus();
+    } else if (f.dataset.agedit) {
+      e.preventDefault();
+      const id = f.dataset.agedit, t = f.t.value.trim(); if (!t) return;
+      if (await progSave(id, { t, resp: f.resp.value.trim(), ev: f.ev.value.trim() })) { prog.edit = ""; paintProg(); }
+    }
+  });
+  // Arrastrar tarjetas entre columnas (computador)
+  let drag = "";
+  document.addEventListener("dragstart", (e) => { const c = e.target.closest && e.target.closest("[data-kb]"); if (!c) return; drag = c.dataset.kb; c.classList.add("is-drag"); e.dataTransfer.effectAllowed = "move"; try { e.dataTransfer.setData("text/plain", drag); } catch {} });
+  document.addEventListener("dragend", (e) => { drag = ""; document.querySelectorAll(".is-drag, .is-over").forEach((x) => x.classList.remove("is-drag", "is-over")); });
+  document.addEventListener("dragover", (e) => { const col = drag && e.target.closest && e.target.closest(".ag-kb-col"); if (!col) return; e.preventDefault(); document.querySelectorAll(".ag-kb-col.is-over").forEach((x) => x !== col && x.classList.remove("is-over")); col.classList.add("is-over"); });
+  document.addEventListener("drop", (e) => {
+    const col = drag && e.target.closest && e.target.closest(".ag-kb-col"); if (!col) return;
+    e.preventDefault(); const r = progRow(drag); drag = "";
+    if (r && (r.est || "pend") !== col.dataset.col) { r.est = col.dataset.col; paintProg(); progSave(r.id, { est: r.est, orden: Date.now() }); }
+  });
+}
+
 // Imprimir el mes que se está viendo: la grilla con todos sus eventos y, en otra hoja, el detalle.
 function printMonth() {
   const y = month.getFullYear(), m = month.getMonth(), name = `${MESES[m]} ${y}`;
@@ -268,8 +374,8 @@ function paintList() {
 // ---------------------------------------------------------------------------
 // Formulario (solo administradores)
 // ---------------------------------------------------------------------------
-function openForm(ev) {
-  const e = ev || { date: selDay || todayIso(), type: "encuentro" };
+function openForm(ev, pre = {}) {
+  const e = ev || { date: selDay || todayIso(), type: "encuentro", ...pre };
   fondo.init(e.countBg || "");
   let dlg = document.getElementById("agDialog");
   if (!dlg) { dlg = document.createElement("dialog"); dlg.id = "agDialog"; dlg.className = "sheet"; document.body.appendChild(dlg); }
@@ -357,7 +463,7 @@ export async function fillPanels() {
     if (a === "inicio" && !l.length) { el.innerHTML = ""; return; }
     el.innerHTML = `<section class="card ag-panel" style="--ac:${A.c}">
       <header class="ag-panel-h"><span><span class="eyebrow">${icon("cal")} Agenda · ${esc(A.t)}</span><span class="ag-panel-hand">${esc(A.hand)}</span></span>
-        <a class="ag-panel-all" href="#/agenda">Ver todo ${icon("arrowR")}</a></header>
+        <a class="ag-panel-all" href="#/agenda">Ver el calendario ${icon("arrowR")}</a></header>
       ${l.length ? `<ul class="ag-panel-l">${l.map((e) => { const d = parse(e.date), tp = typeOf(e);
         const cuando = (e.n || 1) > 1 ? rangeText(e) : `${d.getDate()} ${MES3(d)}`;
         return `<li><a href="#/agenda/${e.date}" style="--c:${tp.color}"><span class="ag-pd"><b>${d.getDate()}</b>${MES3(d)}</span>
@@ -391,6 +497,7 @@ function subDialog() {
 function registerActions() {
   ctx.actions.agSub = () => subDialog();
   ctx.actions.agPrint = () => printMonth();
+  progActions(ctx.actions);
   ctx.actions.agSubClose = () => document.getElementById("agSubDlg")?.close();
   ctx.actions.agSubCopy = async () => {
     const i = document.getElementById("agSubUrl");

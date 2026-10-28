@@ -262,6 +262,10 @@ export function viewRed() {
   return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">Bloque 2 · ${esc(b.hand)}</span><h1>Comunidad</h1><p>${esc(b.d)}</p></header>
   <div id="desafioSlot" class="red-desafio"></div>
   <div class="ag-panel-slot" data-ag-panel="todas"></div>
+  <a class="card link red-cal" href="#/agenda">
+    <span class="red-cal-ico" aria-hidden="true">${icon("cal")}</span>
+    <span class="red-cal-t"><strong>Calendario Ágape</strong><span class="muted small">El mes completo con todas las fechas${cloud.state().isGuide ? ", las notas y el tablero de programación" : ""}.</span></span>
+    <span class="btn btn-gold btn-sm" aria-hidden="true">Abrir ${icon("arrowR")}</span></a>
   ${plazaHTML()}
   <div class="hub-grid">${itemsFor("red").filter(inHub).map(itemCard).join("")}</div>
   <div class="red-end">${conocer.inviteCard()}<div id="waSlot"></div></div>

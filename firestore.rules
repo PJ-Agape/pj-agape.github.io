@@ -532,6 +532,20 @@ service cloud.firestore {
         && request.resource.data.get('c', 0) + request.resource.data.get('g', 0) == resource.data.get('c', 0) + resource.data.get('g', 0) + 1;
     }
 
+    // Programación del mes (Agenda): notas sin fecha y tablero Pendiente / En curso / Realizado.
+    // Solo los guías (equipo y dirigentes) la ven y la editan.
+    match /programa/{pid} {
+      allow read, delete: if isGuide();
+      allow create, update: if isGuide()
+        && request.resource.data.mes is string && request.resource.data.mes.matches('^[0-9]{4}-[0-9]{2}$')
+        && request.resource.data.tipo in ['nota', 'tarea']
+        && request.resource.data.t is string && request.resource.data.t.size() > 0 && request.resource.data.t.size() <= 300
+        && request.resource.data.get('est', 'pend') in ['pend', 'curso', 'hecho']
+        && request.resource.data.get('resp', '').size() <= 60
+        && request.resource.data.get('ev', '').size() <= 600
+        && request.resource.data.get('por', '').size() <= 80;
+    }
+
     // Agenda oficial: la ve cualquiera (familias incluidas); la editan los administradores.
     match /agenda/{eventId} {
       allow read: if true;

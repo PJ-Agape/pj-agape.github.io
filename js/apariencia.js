@@ -130,7 +130,7 @@ export const PANTALLAS = [
     ["entrada", "Entrada y «Para comenzar»", ".ent-hero"], ["hoja", "La hoja de cantos", ".sal-guide"], ["lista", "Todas las canciones", ".ent-lista"]] },
   { id: "comunidad", n: "Comunidad", ruta: "#/red", re: /^\/red$/, p: [
     ["encabezado", "Encabezado", ".page-head"], ["desafio", "Desafío de la semana", ".red-desafio"],
-    ["agenda", "Próximas fechas", ".ag-panel-slot"], ["plaza", "La Plaza Ágape", ".plaza"],
+    ["agenda", "Próximas fechas", ".ag-panel-slot"], ["calendario", "Botón del calendario", ".red-cal"], ["plaza", "La Plaza Ágape", ".plaza"],
     ["accesos", "Accesos", ".hub-grid"], ["final", "Conócenos y WhatsApp", ".red-end"]],
     g: [[".plaza-doors", "Puertas de La Plaza"], [".hub-grid", "Accesos, uno por uno"]] },
 ];
