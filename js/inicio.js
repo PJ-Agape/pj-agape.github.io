@@ -160,7 +160,7 @@ function matBanner(w) {
       <h2 id="hubMT">Materiales</h2>
       <p class="hub-cb-meta">${team ? "Todo lo que necesitas para preparar, animar e invitar, en un solo lugar." : "Arma invitaciones, canta con el cancionero, reza con Oremus y conoce los documentos de la Iglesia."}</p>
       <div class="hub-mat-tags">${parts.map((t) => `<a href="${L[t] || "#/materiales"}">${esc(t)}</a>`).join("")}</div>
-      <div class="hub-cb-btns"><a class="btn btn-gold" href="#/materiales">Abrir Materiales ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/difusion">Estudio de difusión</a></div>
+      <div class="hub-cb-btns"><a class="btn btn-gold" href="#/materiales"><span class="hub-btn-l">Abrir Materiales</span> ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/difusion">Estudio de difusión</a></div>
     </div>
     <div class="hub-cb-art" aria-hidden="true"><i class="hub-cb-sun"></i>${illus("biblia", "hub-cb-il")}</div>
   </section>`;

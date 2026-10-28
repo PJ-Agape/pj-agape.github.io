@@ -36,6 +36,26 @@ export const ZONAS = [
     t: [[".home-hand", "Frase manuscrita", "qué bueno verte"]] },
   { id: "formacion", n: "Formación · encabezado", ruta: "#/formacion", re: /^\/formacion$/, sel: ".page-head", stk: "img/stickers/biblia.webp",
     t: [[".eyebrow", "Línea pequeña", "Bloque 1 · para crecer"], ["h1", "Título", "Formación"], ["p", "Descripción", "El curso de dirigentes, los cursos de la comunidad y los recursos para preparar."]] },
+  { id: "formacion_curso", n: "Formación · tarjeta del curso", ruta: "#/formacion", re: /^\/formacion$/, sel: ".hub-cbanner:not(.is-mat):not(.sol-banner)", stk: "img/ilus/s022.webp", stkSel: ".hub-cb-il",
+    t: [[".eyebrow", "Línea pequeña (cambia según quién entra)", "Para todos"], [".hub-cb-hand", "Frase manuscrita (cambia según el avance)", "empieza por aquí"], ["h2", "Título (vacío = el nombre del curso)", "Bienvenido a agAPPe"], [".hub-cb-btns .btn-ghost", "Texto del segundo botón", "Ver el itinerario"]] },
+  { id: "formacion_mat", n: "Formación · tarjeta de Materiales", ruta: "#/formacion", re: /^\/formacion$/, sel: ".hub-cbanner.is-mat", stk: "img/ilus/s084.webp", stkSel: ".hub-cb-il",
+    t: [[".eyebrow", "Línea pequeña", "Herramientas de la pastoral"], [".hub-cb-hand", "Frase manuscrita", "para preparar cada encuentro"], ["h2", "Título", "Materiales"], [".hub-cb-meta", "Descripción", "Todo lo que necesitas para preparar, animar e invitar, en un solo lugar."], [".hub-btn-l", "Texto del botón amarillo", "Abrir Materiales"], [".hub-cb-btns .btn-ghost", "Texto del segundo botón", "Estudio de difusión"]] },
+  { id: "materiales", n: "Formación · Materiales · encabezado", ruta: "#/materiales", re: /^\/materiales$/, sel: ".page-head", stk: "",
+    t: [[".eyebrow", "Línea pequeña", "Herramientas de la pastoral"], ["h1", "Título", "Materiales"], ["p", "Descripción", "Todo lo que necesitas para preparar, animar e invitar."]] },
+  { id: "fi_presentaciones", n: "Formación · Materiales · fichero Presentaciones", ruta: "#/materiales", re: /^\/materiales$/, sel: "#fi-presentaciones", stk: "",
+    t: [[".fi-head h2", "Título", "Presentaciones"], [".fi-desc", "Descripción", "Para proyectar a pantalla completa."]] },
+  { id: "fi_difusion", n: "Formación · Materiales · fichero Difusión", ruta: "#/materiales", re: /^\/materiales$/, sel: "#fi-difusion", stk: "",
+    t: [[".fi-head h2", "Título", "Difusión"], [".fi-desc", "Descripción", "Para invitar y compartir en Estados, historias y grupos."]] },
+  { id: "fi_musica", n: "Formación · Materiales · fichero Música", ruta: "#/materiales", re: /^\/materiales$/, sel: "#fi-musica", stk: "",
+    t: [[".fi-head h2", "Título", "Música"], [".fi-desc", "Descripción", "Para animar las celebraciones."]] },
+  { id: "fi_oracion", n: "Formación · Materiales · fichero Oración", ruta: "#/materiales", re: /^\/materiales$/, sel: "#fi-oracion", stk: "",
+    t: [[".fi-head h2", "Título", "Oración"], [".fi-desc", "Descripción", "Para rezar solos o en el encuentro."]] },
+  { id: "fi_guias", n: "Formación · Materiales · fichero Guías para el encuentro", ruta: "#/materiales", re: /^\/materiales$/, sel: "#fi-guias", stk: "",
+    t: [[".fi-head h2", "Título", "Guías para el encuentro"], [".fi-desc", "Descripción", "Pautas breves para preparar y acompañar cada reunión."]] },
+  { id: "fi_imprimir", n: "Formación · Materiales · fichero Para imprimir", ruta: "#/materiales", re: /^\/materiales$/, sel: "#fi-imprimir", stk: "",
+    t: [[".fi-head h2", "Título", "Para imprimir"], [".fi-desc", "Descripción", "Listos para llevar en papel."]] },
+  { id: "fi_biblioteca", n: "Formación · Materiales · fichero Biblioteca digital", ruta: "#/materiales", re: /^\/materiales$/, sel: "#fi-biblioteca", stk: "",
+    t: [[".fi-head h2", "Título", "Biblioteca digital"], [".fi-desc", "Descripción", "Los documentos que citan los cursos, cada uno con el enlace a su fuente oficial."]] },
   { id: "comunidad", n: "Comunidad · encabezado", ruta: "#/red", re: /^\/red$/, sel: ".page-head", stk: "img/stickers/comunidad.webp",
     t: [[".eyebrow", "Línea pequeña", "Bloque 2 · para encontrarnos"], ["h1", "Título", "Comunidad"], ["p", "Descripción", "El muro, el chat, la agenda y todo lo que compartimos como grupo."]] },
   { id: "plaza", n: "Comunidad · La Plaza", ruta: "#/red", re: /^\/red$/, sel: ".plaza:not(.fam-plaza)", stk: "img/ilus/s081.webp", stkSel: ".plaza-scene img", plaza: true, fondoDef: "parque",
@@ -329,7 +349,7 @@ export function applyZona(el, z, d) {
     const host = (z.stkHost && el.closest(z.stkHost)) || el;
     const img = z.stkSel ? host.querySelector(z.stkSel) : host.querySelector(":scope > .sticker");
     if (d.sticker === "ninguno") { if (img) img.remove(); }
-    else if (img) img.outerHTML = stkHTML(d.sticker, img.getAttribute("class") || "sticker");
+    else if (img) { const par = img.parentElement; img.outerHTML = stkHTML(d.sticker, img.getAttribute("class") || "sticker"); if (par && par.classList.contains("hub-cb-art")) par.classList.add("ap-stk-on"); }
     else if (!z.stkSel) { host.classList.add("has-sticker"); host.insertAdjacentHTML("afterbegin", stkHTML(d.sticker, "sticker")); }
   }
   // Fondo

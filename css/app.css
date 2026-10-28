@@ -4732,7 +4732,13 @@ span.ap-pv-stk { display: grid; place-items: center; }
 span.ap-stk-mini { display: grid; place-items: center; }
 .ap-pan-it .ap-stk-det { margin-top: 4px; }
 html.papel .ap-stk-on { display: block !important; }
-.hub-cb-art.ap-stk-on { max-width: 140px; }
+/* Sticker elegido en las tarjetas de Formación: en la esquina, sin el sol de fondo */
+.hub-cbanner { position: relative; }
+.hub-cbanner .hub-cb-art.ap-stk-on { position: absolute; top: 12px; right: 10px; width: 104px; max-width: none; margin: 0; padding: 0; z-index: 2; transform: rotate(6deg); pointer-events: none; }
+.hub-cbanner .hub-cb-art.ap-stk-on .hub-cb-sun { display: none; }
+.hub-cbanner .hub-cb-art.ap-stk-on :is(img, .ap-stk-svg) { width: 100%; height: auto; display: block; filter: drop-shadow(0 4px 8px rgba(11,37,102,.2)); }
+.hub-cbanner:has(.ap-stk-on) .hub-cb-txt > :is(.eyebrow, .hub-cb-hand, h2) { padding-right: 96px; }
+@media (min-width: 720px) { .hub-cbanner .hub-cb-art.ap-stk-on { width: 136px; } .hub-cbanner:has(.ap-stk-on) .hub-cb-txt > :is(.eyebrow, .hub-cb-hand, h2) { padding-right: 130px; } }
 .ap-pan-cols { display: grid; gap: 8px; align-content: start; }
 .ap-pan-gh { margin: 8px 0 0; font-size: .9rem; color: #4a5470; }
 .ap-pan-nom { flex: 1; min-width: 120px; display: grid; gap: 1px; }
