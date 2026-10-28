@@ -39,7 +39,7 @@ export const ZONAS = [
   { id: "formacion_curso", n: "Formación · tarjetas de los cursos", ruta: "#/formacion", re: /^\/formacion$/, sel: ".hub-curso", all: true, stk: "img/ilus/s022.webp", stkSel: ".hub-cb-il",
     t: [[".eyebrow", "Línea pequeña (cambia según quién entra)", "Para todos"], [".hub-cb-hand", "Frase manuscrita (cambia según el avance)", "empieza por aquí"], [".hub-cb-btns .btn-ghost", "Texto del segundo botón", "Ver el itinerario"]] },
   { id: "formacion_mat", n: "Formación · tarjeta de Materiales", ruta: "#/formacion", re: /^\/formacion$/, sel: ".hub-cbanner.is-mat", stk: "img/ilus/s084.webp", stkSel: ".hub-cb-il",
-    t: [[".eyebrow", "Línea pequeña", "Herramientas de la pastoral"], [".hub-cb-hand", "Frase manuscrita", "para preparar cada encuentro"], ["h2", "Título", "Materiales"], [".hub-cb-meta", "Descripción", "Todo lo que necesitas para preparar, animar e invitar, en un solo lugar."], [".hub-btn-l", "Texto del botón amarillo", "Abrir Materiales"], [".hub-cb-btns .btn-ghost", "Texto del segundo botón", "Estudio de difusión"]] },
+    t: [[".eyebrow", "Línea pequeña", "Herramientas de la pastoral"], [".hub-cb-hand", "Frase manuscrita", "para preparar cada encuentro"], ["h2", "Título", "Materiales"], [".hub-cb-meta", "Descripción", "Presentaciones, difusión, música, oración, guías, para imprimir y la biblioteca digital: todo en sus ficheros."], [".hub-btn-l", "Texto del botón", "Abrir Materiales"]] },
   { id: "materiales", n: "Formación · Materiales · encabezado", ruta: "#/materiales", re: /^\/materiales$/, sel: ".page-head", stk: "",
     t: [[".eyebrow", "Línea pequeña", "Herramientas de la pastoral"], ["h1", "Título", "Materiales"], ["p", "Descripción", "Todo lo que necesitas para preparar, animar e invitar."]] },
   { id: "fi_presentaciones", n: "Formación · Materiales · fichero Presentaciones", ruta: "#/materiales", re: /^\/materiales$/, sel: "#fi-presentaciones", stk: "",
@@ -99,7 +99,7 @@ export const PANTALLAS = [
   { id: "formacion", n: "Formación", ruta: "#/formacion", re: /^\/formacion$/, p: [
     ["encabezado", "Encabezado", ".page-head"], ["curso", "Los cursos", ".hub-cursos"],
     ["materiales", "Materiales", ".hub-cbanner.is-mat"], ["accesos", "Accesos", ".hub-grid"]],
-    g: [[".hub-grid", "Accesos, uno por uno"], [".hub-mat-tags", "Atajos de Materiales"]] },
+    g: [[".hub-grid", "Accesos, uno por uno"]] },
   { id: "materiales", n: "Formación · Materiales", ruta: "#/materiales", re: /^\/materiales$/, p: [
     ["encabezado", "Encabezado", ".page-head"], ["ficheros", "Los ficheros", ".fi-grid"]],
     g: [[".fi-grid", "Ficheros, uno por uno"]] },

@@ -150,17 +150,13 @@ export function blocksHTML() {
 // Materiales, en grande como el curso: lo que trae cada uno según si tiene cuenta.
 function matBanner(w) {
   const team = w.equipo || w.asp; // los aspirantes también ven los materiales completos
-  const L = { Difusión: "#/difusion", Cancionero: "#/cancionero", Oremus: "#/oremus", Dinámicas: "#/dinamicas" };
-  const parts = team ? ["Presentaciones", "Difusión", "Cancionero", "Oremus", "Dinámicas", "Para imprimir", "Biblioteca digital"]
-    : ["Difusión", "Cancionero", "Oremus", "Biblioteca digital"];
   return `<section class="hub-cbanner is-mat" aria-labelledby="hubMT">
     <div class="hub-cb-txt">
       <span class="eyebrow">${team ? "Herramientas de la pastoral" : "Para todos"}</span>
       <span class="hub-cb-hand">${team ? "para preparar cada encuentro" : "para invitar, cantar y rezar"}</span>
       <h2 id="hubMT">Materiales</h2>
-      <p class="hub-cb-meta">${team ? "Todo lo que necesitas para preparar, animar e invitar, en un solo lugar." : "Arma invitaciones, canta con el cancionero, reza con Oremus y conoce los documentos de la Iglesia."}</p>
-      <div class="hub-mat-tags">${parts.map((t) => `<a href="${L[t] || "#/materiales"}">${esc(t)}</a>`).join("")}</div>
-      <div class="hub-cb-btns"><a class="btn btn-gold" href="#/materiales"><span class="hub-btn-l">Abrir Materiales</span> ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/difusion">Estudio de difusión</a></div>
+      <p class="hub-cb-meta">${team ? "Presentaciones, difusión, música, oración, guías, para imprimir y la biblioteca digital: todo en sus ficheros." : "Arma invitaciones, canta con el cancionero, reza con Oremus y conoce los documentos de la Iglesia."}</p>
+      <div class="hub-cb-btns"><a class="btn btn-gold" href="#/materiales"><span class="hub-btn-l">Abrir Materiales</span> ${icon("arrowR")}</a></div>
     </div>
     <div class="hub-cb-art" aria-hidden="true"><i class="hub-cb-sun"></i>${illus("biblia", "hub-cb-il")}</div>
   </section>`;
