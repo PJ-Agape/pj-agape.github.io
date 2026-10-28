@@ -341,7 +341,6 @@ function wheelHTML(mk, my, now) {
     { k: "oremus", t: "Oremus", go: [["Entrar", "#/oremus"]] },
     { k: "cancionero", t: "Cantos", go: [["Entrar", "#/cancionero"]] },
     { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
-    { k: "radio", t: "Radios", go: [["Escuchar", scrollTo("cap-radio")]] },
   ];
   // Alrededor del vitral: un círculo de íconos, el primero arriba y en el sentido del reloj
   const n = wheelItems.length;
