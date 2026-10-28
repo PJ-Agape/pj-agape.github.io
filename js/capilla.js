@@ -384,7 +384,7 @@ export function view(opt = {}) {
     ctx.onLeave(stop);
     paintVelas();
   });
-  ctx.onAfterRender(() => { papa.paintHome().catch(() => {}); wheelInit(); });
+  ctx.onAfterRender(() => { wheelInit(); });
   const row = (attrs, ico, t, sub) => `<${attrs.startsWith("href") ? "a" : "button"} class="cap-row" ${attrs}>
       <span class="cap-row-ico" aria-hidden="true">${ico}</span>
       <span class="cap-row-txt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("right")}</${attrs.startsWith("href") ? "a" : "button"}>`;
@@ -420,7 +420,6 @@ export function view(opt = {}) {
   <section class="cap-grid-sec" aria-labelledby="cgTitle">
     <h2 class="cw-h" id="cgTitle">Para rezar</h2>
     ${wheelHTML(mk, my, now)}
-    ${papa.capillaHTML()}
   </section>
 
   <section class="cap-room cap-altar${altarOpen ? " is-open" : ""}" id="cap-velas">
