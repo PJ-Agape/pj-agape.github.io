@@ -736,6 +736,13 @@ const ROS_CITES = {
   dolorosos: ["Mt 26,36-46", "Jn 19,1", "Mt 27,27-31", "Jn 19,16-17", "Lc 23,33-46"],
   gloriosos: ["Lc 24,1-12", "Hch 1,6-11", "Hch 2,1-13", "Lc 1,46-55", "Ap 12,1"],
 };
+// El versículo de cada misterio: queda a un costado del rosario mientras se reza la decena.
+const ROS_VERSOS = {
+  gozosos: [["He aquí la esclava del Señor; hágase en mí según tu palabra.", "Lc 1,38"], ["Bendita tú entre las mujeres y bendito el fruto de tu vientre.", "Lc 1,42"], ["Dio a luz a su hijo primogénito, lo envolvió en pañales y lo acostó en un pesebre.", "Lc 2,7"], ["Mis ojos han visto a tu Salvador.", "Lc 2,30"], ["¿No sabían que yo debo estar en la casa de mi Padre?", "Lc 2,49"]],
+  luminosos: [["Este es mi Hijo amado, en quien me complazco.", "Mt 3,17"], ["Hagan todo lo que él les diga.", "Jn 2,5"], ["El Reino de Dios está cerca: conviértanse y crean en el Evangelio.", "Mc 1,15"], ["Este es mi Hijo, el Elegido; escúchenlo.", "Lc 9,35"], ["Esto es mi cuerpo, que se entrega por ustedes. Hagan esto en memoria mía.", "Lc 22,19"]],
+  dolorosos: [["Padre, si es posible, que pase de mí este cáliz; pero que no se haga como yo quiero, sino como quieres tú.", "Mt 26,39"], ["Entonces Pilato tomó a Jesús y lo mandó azotar.", "Jn 19,1"], ["Trenzaron una corona de espinas y se la pusieron en la cabeza.", "Mt 27,29"], ["Jesús, cargando él mismo la cruz, salió hacia el lugar llamado de la Calavera.", "Jn 19,17"], ["Padre, en tus manos encomiendo mi espíritu.", "Lc 23,46"]],
+  gloriosos: [["¿Por qué buscan entre los muertos al que está vivo? No está aquí: ha resucitado.", "Lc 24,5-6"], ["Fue elevado al cielo a la vista de ellos, y una nube lo ocultó de sus ojos.", "Hch 1,9"], ["Todos quedaron llenos del Espíritu Santo.", "Hch 2,4"], ["Desde ahora me llamarán feliz todas las generaciones.", "Lc 1,48"], ["Una mujer vestida del sol, con la luna bajo sus pies y una corona de doce estrellas en la cabeza.", "Ap 12,1"]],
+};
 const ORD = ["Primer", "Segundo", "Tercer", "Cuarto", "Quinto"];
 const ADJ = { gozosos: "gozoso", luminosos: "luminoso", dolorosos: "doloroso", gloriosos: "glorioso" };
 const PR = {
@@ -840,10 +847,13 @@ function openRosary(set) {
     </div>
     <div class="ros-sets" role="tablist" aria-label="Misterios">${Object.keys(MYST).map((k) =>
       `<button role="tab" data-action="rosSet" data-set="${k}" aria-selected="${k === set}">${esc(MYST[k].name.replace("Misterios ", ""))}${k === today ? " · hoy" : ""}</button>`).join("")}</div>
-    <div class="ros-stage">
-      <div class="ros-maria" aria-hidden="true">${virgenLinea()}</div>
-      ${rosarySVG()}
-      <div class="ros-center" data-action="rosNext" aria-live="polite"></div>
+    <div class="ros-main">
+      <div class="ros-stage">
+        <div class="ros-maria" aria-hidden="true">${virgenLinea()}</div>
+        ${rosarySVG()}
+        <div class="ros-center" data-action="rosNext" aria-live="polite"></div>
+      </div>
+      <aside class="ros-cita" id="rosCita" hidden aria-label="La Palabra de este misterio"></aside>
     </div>
     <div class="ros-ctl">
       <button class="btn btn-glass" data-action="rosPrev">${icon("left")} Anterior</button>
@@ -902,6 +912,22 @@ function rosPaint() {
       ${s.k === "fin" ? papa.finHTML() : ""}
     </div>`;
   el.querySelector(".ros-center").scrollTop = 0;
+  // La cita del misterio, a un costado, durante toda la decena
+  const cita = el.querySelector("#rosCita");
+  if (cita) {
+    const on = s.d != null && ROS_VERSOS[set];
+    cita.hidden = !on;
+    el.querySelector(".ros-in").classList.toggle("has-cita", !!on);
+    if (on && cita.dataset.k !== `${set}-${s.d}`) {
+      const [v, r] = ROS_VERSOS[set][s.d];
+      cita.dataset.k = `${set}-${s.d}`;
+      cita.innerHTML = `<span class="rc-eb">${esc(ORD[s.d])} misterio ${esc(ADJ[set])}</span>
+        <strong class="rc-t">${esc(my.items[s.d])}</strong>
+        <blockquote class="rc-v">«${esc(v)}»</blockquote>
+        <span class="rc-ref">${esc(r)}</span>
+        <span class="rc-leer">Para leer y meditar: ${esc(ROS_CITES[set][s.d])}</span>`;
+    }
+  }
   el.querySelector(".ros-maria")?.classList.toggle("is-fin", s.k === "fin");
   const decade = s.d != null ? `Decena ${s.d + 1} de 5` : s.k === "fin" ? "Terminado" : s.k === "sa" ? "Salve" : "Inicio";
   el.querySelector("#rosProg").textContent = decade;
