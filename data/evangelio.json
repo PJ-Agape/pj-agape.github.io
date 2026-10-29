@@ -1,12 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-10-27": {
-   "titulo": "Martes de la 30.ª semana del Tiempo Ordinario",
-   "cita": "Lc 13,18-21",
-   "frase": "El Reino de Dios se parece a un grano de mostaza.",
-   "video": "Fp2hFPkmrF4"
-  },
   "2026-10-28": {
    "titulo": "Santos Simón y Judas, apóstoles",
    "cita": "Lc 6,12-19",
@@ -16,7 +10,8 @@
   "2026-10-29": {
    "titulo": "Jueves de la 30.ª semana del Tiempo Ordinario",
    "cita": "Lc 13,31-35",
-   "frase": "¡Cuántas veces quise reunir a tus hijos, como la gallina reúne a sus pollitos!"
+   "frase": "¡Cuántas veces quise reunir a tus hijos, como la gallina reúne a sus pollitos!",
+   "video": "Rvn6cGLkemI"
   },
   "2026-10-30": {
    "titulo": "Viernes de la 30.ª semana del Tiempo Ordinario",
@@ -57,6 +52,11 @@
    "titulo": "Viernes de la 31.ª semana del Tiempo Ordinario",
    "cita": "Lc 16,1-8",
    "frase": "Los hijos de este mundo son más astutos que los hijos de la luz."
+  },
+  "2026-11-07": {
+   "titulo": "Sábado de la 31.ª semana del Tiempo Ordinario",
+   "cita": "Lc 16,9-15",
+   "frase": "El que es fiel en lo poco, también es fiel en lo mucho."
   }
  }
 }
