@@ -56,12 +56,12 @@ export function formHTML(id = "adForm") {
     <label class="ad-f"><strong>Tu nombre <span class="muted">(opcional)</span></strong>
       <input class="input" name="n" maxlength="40" autocomplete="given-name" placeholder="Puedes dejarlo en blanco"></label>
     <div class="cono-hp" aria-hidden="true"><label>No completar <input name="web" tabindex="-1" autocomplete="off"></label></div>
-    <p class="xs muted">Solo la lee el equipo de Ágape. En la misa la presentamos sin tu nombre; no se publica ni se comparte.</p>
+    <p class="xs muted">Se enciende como una vela en la Capilla de la comunidad Ágape, que reza por ella. Tu nombre no aparece en la vela, y en la misa la presentamos sin nombre. No se publica fuera de la comunidad.</p>
     <button class="btn btn-primary" type="submit">${icon("send")} Enviar mi intención</button>
   </form>`;
 }
-const gracias = () => `<div class="ad-ok">${SELLO("ad-sello-s")}<div><strong>¡Gracias! Ya estamos rezando contigo.</strong>
-  <span>Tu intención va a la misa del grupo. Ahora eres parte del Ágape digital: reenvía el mensaje de hoy para que la red siga creciendo.</span>
+const gracias = () => `<div class="ad-ok">${SELLO("ad-sello-s")}<div><strong>¡Gracias! Tu vela ya está encendida.</strong>
+  <span>La comunidad Ágape reza por ella esta semana y va a la misa del grupo. Ahora eres parte del Ágape digital: reenvía el mensaje de hoy para que la red siga creciendo.</span>
   <a class="ad-canal-l" href="${CANAL_PUBLICO}" target="_blank" rel="noopener">Sigue el canal de WhatsApp para recibirlo cada día ↗</a></div></div>`;
 
 // Para el equipo y los dirigentes: las intenciones de la semana, para llevarlas a la misa

@@ -5007,3 +5007,7 @@ html.papel .ad-banner .ad-banner-art, .ad-banner .ad-banner-art { display: grid 
 .sol-local { margin: 10px 0 0; color: #4a5470; }
 .sol-local a { font-weight: 800; color: #1351a4; }
 @media (max-width: 720px) { .ad-banner { padding-bottom: 18px !important; } .ad-banner-sello { width: 120px; margin: 4px auto 14px; } .ad-banner .ad-banner-art { order: -1; } }
+/* Velas del Ágape digital (intenciones de visitantes sin cuenta) */
+.cap-av-red { display: inline-grid; place-items: center; border-radius: 50%; overflow: hidden; background: #0b2566; }
+.cap-av-red .ad-sello { width: 100%; height: 100%; }
+.cap-vela-red .cap-vela-by b { color: #0b2566; }

@@ -883,6 +883,13 @@ export async function listIntencionesRed() {
   catch (e) { if (e && e.code === "permission-denied") return null; return []; }
 }
 export const deleteIntencionRed = (id) => fb.deleteDoc(fb.doc(db, "intenciones_red", id));
+// La comunidad las ve como velas en «Nuestras intenciones» (sin el nombre de quien la dejó) y puede rezar por ellas.
+export function watchIntencionesRed(cb, onErr) {
+  if (!enabled || !db) { onErr && onErr(new Error("offline")); return () => {}; }
+  const q = fb.query(fb.collection(db, "intenciones_red"), fb.orderBy("createdAt", "desc"), fb.limit(60));
+  return fb.onSnapshot(q, (qs) => cb(snapRows(qs)), (e) => { console.warn("Intenciones red:", e); onErr && onErr(e); });
+}
+export const prayIntencionRed = (id, on) => fb.updateDoc(fb.doc(db, "intenciones_red", id), { [`prays.${user.uid}`]: on ? prayMark() : fb.deleteField() });
 
 // ---------------------------------------------------------------------------
 // Cancionero: canciones y repertorios (los ven quienes tienen cuenta; los edita el equipo).

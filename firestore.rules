@@ -563,7 +563,11 @@ service cloud.firestore {
         && request.resource.data.t is string && request.resource.data.t.size() >= 3 && request.resource.data.t.size() <= 500
         && request.resource.data.get('n', '') is string && request.resource.data.get('n', '').size() <= 40
         && request.resource.data.createdAt == request.time;
-      allow read, delete: if isGuide();
+      // La comunidad la ve como una vela (sin el nombre) y puede rezar por ella; solo los guías la borran.
+      allow read: if isMember();
+      allow update: if isMember() && changed().hasOnly(['prays']) && request.resource.data.prays is map
+        && ('prays' in resource.data ? onlyMyKey('prays') : request.resource.data.prays.keys().hasOnly([request.auth.uid]));
+      allow delete: if isGuide();
     }
 
     // Programación del mes (Agenda): notas sin fecha y tablero Pendiente / En curso / Realizado.
