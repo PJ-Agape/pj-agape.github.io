@@ -396,7 +396,7 @@ export const VISTAS = {
 };
 export async function countView(sec) {
   if (!enabled || !db || !VISTAS[sec]) return;
-  const k = dayKey(), lk = "agape_vistas_dia";
+  const k = dayKey(), lk = "agape_vistas_dia2";
   let m;
   try { m = JSON.parse(localStorage.getItem(lk) || "null"); } catch { return; }
   if (!m || m.d !== k) m = { d: k, s: [] };
