@@ -34,6 +34,10 @@ export function stkHTML(v, cls = "") {
 export const ZONAS = [
   { id: "hoy", n: "Hoy · saludo", ruta: "#/", re: /^\/$/, sel: ".home-hi", stk: "img/stickers/amigos.webp",
     t: [[".home-hand", "Frase manuscrita", "qué bueno verte"]] },
+  { id: "ad_banner", n: "Hoy · invitación a la comunidad agAPPe (la ven quienes no tienen cuenta)", ruta: "#/", re: /^\/$/, sel: ".ad-banner", stk: "", stkSel: ".ad-banner-sello",
+    t: [[".hub-cb-hand", "Frase manuscrita", "estés donde estés"], ["h2", "Título (entre *asteriscos* va el destacado)", "Súmate a la comunidad *agAPPe*"],
+      [".hub-cb-meta", "Descripción", "Somos el Ágape digital: una red de internautas que rezan, unida a los jóvenes de la Pastoral Juvenil Ágape de la Parroquia San Miguel de Yungay. Recibe cada día el Evangelio, reza en la Capilla y deja tus intenciones: las llevamos a la misa."],
+      [".adb-b1", "Texto del botón amarillo", "Seguir el canal de WhatsApp"], [".adb-b2", "Texto del segundo botón", "Entrar a la Capilla"], [".adb-q", "Línea para pedir cuenta (el enlace «Solicita tu cuenta» queda igual)", "¿Participas en la PJ Ágape de Yungay?"]] },
   { id: "formacion", n: "Formación · encabezado", ruta: "#/formacion", re: /^\/formacion$/, sel: ".page-head", stk: "img/stickers/biblia.webp",
     t: [[".eyebrow", "Línea pequeña", "Bloque 1 · para crecer"], ["h1", "Título", "Formación"], ["p", "Descripción", "El curso de dirigentes, los cursos de la comunidad y los recursos para preparar."]] },
   { id: "formacion_curso", n: "Formación · tarjetas de los cursos", ruta: "#/formacion", re: /^\/formacion$/, sel: ".hub-curso", all: true, stk: "img/ilus/s022.webp", stkSel: ".hub-cb-il",
