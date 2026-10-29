@@ -15,7 +15,11 @@ const BASE = new URL("../", import.meta.url).href;
 let LOGO = null;
 const IMG = new Map();
 const loadImg = (src) => new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = src; });
+// El sello del Ágape digital (la cruz con las ondas de la red)
+const SELLO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="512" height="512"><circle cx="40" cy="40" r="37" fill="#0b2566"/><circle cx="40" cy="40" r="31" fill="#fff6e5"/><g fill="none" stroke="#ef591c" stroke-width="3.4" stroke-linecap="round"><path d="M24 30a22 22 0 0 1 32 0"/><path d="M18 24a30 30 0 0 1 44 0" opacity=".55"/></g><path d="M40 32v26M31 41h18" stroke="#ffba03" stroke-width="6" stroke-linecap="round"/><path d="M40 32v26M31 41h18" stroke="#0b2566" stroke-width="2" stroke-linecap="round" opacity=".25"/></svg>`;
+let SELLO = null;
 export async function ready() {
+  if (!SELLO) SELLO = await loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(SELLO_SVG)).catch(() => null);
   await Promise.all(["800 80px Bricolage", "700 80px Caveat", "700 40px Jakarta", "500 40px Jakarta"].map((f) => document.fonts.load(f).catch(() => {})));
   if (!LOGO) LOGO = await loadImg(BASE + "icons/logo-320.webp").catch(() => null);
 }
@@ -351,6 +355,8 @@ export const FRAMES = [
   { id: "solidaridad", text: "MES DE LA SOLIDARIDAD · EL PAN QUE SE COMPARTE ·", ring: C.coral, ink: C.navy, badge: "panes" },
   { id: "rezo", text: "REZO POR TI · CAPILLA ÁGAPE ·", ring: C.sky, ink: C.navy, badge: "oracion" },
   { id: "vive", text: "¡ÉL VIVE Y TE QUIERE VIVO! ·", ring: C.sun, ink: C.coral, badge: "levantate" },
+  // Ágape digital: la insignia es el sello de la red (en vez del logo)
+  { id: "internauta", text: "MISIONERO INTERNAUTA · agAPPe ·", ring: C.navy, ink: C.sun, badge: "celular", sello: true },
 ];
 export const framesIlls = () => FRAMES.map((f) => [f.badge, C.navy, C.cream, C.sun]);
 function arcText(ctx, text, cx, cy, r, size, color, gapAt = Math.PI / 4, gap = 0.62) {
@@ -394,7 +400,9 @@ export function frame(ctx, S, frameId, photo, { zoom = 1, dx = 0, dy = 0, centro
   // insignias
   const bs = 230 * U;
   ctx.save(); ctx.beginPath(); ctx.arc(S * 0.83, S * 0.83, bs / 2, 0, Math.PI * 2); ctx.fillStyle = C.cream; ctx.fill(); ctx.lineWidth = 9 * U; ctx.strokeStyle = C.navy; ctx.stroke(); ctx.clip();
-  logo(ctx, S * 0.83 - bs * 0.46, S * 0.83 - bs * 0.46, bs * 0.92); ctx.restore();
+  if (f.sello && SELLO) ctx.drawImage(SELLO, S * 0.83 - bs / 2, S * 0.83 - bs / 2, bs, bs);
+  else logo(ctx, S * 0.83 - bs * 0.46, S * 0.83 - bs * 0.46, bs * 0.92);
+  ctx.restore();
 }
 
 // ---------------------------------------------------------------------------
