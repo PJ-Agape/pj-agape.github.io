@@ -4999,3 +4999,11 @@ a.red-cal.card.link { display: flex; flex-direction: row; align-items: center; g
 .ad-canal-l { display: inline-block; margin-top: 6px; font-weight: 800; font-size: .88rem; color: #128c4a; }
 .sal-para { display: block; font-size: .72rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #ef591c; margin: 2px 0; }
 .dif-fx-c { display: inline-flex; align-items: center; gap: 8px; font-size: .85rem; font-weight: 700; } .dif-fx-c input { width: 40px; height: 32px; padding: 0; border: 2px solid #0b2566; border-radius: 8px; background: none; }
+/* Hoy (sin cuenta): invitación a la comunidad agAPPe */
+.ad-banner { background: linear-gradient(160deg, #fff6e5 0%, #e1f3fd 100%); }
+.ad-banner h2 em { font-style: normal; background: linear-gradient(transparent 58%, #ffba03 58%); }
+html.papel .ad-banner .ad-banner-art, .ad-banner .ad-banner-art { display: grid !important; place-items: center; }
+.ad-banner-sello { width: min(220px, 60%); height: auto; filter: drop-shadow(3px 4px 0 rgba(11,37,102,.18)); }
+.sol-local { margin: 10px 0 0; color: #4a5470; }
+.sol-local a { font-weight: 800; color: #1351a4; }
+@media (max-width: 720px) { .ad-banner { padding-bottom: 18px !important; } .ad-banner-sello { width: 120px; margin: 4px auto 14px; } .ad-banner .ad-banner-art { order: -1; } }

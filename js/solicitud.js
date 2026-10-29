@@ -5,6 +5,8 @@
 import { esc, icon, toast } from "./util.js";
 import { illus } from "./ilustraciones.js";
 import { CAMPOS, edad as edadDe } from "./ficha.js";
+import { SELLO } from "./agape-digital.js";
+import { CANAL_PUBLICO } from "./grupo.js";
 // Datos de la ficha privada que se piden en la solicitud (el nombre y el correo ya están arriba).
 const FICHA = CAMPOS.filter(([k]) => !["nombre", "email", "nacimiento"].includes(k));
 
@@ -14,17 +16,19 @@ const $ = (s, r = document) => r.querySelector(s);
 const st = () => ctx.cloud.state();
 let editing = false;
 
-// Tarjeta de Inicio para quien no tiene cuenta
+// Tarjeta de Inicio para quien no tiene cuenta: la invitación al Ágape digital (llega gente de
+// cualquier parroquia y ciudad). La solicitud de cuenta queda como una línea para quienes participan en Yungay.
 export function homeCard() {
   if (!ctx.cloud.enabled || st().ready || st().status === "inactive") return "";
-  return `<section class="hub-cbanner sol-banner" aria-labelledby="solHT">
+  return `<section class="hub-cbanner sol-banner ad-banner" aria-labelledby="solHT">
     <div class="hub-cb-txt">
-      <span class="hub-cb-hand">nos encantaría conocerte</span>
-      <h2 id="solHT">¿Quieres formar parte o ya participas de la PJ Ágape?</h2>
-      <p class="hub-cb-meta">Solicita tu cuenta con un formulario corto: tus datos, tu correo de Google y tu parroquia o capilla.</p>
-      <div class="hub-cb-btns"><a class="btn btn-gold" href="#/solicitar">Solicitar mi cuenta ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/conocer">Solo quiero conocer Ágape</a></div>
+      <span class="hub-cb-hand">estés donde estés</span>
+      <h2 id="solHT">Súmate a la comunidad <em>agAPPe</em></h2>
+      <p class="hub-cb-meta">Somos el Ágape digital: una red de internautas que rezan, unida a los jóvenes de la Pastoral Juvenil Ágape de la Parroquia San Miguel de Yungay. Recibe cada día el Evangelio, reza en la Capilla y deja tus intenciones: las llevamos a la misa.</p>
+      <div class="hub-cb-btns"><a class="btn btn-gold" href="${CANAL_PUBLICO}" target="_blank" rel="noopener">Seguir el canal de WhatsApp ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/oracion">Entrar a la Capilla</a></div>
+      <p class="xs sol-local">¿Participas en la PJ Ágape de Yungay? <a href="#/solicitar">Solicita tu cuenta</a></p>
     </div>
-    <div class="hub-cb-art" aria-hidden="true"><i class="hub-cb-sun"></i>${illus("acogida", "hub-cb-il")}</div>
+    <div class="hub-cb-art ad-banner-art" aria-hidden="true">${SELLO("ad-banner-sello")}</div>
   </section>`;
 }
 
