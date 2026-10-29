@@ -99,7 +99,7 @@ ${frase ? `«${frase}»\n` : ""}${x.cita}
 Te invitamos a la Capilla Ágape:
 ${APP}capilla
 
-🙏 *Sé misionero digital:* reenvía este mensaje a tus contactos. Así, día a día, vamos formando una gran red que reza con la Palabra.`;
+🙏 *Sé misionero digital:* reenvía este mensaje a tus contactos. Así, día a día, vamos formando una gran red de *internautas que rezan* con la Palabra.`;
 }
 const partFuera = (x) => `<article class="sal-part fuera">
     <h3>Para compartir fuera <small>Canal, estados u otros grupos</small></h3>
