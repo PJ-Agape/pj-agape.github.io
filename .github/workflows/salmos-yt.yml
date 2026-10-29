@@ -1,0 +1,30 @@
+# Salmos cantados: une cada salmo con su video del canal «Cántalos Salmos» (data/salmos-yt.json).
+name: Salmos cantados
+on:
+  schedule:
+    - cron: "41 7 * * 1" # una vez por semana (lunes)
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["scripts/salmos-yt.mjs", ".github/workflows/salmos-yt.yml"]
+permissions:
+  contents: write
+concurrency: { group: salmos-yt, cancel-in-progress: false }
+jobs:
+  salmos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/salmos-yt.mjs data/salmos-yt.json
+      - name: Publicar si cambió
+        run: |
+          if [ -n "$(git status --porcelain data/salmos-yt.json)" ]; then
+            git config user.name "salmos-bot"
+            git config user.email "salmos-bot@users.noreply.github.com"
+            git add data/salmos-yt.json
+            git commit -m "Salmos: videos de Cántalos Salmos"
+            git pull --rebase -q origin main
+            git push
+          fi
