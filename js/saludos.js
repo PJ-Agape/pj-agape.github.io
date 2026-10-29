@@ -113,7 +113,7 @@ const partFuera = (x) => `<article class="sal-part fuera">
     <div class="sal-wa">${wa(fuera(x))}</div>
   </article>`;
 const part = (x, k) => `<article class="sal-part ${k}">
-    <h3>${k === "noche" ? "🌙 Buenas noches" : "☀️ Buenos días"} <small>${esc(k === "noche" ? `${x.ref} · ${x.salmo}` : `Evangelio · ${x.cita}`)}</small></h3>
+    <h3>${k === "noche" ? "🌙 Buenas noches" : "☀️ Buenos días"} <span class="sal-para">Para la comunidad de internautas agAPPe</span> <small>${esc(k === "noche" ? `${x.ref} · ${x.salmo}` : `Evangelio · ${x.cita}`)}</small></h3>
     ${k === "dia" && x.propio ? `<p class="xs note">Fiesta propia: el texto ya trae su Evangelio. La imagen conserva el del calendario general.</p>` : ""}
     <img class="sal-img" src="${img(k, x.iso)}" alt="Imagen de ${k === "noche" ? "buenas noches" : "buenos días"} del ${esc(x.fecha)}" loading="lazy">
     <div class="row-wrap" style="gap:8px">
@@ -134,7 +134,7 @@ export async function adminView() {
   setTimeout(() => document.querySelector(".sal-day.on")?.scrollIntoView({ block: "nearest", inline: "center" }), 50);
   const bienv = await bienvHTML();
   return `<header class="page-head"><span class="eyebrow">Gestión</span><h1>Saludos para <em>WhatsApp</em></h1>
-    <p>Buenos días con el Evangelio y buenas noches con las Vísperas, del ${esc(d.dias[0].fecha.toLowerCase())} al ${esc(d.dias[d.dias.length - 1].fecha.toLowerCase())}. Desde el celular, «Enviar a WhatsApp» abre el menú para compartir: eliges WhatsApp y el grupo, y la imagen va con su texto. En el computador son dos pasos: el botón copia la imagen, la pegas en el chat (Ctrl+V) y luego copia el texto para pegarlo junto a ella; sale un solo mensaje.</p></header>
+    <p>Buenos días con el Evangelio y buenas noches con las Vísperas, del ${esc(d.dias[0].fecha.toLowerCase())} al ${esc(d.dias[d.dias.length - 1].fecha.toLowerCase())}. Los de buenos días y buenas noches van a la comunidad de internautas agAPPe, con tono misionero: invitan a reenviarlos para que crezca el Ágape digital, unido a los jóvenes de la parroquia. Desde el celular, «Enviar a WhatsApp» abre el menú para compartir: eliges WhatsApp y la comunidad, y la imagen va con su texto. En el computador son dos pasos: el botón copia la imagen, la pegas en el chat (Ctrl+V) y luego copia el texto para pegarlo junto a ella; sale un solo mensaje.</p></header>
   ${bienv}
   <div class="sal-days" role="list">${d.dias.map((y) => `<button role="listitem" class="sal-day ${y.iso === sel ? "on" : ""} ${y.iso === t ? "today" : ""} ${y.iso < t ? "past" : ""}" data-action="salPick" data-iso="${y.iso}" title="${esc(y.titulo)}"><small>${esc(y.fecha.split(" ")[0].slice(0, 3))}</small><b>${+y.iso.slice(8)}</b><small>${["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][+y.iso.slice(5, 7) - 1]}</small></button>`).join("")}</div>
   <section class="card sal-card"><div class="sal-top"><h2>${sel === t ? "Hoy · " : ""}${esc(x.fecha)}</h2><span class="muted small">${esc(x.titulo)}</span></div>
