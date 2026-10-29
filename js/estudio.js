@@ -367,7 +367,7 @@ function arcText(ctx, text, cx, cy, r, size, color, gapAt = Math.PI / 4, gap = 0
   ctx.textAlign = "left";
 }
 // photo: HTMLImageElement/ImageBitmap o null (vista previa con monito); zoom y desplazamiento opcionales
-export function frame(ctx, S, frameId, photo, { zoom = 1, dx = 0, dy = 0 } = {}) {
+export function frame(ctx, S, frameId, photo, { zoom = 1, dx = 0, dy = 0, centro = null } = {}) {
   const f = FRAMES.find((x) => x.id === frameId) || FRAMES[0], U = S / 1080, cx = S / 2, cy = S / 2;
   ctx.clearRect(0, 0, S, S);
   ctx.fillStyle = f.ring; ctx.fillRect(0, 0, S, S);
@@ -378,6 +378,12 @@ export function frame(ctx, S, frameId, photo, { zoom = 1, dx = 0, dy = 0 } = {})
     const pw = photo.width || photo.naturalWidth, phh = photo.height || photo.naturalHeight;
     const sc = Math.max((inner * 2) / pw, (inner * 2) / phh) * zoom, w = pw * sc, h = phh * sc;
     ctx.drawImage(photo, cx - w / 2 + dx * inner, cy - h / 2 + dy * inner, w, h);
+  } else if (centro) {
+    // un sticker elegido, entero y centrado dentro del círculo
+    ctx.fillStyle = C.cream; ctx.fillRect(0, 0, S, S);
+    const cw = centro.width || centro.naturalWidth || 512, chh = centro.height || centro.naturalHeight || 512;
+    const box = inner * 1.5 * zoom, sc = Math.min(box / cw, box / chh), w = cw * sc, h = chh * sc;
+    ctx.drawImage(centro, cx - w / 2 + dx * inner, cy - h / 2 + dy * inner, w, h);
   } else { ctx.fillStyle = C.cream; ctx.fillRect(0, 0, S, S); ill(ctx, f.badge, cx - inner * 0.9, cy - inner * 0.62, inner * 1.8, { bg: C.cream }); }
   ctx.restore();
   // aros

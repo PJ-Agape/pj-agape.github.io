@@ -4965,3 +4965,8 @@ a.red-cal.card.link { display: flex; flex-direction: row; align-items: center; g
   .adp-l { padding-left: 7mm; } .adp-l li { margin: 0 0 3mm; break-inside: avoid; white-space: pre-line; }
   .adp-fin { margin-top: 6mm; font-weight: 700; }
 }
+/* Estudio · marco: sticker del centro */
+.dif-centro { align-items: center; gap: 10px; }
+.dif-centro-cur { width: 56px; height: 56px; display: grid; place-items: center; }
+.dif-centro-cur :is(img, .ap-stk-svg) { width: 100%; height: 100%; object-fit: contain; }
+.dif-centro-det { margin-top: 6px; }

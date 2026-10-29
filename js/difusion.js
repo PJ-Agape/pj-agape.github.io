@@ -8,6 +8,8 @@ import * as cloud from "./cloud.js";
 import * as S from "./store.js";
 import { esc, icon, toast } from "./util.js";
 import { nextOn } from "./repeat.js";
+import * as AP from "./apariencia.js";
+import { pjSvg } from "./personajes.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 // Los códigos QR siempre llevan al sitio oficial (también desde el sitio de prueba).
@@ -24,7 +26,7 @@ const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "o
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
 let ctx = null;
-const st = { tab: "piezas", tpl: "frase", fmt: "historia", style: "cielo", qr: "app", ill: "corazon", title: "", hand: "", sub: "", kicker: "", ev: "", para: "", frame: "soy", fondo: "bomba", fsize: "celular", zoom: 1, dx: 0, dy: 0, photo: null, phrase: 0, flogo: "sin", ffrase: "" };
+const st = { tab: "piezas", tpl: "frase", fmt: "historia", style: "cielo", qr: "app", ill: "corazon", title: "", hand: "", sub: "", kicker: "", ev: "", para: "", frame: "soy", centro: "", centroImg: null, fondo: "bomba", fsize: "celular", zoom: 1, dx: 0, dy: 0, photo: null, phrase: 0, flogo: "sin", ffrase: "" };
 let events = [];
 
 export function setup(c) { ctx = c; registerActions(); }
@@ -115,8 +117,11 @@ function marcoHTML() {
     <form class="card stack dif-form" onsubmit="return false">
       <label class="btn btn-primary dif-file">${icon("plus")} ${st.photo ? "Cambiar foto" : "Elegir mi foto"}<input type="file" accept="image/*" id="difPhoto" class="sr-only"></label>
       <p class="small muted">Tu foto se queda en tu teléfono: no se sube a ninguna parte.</p>
+      <div class="field"><label>O un sticker en el centro</label>
+        <div class="row-wrap dif-centro">${st.centro ? `<span class="dif-centro-cur">${AP.stkHTML(st.centro, "")}</span><button type="button" class="btn btn-sm btn-ghost" data-action="difCentro" data-v="">Volver al del marco</button>` : `<span class="xs muted">${st.photo ? "Ahora va tu foto." : "Ahora va el dibujo del marco."}</span>`}</div>
+        <details class="ap-stk-det dif-centro-det"><summary class="small"><b>Elegir un sticker</b> <span class="xs muted">(${AP.catalogo().reduce((n, [, l]) => n + l.length, 0)} para elegir)</span></summary><div class="ap-pick" data-difpick></div></details></div>
       <div class="field"><label>Marco</label><div class="dif-frames">${E.FRAMES.map((f) => `<button type="button" aria-pressed="${st.frame === f.id}" data-action="difFrame" data-v="${f.id}" title="${esc(f.text.replace(/·/g, "").trim())}"><canvas data-fthumb="${f.id}" width="160" height="160"></canvas></button>`).join("")}</div></div>
-      ${st.photo ? `<div class="field"><label>Acercar</label><input type="range" min="1" max="3" step="0.02" value="${st.zoom}" data-dif="zoom"></div>
+      ${st.photo || st.centro ? `<div class="field"><label>${st.photo ? "Acercar" : "Tamaño del sticker"}</label><input type="range" min="1" max="3" step="0.02" value="${st.zoom}" data-dif="zoom"></div>
       <div class="field"><label>Mover</label><div class="row" style="gap:10px"><input type="range" min="-1" max="1" step="0.01" value="${st.dx}" data-dif="dx" aria-label="Mover a los lados"><input type="range" min="-1" max="1" step="0.01" value="${st.dy}" data-dif="dy" aria-label="Mover arriba o abajo"></div></div>` : ""}
       ${actionsHTML()}
     </form></div>`;
@@ -186,7 +191,7 @@ async function paint() {
   if (st.tab === "marco") {
     await E.preload(E.framesIlls()); if (id !== painting) return;
     cv.width = cv.height = 1080;
-    E.frame(cv.getContext("2d"), 1080, st.frame, st.photo, st);
+    E.frame(cv.getContext("2d"), 1080, st.frame, st.photo, { ...st, centro: st.photo ? null : st.centroImg });
     document.querySelectorAll("[data-fthumb]").forEach((c) => { if (!c.dataset.done) { E.frame(c.getContext("2d"), 160, c.dataset.fthumb, null); c.dataset.done = 1; } });
     return;
   }
@@ -219,6 +224,24 @@ function registerActions() {
   A.difTab = (t) => { st.tab = t.value; $("#difBody").innerHTML = body(); paint(); };
   A.difStyle = (t) => { st.style = t.dataset.v; document.querySelectorAll(".dif-sw button").forEach((b) => b.setAttribute("aria-checked", String(b === t))); paint(); };
   A.difFondo = (t) => { st.fondo = t.dataset.v; document.querySelectorAll(".dif-fondos button").forEach((b) => b.setAttribute("aria-pressed", String(b === t))); paint(); };
+  // Sticker del centro del marco: reemplaza a la foto (y la foto, al sticker)
+  A.difCentro = async (t) => {
+    const v = t.dataset.v || "";
+    st.centro = v; st.centroImg = null; st.zoom = 1; st.dx = 0; st.dy = 0;
+    if (v) {
+      st.photo = null;
+      const src = /^pj:/.test(v) ? "data:image/svg+xml;charset=utf-8," + encodeURIComponent(pjSvg(v.slice(3)).replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" ')) : v;
+      st.centroImg = await new Promise((ok) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = src; });
+      if (!st.centroImg) { st.centro = ""; toast("No se pudo cargar ese sticker", ""); }
+    }
+    $("#difBody").innerHTML = body(); paint();
+  };
+  // El selector se llena recién al abrirlo
+  document.addEventListener("toggle", (e) => {
+    const box = e.target.querySelector && e.target.open && e.target.querySelector("[data-difpick]"); if (!box || box.childElementCount) return;
+    box.innerHTML = AP.catalogo().map(([g, l]) => `<h4 class="ap-pick-h">${esc(g)} <span class="xs muted">· ${l.length}</span></h4>
+      <div class="ap-stks">${l.map((s) => `<button type="button" class="ap-stk${s === st.centro ? " on" : ""}" data-action="difCentro" data-v="${esc(s)}" aria-label="Poner este sticker">${AP.stkHTML(s, "")}</button>`).join("")}</div>`).join("");
+  }, true);
   A.difFrame = (t) => { st.frame = t.dataset.v; document.querySelectorAll(".dif-frames button").forEach((b) => b.setAttribute("aria-pressed", String(b === t))); paint(); };
   A.difSave = async () => { const cv = $("#difCanvas"); if (cv) save(await toBlob(cv), fileName()); };
   A.difShare = async () => { const cv = $("#difCanvas"); if (cv) share(await toBlob(cv), fileName()); };
@@ -260,7 +283,7 @@ function onField(k, v, changed) {
 function loadPhoto(file) {
   const url = URL.createObjectURL(file), img = new Image();
   img.onload = () => {
-    st.photo = img; st.zoom = 1; st.dx = st.dy = 0;
+    st.photo = img; st.zoom = 1; st.dx = st.dy = 0; st.centro = ""; st.centroImg = null;
     if (st.tab === "piezas") st.ill = "__foto";
     if (st.tab === "fondos") st.fondo = "foto";
     $("#difBody").innerHTML = body(); paint();
