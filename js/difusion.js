@@ -26,7 +26,7 @@ const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "o
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
 let ctx = null;
-const st = { tab: "piezas", tpl: "frase", fmt: "historia", style: "cielo", qr: "app", ill: "corazon", title: "", hand: "", sub: "", kicker: "", ev: "", para: "", frame: "soy", centro: "", centroImg: null, fondo: "bomba", fsize: "celular", zoom: 1, dx: 0, dy: 0, photo: null, phrase: 0, flogo: "sin", ffrase: "" };
+const st = { tab: "piezas", tpl: "frase", fmt: "historia", style: "cielo", qr: "app", ill: "corazon", title: "", hand: "", sub: "", kicker: "", ev: "", para: "", frame: "soy", centro: "", centroImg: null, fx: { text: "", ring: "", ink: "", ins: "" }, fondo: "bomba", fsize: "celular", zoom: 1, dx: 0, dy: 0, photo: null, phrase: 0, flogo: "sin", ffrase: "" };
 let events = [];
 
 export function setup(c) { ctx = c; registerActions(); }
@@ -121,6 +121,16 @@ function marcoHTML() {
         <div class="row-wrap dif-centro">${st.centro ? `<span class="dif-centro-cur">${AP.stkHTML(st.centro, "")}</span><button type="button" class="btn btn-sm btn-ghost" data-action="difCentro" data-v="">Volver al del marco</button>` : `<span class="xs muted">${st.photo ? "Ahora va tu foto." : "Ahora va el dibujo del marco."}</span>`}</div>
         <details class="ap-stk-det dif-centro-det"><summary class="small"><b>Elegir un sticker</b> <span class="xs muted">(${AP.catalogo().reduce((n, [, l]) => n + l.length, 0)} para elegir)</span></summary><div class="ap-pick" data-difpick></div></details></div>
       <div class="field"><label>Marco</label><div class="dif-frames">${E.FRAMES.map((f) => `<button type="button" aria-pressed="${st.frame === f.id}" data-action="difFrame" data-v="${f.id}" title="${esc(f.text.replace(/·/g, "").trim())}"><canvas data-fthumb="${f.id}" width="160" height="160"></canvas></button>`).join("")}</div></div>
+      <details class="dif-more dif-fx" ${st.fx.text || st.fx.ring || st.fx.ink || st.fx.ins ? "open" : ""}><summary><b>Personalizar el marco</b> <span class="xs muted">texto, colores e insignia</span></summary>
+        <div class="stack" style="--gap:10px;margin-top:10px">
+          <div class="field"><label>Texto del aro</label><input class="input" maxlength="70" data-fx="text" value="${esc(st.fx.text)}" placeholder="${esc((E.FRAMES.find((f) => f.id === st.frame) || E.FRAMES[0]).text.replace(/\s*·\s*$/, ""))}"></div>
+          <div class="row-wrap" style="gap:14px">
+            <label class="dif-fx-c">Color del aro <input type="color" data-fx="ring" value="${esc(st.fx.ring || (E.FRAMES.find((f) => f.id === st.frame) || E.FRAMES[0]).ring)}"></label>
+            <label class="dif-fx-c">Color del texto <input type="color" data-fx="ink" value="${esc(st.fx.ink || (E.FRAMES.find((f) => f.id === st.frame) || E.FRAMES[0]).ink)}"></label>
+          </div>
+          <div class="field"><label>Insignia (abajo a la derecha)</label><div class="seg" role="radiogroup" aria-label="Insignia">${[["", "Como viene"], ["logo", "Logo Ágape"], ["sello", "Sello Ágape digital"], ["ninguna", "Sin insignia"]].map(([v, l]) => `<label><input type="radio" name="difIns" value="${v}" ${st.fx.ins === v ? "checked" : ""}><span>${l}</span></label>`).join("")}</div></div>
+          <button type="button" class="btn btn-sm btn-ghost" data-action="difFxReset">Volver al marco original</button>
+        </div></details>
       ${st.photo || st.centro ? `<div class="field"><label>${st.photo ? "Acercar" : "Tamaño del sticker"}</label><input type="range" min="1" max="3" step="0.02" value="${st.zoom}" data-dif="zoom"></div>
       <div class="field"><label>Mover</label><div class="row" style="gap:10px"><input type="range" min="-1" max="1" step="0.01" value="${st.dx}" data-dif="dx" aria-label="Mover a los lados"><input type="range" min="-1" max="1" step="0.01" value="${st.dy}" data-dif="dy" aria-label="Mover arriba o abajo"></div></div>` : ""}
       ${actionsHTML()}
@@ -191,7 +201,7 @@ async function paint() {
   if (st.tab === "marco") {
     await E.preload(E.framesIlls()); if (id !== painting) return;
     cv.width = cv.height = 1080;
-    E.frame(cv.getContext("2d"), 1080, st.frame, st.photo, { ...st, centro: st.photo ? null : st.centroImg });
+    E.frame(cv.getContext("2d"), 1080, st.frame, st.photo, { ...st, centro: st.photo ? null : st.centroImg, fx: st.fx });
     document.querySelectorAll("[data-fthumb]").forEach((c) => { if (!c.dataset.done) { E.frame(c.getContext("2d"), 160, c.dataset.fthumb, null); c.dataset.done = 1; } });
     return;
   }
@@ -242,7 +252,10 @@ function registerActions() {
     box.innerHTML = AP.catalogo().map(([g, l]) => `<h4 class="ap-pick-h">${esc(g)} <span class="xs muted">· ${l.length}</span></h4>
       <div class="ap-stks">${l.map((s) => `<button type="button" class="ap-stk${s === st.centro ? " on" : ""}" data-action="difCentro" data-v="${esc(s)}" aria-label="Poner este sticker">${AP.stkHTML(s, "")}</button>`).join("")}</div>`).join("");
   }, true);
-  A.difFrame = (t) => { st.frame = t.dataset.v; document.querySelectorAll(".dif-frames button").forEach((b) => b.setAttribute("aria-pressed", String(b === t))); paint(); };
+  A.difFxReset = () => { st.fx = { text: "", ring: "", ink: "", ins: "" }; $("#difBody").innerHTML = body(); paint(); };
+  document.addEventListener("input", (e) => { const k = e.target.dataset && e.target.dataset.fx; if (!k) return; st.fx[k] = e.target.value; paint(); });
+  document.addEventListener("change", (e) => { if (e.target.name === "difIns") { st.fx.ins = e.target.value; paint(); } });
+  A.difFrame = (t) => { st.frame = t.dataset.v; $("#difBody").innerHTML = body(); paint(); };
   A.difSave = async () => { const cv = $("#difCanvas"); if (cv) save(await toBlob(cv), fileName()); };
   A.difShare = async () => { const cv = $("#difCanvas"); if (cv) share(await toBlob(cv), fileName()); };
   A.difStkGo = (t, e) => { e && e.preventDefault && e.preventDefault(); document.getElementById("stkg" + t.dataset.g)?.scrollIntoView({ behavior: "smooth", block: "start" }); };

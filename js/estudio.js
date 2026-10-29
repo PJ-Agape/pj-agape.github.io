@@ -356,7 +356,7 @@ export const FRAMES = [
   { id: "rezo", text: "REZO POR TI · CAPILLA ÁGAPE ·", ring: C.sky, ink: C.navy, badge: "oracion" },
   { id: "vive", text: "¡ÉL VIVE Y TE QUIERE VIVO! ·", ring: C.sun, ink: C.coral, badge: "levantate" },
   // Ágape digital: la insignia es el sello de la red (en vez del logo)
-  { id: "internauta", text: "MISIONERO INTERNAUTA · agAPPe ·", ring: C.navy, ink: C.sun, badge: "celular", sello: true },
+  { id: "internauta", text: "MISIONERO INTERNAUTA · agAPPe ·", ring: C.navy, ink: C.sun, badge: "celular", selloCentro: true },
 ];
 export const framesIlls = () => FRAMES.map((f) => [f.badge, C.navy, C.cream, C.sun]);
 function arcText(ctx, text, cx, cy, r, size, color, gapAt = Math.PI / 4, gap = 0.62) {
@@ -373,8 +373,16 @@ function arcText(ctx, text, cx, cy, r, size, color, gapAt = Math.PI / 4, gap = 0
   ctx.textAlign = "left";
 }
 // photo: HTMLImageElement/ImageBitmap o null (vista previa con monito); zoom y desplazamiento opcionales
-export function frame(ctx, S, frameId, photo, { zoom = 1, dx = 0, dy = 0, centro = null } = {}) {
-  const f = FRAMES.find((x) => x.id === frameId) || FRAMES[0], U = S / 1080, cx = S / 2, cy = S / 2;
+// fx: el marco personalizado (texto del aro, colores e insignia «logo» | «sello» | «ninguna»)
+export function frame(ctx, S, frameId, photo, { zoom = 1, dx = 0, dy = 0, centro = null, fx = null } = {}) {
+  const base = FRAMES.find((x) => x.id === frameId) || FRAMES[0], U = S / 1080, cx = S / 2, cy = S / 2;
+  const f = { ...base };
+  if (fx) {
+    if (fx.text && fx.text.trim()) f.text = fx.text.trim().replace(/\s*·?\s*$/, " ·");
+    if (fx.ring) f.ring = fx.ring;
+    if (fx.ink) f.ink = fx.ink;
+    if (fx.ins) { f.sello = fx.ins === "sello"; f.sinIns = fx.ins === "ninguna"; }
+  }
   ctx.clearRect(0, 0, S, S);
   ctx.fillStyle = f.ring; ctx.fillRect(0, 0, S, S);
   const R = S * 0.5, inner = S * 0.405;
@@ -390,6 +398,9 @@ export function frame(ctx, S, frameId, photo, { zoom = 1, dx = 0, dy = 0, centro
     const cw = centro.width || centro.naturalWidth || 512, chh = centro.height || centro.naturalHeight || 512;
     const box = inner * 1.5 * zoom, sc = Math.min(box / cw, box / chh), w = cw * sc, h = chh * sc;
     ctx.drawImage(centro, cx - w / 2 + dx * inner, cy - h / 2 + dy * inner, w, h);
+  } else if (f.selloCentro && SELLO) {
+    ctx.fillStyle = C.cream; ctx.fillRect(0, 0, S, S);
+    const w = inner * 1.55; ctx.drawImage(SELLO, cx - w / 2, cy - w / 2, w, w);
   } else { ctx.fillStyle = C.cream; ctx.fillRect(0, 0, S, S); ill(ctx, f.badge, cx - inner * 0.9, cy - inner * 0.62, inner * 1.8, { bg: C.cream }); }
   ctx.restore();
   // aros
@@ -399,6 +410,7 @@ export function frame(ctx, S, frameId, photo, { zoom = 1, dx = 0, dy = 0, centro
   arcText(ctx, f.text, cx, cy, (inner + R) / 2 - 2 * U, 46 * U, f.ink);
   // insignias
   const bs = 230 * U;
+  if (f.sinIns) return;
   ctx.save(); ctx.beginPath(); ctx.arc(S * 0.83, S * 0.83, bs / 2, 0, Math.PI * 2); ctx.fillStyle = C.cream; ctx.fill(); ctx.lineWidth = 9 * U; ctx.strokeStyle = C.navy; ctx.stroke(); ctx.clip();
   if (f.sello && SELLO) ctx.drawImage(SELLO, S * 0.83 - bs / 2, S * 0.83 - bs / 2, bs, bs);
   else logo(ctx, S * 0.83 - bs * 0.46, S * 0.83 - bs * 0.46, bs * 0.92);
