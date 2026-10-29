@@ -4995,3 +4995,5 @@ a.red-cal.card.link { display: flex; flex-direction: row; align-items: center; g
 .sal-canto-v { display: block; width: 100%; }
 .sal-canto p { margin: 6px 0 0; }
 .sal-canto-link { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; border: 2px solid var(--pp-bd, #0b2566); background: #fff; color: #0b2566; font-weight: 800; text-decoration: none; box-shadow: var(--pp-sh-s, 3px 3px 0 #0b2566); }
+.ad-btns .ad-canal { border-color: #25d366 !important; color: #128c4a !important; }
+.ad-canal-l { display: inline-block; margin-top: 6px; font-weight: 800; font-size: .88rem; color: #128c4a; }

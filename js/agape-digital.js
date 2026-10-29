@@ -4,6 +4,7 @@
 
 import { esc, icon, toast } from "./util.js";
 import * as cloud from "./cloud.js";
+import { CANAL_PUBLICO } from "./grupo.js";
 
 // El sello: la cruz al centro y las ondas de la red que salen de ella.
 export const SELLO = (cls = "") => `<svg class="ad-sello ${cls}" viewBox="0 0 80 80" aria-hidden="true">
@@ -40,6 +41,7 @@ export function bienvenidaHTML() {
     <div class="row-wrap ad-btns">
       <button class="btn btn-gold" data-action="adIntencion">${icon("flame")} Dejar mi intención</button>
       <button class="btn btn-ghost" data-action="adEvangelio">${icon("book")} Leer el Evangelio de hoy</button>
+      <a class="btn btn-ghost ad-canal" href="${CANAL_PUBLICO}" target="_blank" rel="noopener">Seguir el canal de WhatsApp</a>
     </div>
     <div id="adFormBox"></div>
   </section>`;
@@ -59,7 +61,8 @@ export function formHTML(id = "adForm") {
   </form>`;
 }
 const gracias = () => `<div class="ad-ok">${SELLO("ad-sello-s")}<div><strong>¡Gracias! Ya estamos rezando contigo.</strong>
-  <span>Tu intención va a la misa del grupo. Ahora eres parte del Ágape digital: reenvía el mensaje de hoy para que la red siga creciendo.</span></div></div>`;
+  <span>Tu intención va a la misa del grupo. Ahora eres parte del Ágape digital: reenvía el mensaje de hoy para que la red siga creciendo.</span>
+  <a class="ad-canal-l" href="${CANAL_PUBLICO}" target="_blank" rel="noopener">Sigue el canal de WhatsApp para recibirlo cada día ↗</a></div></div>`;
 
 // Para el equipo y los dirigentes: las intenciones de la semana, para llevarlas a la misa
 function semana(d) { const t = d && d.toDate ? d.toDate() : d ? new Date(d) : null; return t && Date.now() - t.getTime() <= 7 * 86400000; }
