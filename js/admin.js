@@ -569,7 +569,9 @@ async function visitsCard() {
     <p class="xs muted"><span class="vis-key c"></span> con cuenta <span class="vis-key g"></span> visitantes · ${sum(st, "g")} visitas sin cuenta en 30 días</p>`}
     <h4 style="margin-top:18px">Lo más visto</h4>
     <p class="muted small" style="margin-top:2px">Cuántos celulares o computadores abrieron cada sección. Cada sección cuenta una vez por día en cada uno.</p>
-    ${noViews ? `<p class="note" style="margin-top:10px">Se empieza a contar cuando se publiquen las reglas nuevas de Firebase (la parte <b>vistas</b>).</p>` : `
+    ${noViews ? `<p class="note" style="margin-top:10px">${vs && vs.denied
+      ? "Firebase todavía no deja leer este contador: falta publicar las reglas nuevas (la parte <b>vistas</b>)."
+      : "Las reglas ya están publicadas, pero todavía no hay secciones contadas. Se van sumando a medida que la gente abre la app: vuelve a mirar en un rato."}</p>` : `
     <div class="row-wrap" style="gap:6px;margin:10px 0 6px"><button class="chip accent" data-action="aVisPer" data-p="7">7 días</button><button class="chip" data-action="aVisPer" data-p="30">30 días</button></div>
     <div data-vis-per="7">${list(r7)}</div><div data-vis-per="30" hidden>${list(r30)}</div>
     ${quiet.length ? `<p class="xs muted" style="margin-top:8px">Sin visitas en 30 días: ${esc(quiet.map((k) => NAMES[k]).join(", "))}.</p>` : ""}`}

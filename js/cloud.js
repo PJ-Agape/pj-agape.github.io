@@ -400,17 +400,24 @@ export async function countView(sec) {
   let m;
   try { m = JSON.parse(localStorage.getItem(lk) || "null"); } catch { return; }
   if (!m || m.d !== k) m = { d: k, s: [] };
-  if (m.s.includes(sec)) return;
-  m.s.push(sec); // se marca antes de escribir: si falla, no se reintenta en cada cambio de pantalla
-  try { localStorage.setItem(lk, JSON.stringify(m)); } catch { return; }
-  try { await fb.setDoc(fb.doc(db, "vistas", k), { [sec]: fb.increment(1) }, { merge: true }); } catch {}
+  if (m.s.includes(sec) || countView.busy) return;
+  // Se marca solo si la suma quedó guardada: si falla (sin conexión o reglas sin publicar), se vuelve a intentar después.
+  countView.busy = true;
+  try {
+    await fb.setDoc(fb.doc(db, "vistas", k), { [sec]: fb.increment(1) }, { merge: true });
+    m.s.push(sec); try { localStorage.setItem(lk, JSON.stringify(m)); } catch {}
+  } catch (e) { if (e && e.code === "permission-denied") countView.denied = true; }
+  finally { countView.busy = false; }
 }
 export async function viewStats(days = 30) {
   if (!enabled || !db) return [];
   const out = [];
   for (let i = days - 1; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); out.push(dayKey(d)); }
-  const rows = await Promise.all(out.map((k) => withTimeout(fb.getDoc(fb.doc(db, "vistas", k)), 6000).then((sn) => (sn.exists() ? sn.data() : {})).catch(() => ({}))));
-  return out.map((k, i) => ({ dia: k, ...rows[i] }));
+  let denied = false;
+  const rows = await Promise.all(out.map((k) => withTimeout(fb.getDoc(fb.doc(db, "vistas", k)), 6000).then((sn) => (sn.exists() ? sn.data() : {})).catch((e) => { if (e && e.code === "permission-denied") denied = true; return {}; })));
+  const res = out.map((k, i) => ({ dia: k, ...rows[i] }));
+  res.denied = denied; // las reglas de «vistas» no están publicadas
+  return res;
 }
 // Rosarios por la intención del Papa: un contador por mes (rosarios/AAAA-MM, campo n). Lo ve todo el mundo; suman quienes tienen cuenta.
 export async function rosariosMes(mes) {
