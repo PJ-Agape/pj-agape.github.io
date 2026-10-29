@@ -872,6 +872,17 @@ export async function lightVela(text) {
 }
 export const prayVela = (id, on) => fb.updateDoc(fb.doc(db, "velas", id), { [`prays.${user.uid}`]: on ? prayMark() : fb.deleteField() });
 export const deleteVela = (id) => fb.deleteDoc(fb.doc(db, "velas", id));
+// Ágape digital: intenciones que deja, sin cuenta, quien llega por el saludo del día. Solo las leen los guías.
+export async function saveIntencionRed({ t, n }) {
+  if (!enabled || !db) throw new Error("sin conexión a la nube");
+  await withTimeout(fb.addDoc(fb.collection(db, "intenciones_red"), { t, n: n || "", createdAt: fb.serverTimestamp() }), 10000);
+}
+export async function listIntencionesRed() {
+  if (!enabled || !db) return [];
+  try { return snapRows(await withTimeout(fb.getDocs(fb.query(fb.collection(db, "intenciones_red"), fb.orderBy("createdAt", "desc"), fb.limit(120))), 6000)); }
+  catch (e) { if (e && e.code === "permission-denied") return null; return []; }
+}
+export const deleteIntencionRed = (id) => fb.deleteDoc(fb.doc(db, "intenciones_red", id));
 
 // ---------------------------------------------------------------------------
 // Cancionero: canciones y repertorios (los ven quienes tienen cuenta; los edita el equipo).

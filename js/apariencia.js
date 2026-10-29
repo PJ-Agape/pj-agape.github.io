@@ -62,6 +62,8 @@ export const ZONAS = [
     t: [[".plaza-hand", "Frase manuscrita", "donde nos encontramos"], [".plaza-head h2", "Título (entre *asteriscos* va el destacado)", "La Plaza *Ágape*"], [".plaza-head p", "Descripción", "Lo que vivimos, lo que conversamos y lo que nos decimos: todo en un mismo lugar."]] },
   { id: "capilla", n: "Orar · encabezado de la Capilla", ruta: "#/oracion", re: /^\/oracion$/, sel: ".cap-arch", stk: "img/stickers/oracion.webp", stkHost: ".cap-a-hero",
     t: [[".cap-hand", "Frase manuscrita", "pasa, Él te espera"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "Capilla *Ágape*"]] },
+  { id: "ad_bienv", n: "Orar · bienvenida del Ágape digital (la ven quienes llegan sin cuenta)", ruta: "#/oracion", re: /^\/(oracion|evangelio)/, sel: "#adBienv", stk: "", noStk: true,
+    t: [[".ad-hand", "Frase manuscrita", "bienvenido al"], ["h2", "Título (entre *asteriscos* va el destacado)", "Ágape *digital*"], [".ad-lema", "Lema", "una red de internautas que rezan"], [".ad-txt", "Texto", "Detrás de esta Capilla hay jóvenes de la Parroquia San Miguel de Yungay que rezan por ti. Hoy te sumas a la red: lee el Evangelio, deja tu intención y reenvía el mensaje para que llegue a más personas."]] },
   { id: "rezar", n: "Orar · Para rezar", ruta: "#/oracion", re: /^\/oracion$/, sel: ".cap-fila", stk: "",
     t: [[".cw-h", "Título", "Para rezar"]] },
   { id: "cono_head", n: "Quiero conocer Ágape · encabezado", ruta: "#/conocer?o=amigo", re: /^\/conocer/, sel: ".page-head.has-illus", stk: "img/ilus/s022.webp", stkSel: ".head-illus",

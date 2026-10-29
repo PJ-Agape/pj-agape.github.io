@@ -7,6 +7,7 @@ import { ORACIONES } from "./devocionario.js";
 import * as papa from "./papa.js";
 import { illus } from "./ilustraciones.js";
 import * as E from "./entrada.js";
+import * as AD from "./agape-digital.js";
 import { avatar } from "./avatares.js";
 
 // Misa en vivo: la de hoy del canal de Magnificat TV (data/misa-vivo.json, la busca cada hora la
@@ -378,12 +379,13 @@ export function view(opt = {}) {
   const cards = d.cards || [];
   loadOwn();
   const member = st().ready;
+  const delMensaje = AD.llegoDelMensaje(); // llegó por el saludo: se queda arriba, en la bienvenida
   ctx.onAfterRender(() => {
     if (opt.focus === "rosario") setTimeout(() => openRosary(), 50);
     loadMisaVivo();
     Promise.all([loadGospel(), loadPropio()]).then(() => {
       paintGospel();
-      if (!opt.focus || opt.vela || opt.focus === "rosario") return;
+      if (!opt.focus || opt.vela || opt.focus === "rosario" || (delMensaje && document.getElementById("adBienv"))) return;
       const box = document.getElementById(opt.focus === "gospel" ? "capGospel" : "cap-" + opt.focus); if (!box) return;
       if (opt.focus !== "gospel") { box.scrollIntoView({ behavior: "auto", block: "start" }); return; }
       box.scrollIntoView({ behavior: "auto", block: "center" });
@@ -399,7 +401,7 @@ export function view(opt = {}) {
       <span class="cap-row-ico" aria-hidden="true">${ico}</span>
       <span class="cap-row-txt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("right")}</${attrs.startsWith("href") ? "a" : "button"}>`;
   let num = 0; // los rincones se numeran solos, en orden
-  return `
+  return `${AD.bienvenidaHTML()}
   <section class="cap-a-hero" style="--season:${s.hex}">
     <div class="cap-arch">
       ${roseWindow()}
@@ -440,7 +442,7 @@ export function view(opt = {}) {
     <div class="cap-altar-top" data-action="capAltar" role="button" tabindex="0" aria-expanded="${altarOpen}" aria-controls="capAltarBody">
       <span class="cap-hand">aquí nadie reza solo</span>
       <div class="cap-room-head"><h2>Nuestras <em>intenciones</em></h2></div>
-      <p class="cap-lead">Enciende una vela por quien quieras y acompaña con tu oración las de los demás. Cada vela brilla una semana.</p>
+      <p class="cap-lead">Enciende una vela por quien quieras y acompaña con tu oración las de los demás. Cada vela brilla una semana, y sus intenciones las llevamos a la misa del grupo.</p>
       ${member ? `<div class="cap-altar-row" id="velaAltar" aria-hidden="true"></div>
       <p class="cap-altar-sum" id="velaSum"></p>` : ""}
       <span class="btn cap-altar-btn">${icon("flame")} <span>${altarOpen ? "Ocultar las intenciones" : "Deja aquí tus intenciones"}</span></span>
@@ -455,10 +457,12 @@ export function view(opt = {}) {
           <button class="btn cap-light-btn" type="submit">${icon("flame")} Encender mi vela</button>
         </div>
       </form>
+      ${AD.botonMisaHTML() ? `<div class="row-wrap" style="justify-content:flex-end;margin:4px 0 8px">${AD.botonMisaHTML()}</div>` : ""}
       <div class="cap-velas" id="velaList"><p class="cap-empty">Encendiendo las velas…</p></div>`
-    : `<div class="cap-light cap-vela-guest">${candleSVG(true, "cap-light-c")}<div class="cap-light-body"><strong>Las intenciones son de la comunidad</strong>
-        <span>Ingresa con la cuenta con que te invitaron para encender tu vela y rezar por las de los demás.</span>
-        ${ctx.cloud.enabled ? `<button class="btn cap-light-btn" data-action="signIn">Ingresar</button>` : ""}</div></div>`}
+    : `<div class="cap-light cap-vela-guest">${candleSVG(true, "cap-light-c")}<div class="cap-light-body"><strong>Deja tu intención</strong>
+        <span>Rezamos por ella y la llevamos a la misa del grupo. Eres parte del Ágape digital, una red de internautas que rezan.</span>
+        ${AD.formHTML("adForm2")}
+        ${ctx.cloud.enabled ? `<p class="xs muted" style="margin-top:8px">¿Eres de la comunidad? <button class="sal-link" data-action="signIn">Ingresa</button> para encender tu vela y rezar por las de los demás.</p>` : ""}</div></div>`}
     </div>
   </section>
 

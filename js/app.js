@@ -13,6 +13,7 @@ import * as remoto from "./remoto.js";
 import * as portada from "./portada.js";
 import * as oremus from "./oremus.js";
 import * as capilla from "./capilla.js";
+import * as agapeDigital from "./agape-digital.js";
 import * as cancionero from "./cancionero.js";
 import * as salmos from "./salmos.js";
 import * as AV from "./avatares.js";
@@ -1562,6 +1563,7 @@ papa.registerActions(actions);
 apariencia.setup(cloud);
 setTimeout(() => apariencia.refresh().then((ch) => { if (ch && !location.hash.startsWith("#/admin")) render(); }), 1500);
 capilla.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, content: () => S.content() });
+agapeDigital.setup({ actions, render: () => render() });
 oremus.setup({ actions, onAfterRender });
 // Control remoto (palo de selfie, control de presentaciones) en todo lo que se proyecta: canciones, oraciones y salmos.
 remoto.iniciar({

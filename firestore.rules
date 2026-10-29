@@ -532,6 +532,15 @@ service cloud.firestore {
         && request.resource.data.get('c', 0) + request.resource.data.get('g', 0) == resource.data.get('c', 0) + resource.data.get('g', 0) + 1;
     }
 
+    // Ágape digital: cualquiera (sin cuenta) deja una intención; solo los guías la leen y la borran.
+    match /intenciones_red/{iid} {
+      allow create: if request.resource.data.keys().hasOnly(['t', 'n', 'createdAt'])
+        && request.resource.data.t is string && request.resource.data.t.size() >= 3 && request.resource.data.t.size() <= 500
+        && request.resource.data.get('n', '') is string && request.resource.data.get('n', '').size() <= 40
+        && request.resource.data.createdAt == request.time;
+      allow read, delete: if isGuide();
+    }
+
     // Programación del mes (Agenda): notas sin fecha y tablero Pendiente / En curso / Realizado.
     // Solo los guías (equipo y dirigentes) la ven y la editan.
     match /programa/{pid} {
