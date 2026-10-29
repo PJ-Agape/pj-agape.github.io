@@ -86,7 +86,7 @@ const pad = (n) => String(n).padStart(2, "0");
 const hoy = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
 const wa = (t) => esc(t).replace(/\*([^*\n]+)\*/g, "<b>$1</b>").replace(/(^|\s)_([^_\n]+)_/g, "$1<i>$2</i>").replace(/\n/g, "<br>");
 const img = (k, iso) => `saludos/${k === "noche" ? "noche" : k === "perla" ? "perla" : "manana"}/${iso}.jpg`;
-const NOMBRE = { dia: "☀️ Buenos días", perla: "💎 Perla de sabiduría", noche: "🌙 Buenas noches" };
+const NOMBRE = { dia: "☀️ Buenos días", perla: "✨ Perla de sabiduría", noche: "🌙 Buenas noches" };
 const ARCH = { dia: "buenos-dias", perla: "perla-de-sabiduria", noche: "buenas-noches" };
 
 async function load() {
