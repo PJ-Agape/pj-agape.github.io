@@ -505,13 +505,38 @@ service cloud.firestore {
 
     // Lo más visto (vistas/AAAA-MM-DD): cada escritura suma 1 a una sola sección de la lista.
     // La lista debe coincidir con VISTAS de js/cloud.js.
+    // Una sección «igual o +1» (las reglas no permiten sacar el elemento de un conjunto,
+    // así que se revisa cada sección; junto con «cambió una sola», queda exactamente +1).
+    function igualOMas1(antes, despues, k) {
+      return despues.get(k, 0) == antes.get(k, 0) || despues.get(k, 0) == antes.get(k, 0) + 1;
+    }
     function vistaOk(antes, despues) {
-      let cambio = despues.diff(antes).affectedKeys();
-      return despues.keys().hasOnly(['inicio', 'evangelio', 'capilla', 'rosario', 'rato', 'intenciones', 'radio',
-          'salmos', 'oremus', 'cancionero', 'comunidad', 'muro', 'chat', 'momentos', 'juegos', 'podcast', 'agenda',
-          'formacion', 'curso', 'materiales', 'dinamicas', 'difusion', 'ayuda', 'buscar'])
-        && cambio.size() == 1
-        && despues[cambio.toList()[0]] == antes.get(cambio.toList()[0], 0) + 1;
+      return despues.keys().hasOnly(['inicio', 'evangelio', 'capilla', 'rosario', 'rato', 'intenciones', 'radio', 'salmos', 'oremus', 'cancionero', 'comunidad', 'muro', 'chat', 'momentos', 'juegos', 'podcast', 'agenda', 'formacion', 'curso', 'materiales', 'dinamicas', 'difusion', 'ayuda', 'buscar'])
+        && despues.diff(antes).affectedKeys().size() == 1
+        && igualOMas1(antes, despues, 'inicio')
+        && igualOMas1(antes, despues, 'evangelio')
+        && igualOMas1(antes, despues, 'capilla')
+        && igualOMas1(antes, despues, 'rosario')
+        && igualOMas1(antes, despues, 'rato')
+        && igualOMas1(antes, despues, 'intenciones')
+        && igualOMas1(antes, despues, 'radio')
+        && igualOMas1(antes, despues, 'salmos')
+        && igualOMas1(antes, despues, 'oremus')
+        && igualOMas1(antes, despues, 'cancionero')
+        && igualOMas1(antes, despues, 'comunidad')
+        && igualOMas1(antes, despues, 'muro')
+        && igualOMas1(antes, despues, 'chat')
+        && igualOMas1(antes, despues, 'momentos')
+        && igualOMas1(antes, despues, 'juegos')
+        && igualOMas1(antes, despues, 'podcast')
+        && igualOMas1(antes, despues, 'agenda')
+        && igualOMas1(antes, despues, 'formacion')
+        && igualOMas1(antes, despues, 'curso')
+        && igualOMas1(antes, despues, 'materiales')
+        && igualOMas1(antes, despues, 'dinamicas')
+        && igualOMas1(antes, despues, 'difusion')
+        && igualOMas1(antes, despues, 'ayuda')
+        && igualOMas1(antes, despues, 'buscar');
     }
     match /vistas/{day} {
       allow read: if isStaff();
