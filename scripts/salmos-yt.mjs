@@ -11,11 +11,24 @@ const falla = (msg) => { console.warn(msg); writeFileSync(OUT, JSON.stringify({ 
 
 // Saca pares (id, título) de un trozo de la respuesta de YouTube (HTML o JSON).
 const vistos = new Map();
+const STR = '"((?:[^"\\\\]|\\\\.)*)"';
+const TITULOS = [
+  new RegExp(`"lockupMetadataViewModel":\\{"title":\\{"content":${STR}`),
+  new RegExp(`"primaryText":\\{"content":${STR}`),
+  new RegExp(`"title":\\{"runs":\\[\\{"text":${STR}`),
+  new RegExp(`"title":\\{"simpleText":${STR}`),
+];
+const MENU = /^(Agregar a la fila|Add to queue|Ver más tarde|Watch later|Compartir|Share|Guardar en playlist|Save to playlist)$/i;
 function sacar(txt) {
-  for (const m of txt.matchAll(/"videoId":"([\w-]{11})"/g)) {
+  for (const m of txt.matchAll(/"(?:videoId|contentId)":"([\w-]{11})"/g)) {
     if (vistos.has(m[1])) continue;
-    const t = txt.slice(m.index, m.index + 6000).match(/"title":\{(?:"runs":\[\{"text"|"simpleText"|"content"):"((?:[^"\\]|\\.)*)"/);
-    if (t) try { vistos.set(m[1], JSON.parse(`"${t[1]}"`)); } catch {}
+    const win = txt.slice(m.index, m.index + 9000);
+    let title = "";
+    for (const re of TITULOS) {
+      const t = win.match(re); if (!t) continue;
+      try { const v = JSON.parse(`"${t[1]}"`); if (v && !MENU.test(v.trim())) { title = v; break; } } catch {}
+    }
+    if (title) vistos.set(m[1], title);
   }
   const c = txt.match(/"continuationCommand":\{"token":"([^"]+)"/);
   return c ? c[1] : "";
@@ -40,15 +53,26 @@ const errs = [];
 for (const tab of ["videos", "shorts", "streams"]) { const e = await paginas(tab); if (e) errs.push(e); }
 if (!vistos.size) falla(`Sin videos (${errs.join(" · ")})`);
 
-// El número del salmo: «Salmo 23», «Sal 23», «Salmo 22 (23)»… Se guardan los dos si vienen.
+// Los números de salmo de un título: «Salmo 23», «SALMO 3:», «Salmo 3 y 34», «Salmos 1 al 5».
+function numeros(title) {
+  const m = title.match(/\b(?:salmos?|sal\.?|psalms?)\s*(\d{1,3}(?:\s*(?:,|y|e|&|al|a|-|–)\s*\d{1,3})*)/i); if (!m) return [];
+  const out = [], parts = m[1].split(/\s*(,|y|e|&|al|a|-|–)\s*/i);
+  for (let i = 0; i < parts.length; i += 2) {
+    const n = +parts[i], sep = (parts[i - 1] || "").toLowerCase();
+    if (i && /^(al|a|-|–)$/.test(sep) && out.length) { for (let k = out[out.length - 1] + 1; k <= n && k - out[out.length - 1] <= 20; k++) out.push(k); }
+    else out.push(n);
+  }
+  return [...new Set(out)].filter((n) => n >= 1 && n <= 150);
+}
 const salmos = {};
 const sinNumero = [];
 for (const [id, title] of vistos) {
-  const m = title.match(/\b(?:salmo|sal\.?|psalm)\s*(\d{1,3})(?:\s*[(\[]\s*(\d{1,3})\s*[)\]])?/i);
-  if (!m) { sinNumero.push(title); continue; }
-  const n = +m[1]; if (!(n >= 1 && n <= 151)) { sinNumero.push(title); continue; }
-  (salmos[n] = salmos[n] || []).push({ id, t: title, ...(m[2] ? { alt: +m[2] } : {}) });
+  const ns = numeros(title);
+  if (!ns.length) { sinNumero.push(title); continue; }
+  for (const n of ns) (salmos[n] = salmos[n] || []).push({ id, t: title, solo: ns.length === 1 });
 }
+// Primero el video dedicado solo a ese salmo; después las recopilaciones.
+for (const n of Object.keys(salmos)) salmos[n].sort((a, b) => (b.solo ? 1 : 0) - (a.solo ? 1 : 0));
 const out = { canal: HANDLE, fuente: "Cántalos Salmos (YouTube)", total: vistos.size, conNumero: Object.keys(salmos).length, salmos, sinNumero: sinNumero.slice(0, 40), ...(errs.length ? { avisos: errs } : {}) };
 const igual = JSON.stringify(out) === JSON.stringify({ ...prev, revisado: undefined, error: undefined }, (k, v) => (v === undefined ? undefined : v));
 if (!igual) { writeFileSync(OUT, JSON.stringify({ ...out, revisado: new Date().toISOString().slice(0, 10) }, null, 1) + "\n"); console.log(`salmos-yt.json: ${vistos.size} videos, ${out.conNumero} salmos`); }

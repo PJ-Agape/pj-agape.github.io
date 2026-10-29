@@ -3,7 +3,7 @@
 // Las fichas son nuestras. El texto completo de cada salmo se carga desde Gestión cuando la
 // editorial lo autorice (content/salmos); mientras tanto, «Leer el salmo» abre una Biblia católica en línea.
 
-import { esc, icon, toast } from "./util.js";
+import { esc, icon, toast, fetchJSON } from "./util.js";
 import { createBook, splitByHeight } from "./libro.js";
 import { illus } from "./ilustraciones.js";
 import * as E from "./entrada.js";
@@ -305,6 +305,20 @@ async function loadTextos(force) {
   textos.textos = textos.textos || {};
   return textos;
 }
+// Salmos cantados: el video de cada salmo en el canal «Cántalos Salmos» (data/salmos-yt.json, lo
+// actualiza cada semana una acción de GitHub). Si un salmo no tiene, se busca en el canal.
+const CANAL = "https://www.youtube.com/@CantalosSalmos";
+let cantados = null;
+const NOTA = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>`;
+const loadCantados = () => cantados ? Promise.resolve(cantados) : fetchJSON("data/salmos-yt.json", 6 * 3600e3).then((d) => (cantados = (d && d.salmos) || {})).catch(() => (cantados = {}));
+function cantoHTML(n) {
+  const v = cantados && (cantados[n] || [])[0];
+  if (v) return `<span class="sal-canto-k">${NOTA} Escúchalo cantado</span>
+    <button type="button" class="ev-video sal-canto-v" data-action="evPlay" data-id="${esc(v.id)}" aria-label="Ver el Salmo ${n} cantado">
+      <img src="https://i.ytimg.com/vi/${esc(v.id)}/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="ev-play" aria-hidden="true"></span></button>
+    <p class="xs muted">${esc(v.t)} · <a href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener">abrir en YouTube ↗</a></p>`;
+  return `<a class="sal-canto-link" href="${CANAL}/search?query=${encodeURIComponent("Salmo " + n)}" target="_blank" rel="noopener">${NOTA} Búscalo cantado en Cántalos Salmos ↗</a>`;
+}
 const textoDe = (n) => (textos && textos.textos && String(textos.textos[n] || "").trim()) || "";
 const fuente = () => (textos && textos.fuente) || "";
 
@@ -386,6 +400,7 @@ function paintOne() {
       ${s.intro ? `<p class="cap-sub sal-intro">${esc(s.intro)}</p>` : ""}
     </header>
     ${CUIDADO.includes(curE) ? cuidadoHTML() : ""}
+    <section class="sal-canto no-print" id="salCanto">${cantados ? cantoHTML(s.n) : ""}</section>
 
     <div class="sal-cuerpo">
     <div class="sal-hoja">
@@ -410,6 +425,7 @@ function paintOne() {
     <div class="field"><label>Fuente y derechos (para todos los salmos)</label><input class="input" id="salFuente" maxlength="300" value="${esc(fuente())}" placeholder="Texto bíblico: La Biblia, Libro del Pueblo de Dios. © … Usado con autorización."></div>
     <button class="btn btn-primary btn-sm" data-action="salSaveTxt">Guardar</button>
     <p class="xs muted" style="margin-top:10px">¿Quieres reemplazar los 150 de una vez? <button type="button" class="sal-link" data-action="salLibro">Cargar el libro completo</button></p></details>` : ""}`;
+  if (!cantados) loadCantados().then(() => { const c = $("#salCanto"); if (c && cur === s) c.innerHTML = cantoHTML(s.n); });
 }
 
 // ---------------------------------------------------------------------------
