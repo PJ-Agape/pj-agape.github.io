@@ -22,25 +22,47 @@ Para entrar, pídenos tu invitación.
 
 Cualquier duda, pregunta con confianza. ¡Caminamos juntos! 🙏
 _Pastoral Juvenil Ágape · Parroquia San Miguel de Yungay_`;
+// Bienvenida a la comunidad de internautas agAPPe (el Ágape digital), con tono misionero
+export const BIENV_RED = `*¡{bienvenido} a la comunidad agAPPe, {nombre}!* 🙌💛
+Qué alegría que te sumes al *Ágape digital*: una red de internautas que rezan, unida a los jóvenes de la Pastoral Juvenil Ágape de la Parroquia San Miguel de Yungay.
+
+Aquí, cada día:
+☀️ el saludo de buenos días con el Evangelio
+🌙 una oración para cerrar el día
+🕯️ la Capilla Ágape, abierta para ti: ${APP}capilla
+
+Desde hoy también eres *misionero digital* 🌍
+Reenvía los saludos a quien los necesite, deja tus intenciones en la Capilla (las llevamos a la misa) e invita a otros a sumarse.
+
+Aquí nadie reza solo. ¡Ya estamos rezando por ti! 🙏
+_Comunidad agAPPe · Pastoral Juvenil Ágape, Yungay_`;
 const BV = { o: ["Bienvenido", "Bienvenida", "Bienvenidos", "Bienvenidas"], l: ["Él", "Ella", "Varios", "Varias"] };
-const bv = { tpl: null, saved: null, nombre: "", g: 0, open: false };
+const bv = { tpl: null, saved: null, savedRed: null, nombre: "", g: 0, open: false, m: "red" };
+const bvDef = () => (bv.m === "red" ? BIENV_RED : BIENV_DEFAULT);
 function bienvText() {
   const n = bv.nombre.trim();
-  let t = (bv.tpl ?? BIENV_DEFAULT).replace(/\{bienvenido\}/g, BV.o[bv.g]);
+  let t = (bv.tpl ?? bvDef()).replace(/\{bienvenido\}/g, BV.o[bv.g]);
   t = n ? t.replace(/\{nombre\}/g, n) : t.replace(/,?\s*\{nombre\}/g, "");
   return t;
 }
-const bienvPiece = () => ({ kicker: "Nuevo en el grupo", title: bv.nombre.trim() ? `¡${BV.o[bv.g]}, *${bv.nombre.trim()}*!` : `¡${BV.o[bv.g]} *a casa*!`, hand: "Hay un lugar para ti", sub: "Pastoral Juvenil Ágape · Parroquia San Miguel de Yungay", ill: "acogida" });
+const bienvPiece = () => bv.m === "red"
+  ? { kicker: "Ágape digital", title: bv.nombre.trim() ? `¡${BV.o[bv.g]}, *${bv.nombre.trim()}*!` : `¡${BV.o[bv.g]} *a la red*!`, hand: "internautas que rezan", sub: "Comunidad agAPPe · unida a la Pastoral Juvenil Ágape de Yungay", ill: "celular" }
+  : ({ kicker: "Nuevo en el grupo", title: bv.nombre.trim() ? `¡${BV.o[bv.g]}, *${bv.nombre.trim()}*!` : `¡${BV.o[bv.g]} *a casa*!`, hand: "Hay un lugar para ti", sub: "Pastoral Juvenil Ágape · Parroquia San Miguel de Yungay", ill: "acogida" });
+const bvStyle = () => (bv.m === "red" ? "noche" : "cielo");
 async function paintBienv() {
   const cv = document.getElementById("bvCanvas"); if (!cv) return;
-  await E.ready(); const d = bienvPiece(); await E.preload(E.illsFor("cielo", d));
-  cv.width = cv.height = 1080; E.piece(cv.getContext("2d"), 1080, 1080, "cielo", d);
+  await E.ready(); const d = bienvPiece(); await E.preload(E.illsFor(bvStyle(), d));
+  cv.width = cv.height = 1080; E.piece(cv.getContext("2d"), 1080, 1080, bvStyle(), d);
 }
 async function bienvHTML() {
-  if (bv.saved === null) { const c = await cloud.getBienvenida().catch(() => null); bv.saved = (c && c.texto) || ""; if (bv.tpl === null) bv.tpl = bv.saved || BIENV_DEFAULT; }
+  if (bv.saved === null) { const c = await cloud.getBienvenida().catch(() => null); bv.saved = (c && c.texto) || ""; bv.savedRed = (c && c.textoRed) || ""; }
+  if (bv.tpl === null) bv.tpl = (bv.m === "red" ? bv.savedRed : bv.saved) || bvDef();
   const admin = cloud.state().isAdmin;
   if (bv.open) setTimeout(paintBienv, 30);
-  return `<details class="card sal-bv" ${bv.open ? "open" : ""} id="bvBox"><summary><h2 style="display:inline">👋 Bienvenida a quienes se suman</h2> <span class="muted small">Imagen y mensaje para recibir a alguien nuevo en el grupo</span></summary>
+  return `<details class="card sal-bv" ${bv.open ? "open" : ""} id="bvBox"><summary><h2 style="display:inline">👋 Bienvenida a quienes se suman</h2> <span class="muted small">Imagen y mensaje para recibir a quien se suma</span></summary>
+    <div class="field" style="margin-top:10px"><label>Bienvenida a</label><div class="seg" role="radiogroup" aria-label="Bienvenida a">
+      <label><input type="radio" name="bvM" value="red" ${bv.m === "red" ? "checked" : ""}><span>La comunidad agAPPe (internautas)</span></label>
+      <label><input type="radio" name="bvM" value="grupo" ${bv.m === "grupo" ? "checked" : ""}><span>El grupo de la parroquia</span></label></div></div>
     <div class="sal-bv-grid">
       <div><canvas id="bvCanvas" class="sal-img" aria-label="Imagen de bienvenida"></canvas></div>
       <div class="stack">
@@ -191,7 +213,13 @@ function wireBienv() {
     if (e.target.id === "bvNombre") { bv.nombre = e.target.value; bvRefresh(true); }
     if (e.target.id === "bvTpl") { bv.tpl = e.target.value; bvRefresh(false); }
   });
-  document.addEventListener("change", (e) => { if (e.target.name === "bvG") { bv.g = +e.target.value; bvRefresh(true); } });
+  document.addEventListener("change", async (e) => {
+    if (e.target.name === "bvG") { bv.g = +e.target.value; bvRefresh(true); }
+    if (e.target.name === "bvM") {
+      bv.m = e.target.value; bv.tpl = (bv.m === "red" ? bv.savedRed : bv.saved) || bvDef();
+      const ta = document.getElementById("bvTpl"); if (ta) ta.value = bv.tpl; bvRefresh(true);
+    }
+  });
   document.addEventListener("toggle", (e) => { if (e.target.id === "bvBox") { bv.open = e.target.open; if (bv.open) paintBienv(); } }, true);
 }
 
@@ -203,10 +231,12 @@ export function registerActions(actions, render) {
   actions.bvSave = async () => { const b = await bvBlob(), a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = fname(); document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); };
   actions.bvStore = async () => {
     const t = (bv.tpl || "").trim(); if (!t) return toast("El mensaje está vacío", "");
-    try { await cloud.saveBienvenida({ texto: t === BIENV_DEFAULT ? "" : t }); bv.saved = t === BIENV_DEFAULT ? "" : t; toast("Mensaje guardado para todo el equipo 💾", "ok"); }
+    const v = t === bvDef() ? "" : t;
+    if (bv.m === "red") bv.savedRed = v; else bv.saved = v;
+    try { await cloud.saveBienvenida({ texto: bv.saved || "", textoRed: bv.savedRed || "" }); toast("Mensaje guardado para todo el equipo 💾", "ok"); }
     catch { toast("No se pudo guardar. Revisa tu conexión.", ""); }
   };
-  actions.bvReset = () => { bv.tpl = BIENV_DEFAULT; const ta = document.getElementById("bvTpl"); if (ta) ta.value = bv.tpl; bvRefresh(false); toast("Volviste al mensaje original. Para dejarlo fijo, guárdalo.", ""); };
+  actions.bvReset = () => { bv.tpl = bvDef(); const ta = document.getElementById("bvTpl"); if (ta) ta.value = bv.tpl; bvRefresh(false); toast("Volviste al mensaje original. Para dejarlo fijo, guárdalo.", ""); };
   actions.salPick = (el) => { sel = el.dataset.iso; render(); };
   actions.salCopy = async (el) => {
     const p = pick(el.dataset.iso, el.dataset.k); if (!p) return;
