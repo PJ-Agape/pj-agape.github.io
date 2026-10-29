@@ -85,6 +85,13 @@ function photoBox(ctx, im, x, y, w, h, rot) {
 export const isPhoto = (k) => !!k && typeof k === "object";
 export function ill(ctx, key, x, y, w, { color = C.navy, bg = C.white, pop = C.sun, outline = 0, rot = 0, bare = 0 } = {}) {
   if (isPhoto(key)) return photoBox(ctx, key, x, y, w, (w * 180) / 240, rot);
+  if (key === "sello") { // el sello de la comunidad internauta (Ágape digital)
+    if (!SELLO) return;
+    const h = (w * 180) / 240, s = h * 0.92;
+    ctx.save();
+    if (rot) { ctx.translate(x + w / 2, y + h / 2); ctx.rotate((rot * Math.PI) / 180); ctx.translate(-x - w / 2, -y - h / 2); }
+    ctx.drawImage(SELLO, x + (w - s) / 2, y + (h - s) / 2, s, s); ctx.restore(); return;
+  }
   const im = IMG.get([key, color, bg, pop, outline, bare].join("|"));
   if (!im) return;
   const h = (w * 180) / 240;

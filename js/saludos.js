@@ -46,7 +46,7 @@ function bienvText() {
   return t;
 }
 const bienvPiece = () => bv.m === "red"
-  ? { kicker: "Ágape digital", title: bv.nombre.trim() ? `¡${BV.o[bv.g]}, *${bv.nombre.trim()}*!` : `¡${BV.o[bv.g]} *a la red*!`, hand: "internautas que rezan", sub: "Comunidad agAPPe · unida a la Pastoral Juvenil Ágape de Yungay", ill: "celular" }
+  ? { kicker: "Ágape digital", title: bv.nombre.trim() ? `¡${BV.o[bv.g]}, *${bv.nombre.trim()}*!` : `¡${BV.o[bv.g]} *a la red*!`, hand: "internautas que rezan", sub: "Comunidad agAPPe · unida a la Pastoral Juvenil Ágape de Yungay", ill: "sello" }
   : ({ kicker: "Nuevo en el grupo", title: bv.nombre.trim() ? `¡${BV.o[bv.g]}, *${bv.nombre.trim()}*!` : `¡${BV.o[bv.g]} *a casa*!`, hand: "Hay un lugar para ti", sub: "Pastoral Juvenil Ágape · Parroquia San Miguel de Yungay", ill: "acogida" });
 const bvStyle = () => (bv.m === "red" ? "noche" : "cielo");
 async function paintBienv() {
