@@ -218,9 +218,13 @@ export const PJ = {
 export const PJ_KEYS = Object.keys(PJ);
 
 let uid = 0;
+// Personajes con sticker propio (img/pj): se muestran como imagen sobre su círculo de color.
+const PJ_IMG = new Set(["abeja", "astronauta", "ballena", "buho", "cactus", "conejo", "dino", "gato", "guitarra", "oso", "paloma", "panda", "pinguino", "pudu", "quiltro", "robot", "sol", "taza", "zorro"]);
+export const pjImg = (id) => (PJ_IMG.has(id) ? `img/pj/${id}.webp` : "");
 export function pjSvg(id) {
   const p = PJ[id]; if (!p) return "";
   const [, [c1, c2], draw] = p, g = "pj" + (++uid);
+  if (PJ_IMG.has(id)) return `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="url(#${g})" stroke="#0b2566" stroke-width="2.5"/><image href="${pjImg(id)}" x="7" y="7" width="50" height="50" preserveAspectRatio="xMidYMid meet"/></svg>`;
   return `<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient><clipPath id="${g}c"><circle cx="32" cy="32" r="30"/></clipPath></defs>
     <circle cx="32" cy="32" r="30" fill="url(#${g})"/><g clip-path="url(#${g}c)">${draw()}</g>
     <circle cx="32" cy="32" r="30" fill="none" stroke="${N}" stroke-width="2.6"/></svg>`;

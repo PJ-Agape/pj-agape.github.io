@@ -9,7 +9,7 @@ import * as S from "./store.js";
 import { esc, icon, toast } from "./util.js";
 import { nextOn } from "./repeat.js";
 import * as AP from "./apariencia.js";
-import { pjSvg } from "./personajes.js";
+import { pjSvg, pjImg } from "./personajes.js";
 import * as FI from "./fiestas.js";
 import * as DS from "./descubre.js";
 
@@ -249,7 +249,7 @@ function registerActions() {
     st.centro = v; st.centroImg = null; st.zoom = 1; st.dx = 0; st.dy = 0;
     if (v) {
       st.photo = null;
-      const src = /^pj:/.test(v) ? "data:image/svg+xml;charset=utf-8," + encodeURIComponent(pjSvg(v.slice(3)).replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" ')) : v;
+      const src = /^pj:/.test(v) && pjImg(v.slice(3)) ? pjImg(v.slice(3)) : /^pj:/.test(v) ? "data:image/svg+xml;charset=utf-8," + encodeURIComponent(pjSvg(v.slice(3)).replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" ')) : v;
       st.centroImg = await new Promise((ok) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = src; });
       if (!st.centroImg) { st.centro = ""; toast("No se pudo cargar ese sticker", ""); }
     }

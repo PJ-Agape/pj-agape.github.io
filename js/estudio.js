@@ -3,7 +3,7 @@
 // Lo usa el Estudio de difusión de la app y el exportador del paquete de archivos.
 
 import { illus, illusConCara, stickerSrc } from "./ilustraciones.js";
-import { pjSvg } from "./personajes.js";
+import { pjSvg, pjImg } from "./personajes.js";
 import qrcode from "./qr.js";
 
 export const C = { navy: "#0b2566", blue: "#1351a4", sun: "#ffba03", coral: "#ef591c", sky: "#8ad2fa", cream: "#fff6e5", white: "#ffffff", rose: "#fde0d2", butter: "#fff1c7", ice: "#e1f3fd" };
@@ -45,7 +45,7 @@ export async function preload(list) {
     const id = [k, color, bg, pop, outline, bare].join("|");
     if (IMG.has(id)) return;
     // Escenas con sticker propio: se usa la imagen (ya trae su borde blanco), centrada en el cuadro 4:3.
-    const src = stickerSrc(k);
+    const src = k.startsWith("pj:") ? pjImg(k.slice(3)) : stickerSrc(k);
     if (src) {
       if (outline) return;
       const im = await loadImg(BASE + src).catch(() => null); if (!im) return;
