@@ -538,7 +538,9 @@ async function visitsCard() {
   const bars = st.slice(-14).map((x) => { const d = new Date(x.dia + "T12:00:00"), h = Math.round((x.v / max) * 100), hc = x.v ? Math.round((x.c / x.v) * h) : 0;
     return `<div class="vis-col" title="${x.dia}: ${x.v} visitas (${x.c} con cuenta, ${x.g} visitantes)"><span class="vis-n">${x.v || ""}</span><div class="vis-bar" style="height:${h}%"><i style="height:${hc ? (hc / h) * 100 : 0}%"></i></div><small>${DIAS[d.getDay()]}<br>${d.getDate()}</small></div>`; }).join("");
   const users = data ? data.users.filter((u) => u.active !== false) : [];
-  const since = (n) => users.filter((u) => { const d = tsDate(u.lastSeen); return d && Date.now() - d.getTime() < n * 864e5; }).length;
+  // La propia cuenta acaba de entrar: su «última vez» se está guardando recién (llega vacía), así que cuenta como ahora.
+  const meUid = api.cloud.myUid();
+  const since = (n) => users.filter((u) => { const d = (u.uid || u.id) === meUid ? new Date() : tsDate(u.lastSeen); return d && Date.now() - d.getTime() < n * 864e5; }).length;
   const stat = (n, l, sub = "") => `<div class="card stat"><b>${n}</b><span class="muted small">${l}</span>${sub ? `<span class="xs muted">${sub}</span>` : ""}</div>`;
   const none = !sum(st, "v");
   // Comparación con la semana anterior y el mejor día del mes
