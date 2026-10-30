@@ -41,16 +41,19 @@ export const FECHAS_DEF = [
   { id: "aniversario", t: "Aniversario de Ágape", md: "", aniv: true, msg: "" },
   { id: "sanmiguel", t: "San Miguel Arcángel, patrono de nuestra parroquia", md: "09-29", msg: "«¿Quién como Dios?» Que San Miguel nos proteja y nos enseñe a estar siempre del lado del bien." },
 ];
-let fechas = null, cumples = null, cargado = 0;
+let fechas = null, cumples = null, cargado = 0, conCuenta = false;
 export async function load(force) {
-  if (!force && fechas && Date.now() - cargado < 5 * 60e3) return { fechas, cumples };
+  // Al abrir la app, Inicio se dibuja antes de que termine el ingreso: si ya hay cuenta y lo guardado
+  // se cargó sin ella (sin cumpleaños), se vuelve a cargar.
+  const ready = !!(cloud.enabled && cloud.state().ready);
+  if (!force && fechas && conCuenta === ready && Date.now() - cargado < 5 * 60e3) return { fechas, cumples };
   const [f, c] = await Promise.all([
     cloud.enabled ? cloud.getFechas().catch(() => null) : null,
     cloud.enabled && cloud.state().ready ? cloud.getCumples().catch(() => null) : null,
   ]);
   fechas = f && Array.isArray(f.items) ? f.items : FECHAS_DEF.map((x) => ({ ...x }));
   cumples = (c && Array.isArray(c.items) ? c.items : []).filter((x) => x && x.n && /^\d{2}-\d{2}$/.test(x.md));
-  cargado = Date.now();
+  cargado = Date.now(); conCuenta = ready;
   return { fechas, cumples };
 }
 export const getFechasCache = () => fechas || FECHAS_DEF;
