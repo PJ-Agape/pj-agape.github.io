@@ -188,6 +188,27 @@ export async function adminView() {
   <p class="xs muted">Los versículos de la noche vienen del salmo de Vísperas de cada día, en traducción sencilla. Para la antífona oficial, revisa la Liturgia de las Horas.</p>`;
 }
 
+// Envío rápido (desde el recordatorio del calendario): el saludo de hoy, listo para enviar en un toque.
+const KINDS = [["dia", "Buenos días"], ["perla", "Perla"], ["noche", "Buenas noches"], ["fuera", "Para compartir fuera"]];
+export async function enviarView(k) {
+  const d = await load(), t = hoy(), h = new Date().getHours();
+  if (!KINDS.some(([x]) => x === k)) k = h < 11 ? "dia" : h < 17 ? "perla" : "noche";
+  const x = d && d.dias.find((y) => y.iso === t);
+  const head = `<header class="page-head"><span class="eyebrow">Saludos WhatsApp</span><h1>Enviar el saludo de <em>hoy</em></h1></header>`;
+  if (!x) return `${head}<div class="note">No hay saludos preparados para hoy (${esc(t)}). Hay que agregar el bloque nuevo: revisa Gestión → Saludos WhatsApp.</div><a class="btn btn-ghost" href="#/admin/saludos">Ir a Saludos WhatsApp</a>`;
+  const imgK = k === "fuera" ? "dia" : k;
+  return `${head}
+    <div class="sal-env-seg" role="tablist" aria-label="Qué saludo">${KINDS.filter(([y]) => y === "fuera" || x[y]).map(([y, l]) => `<a role="tab" class="chip ${y === k ? "accent" : ""}" href="#/admin/enviar/${y}">${l}</a>`).join("")}</div>
+    <section class="card sal-env">
+      <img class="sal-img" src="${img(imgK, x.iso)}" alt="Imagen del saludo de hoy">
+      <button class="btn btn-gold sal-env-btn" data-action="salShare" data-iso="${x.iso}" data-k="${k}">Enviar a WhatsApp</button>
+      <p class="xs muted">${k === "fuera" ? "Para el canal, estados u otros grupos." : "Para la comunidad de internautas agAPPe."} En el celular se abre el menú de compartir con la imagen y el texto: elige WhatsApp y el chat. En el computador, primero se copia la imagen y luego el texto.</p>
+      <div class="row-wrap" style="gap:8px"><button class="btn btn-soft btn-sm" data-action="salCopy" data-iso="${x.iso}" data-k="${k}">${icon("copy")} Copiar texto</button>
+        <a class="btn btn-ghost btn-sm" href="${img(imgK, x.iso)}" download="agAPPe-${ARCH[imgK] || "saludo"}-${x.iso}.jpg">${icon("dl")} Guardar imagen</a>
+        <a class="btn btn-ghost btn-sm" href="#/admin/saludos">Ver todos los saludos</a></div>
+      <div class="sal-wa">${wa(textoDe(x, k))}</div>
+    </section>`;
+}
 function pick(iso, k) { const x = data && data.dias.find((y) => y.iso === iso); return x ? { x, text: textoDe(x, k) } : null; }
 
 // En el computador el menú para compartir no lleva imagen y texto juntos a WhatsApp. Por eso el botón

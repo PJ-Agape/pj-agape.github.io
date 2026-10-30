@@ -5126,3 +5126,7 @@ html.papel .ds-rec-ill svg.z-illus, html.papel .tp-ill svg.z-illus, html.papel .
 .card.link.tp-card, .card.link.ds-next-it { display: flex; flex-direction: row; align-items: center; }
 .tp-ill img.z-sticker, .ds-next-ill img.z-sticker, .ds-rec-ill img.z-sticker, .ds-st-ill img.z-sticker, .tp-door-ill img.z-sticker, .tp-hero-ill img.z-sticker { width: 100%; max-width: 100%; margin: 0; position: static; }
 .cap-a-ev ~ .tp-despues { margin: 14px 0 6px; background: #fff1c7; }
+.sal-env { display: grid; gap: 12px; max-width: 560px; }
+.sal-env-btn { font-size: 1.15rem; padding: 16px; justify-content: center; }
+.sal-env-seg { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.sal-env-seg a.chip { text-decoration: none; } .sal-env-seg a.chip.accent { background: #0b2566; color: #fff; }

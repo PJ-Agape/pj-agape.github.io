@@ -53,7 +53,7 @@ export async function renderAdmin(sub, _api) {
         <p class="muted" style="margin-top:8px">Si necesitas acceso, pídelo al equipo coordinador.</p>
         <a class="btn btn-primary" style="margin-top:16px" href="#/">Volver al inicio</a></div>`;
       const pg = sub.split("/").filter(Boolean)[0] || "hoy";
-      const COORD = { apariencia: () => apAdmin.adminView(), hoy: () => hoy.html(), portada: () => portada.adminView(), inicio: () => inicioAdmin.adminView(), familias: () => familiasAdmin.adminView(), saludos: () => saludos.adminView(), conocer: () => conocerView(), asignar: () => asignarView(),
+      const COORD = { apariencia: () => apAdmin.adminView(), hoy: () => hoy.html(), portada: () => portada.adminView(), inicio: () => inicioAdmin.adminView(), familias: () => familiasAdmin.adminView(), saludos: () => saludos.adminView(), enviar: () => saludos.enviarView(sub.split("/").filter(Boolean)[1]), conocer: () => conocerView(), asignar: () => asignarView(),
         moderacion: () => gEq.moderacionHTML(), ...EMBED };
       const GUIA = { hoy: COORD.hoy, acompanar: EMBED.acompanar };
       const ok = st.isStaff ? COORD[pg] : GUIA[pg];
@@ -76,6 +76,7 @@ export async function renderAdmin(sub, _api) {
     case "apariencia": body = cloudOn ? await apAdmin.adminView() : summaryView(draft); break;
     case "inicio": body = cloudOn ? inicioAdmin.adminView() : summaryView(draft); break;
     case "saludos": body = await saludos.adminView(); break;
+    case "enviar": body = await saludos.enviarView(parts[1]); break;
     case "conocer": body = cloudOn ? await conocerView() : summaryView(draft); break;
     case "familias": body = cloudOn ? familiasAdmin.adminView() : summaryView(draft); break;
     case "moderacion": body = cloudOn ? gEq.moderacionHTML() : summaryView(draft); break;
