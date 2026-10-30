@@ -1,19 +1,23 @@
 {
  "handle": "@magnificat.tv-fm",
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
- "via": "streams (rss 404)",
+ "via": "rss",
  "vistos": [
-  "El Papa pide reciprocidad a los musulmanes | Comentario Semanal | P. Santiago Martín FM | Magnificat",
+  "Santa Misa de Hoy | Viernes, XXX Semana del Tiempo Ordinario (30-10-2026) |Pbro. Santiago Martín, FM",
+  "\"No Llames Amor al Egoísmo\" | Homilía, Viernes XXX Semana del T.O | P. Santiago Martín, FM",
   "3. San José; El sueño, Dios nos habla en medio de nuestras incertidumbres | P. Santiago Martín FM",
   "Homilía│ Jueves, XXX semana del Tiempo Ordinario 29.10.2026│Pbro. Javier Martín FM│www.magnificat.tv",
   "La Santa Misa de Hoy | Jueves, XXX Semana del Tiempo Ordinario (29-10-2026) | P. Javier Martín, FM",
   "\"Cristo Quiere Salvarte, no le Hagas Sufrir\" | Homilía, Jueves XXX Semana del T.O | P. Santiago M",
   "Últimas Noticias: Iglesia en tiempos de crisis: cáncer, fe, democracia y violencia sacuden al mundo",
-  "No Dudes de la Intercesión de los Santos. Pídeles Ayuda | Homilía, San Simón y Judas | P. Santiago M",
-  "Santa Misa | Fiesta, Santos Simón y Judas Tadeo, Apóstoles (28-10-2026) | Pbro. Santiago Martín, FM"
+  "No Dudes de la Intercesión de los Santos. Pídeles Ayuda | Homilía, San Simón y Judas | P. Santiago M"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-10-30": {
+   "id": "OrGBTJxA5qQ",
+   "title": "Santa Misa de Hoy | Viernes, XXX Semana del Tiempo Ordinario (30-10-2026) |Pbro. Santiago Martín, FM"
+  },
   "2026-10-29": {
    "id": "ko2fV05ZkDw",
    "title": "La Santa Misa de Hoy | Jueves, XXX Semana del Tiempo Ordinario (29-10-2026) | P. Javier Martín, FM"
