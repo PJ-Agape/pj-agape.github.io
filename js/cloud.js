@@ -389,7 +389,7 @@ export async function countVisit() {
 // Las claves deben coincidir con la lista de firestore.rules (match /vistas/{day}).
 export const VISTAS = {
   inicio: "Inicio", evangelio: "Evangelio del día", capilla: "Capilla", rosario: "Rosario", rato: "Un rato con Jesús",
-  intenciones: "Intenciones", radio: "Radios", salmos: "Salmos", oremus: "Oremus", cancionero: "Cancionero",
+  intenciones: "Intenciones", radio: "Radios", salmos: "Salmos", oremus: "Recemos juntos", cancionero: "Cancionero",
   comunidad: "Comunidad", muro: "Muro", chat: "Chat", momentos: "Momentos", juegos: "Juegos", podcast: "Podcast",
   agenda: "Agenda", formacion: "Formación", curso: "Cursos", materiales: "Materiales", dinamicas: "Dinámicas",
   difusion: "Estudio de difusión", ayuda: "Ayuda", buscar: "Buscador",

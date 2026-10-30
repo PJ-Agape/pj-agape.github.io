@@ -197,11 +197,11 @@ export function oremusView(t) {
   if (t) ctx.onAfterRender(() => setTimeout(() => document.getElementById("capDevCard")?.scrollIntoView({ behavior: "smooth", block: "start" }), 80));
   const CHIPS = ["Padre nuestro", "Ave María", "Gloria al Padre", "Credo", "Ven Santo Espíritu", "Ángel de Dios", "Salve Regina", "Acto de Contrición", "Alma de Cristo", "Bajo tu amparo"].filter((x) => devFind(x));
   return `<div class="oremus">
-    ${E.head({ id: "oremus", back: ["#/oracion", "Capilla"], crumb: "Oremus", ico: E.ICO.oremus,
-      hand: "recemos juntos", title: "*Oremus*",
+    ${E.head({ id: "oremus", back: ["#/oracion", "Capilla"], crumb: "Recemos juntos", ico: E.ICO.oremus,
+      hand: "nuestras oraciones y las de siempre", title: "Recemos *juntos*",
       sub: "Nuestras oraciones, para antes y después de cada encuentro, y las que rezamos en toda la Iglesia. Elige una y rézala con calma.",
       side: { hand: "¿Qué quieres rezar?", text: "Las de siempre, a un toque. Abajo están todas.", chips: CHIPS.map((x) => [x, `href="#/oremus/${encodeURIComponent(x)}"`]) },
-      guide: { ill: "img/ilus/s086.webp", hand: "para rezar en papel", title: "El librito de *Oremus*", text: "Todas las oraciones, para hojear con calma o imprimir.", btn: ["#/oremus/libro", "Abrir el librito"] } })}
+      guide: { ill: "img/ilus/s086.webp", hand: "para rezar en papel", title: "El librito de *oraciones*", text: "Todas las oraciones, para hojear con calma o imprimir.", btn: ["#/oremus/libro", "Abrir el librito"] } })}
     <section class="ent-lista">
     <h2 class="ent-h">Todas las oraciones</h2>
     ${devocionarioHTML()}
@@ -259,7 +259,7 @@ function devProjPaint() {
   const s = pj.slides[pj.i] || {};
   const line = (l) => (/^[VR]\. /.test(l) ? `<b>${l[0]}.</b> ${esc(l.slice(3))}` : esc(l));
   ov.innerHTML = `<div class="can-proj-in">
-    ${s.title ? `<span class="can-proj-mom">${esc(s.sub || "Oremus")}</span><h2 class="can-proj-title">${esc(s.title)}</h2>`
+    ${s.title ? `<span class="can-proj-mom">${esc(s.sub || "Recemos juntos")}</span><h2 class="can-proj-title">${esc(s.title)}</h2>`
       : `<p class="can-proj-txt">${(s.lines || []).map(line).join("<br>")}</p>`}
   </div>
   <div class="can-proj-ctrl"><button class="icon-btn" data-action="capProjPrev" aria-label="Anterior">${icon("left")}</button>
@@ -350,7 +350,7 @@ function wheelHTML(mk, my, now) {
     { k: "rosario", t: "Rosario", go: [["Rezar", () => ctx.actions.capRosario({ dataset: { set: mk } })]] },
     { k: "rato", t: "Con Jesús", go: [["En casa o donde estés", () => ctx.actions.capGuide({ dataset: { k: "casa" } })], ["Ante el Santísimo", () => ctx.actions.capGuide({ dataset: { k: "adoracion" } })]] },
     { k: "salmos", t: "Salmos", go: [["Entrar", "#/salmos"]] },
-    { k: "oremus", t: "Oremus", go: [["Entrar", "#/oremus"]] },
+    { k: "oremus", t: "Recemos", go: [["Entrar", "#/oremus"]] },
     { k: "cancionero", t: "Cancionero", go: [["Entrar", "#/cancionero"]] },
     { k: "intenciones", t: "Intenciones", go: [["Entrar", () => { if (!altarOpen) setAltar(true); setTimeout(scrollTo("cap-velas"), 60); }]] },
   ];

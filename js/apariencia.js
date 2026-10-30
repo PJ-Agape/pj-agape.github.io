@@ -92,12 +92,12 @@ export const ZONAS = [
     t: [[".eyebrow", "Línea pequeña", "Para comenzar"], [".cap-hand", "Frase manuscrita", "¿Cómo llegas hoy?"], [".sal-llegas-p", "Texto", "Elige lo que sientes y te regalamos un salmo para rezar."]] },
   { id: "salmos_guia", n: "Orar · Salmos · tarjeta del librito", ruta: "#/salmos", re: /^\/salmos$/, sel: '.sal-guide[data-ent="salmos"]', stk: "img/ilus/s084.webp", stkSel: ".cap-guide-il",
     t: [[".cap-hand", "Frase manuscrita", "para leer con calma"], ["h2", "Título (entre *asteriscos* va el destacado)", "El librito de los *Salmos*"], [".cap-guide-txt > p", "Descripción", "Los 150 salmos, uno por página, para hojear despacio como un libro de oración."], [".ent-btn-l", "Texto del botón", "Abrir el librito"]] },
-  { id: "oremus", n: "Orar · Oremus · encabezado", ruta: "#/oremus", re: /^\/oremus/, sel: '.ent-hero[data-ent="oremus"] .cap-arch', stk: "",
-    t: [[".cap-hand", "Frase manuscrita", "recemos juntos"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "*Oremus*"], [".cap-sub", "Descripción", "Nuestras oraciones, para antes y después de cada encuentro, y las que rezamos en toda la Iglesia. Elige una y rézala con calma."]] },
-  { id: "oremus_comenzar", n: "Orar · Oremus · tarjeta «Para comenzar»", ruta: "#/oremus", re: /^\/oremus/, sel: '.sal-llegas[data-ent="oremus"]', stk: "",
+  { id: "oremus", n: "Orar · Recemos juntos · encabezado", ruta: "#/oremus", re: /^\/oremus/, sel: '.ent-hero[data-ent="oremus"] .cap-arch', stk: "",
+    t: [[".cap-hand", "Frase manuscrita", "nuestras oraciones y las de siempre"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "Recemos *juntos*"], [".cap-sub", "Descripción", "Nuestras oraciones, para antes y después de cada encuentro, y las que rezamos en toda la Iglesia. Elige una y rézala con calma."]] },
+  { id: "oremus_comenzar", n: "Orar · Recemos juntos · tarjeta «Para comenzar»", ruta: "#/oremus", re: /^\/oremus/, sel: '.sal-llegas[data-ent="oremus"]', stk: "",
     t: [[".eyebrow", "Línea pequeña", "Para comenzar"], [".cap-hand", "Frase manuscrita", "¿Qué quieres rezar?"], [".sal-llegas-p", "Texto", "Las de siempre, a un toque. Abajo están todas."]] },
-  { id: "oremus_guia", n: "Orar · Oremus · tarjeta del librito", ruta: "#/oremus", re: /^\/oremus/, sel: '.sal-guide[data-ent="oremus"]', stk: "img/ilus/s086.webp", stkSel: ".cap-guide-il",
-    t: [[".cap-hand", "Frase manuscrita", "para rezar en papel"], ["h2", "Título (entre *asteriscos* va el destacado)", "El librito de *Oremus*"], [".cap-guide-txt > p", "Descripción", "Todas las oraciones, para hojear con calma o imprimir."], [".ent-btn-l", "Texto del botón", "Abrir el librito"]] },
+  { id: "oremus_guia", n: "Orar · Recemos juntos · tarjeta del librito", ruta: "#/oremus", re: /^\/oremus/, sel: '.sal-guide[data-ent="oremus"]', stk: "img/ilus/s086.webp", stkSel: ".cap-guide-il",
+    t: [[".cap-hand", "Frase manuscrita", "para rezar en papel"], ["h2", "Título (entre *asteriscos* va el destacado)", "El librito de *oraciones*"], [".cap-guide-txt > p", "Descripción", "Todas las oraciones, para hojear con calma o imprimir."], [".ent-btn-l", "Texto del botón", "Abrir el librito"]] },
   { id: "cancionero", n: "Orar · Cancionero · encabezado", ruta: "#/cancionero", re: /^\/cancionero$/, sel: '.ent-hero[data-ent="cancionero"] .cap-arch', stk: "",
     t: [[".cap-hand", "Frase manuscrita", "cantar es rezar dos veces"], [".cap-title", "Título (entre *asteriscos* va el destacado)", "Cancionero *Ágape*"], [".cap-sub", "Descripción", "Canciones con acordes para cada momento de la misa, en el tono que necesites. Ideal para ensayar y para proyectar."]] },
   { id: "cancionero_comenzar", n: "Orar · Cancionero · tarjeta «Para comenzar»", ruta: "#/cancionero", re: /^\/cancionero$/, sel: '.sal-llegas[data-ent="cancionero"]', stk: "",
@@ -135,8 +135,8 @@ export const PANTALLAS = [
     g: [[".cg", "Íconos de «Para rezar»"]] },
   { id: "salmos", n: "Orar · Salmos", ruta: "#/salmos", re: /^\/salmos$/, p: [
     ["entrada", "Entrada y «Para comenzar»", ".ent-hero"], ["librito", "El librito de los Salmos", ".sal-guide"], ["cita", "Cita final", ".cap-foot"]] },
-  { id: "oremus", n: "Orar · Oremus", ruta: "#/oremus", re: /^\/oremus/, wrap: ".oremus", p: [
-    ["entrada", "Entrada y «Para comenzar»", ".ent-hero"], ["librito", "El librito de Oremus", ".sal-guide"],
+  { id: "oremus", n: "Orar · Recemos juntos", ruta: "#/oremus", re: /^\/oremus/, wrap: ".oremus", p: [
+    ["entrada", "Entrada y «Para comenzar»", ".ent-hero"], ["librito", "El librito de oraciones", ".sal-guide"],
     ["lista", "Todas las oraciones", ".ent-lista"], ["cita", "Cita final", ".cap-foot"]] },
   { id: "cancionero", n: "Orar · Cancionero", ruta: "#/cancionero", re: /^\/cancionero$/, p: [
     ["entrada", "Entrada y «Para comenzar»", ".ent-hero"], ["hoja", "La hoja de cantos", ".sal-guide"], ["lista", "Todas las canciones", ".ent-lista"]] },

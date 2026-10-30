@@ -76,7 +76,7 @@ const VENTANAS = [
   ["rato", "Diez minutos con Él", "Regálale a Jesús un rato de silencio. Él también te espera."],
   ["difusion", "Invita a alguien", "Arma una historia en el Estudio de difusión e invita a un amigo a preparar la Navidad."],
   ["rosario", "Con María, esperando", "Reza un misterio del Rosario: nadie supo esperar como Ella."],
-  ["oremus", "Palabras para rezar", "Elige una oración de Oremus y rézala despacio antes de dormir."],
+  ["oremus", "Palabras para rezar", "Elige una oración de Recemos juntos y rézala despacio antes de dormir."],
   ["juegos", "La alegría del encuentro", "Juega una trivia y compártela con el grupo: la fe también se celebra."],
   ["radio", "Música para el camino", "Escucha una radio católica mientras haces tus cosas."],
   ["evangelio", "Prepara el camino", "Juan el Bautista grita en el desierto. ¿Qué camino necesitas enderezar?"],
@@ -89,7 +89,7 @@ const VENTANAS = [
   ["cancionero", "Canta con el grupo", "Elige un canto para la misa de Navidad y apréndete los acordes."],
   ["rosario", "Los misterios gozosos", "Reza los misterios gozosos: la historia de la Navidad cuenta a cuenta."],
   ["intenciones", "Por las familias", "Enciende una vela por las familias que están separadas o con problemas."],
-  ["oremus", "Bendice la mesa", "Busca en Oremus una bendición de la mesa y rézala hoy con tu familia."],
+  ["oremus", "Bendice la mesa", "Busca en Recemos juntos una bendición de la mesa y rézala hoy con tu familia."],
   ["juegos", "Prepara la fiesta", "Elige un juego para compartir en Navidad con tu familia o tus amigos."],
   ["evangelio", "José, el justo", "Lee el Evangelio y aprende de José: confiar, cuidar y hacer silencio."],
   ["rato", "El pesebre del corazón", "Un rato con Jesús: ordena tu corazón como quien prepara el pesebre."],
@@ -208,7 +208,7 @@ const DESPUES = [
   ["rato", "Deja que la Palabra te hable", "Un rato de silencio guiado, al estilo de Santa Teresa."],
   ["rosario", "Medítalo junto a María", "Reza un misterio del Rosario con lo que leíste."],
   ["intenciones", "Lleva a alguien en tu oración", "Enciende una vela por quien te vino a la mente al leer."],
-  ["oremus", "Termina con una oración", "Elige una oración de Oremus para cerrar tu lectura."],
+  ["oremus", "Termina con una oración", "Elige una oración de Recemos juntos para cerrar tu lectura."],
   ["cancionero", "Canta la Palabra", "Busca una canción que te ayude a rezar lo de hoy."],
 ];
 export function despuesEvangelio(d = hoy0()) {

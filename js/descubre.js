@@ -22,7 +22,7 @@ export const TOOLS = [
   { k: "rosario", n: "Rosario", href: "#/oracion/rosario", ill: "maria", d: "Cuenta a cuenta, con los misterios del día y una voz que te guía." },
   { k: "rato", n: "Un rato con Jesús", href: "#/oracion/silencio", ill: "oracion", d: "Unos minutos de silencio guiado para conversar con Él." },
   { k: "salmos", n: "Salmos", href: "#/salmos", ill: "l_biblia", d: "Elige cómo llegas hoy y reza con el salmo que te acompaña." },
-  { k: "oremus", n: "Oremus", href: "#/oremus", ill: "jesus", d: "Nuestras oraciones y las de toda la Iglesia." },
+  { k: "oremus", n: "Recemos juntos", href: "#/oremus", ill: "jesus", d: "Nuestras oraciones y las de toda la Iglesia." },
   { k: "cancionero", n: "Cancionero", href: "#/cancionero", ill: "img:img/stickers/guitarra.webp", d: "Canciones con acordes para cada momento de la misa." },
   { k: "intenciones", n: "Intenciones", href: "#/oracion/velas", ill: "luz", d: "Enciende una vela y reza por las intenciones de otros." },
   { k: "radio", n: "Radios católicas", href: "#/oracion/radio", ill: "celular", d: "Música y oración en vivo, para acompañar tu día." },
@@ -190,7 +190,7 @@ export function view() {
 // --- Recorrido de bienvenida --------------------------------------------------------
 const TOUR = [
   { t: "Bienvenido a agAPPe", x: "La casa digital de la Pastoral Juvenil Ágape de Yungay. Te mostramos sus rincones en 30 segundos.", ill: "sello" },
-  { t: "Orar", x: "En la Capilla están el Evangelio del día, el Rosario, Un rato con Jesús, los Salmos y Oremus.", ill: "oracion" },
+  { t: "Orar", x: "En la Capilla están el Evangelio del día, el Rosario, Un rato con Jesús, los Salmos y Recemos juntos.", ill: "oracion" },
   { t: "Nadie reza solo", x: "Enciende una vela por tus intenciones y reza por las de otros. Las llevamos a la misa del grupo.", ill: "luz" },
   { t: "Cantar y escuchar", x: "Cancionero con acordes, radios católicas en vivo, podcast y juegos para el grupo.", ill: "juego" },
   { t: "Tu Pasaporte Ágape", x: "Cada rincón que visitas te da un sello. Completa el mes y recibe un marco especial para tu foto.", ill: "sello" },

@@ -233,7 +233,7 @@ function decorate(v, section) {
 // botones para volver a la entrada de la sección y a la Capilla, arriba (en vez de la ruta) y al final.
 const VOLVER = [
   [/^\/salmos\/(\d{1,3}|libro)/, "#/salmos", "Volver a los Salmos"],
-  [/^\/oremus\/libro$/, "#/oremus", "Volver a Oremus"],
+  [/^\/oremus\/libro$/, "#/oremus", "Volver a Recemos juntos"],
   [/^\/cancionero\/.+/, "#/cancionero", "Volver al Cancionero"],
 ];
 function volverBotones(v, path) {
@@ -1110,7 +1110,7 @@ function viewMaterials() {
       row("#/cancionero", "book", "Cancionero Ágape", guest ? "Las canciones originales de Ágape. Con tu cuenta, el cancionero completo." : "Acordes, cambio de tono, proyección y repertorios"),
     ]],
     ["oracion", "Oración", "#1351a4", "Para rezar solos o en el encuentro.", [
-      row("#/oremus", "book", "Oremus", "Nuestras oraciones y las de siempre, en un solo lugar"),
+      row("#/oremus", "book", "Recemos juntos", "Nuestras oraciones y las de siempre, en un solo lugar"),
       row("#/salmos", "book", "Oremos con los salmos", "Un salmo para cada momento y cómo rezarlo paso a paso"),
     ]],
     ["guias", "Guías para el encuentro", "#8ad2fa", "Pautas breves para preparar y acompañar cada reunión.", [

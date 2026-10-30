@@ -29,7 +29,7 @@ let book = null, lsig = "";
 const linea = (l) => /^[VR]\. /.test(l) ? `<b class="ore-vr">${l[0]}.</b> ${esc(l.slice(3))}` : /^Oremos: /.test(l) ? `<b class="ore-vr">Oremos:</b> ${esc(l.slice(8))}` : esc(l);
 const lineasHTML = (x) => String(x || "").split("\n").map((l) => l.trim()).map((l) => (l ? `<p class="sl-v">${linea(l)}</p>` : `<div class="sl-gap"></div>`));
 const oraHead = (o, g) => `<div class="ore-ph">${ilusDe(o, g, "ore-il")}<h3>${esc(o.t)}</h3></div>`;
-const grpHead = (g, cont) => `<header class="cl-head"><span class="eyebrow">Oremus</span><h2>${esc(g)}${cont ? ` <span class="cl-cont-s">(continuación)</span>` : ""}</h2></header>`;
+const grpHead = (g, cont) => `<header class="cl-head"><span class="eyebrow">Recemos juntos</span><h2>${esc(g)}${cont ? ` <span class="cl-cont-s">(continuación)</span>` : ""}</h2></header>`;
 
 // La cruz con rayos de la portada (en el mismo trazo que la lira de los Salmos).
 const CRUZ = `<svg class="sl-harp ore-cruz" viewBox="0 4 200 98" aria-hidden="true"><g class="sl-harp-s">${[...Array(12)].map((_, i) => {
@@ -45,7 +45,7 @@ function portada(n, go) {
     <span class="cl-cov-ribbon" aria-hidden="true"></span>
     <span class="cl-cov-k">Pastoral Juvenil Ágape · Yungay</span>
     <div class="cl-cov-medal"><svg class="cl-cov-rays" viewBox="0 0 200 200" aria-hidden="true">${rays}</svg><img src="icons/logo-320.webp" alt="" width="320" height="320"></div>
-    <h2><span>Libro de oraciones</span><em>Oremus</em>
+    <h2><span>Libro de oraciones</span><em>Recemos juntos</em>
       <svg class="cl-cov-swash" viewBox="0 0 220 24" aria-hidden="true"><path d="M6 16 C 60 4, 120 4, 214 12"/><path d="M40 20 C 90 12, 140 12, 196 18"/></svg></h2>
     ${CRUZ}
     <div class="cl-cov-foot">
@@ -63,7 +63,7 @@ const footOf = (l, n, r = "") => `<span class="cl-f-l">${l}</span><span class="c
 export function viewLibro() {
   ctx.onAfterRender(() => buildLibro());
   return `
-  <nav class="crumbs no-print"><a href="#/oracion">Capilla</a>${icon("right")}<a href="#/oremus">Oremus</a>${icon("right")}<span>Librito</span></nav>
+  <nav class="crumbs no-print"><a href="#/oracion">Capilla</a>${icon("right")}<a href="#/oremus">Recemos juntos</a>${icon("right")}<span>Librito</span></nav>
   <div class="cl-bar" role="toolbar" aria-label="Opciones del libro">
     <button class="btn btn-sm btn-ghost" data-action="oreLGo" data-p="1">${icon("grid")} Índice</button>
     <span class="cl-nav"><button class="icon-btn ore-turn" data-action="oreLTurn" data-d="-1" aria-label="Página anterior">${icon("left")}</button>
@@ -104,7 +104,7 @@ function buildLibro(force) {
   grupos.forEach(([g, xs]) => { ixRows.push({ g }); xs.forEach((o) => ixRows.push({ g, o })); });
   const ixRow = (r, p) => r.o ? `<button class="cl-ix" data-action="oreLGo" data-p="${p}"><span class="cl-ix-t">${esc(r.o.t)}</span><span class="cl-ix-d" aria-hidden="true"></span><span class="cl-ix-n">${p}</span></button>`
     : `<p class="ore-ixg">${esc(r.g)}</p>`;
-  const ixHead = (cont) => `<header class="cl-head"><span class="eyebrow">Oremus</span><h2>Índice${cont ? ` <span class="cl-cont-s">(continuación)</span>` : ""}</h2></header>`;
+  const ixHead = (cont) => `<header class="cl-head"><span class="eyebrow">Recemos juntos</span><h2>Índice${cont ? ` <span class="cl-cont-s">(continuación)</span>` : ""}</h2></header>`;
   const a2 = meas(pageOf({ cls: "cl-index", head: ixHead(true), foot: footOf("x", 0) })).clientHeight;
   const b1 = meas(pageOf({ cls: "cl-index", head: ixHead(false), body: ixRows.map((r) => ixRow(r, 888)).join(""), foot: footOf("x", 0) }));
   const ixParts = splitByHeight([...b1.children], b1.clientHeight, a2, (el) => el.classList.contains("ore-ixg"));

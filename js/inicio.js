@@ -63,7 +63,7 @@ const ITEMS = [
   { b: "red", e: "", t: "Guía de servicio", d: "Presentación: identidad, roles, cargos y reuniones.", href: "presentaciones/guia-de-servicio.html", ext: true, kw: "guia servicio pastoral identidad roles cargos reuniones comunidad presentacion", ok: (w) => w.equipo, hub: false },
   { b: "espiritu", e: "", t: "Nuestra Capilla", d: "Silencio, intenciones, la Palabra y María: un lugar para estar con Jesús.", href: "#/oracion", kw: "capilla oracion rezar velas intenciones espiritualidad", ok: () => true },
   { b: "espiritu", e: "", t: "Evangelio del día", d: "La Palabra de hoy.", href: "#/evangelio", kw: "evangelio palabra lectura hoy biblia", ok: () => true },
-  { b: "espiritu", e: "", t: "Oremus", d: "Nuestras oraciones y las de siempre: Padre nuestro, Ave María, Credo y más.", href: "#/oremus", kw: "oraciones devocionario rezar oremus", ok: () => true },
+  { b: "espiritu", e: "", t: "Recemos juntos", d: "Nuestras oraciones y las de siempre: Padre nuestro, Ave María, Credo y más.", href: "#/oremus", kw: "oraciones devocionario rezar oremus", ok: () => true },
   { b: "espiritu", e: "", t: "Rezar el Rosario", d: "Paso a paso, cuenta a cuenta, con María.", href: "#/oracion/rosario", kw: "maria virgen rosario misterios", ok: () => true },
   { b: "espiritu", e: "", t: "Nuestras intenciones", d: "Comparte tu intención y reza por las de otros.", href: "#/oracion/velas", kw: "vela intencion rezar por", ok: () => true },
   { b: "espiritu", e: "", t: "Oremos con los salmos", d: "Un salmo para cada momento y cómo rezarlo.", href: "#/salmos", kw: "salmos salmo orar rezar biblia lectio pastor miedo triste gracias perdon", ok: () => true },
@@ -155,7 +155,7 @@ function matBanner(w) {
       <span class="eyebrow">${team ? "Herramientas de la pastoral" : "Para todos"}</span>
       <span class="hub-cb-hand">${team ? "para preparar cada encuentro" : "para invitar, cantar y rezar"}</span>
       <h2 id="hubMT">Materiales</h2>
-      <p class="hub-cb-meta">${team ? "Presentaciones, difusión, música, oración, guías, para imprimir y la biblioteca digital: todo en sus ficheros." : "Arma invitaciones, canta con el cancionero, reza con Oremus y conoce los documentos de la Iglesia."}</p>
+      <p class="hub-cb-meta">${team ? "Presentaciones, difusión, música, oración, guías, para imprimir y la biblioteca digital: todo en sus ficheros." : "Arma invitaciones, canta con el cancionero, reza con «Recemos juntos» y conoce los documentos de la Iglesia."}</p>
       <div class="hub-cb-btns"><a class="btn btn-gold" href="#/materiales"><span class="hub-btn-l">Abrir Materiales</span> ${icon("arrowR")}</a></div>
     </div>
     <div class="hub-cb-art" aria-hidden="true"><i class="hub-cb-sun"></i>${illus("biblia", "hub-cb-il")}</div>
@@ -288,7 +288,7 @@ function index() {
     const c = S.activeCourse();
     (c.phases || []).forEach((p, pi) => (p.sessions || []).forEach((s) => add("Unidades del curso", "", `${s.id} ${s.title}`, p.title, `#/unidad/${pi}/${encodeURIComponent(s.id)}`, s.summary || "")));
   }
-  ORACIONES.forEach((o) => add("Oraciones", "", o.t, o.note || "Oremus", `#/oremus/${encodeURIComponent(o.t)}`));
+  ORACIONES.forEach((o) => add("Oraciones", "", o.t, o.note || "Recemos juntos", `#/oremus/${encodeURIComponent(o.t)}`));
   SALMOS.forEach((s) => add("Salmos", "", `Salmo ${s.n} · ${s.t}`, `«${s.v}»`, `#/salmos/${s.n}`, s.intro));
   try { songList().forEach((s) => add("Canciones", "", s.title, s.author || "Cancionero", `#/cancionero/${encodeURIComponent(s.id)}`, (s.momentos || []).join(" "))); } catch {}
   if (w.equipo) BANCO.forEach((d) => add("Dinámicas", "", d.title, d.objetivo, `#/dinamicas/${encodeURIComponent(d.id)}`, (d.tags || []).join(" ")));
