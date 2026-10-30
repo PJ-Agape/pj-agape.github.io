@@ -11,6 +11,7 @@ import { nextOn } from "./repeat.js";
 import * as AP from "./apariencia.js";
 import { pjSvg } from "./personajes.js";
 import * as FI from "./fiestas.js";
+import * as DS from "./descubre.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 // Los códigos QR siempre llevan al sitio oficial (también desde el sitio de prueba).
@@ -128,7 +129,7 @@ function marcoHTML() {
       <div class="field"><label>O un sticker en el centro</label>
         <div class="row-wrap dif-centro">${st.centro ? `<span class="dif-centro-cur">${AP.stkHTML(st.centro, "")}</span><button type="button" class="btn btn-sm btn-ghost" data-action="difCentro" data-v="">Volver al del marco</button>` : `<span class="xs muted">${st.photo ? "Ahora va tu foto." : "Ahora va el dibujo del marco."}</span>`}</div>
         <details class="ap-stk-det dif-centro-det"><summary class="small"><b>Elegir un sticker</b> <span class="xs muted">(${AP.catalogo().reduce((n, [, l]) => n + l.length, 0)} para elegir)</span></summary><div class="ap-pick" data-difpick></div></details></div>
-      <div class="field"><label>Marco</label><div class="dif-frames">${E.FRAMES.map((f) => `<button type="button" aria-pressed="${st.frame === f.id}" data-action="difFrame" data-v="${f.id}" title="${esc(f.text.replace(/·/g, "").trim())}"><canvas data-fthumb="${f.id}" width="160" height="160"></canvas></button>`).join("")}</div></div>
+      <div class="field"><label>Marco</label><div class="dif-frames">${E.FRAMES.filter((f) => !f.premio || DS.completo() || st.frame === f.id).map((f) => `<button type="button" aria-pressed="${st.frame === f.id}" data-action="difFrame" data-v="${f.id}" title="${esc(f.text.replace(/·/g, "").trim())}"><canvas data-fthumb="${f.id}" width="160" height="160"></canvas></button>`).join("")}</div></div>
       <details class="dif-more dif-fx" ${st.fx.text || st.fx.ring || st.fx.ink || st.fx.ins ? "open" : ""}><summary><b>Personalizar el marco</b> <span class="xs muted">texto, colores e insignia</span></summary>
         <div class="stack" style="--gap:10px;margin-top:10px">
           <div class="field"><label>Texto del aro</label><input class="input" maxlength="70" data-fx="text" value="${esc(st.fx.text)}" placeholder="${esc((E.FRAMES.find((f) => f.id === st.frame) || E.FRAMES[0]).text.replace(/\s*·\s*$/, ""))}"></div>

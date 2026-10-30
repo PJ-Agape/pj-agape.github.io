@@ -9,6 +9,8 @@ import { illus } from "./ilustraciones.js";
 import * as E from "./entrada.js";
 import * as AD from "./agape-digital.js";
 import * as F from "./fiestas.js";
+import * as DS from "./descubre.js";
+import * as TP from "./temporadas.js";
 import { avatar } from "./avatares.js";
 
 // Misa en vivo: la de hoy del canal de Magnificat TV (data/misa-vivo.json, la busca cada hora la
@@ -408,6 +410,7 @@ export function view(opt = {}) {
       <span class="cap-row-txt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("right")}</${attrs.startsWith("href") ? "a" : "button"}>`;
   let num = 0; // los rincones se numeran solos, en orden
   return `${AD.bienvenidaHTML()}
+  ${TP.tarjetaHTML() ? `<div class="tp-cap">${TP.tarjetaHTML()}</div>` : ""}
   <section class="cap-a-hero" style="--season:${s.hex}">
     <div class="cap-arch">
       ${roseWindow()}
@@ -677,6 +680,7 @@ function guideSteps(k) {
 }
 let gd = null; // { k, steps, i }
 function openGuide(k) {
+  DS.marcar("rato");
   gd = { k, steps: guideSteps(k), i: 0 };
   let ov = document.getElementById("capOverlay");
   if (!ov) { ov = document.createElement("div"); ov.id = "capOverlay"; document.body.appendChild(ov); }
@@ -842,6 +846,7 @@ function virgenLinea(cls = "") {
 </svg>`;
 }
 function openRosary(set) {
+  DS.marcar("rosario");
   set = MYST[set] ? set : MYST_BY_DAY[new Date().getDay()];
   closeRosary();
   const el = document.createElement("div");

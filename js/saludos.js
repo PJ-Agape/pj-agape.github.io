@@ -5,6 +5,7 @@ import { esc, icon, toast } from "./util.js";
 import * as cloud from "./cloud.js";
 import * as E from "./estudio.js";
 import * as F from "./fiestas.js";
+import * as TP from "./temporadas.js";
 
 let data = null, sel = null;
 
@@ -111,6 +112,30 @@ async function load() {
   return data;
 }
 
+// Invitación del día: cada día el saludo lleva a un rincón distinto de la app (Mes de María y Adviento tienen el suyo)
+const INVITA = [
+  ["📻", "Hoy te invitamos a escuchar una *radio católica* en vivo", "#/oracion/radio"], // domingo
+  ["🎶", "Hoy te invitamos a *rezar con los Salmos*: elige cómo llegas y te regalamos uno", "#/salmos"],
+  ["🤫", "Hoy te invitamos a regalarle a Jesús *un rato de silencio*", "#/oracion/silencio"],
+  ["📿", "Hoy te invitamos a rezar el *Rosario*, cuenta a cuenta", "#/oracion/rosario"],
+  ["🎸", "Hoy te invitamos a buscar una canción en el *Cancionero*", "#/cancionero"],
+  ["🕯️", "Hoy te invitamos a *encender una vela* y rezar por las intenciones de otros", "#/oracion/velas"],
+  ["🙏", "Hoy te invitamos a rezar con una oración de *Oremus*", "#/oremus"],
+];
+export function invitacion(iso) {
+  const [y, m, d] = iso.split("-").map(Number), dt = new Date(y, m - 1, d);
+  const a = TP.adviento(dt), mm = TP.mesMaria(dt);
+  if (a.activo) return `🎁 *Calendario de Adviento · día ${a.dia}:* abre la ventanita de hoy 👉 ${APP}#/adviento`;
+  if (mm.activo) return `🌹 *Mes de María · día ${mm.dia}:* la flor de hoy para María y el Rosario 👉 ${APP}#/mesdemaria`;
+  const [e, t, h] = INVITA[dt.getDay()];
+  return `${e} ${t} 👉 ${APP}${h}`;
+}
+function textoDe(x, k) {
+  if (k === "fuera") return fuera(x);
+  if (k !== "dia" || !x.dia) return x[k] || "";
+  const i = x.dia.indexOf("📖 Léelo completo");
+  return i > 0 ? `${x.dia.slice(0, i)}${invitacion(x.iso)}\n${x.dia.slice(i)}` : `${x.dia}\n\n${invitacion(x.iso)}`;
+}
 // Versión general, para compartir fuera de la comunidad (canal, estados, otros grupos):
 // la fecha, la frase del Evangelio, la cita, el enlace y la invitación a reenviarlo (misioneros digitales).
 function fuera(x) {
@@ -123,6 +148,8 @@ ${frase ? `«${frase}»\n` : ""}${x.cita}
 
 Te invitamos a la Capilla Ágape (deja ahí tu intención: la llevamos a la misa):
 ${APP}capilla
+
+${invitacion(x.iso)}
 
 🙏 *Sé misionero digital:* reenvía este mensaje a tus contactos. Así, día a día, vamos formando el *Ágape digital*: una gran red de internautas que rezan con la Palabra.`;
 }
@@ -146,7 +173,7 @@ const part = (x, k) => `<article class="sal-part ${k}">
       <button class="btn btn-soft btn-sm" data-action="salCopy" data-iso="${x.iso}" data-k="${k}">${icon("copy")} Copiar texto</button>
       <a class="btn btn-ghost btn-sm" href="${img(k, x.iso)}" download="agAPPe-${ARCH[k]}-${x.iso}.jpg">${icon("dl")} Guardar imagen</a>
     </div>
-    <div class="sal-wa">${wa(x[k] || "")}</div>
+    <div class="sal-wa">${wa(textoDe(x, k))}</div>
   </article>`;
 
 // Cumpleaños y fechas Ágape del día elegido: su saludo con imagen
@@ -185,7 +212,7 @@ export async function adminView() {
   <p class="xs muted">Los versículos de la noche vienen del salmo de Vísperas de cada día, en traducción sencilla. Para la antífona oficial, revisa la Liturgia de las Horas.</p>`;
 }
 
-function pick(iso, k) { const x = data && data.dias.find((y) => y.iso === iso); return x ? { x, text: k === "fuera" ? fuera(x) : x[k] || "" } : null; }
+function pick(iso, k) { const x = data && data.dias.find((y) => y.iso === iso); return x ? { x, text: textoDe(x, k) } : null; }
 
 // En el computador el menú para compartir no lleva imagen y texto juntos a WhatsApp. Por eso el botón
 // funciona en dos pasos: primero copia la imagen (se pega con Ctrl+V en el chat y WhatsApp abre la vista

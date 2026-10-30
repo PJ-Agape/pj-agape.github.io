@@ -20,6 +20,8 @@ import * as AV from "./avatares.js";
 import * as acompanar from "./acompanar.js";
 import * as desafio from "./desafio.js";
 import * as fiestas from "./fiestas.js";
+import * as descubre from "./descubre.js";
+import * as temporadas from "./temporadas.js";
 import * as momentos from "./momentos.js";
 import * as apariencia from "./apariencia.js";
 import * as juegos from "./juegos.js";
@@ -124,6 +126,9 @@ const routes = [
   [/^\/buscar(?:\?q=(.*))?$/, (q) => inicio.viewBuscar(q || ""), "buscar"],
   [/^\/ayuda(?:\?t=([a-z]+))?$/, (t) => ayuda.view(t), "ayuda"],
   [/^\/difusion$/, () => mod.difusion().then((m) => m.view()), "difusion"],
+  [/^\/sellos$/, () => descubre.view(), "inicio"],
+  [/^\/mesdemaria$/, () => temporadas.viewMaria(), "oracion"],
+  [/^\/adviento$/, () => temporadas.viewAdviento(), "oracion"],
   [/^\/accesibilidad$/, () => a11y.viewPage(), "perfil"],
   [/^\/cancionero$/, () => cancionero.viewList(), "oracion"],
   [/^\/salmos$/, () => salmos.viewList(), "oracion"],
@@ -190,6 +195,8 @@ async function renderNow() {
   v.classList.remove("view-enter"); void v.offsetWidth; v.classList.add("view-enter");
   if (path !== lastPath) window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
   if (path !== lastPath && cloud.enabled && !cloud.viewingAs() && window.top === window) { const k = vistaDe(path); if (k) cloud.countView(k); }
+  // Descubre Ágape: el sello del pasaporte y «Sigue tu camino» al final de cada herramienta
+  if (section !== "admin" && window.top === window) { const k = vistaDe(path); if (k) { descubre.marcar(k); descubre.siguiente(v, k); } }
   lastPath = path;
   updateInstallSlot();
   afterRender.splice(0).forEach((f) => f());
@@ -398,7 +405,7 @@ function nextLink(course, st) {
 }
 
 function viewHome() {
-  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); });
+  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
   const course = S.activeCourse();
   const st = S.courseState(course);
   // Continuar: la unidad donde quedaste (o la siguiente), en una sola tarjeta.
@@ -451,6 +458,8 @@ function viewHome() {
   ${solicitud.homeCard()}
   <div id="desafioHoy"></div>
   ${go}
+  <div id="temporadaSlot"></div>
+  <div id="descubreSlot"></div>
   ${carousel()}
   <div id="countSlot"></div>
   <div class="ag-panel-slot" data-ag-panel="inicio"></div>
@@ -1558,6 +1567,8 @@ acompanar.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud
 ayuda.setup({ actions, render: () => render(), onAfterRender, cloud });
 desafio.setup({ actions, render: () => render(), cloud });
 fiestas.setup({ actions, render: () => render() });
+descubre.setup({ actions, render: () => render() });
+temporadas.setup({ actions, render: () => render() });
 momentos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 juegos.setup({ actions, render: () => render(), onAfterRender, onLeave });
 podcast.setup({ actions, render: () => render(), onAfterRender, cloud });

@@ -363,6 +363,8 @@ export const FRAMES = [
   { id: "rezo", text: "REZO POR TI · CAPILLA ÁGAPE ·", ring: C.sky, ink: C.navy, badge: "oracion" },
   { id: "vive", text: "¡ÉL VIVE Y TE QUIERE VIVO! ·", ring: C.sun, ink: C.coral, badge: "levantate" },
   // Ágape digital: la insignia es el sello de la red (en vez del logo)
+  // Premio del Pasaporte Ágape (aparece al completarlo)
+  { id: "peregrino", text: "PEREGRINO ÁGAPE · RECORRÍ TODA LA APP ·", ring: C.blue, ink: C.sun, badge: "camino", premio: true },
   // Celebraciones
   { id: "cumple", text: "¡ESTOY DE CUMPLEAÑOS! · COMUNIDAD ÁGAPE ·", ring: C.sun, ink: C.coral, badge: "torta" },
   { id: "aniversario", text: "CELEBRAMOS ÁGAPE · GRACIAS, SEÑOR ·", ring: C.coral, ink: C.cream, badge: "fiesta" },

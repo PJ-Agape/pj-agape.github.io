@@ -5047,3 +5047,81 @@ html.papel .ad-banner .ad-banner-art, .ad-banner .ad-banner-art { display: grid 
 .fi-adm-row { display: grid; gap: 6px; padding: 10px; border: 1.5px dashed rgba(11,37,102,.35); border-radius: 14px; }
 .fi-adm-row select { min-width: 0; }
 .fi-ill img { width: 100%; height: auto; display: block; }
+/* Descubre Ágape: recomendación, «Sigue tu camino», Pasaporte y recorrido */
+.ds-hand, .tp-hand { font-family: var(--font-hand); font-weight: 700; font-size: 1.25rem; color: #ef591c; line-height: 1.1; }
+.ds-rec { margin-top: 14px; padding: 0; overflow: hidden; border: 2px solid var(--pp-bd, #0b2566); box-shadow: var(--pp-sh-m, 4px 4px 0 #0b2566); background: #e1f3fd; }
+.ds-rec-main { display: flex; gap: 12px; align-items: center; padding: 14px 16px; color: inherit; text-decoration: none; }
+.ds-rec-ill, .tp-ill { flex: none; width: 92px; }
+.ds-rec-ill :is(svg, img), .tp-ill :is(svg, img) { width: 100%; height: auto; display: block; }
+html.papel .ds-rec-ill svg.z-illus, html.papel .tp-ill svg.z-illus, html.papel .ds-next-ill svg.z-illus, html.papel .ds-st-ill svg.z-illus, html.papel .tp-door-ill svg.z-illus, html.papel .tp-hero-ill svg.z-illus, html.papel .ds-tour-ill svg.z-illus { display: block; }
+.ds-rec-txt, .tp-txt { flex: 1; min-width: 0; display: grid; gap: 2px; color: var(--cn, #0b2566); }
+.ds-rec-txt strong, .tp-txt strong { font-family: var(--font-display); font-size: 1.2rem; line-height: 1.15; }
+.ds-rec-txt span:not(.ds-hand), .tp-txt > span:not(.tp-hand) { font-weight: 600; font-size: .92rem; }
+.ds-rec-txt small, .ds-next-txt small { font-size: .78rem; font-weight: 700; color: #1351a4; }
+.ds-go { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #0b2566; color: #fff; }
+.ds-pas-mini { display: grid; grid-template-columns: 28px 1fr; gap: 4px 10px; align-items: center; padding: 10px 16px; background: #fff6e5; border-top: 2px dashed rgba(11,37,102,.25); color: var(--cn, #0b2566); text-decoration: none; font-size: .88rem; font-weight: 600; }
+.ds-pas-mini .mini-bar { grid-column: 2; }
+.ds-pas-ico .ad-sello { width: 28px; height: 28px; display: block; }
+.ds-next { margin-top: 26px; padding-top: 14px; border-top: 2px dashed rgba(11,37,102,.2); display: grid; gap: 8px; }
+.ds-next-grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.ds-next-it { display: flex; gap: 10px; align-items: center; padding: 12px; text-decoration: none; color: inherit; }
+.ds-next-ill { flex: none; width: 64px; }
+.ds-next-ill :is(svg, img) { width: 100%; height: auto; display: block; }
+.ds-next-txt { display: grid; gap: 2px; min-width: 0; color: var(--cn, #0b2566); }
+.ds-next-txt span { font-size: .85rem; font-weight: 500; }
+.ds-nuevo { justify-self: start; font-style: normal; font-size: .72rem; font-weight: 800; background: #ffba03; color: #0b2566; border-radius: 999px; padding: 1px 8px; margin-top: 2px; }
+.ds-next-pas { justify-self: start; font-size: .85rem; font-weight: 700; color: #1351a4; display: inline-flex; gap: 6px; align-items: center; }
+.ds-pas { display: grid; gap: 14px; }
+.ds-pas-head { display: flex; gap: 14px; align-items: center; }
+.ds-pas-head > div { flex: 1; display: grid; gap: 4px; color: var(--cn, #0b2566); }
+.ds-pas-head strong { font-family: var(--font-display); font-size: 1.4rem; }
+.ds-pas-sello .ad-sello { width: 64px; height: 64px; display: block; }
+.ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px; }
+.ds-st { position: relative; display: grid; justify-items: center; text-align: center; gap: 4px; padding: 12px 8px; border: 2px dashed rgba(11,37,102,.3); border-radius: 18px; color: var(--cn, #0b2566); text-decoration: none; background: #fff; }
+.ds-st b { font-size: .86rem; line-height: 1.15; }
+.ds-st small { font-size: .72rem; opacity: .75; }
+.ds-st-ill { width: 70px; filter: grayscale(1); opacity: .45; }
+.ds-st-ill :is(svg, img) { width: 100%; height: auto; display: block; }
+.ds-st.on { border-style: solid; border-color: #0b2566; background: #fff1c7; }
+.ds-st.on .ds-st-ill { filter: none; opacity: 1; }
+.ds-st-mark { position: absolute; top: 8px; right: 6px; transform: rotate(var(--r)); font-style: normal; font-size: .62rem; font-weight: 900; letter-spacing: .08em; color: #ef591c; border: 2px solid #ef591c; border-radius: 6px; padding: 1px 5px; opacity: .85; }
+.ds-premio { display: flex; gap: 12px; align-items: center; padding: 14px; border-radius: 16px; background: #ffe3d6; color: var(--cn, #0b2566); }
+.ds-premio > div { display: grid; gap: 4px; }
+.ds-premio-s { width: 70px; height: 70px; flex: none; }
+.ds-tour-dlg { max-width: 420px; }
+.ds-tour { display: grid; justify-items: center; text-align: center; gap: 8px; padding: 22px 18px !important; color: var(--cn, #0b2566); }
+.ds-tour-ill { width: 170px; }
+.ds-tour-ill :is(svg, img) { width: 100%; height: auto; display: block; }
+.ds-tour h2 { margin: 0; font-family: var(--font-display); }
+.ds-tour-dots { display: flex; gap: 6px; margin: 4px 0 8px; }
+.ds-tour-dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(11,37,102,.2); }
+.ds-tour-dots i.on { background: #ef591c; width: 20px; border-radius: 4px; }
+/* Temporadas: Mes de María y Calendario de Adviento */
+.tp-card { display: flex; gap: 12px; align-items: center; margin-top: 14px; padding: 14px 16px; text-decoration: none; border: 2px solid var(--pp-bd, #0b2566); box-shadow: var(--pp-sh-m, 4px 4px 0 #0b2566); }
+.tp-maria { background: #e1f3fd; }
+.tp-adv { background: #fde0d2; }
+.tp-cap .tp-card { margin-top: 0; margin-bottom: 14px; }
+.tp-hero { display: flex; gap: 16px; align-items: flex-start; }
+.tp-hero-ill { flex: none; width: 140px; }
+.tp-hero-ill :is(svg, img) { width: 100%; height: auto; display: block; }
+.tp-hero h2 { margin: 0; font-family: var(--font-display); color: var(--cn, #0b2566); }
+.tp-flor { font-size: 1.1rem; font-weight: 700; color: var(--cn, #0b2566); }
+.tp-flores { display: grid; gap: 8px; margin: 10px 0 0; padding-left: 0; list-style: none; }
+.tp-flores b { display: block; font-size: .8rem; color: #ef591c; }
+.tp-cal { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: 10px; margin-top: 12px; }
+.tp-door { position: relative; min-height: 96px; border-radius: 14px; border: 2px solid #0b2566; background: #0b2566; color: #ffba03; display: grid; place-items: center; align-content: center; gap: 2px; padding: 6px; font: inherit; cursor: pointer; text-align: center; }
+.tp-door b { font-family: var(--font-display); font-size: 1.6rem; line-height: 1; }
+.tp-door small { font-size: .7rem; font-weight: 700; line-height: 1.1; }
+.tp-door.cerrada { opacity: .55; cursor: default; background: #1351a4; color: #fff6e5; }
+.tp-door.hoy { background: #ef591c; color: #fff; box-shadow: 0 0 0 4px #ffba03; animation: tpLate 2.2s ease-in-out infinite; }
+.tp-door.pasada { background: #1351a4; color: #ffba03; }
+.tp-door.open { background: #fff6e5; color: #0b2566; }
+.tp-door.open b { font-size: 1rem; position: absolute; top: 6px; left: 8px; }
+.tp-door-ill { width: 52px; }
+.tp-door-ill :is(svg, img) { width: 100%; height: auto; display: block; }
+.tp-ven { margin-top: 16px; }
+@keyframes tpLate { 50% { transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .tp-door.hoy { animation: none; } }
+@media (max-width: 520px) { .ds-rec-ill, .tp-ill { width: 70px; } .tp-hero { flex-direction: column; align-items: center; text-align: center; } .tp-hero-ill { width: 120px; } }
+.card.link.tp-card, .card.link.ds-next-it { display: flex; flex-direction: row; align-items: center; }
+.tp-ill img.z-sticker, .ds-next-ill img.z-sticker, .ds-rec-ill img.z-sticker, .ds-st-ill img.z-sticker, .tp-door-ill img.z-sticker, .tp-hero-ill img.z-sticker { width: 100%; max-width: 100%; margin: 0; position: static; }

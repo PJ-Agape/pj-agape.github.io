@@ -558,7 +558,8 @@ service cloud.firestore {
         && igualOMas1(antes, despues, 'buscar');
     }
     match /vistas/{day} {
-      allow read: if isStaff();
+      // Conteo anónimo por sección (sin datos de nadie): lo ve todo el mundo para mostrar «N personas pasaron por aquí».
+      allow read: if true;
       allow create: if day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') && vistaOk({}, request.resource.data);
       allow update: if vistaOk(resource.data, request.resource.data);
     }
