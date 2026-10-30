@@ -52,8 +52,8 @@ const stamp = (iso) => (iso ? new Date(iso) : new Date()).toISOString().replace(
 function vevent(e, fam = false) {
   const s = hm(e.start), en = hm(e.end) || s;
   const desc = fam
-    ? [e.desc, e.auth && e.auth.req ? "Requiere autorización de papás o apoderados: descárgala en la página para familias." : "", "Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitores/familias/"].filter(Boolean).join("\n\n")
-    : [e.desc, e.audience ? `Para: ${e.audience}` : "", "Agenda Ágape · pj-agape.github.io/Formacion_Monitores/#/agenda"].filter(Boolean).join("\n\n");
+    ? [e.desc, e.auth && e.auth.req ? "Requiere autorización de papás o apoderados: descárgala en la página para familias." : "", "Pastoral Juvenil Ágape · pj-agape.github.io/familias/"].filter(Boolean).join("\n\n")
+    : [e.desc, e.audience ? `Para: ${e.audience}` : "", "Agenda Ágape · pj-agape.github.io/#/agenda"].filter(Boolean).join("\n\n");
   return ["BEGIN:VEVENT", `UID:${e.id}@pj-agape`, `DTSTAMP:${stamp(e.updated)}`,
     s ? `DTSTART;TZID=${TZ}:${ymd(e.date)}T${s}` : `DTSTART;VALUE=DATE:${ymd(e.date)}`,
     s ? `DTEND;TZID=${TZ}:${ymd(e.date)}T${en > s ? en : s}` : `DTEND;VALUE=DATE:${nextDay(e.date)}`,

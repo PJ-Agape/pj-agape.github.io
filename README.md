@@ -17,7 +17,7 @@ Aula virtual para la formación de dirigentes: curso de 5 módulos y 21 unidades
 
 ## Respaldo: revista y familias
 
-Nuestra Revista (Camino Ágape), Mi Camino, Nuestras familias, la asistencia, el pasaporte y el cuadro de honor se sacaron de la app el 27 de octubre de 2026. El código completo quedó en la rama [`respaldo/revista-y-familias`](https://github.com/PJ-Agape/Formacion_Monitores/tree/respaldo/revista-y-familias), para publicarlo más adelante como una app propia. Los datos guardados en Firebase (familias, asistencia, sellos) no se borraron.
+Nuestra Revista (Camino Ágape), Mi Camino, Nuestras familias, la asistencia, el pasaporte y el cuadro de honor se sacaron de la app el 27 de octubre de 2026. El código completo quedó en la rama [`respaldo/revista-y-familias`](https://github.com/PJ-Agape/pj-agape.github.io/tree/respaldo/revista-y-familias), para publicarlo más adelante como una app propia. Los datos guardados en Firebase (familias, asistencia, sellos) no se borraron.
 
 ## Editar contenido
 

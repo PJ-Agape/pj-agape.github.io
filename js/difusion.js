@@ -15,7 +15,7 @@ import * as DS from "./descubre.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 // Los códigos QR siempre llevan al sitio oficial (también desde el sitio de prueba).
-const LIVE = "https://pj-agape.github.io/Formacion_Monitores/";
+const LIVE = "https://pj-agape.github.io/";
 const BASE = () => (/pj-agape\.github\.io$/.test(location.hostname) ? location.href.split("#")[0] : LIVE);
 const URLS = {
   app: () => BASE(),

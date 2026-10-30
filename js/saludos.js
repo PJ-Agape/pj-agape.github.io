@@ -9,7 +9,7 @@ import * as F from "./fiestas.js";
 let data = null, sel = null;
 
 // --- Bienvenida a quienes se suman al grupo -------------------------------
-const APP = "https://pj-agape.github.io/Formacion_Monitores/";
+const APP = "https://pj-agape.github.io/";
 export const BIENV_DEFAULT = `*¡{bienvenido}, {nombre}!* 🙌💛
 Qué alegría que te sumes a la Pastoral Juvenil Ágape. Aquí hay un lugar para ti, tal como eres.
 

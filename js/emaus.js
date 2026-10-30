@@ -16,7 +16,7 @@ import { stickerSrc } from "./stickers-img.js";
 let ctx = null;
 export function setup(c) { ctx = c; registerActions(); }
 const $ = (s, r = document) => r.querySelector(s);
-const APP = "https://pj-agape.github.io/Formacion_Monitores/";
+const APP = "https://pj-agape.github.io/";
 const KEY = "agape_emaus2";
 
 const K = { navy: "#0b2566", blue: "#1351a4", sky: "#8ad2fa", orange: "#ef591c", yellow: "#ffba03", cream: "#fff6e5", white: "#ffffff", wood: "#b5793f", wood2: "#8a5a2c" };

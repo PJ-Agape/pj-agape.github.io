@@ -16,7 +16,7 @@ const illus = (k) => {
 import { avatar } from "./avatares.js";
 import { SELLO } from "./agape-digital.js";
 
-const APP = "https://pj-agape.github.io/Formacion_Monitores/";
+const APP = "https://pj-agape.github.io/";
 const pad = (n) => String(n).padStart(2, "0");
 const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 const DIAS = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];

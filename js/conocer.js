@@ -27,7 +27,7 @@ const origenLabel = (k) => (ORIGENES.find(([x]) => x === k) || [k, k])[1];
 const ESTADOS = [["nuevo", "Nuevo"], ["contactado", "Contactado"], ["vino", "Vino a un encuentro"], ["no", "No sigue"]];
 const estadoLabel = (k) => (ESTADOS.find(([x]) => x === k) || ["", "Nuevo"])[1];
 const SENT_KEY = "agape_conocer_enviado";
-const LIVE = "https://pj-agape.github.io/Formacion_Monitores/";
+const LIVE = "https://pj-agape.github.io/";
 const linkFor = (o) => `${LIVE}#/conocer${o ? "?o=" + o : ""}`;
 const campanaDe = (q) => { const m = /(?:^|&)o=([a-z0-9-]{1,30})/i.exec(q || ""); return m ? m[1].toLowerCase() : ""; };
 

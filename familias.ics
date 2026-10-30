@@ -68,7 +68,7 @@ DTEND;TZID=America/Santiago:20261022T210000
 SUMMARY:Proyección The Chosen
 LOCATION:Salón parroquial
 DESCRIPTION:Algo para compartir en comunidad\n\nPastoral Juvenil Ágape · 
- pj-agape.github.io/Formacion_Monitores/familias/
+ pj-agape.github.io/familias/
 CATEGORIES:Actividad
 END:VEVENT
 BEGIN:VEVENT
@@ -173,7 +173,7 @@ DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
 SUMMARY:Inscripciones Encuentro juvenil en Quillon
 DESCRIPTION:Llenar planilla y realizar el pago por participante\n\nPastoral
-  Juvenil Ágape · pj-agape.github.io/Formacion_Monitores/familias/
+  Juvenil Ágape · pj-agape.github.io/familias/
 CATEGORIES:Actividad
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -186,7 +186,7 @@ SUMMARY:Celebración de Cristo Rey
 LOCATION:Templo Parroquial
 DESCRIPTION:Idea: Adoración y Alabanzas antes de misa y terminar con peque
  ña procesión. (Próxima reunión llevar otras ideas)\n\nPastoral Juvenil
-  Ágape · pj-agape.github.io/Formacion_Monitores/familias/
+  Ágape · pj-agape.github.io/familias/
 CATEGORIES:Festividad
 END:VEVENT
 BEGIN:VEVENT
@@ -208,7 +208,7 @@ DTEND;VALUE=DATE:20261209
 SUMMARY:Procesión Inmaculada Concepción
 LOCATION:Templo Parroquial
 DESCRIPTION:Apoyo en el tránsito durante la procesión.\n\nPastoral Juveni
- l Ágape · pj-agape.github.io/Formacion_Monitores/familias/
+ l Ágape · pj-agape.github.io/familias/
 CATEGORIES:Festividad
 TRANSP:TRANSPARENT
 END:VEVENT

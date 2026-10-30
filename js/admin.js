@@ -431,7 +431,7 @@ const aboutArr = (d, k) => (k === "roles" ? d.roles : d.about[k]);
 function publishView(d) {
   const dirty = S.draftIsDirty();
   const pub = S.publishedContent();
-  const repoUpload = "https://github.com/PJ-Agape/Formacion_Monitores/upload/main/data";
+  const repoUpload = "https://github.com/PJ-Agape/pj-agape.github.io/upload/main/data";
   const outdated = S.draftIsOutdated(), lost = dirty ? S.draftRemovals() : [];
   const warn = outdated || lost.length ? `<div class="card" style="border-left:4px solid var(--warn, #e8892b)">
     <h3>${outdated ? "Este borrador quedó atrás" : "Ojo: publicar quitaría contenido"}</h3>
@@ -658,7 +658,7 @@ function solicitudesCard(list) {
 }
 
 // ---------- Quién lleva días sin entrar ----------
-const LIVE_URL = "https://pj-agape.github.io/Formacion_Monitores/";
+const LIVE_URL = "https://pj-agape.github.io/";
 const daysSince = (t) => { const d = tsDate(t); return d && !isNaN(d) ? Math.floor((Date.now() - d.getTime()) / 864e5) : null; };
 function reminderText(u, kind) {
   const n = String(u.name || "").split(" ")[0];

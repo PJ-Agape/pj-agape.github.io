@@ -79,7 +79,7 @@ DTEND;TZID=America/Santiago:20261017T230000
 SUMMARY:Encuentro Agape
 LOCATION:Salón parroquial
 DESCRIPTION:Además ese día nos corresponde preparar la Misa.\n\nPara: Tod
- os\n\nAgenda Ágape · pj-agape.github.io/Formacion_Monitores/#/agenda
+ os\n\nAgenda Ágape · pj-agape.github.io/#/agenda
 CATEGORIES:Encuentro
 END:VEVENT
 BEGIN:VEVENT
@@ -90,7 +90,7 @@ DTEND;TZID=America/Santiago:20261022T210000
 SUMMARY:Proyección The Chosen
 LOCATION:Salón parroquial
 DESCRIPTION:Algo para compartir en comunidad\n\nPara: Todos\n\nAgenda Ágap
- e · pj-agape.github.io/Formacion_Monitores/#/agenda
+ e · pj-agape.github.io/#/agenda
 CATEGORIES:Actividad
 END:VEVENT
 BEGIN:VEVENT
@@ -217,7 +217,7 @@ DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
 SUMMARY:Inscripciones Encuentro juvenil en Quillon
 DESCRIPTION:Llenar planilla y realizar el pago por participante\n\nAgenda 
- Ágape · pj-agape.github.io/Formacion_Monitores/#/agenda
+ Ágape · pj-agape.github.io/#/agenda
 CATEGORIES:Actividad
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -230,7 +230,7 @@ SUMMARY:Celebración de Cristo Rey
 LOCATION:Templo Parroquial
 DESCRIPTION:Idea: Adoración y Alabanzas antes de misa y terminar con peque
  ña procesión. (Próxima reunión llevar otras ideas)\n\nAgenda Ágape ·
-  pj-agape.github.io/Formacion_Monitores/#/agenda
+  pj-agape.github.io/#/agenda
 CATEGORIES:Festividad
 END:VEVENT
 BEGIN:VEVENT
@@ -252,7 +252,7 @@ DTEND;VALUE=DATE:20261209
 SUMMARY:Procesión Inmaculada Concepción
 LOCATION:Templo Parroquial
 DESCRIPTION:Apoyo en el tránsito durante la procesión.\n\nPara: Todos\n\n
- Agenda Ágape · pj-agape.github.io/Formacion_Monitores/#/agenda
+ Agenda Ágape · pj-agape.github.io/#/agenda
 CATEGORIES:Festividad
 TRANSP:TRANSPARENT
 END:VEVENT
