@@ -985,7 +985,7 @@ export async function setMyCumple(md) {
   return fb.setDoc(ref, { n: shortName(account.name), md, at: fb.serverTimestamp() });
 }
 async function cuentaCumples() {
-  try { return snapRows(await withTimeout(fb.getDocs(fb.collection(db, "cumpleanos")), 6000)).filter((x) => x.n && /^\d{2}-\d{2}$/.test(x.md || "")).map((x) => ({ n: x.n, md: x.md })); } catch { return []; }
+  try { return snapRows(await withTimeout(fb.getDocs(fb.collection(db, "cumpleanos")), 6000)).filter((x) => x.n && /^\d{2}-\d{2}$/.test(x.md || "")).map((x) => ({ n: x.n, md: x.md, uid: x.id })); } catch { return []; }
 }
 // La familia autorizó (o es mayor de edad, o no es joven): puede compartir su cumpleaños.
 export function canShareCumple() {
@@ -1004,9 +1004,23 @@ export async function getCumples() {
   ]);
   if (!lista && !propios.length) return null;
   const items = [...((lista && lista.items) || [])], seen = new Set(items.map((x) => `${x.n}|${x.md}`));
-  for (const x of propios) if (!seen.has(`${x.n}|${x.md}`)) { seen.add(`${x.n}|${x.md}`); items.push(x); }
+  for (const x of propios) {
+    if (!seen.has(`${x.n}|${x.md}`)) { seen.add(`${x.n}|${x.md}`); items.push(x); continue; }
+    const i = items.findIndex((y) => `${y.n}|${y.md}` === `${x.n}|${x.md}`); if (i >= 0 && !items[i].uid) items[i] = { ...items[i], uid: x.uid };
+  }
   return { ...(lista || {}), items };
 }
+// Fechas Ágape (aniversario, fiesta patronal…): las edita el equipo; las ve todo el mundo.
+export const getFechas = () => getContent("fechas");
+export const saveFechas = (d) => setContent("fechas", d);
+// Celebraciones (cumpleaños y fechas Ágape): quién rezó y los saludos que dejó la comunidad.
+// Un documento por celebración y año (fiestas/{id}); cada persona solo toca su propia entrada.
+export async function getFiesta(id) {
+  if (!enabled || !db || !user) return null;
+  try { const s = await withTimeout(fb.getDoc(fb.doc(db, "fiestas", id)), 6000); return s.exists() ? s.data() : {}; } catch { return null; }
+}
+export const prayFiesta = (id, on) => fb.setDoc(fb.doc(db, "fiestas", id), { prays: { [user.uid]: on ? prayMark() : fb.deleteField() } }, { merge: true });
+export const firmaFiesta = (id, t) => fb.setDoc(fb.doc(db, "fiestas", id), { firmas: { [user.uid]: t ? { ...prayMark(), t: String(t).slice(0, 280) } : fb.deleteField() } }, { merge: true });
 export async function saveCumples(d) {
   await fb.setDoc(fb.doc(db, "privado", "cumples"), { json: JSON.stringify(d), updatedAt: fb.serverTimestamp(), updatedBy: account.email });
   fb.deleteDoc(fb.doc(db, "content", "cumples")).catch(() => {}); // borra la copia pública antigua

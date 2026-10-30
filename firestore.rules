@@ -43,6 +43,8 @@ service cloud.firestore {
     }
     // Página para familias: la editan administradores y coordinadores.
     match /content/familias { allow write: if isStaff(); }
+    // Fechas Ágape (aniversario, fiesta patronal…): las edita el equipo.
+    match /content/fechas { allow write: if isStaff(); }
     // Apariencia de la app (fondos, stickers, textos y colores) y la foto de fondo de cada zona.
     match /content/apariencia { allow write: if isStaff(); }
     match /content/{fondo} { allow write: if isStaff() && fondo.matches('^fondo_[a-z]{2,20}$'); }
@@ -251,6 +253,18 @@ service cloud.firestore {
       return !(me().role in ['ingreso', 'madurez', 'aspirante'])
         || me().get('consent', {}).get('mayor', false) == true
         || me().get('consent', {}).get('cumple', false) == true;
+    }
+    // Celebraciones (cumpleaños y fechas Ágape): cada persona reza o deja su saludo solo en su propia entrada.
+    function soloMiEntrada(f) {
+      return request.resource.data.get(f, {}) is map
+        && request.resource.data.get(f, {}).diff(resource == null ? {} : resource.data.get(f, {})).affectedKeys().hasOnly([request.auth.uid]);
+    }
+    match /fiestas/{fid} {
+      allow read: if isMember();
+      allow create, update: if isMember() && request.resource.data.keys().hasOnly(['prays', 'firmas'])
+        && soloMiEntrada('prays') && soloMiEntrada('firmas')
+        && request.resource.data.get('firmas', {}).get(request.auth.uid, {'t': ''}).get('t', '').size() <= 280;
+      allow delete: if isGuide();
     }
     match /cumpleanos/{uid} {
       allow read: if isMember();

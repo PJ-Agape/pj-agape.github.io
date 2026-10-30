@@ -363,6 +363,9 @@ export const FRAMES = [
   { id: "rezo", text: "REZO POR TI · CAPILLA ÁGAPE ·", ring: C.sky, ink: C.navy, badge: "oracion" },
   { id: "vive", text: "¡ÉL VIVE Y TE QUIERE VIVO! ·", ring: C.sun, ink: C.coral, badge: "levantate" },
   // Ágape digital: la insignia es el sello de la red (en vez del logo)
+  // Celebraciones
+  { id: "cumple", text: "¡ESTOY DE CUMPLEAÑOS! · COMUNIDAD ÁGAPE ·", ring: C.sun, ink: C.coral, badge: "torta" },
+  { id: "aniversario", text: "CELEBRAMOS ÁGAPE · GRACIAS, SEÑOR ·", ring: C.coral, ink: C.cream, badge: "fiesta" },
   { id: "internauta", text: "MISIONERO INTERNAUTA · agAPPe ·", ring: C.navy, ink: C.sun, badge: "celular", selloCentro: true },
 ];
 export const framesIlls = () => FRAMES.map((f) => [f.badge, C.navy, C.cream, C.sun]);

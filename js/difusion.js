@@ -10,6 +10,7 @@ import { esc, icon, toast } from "./util.js";
 import { nextOn } from "./repeat.js";
 import * as AP from "./apariencia.js";
 import { pjSvg } from "./personajes.js";
+import * as FI from "./fiestas.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 // Los códigos QR siempre llevan al sitio oficial (también desde el sitio de prueba).
@@ -21,7 +22,7 @@ const URLS = {
   familias: () => new URL("familias/", BASE()).href,
 };
 const FORMATS = { historia: [1080, 1920, "Historia o Estado"], post: [1080, 1350, "Post"], cuadrado: [1080, 1080, "Cuadrado"] };
-const ILLS = ["jesus", "emaus", "dejadlos", "buenpastor", "sagradocorazon", "virgen", "jose", "sagradafamilia", "apostoles", "sanmiguel", "sansebastian", "juanpablo", "carloacutis", "teresaandes", "albertohurtado", "santoschile", "virgencarmen", "donbosco", "teresita", "franciscoasis", "rey", "comunidad", "amigos", "acogida", "corazon", "camino", "oracion", "equipo", "juego", "biblia", "espiritu", "maria", "eucaristia", "servir", "familia", "luz", "panes", "santos", "levantate", "futuro", "flores"];
+const ILLS = ["torta", "fiesta", "jesus", "emaus", "dejadlos", "buenpastor", "sagradocorazon", "virgen", "jose", "sagradafamilia", "apostoles", "sanmiguel", "sansebastian", "juanpablo", "carloacutis", "teresaandes", "albertohurtado", "santoschile", "virgencarmen", "donbosco", "teresita", "franciscoasis", "rey", "comunidad", "amigos", "acogida", "corazon", "camino", "oracion", "equipo", "juego", "biblia", "espiritu", "maria", "eucaristia", "servir", "familia", "luz", "panes", "santos", "levantate", "futuro", "flores"];
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
@@ -41,6 +42,9 @@ const myName = () => ((cloud.enabled && cloud.state().account?.name) || S.getPro
 // ---------------------------------------------------------------------------
 export async function view() {
   const today = isoDay(new Date());
+  // Llegó desde Inicio (cumpleaños o aniversario): abre el marco que corresponde
+  try { const pre = JSON.parse(sessionStorage.getItem("dif_pre") || "null"); if (pre) { sessionStorage.removeItem("dif_pre"); Object.assign(st, pre); } } catch {}
+  FI.load().catch(() => {});
   events = (await cloud.listAgenda().catch(() => [])).map((e) => ({ ...e, when: nextOn(e, today) || e.date })).filter((e) => e.when && e.when >= today).sort((a, b) => a.when.localeCompare(b.when)).slice(0, 12);
   if (!st.ev && events[0]) st.ev = events[0].id;
   ctx.onAfterRender(() => { E.ready().then(paint); });
@@ -54,7 +58,7 @@ export async function view() {
 function body() { return st.tab === "marco" ? marcoHTML() : st.tab === "stickers" ? stickersHTML() : st.tab === "fondos" ? fondosHTML() : piezasHTML(); }
 
 // --- Historias, posts e invitaciones ---------------------------------------
-const TPLS = [["frase", "Frase de Ágape"], ["evento", "Actividad de la agenda"], ["cuenta", "Cuenta regresiva"], ["invita", "Invitación personal"]];
+const TPLS = [["frase", "Frase de Ágape"], ["evento", "Actividad de la agenda"], ["cuenta", "Cuenta regresiva"], ["invita", "Invitación personal"], ["cumple", "Saludo de cumpleaños"], ["aniversario", "Aniversario de Ágape"]];
 function piezasHTML() {
   const sel = (name, opts, cur) => `<select class="input" data-dif="${name}">${opts.map(([v, l]) => `<option value="${esc(v)}" ${String(v) === String(cur) ? "selected" : ""}>${esc(l)}</option>`).join("")}</select>`;
   const evOpts = events.length ? events.map((e) => [e.id, `${fmtDate(e.when)} · ${clean(e.title)}`]) : [["", "No hay actividades próximas"]];
@@ -64,6 +68,8 @@ function piezasHTML() {
       <div class="field"><label>Plantilla</label>${sel("tpl", TPLS, st.tpl)}</div>
       ${st.tpl === "frase" ? `<div class="field"><label>Frase</label>${sel("phrase", E.PHRASES.map((p, i) => [i, p.title.replace(/\*/g, "")]), st.phrase)}</div>` : ""}
       ${st.tpl === "evento" || st.tpl === "cuenta" ? `<div class="field"><label>Actividad</label>${sel("ev", evOpts, st.ev)}</div>` : ""}
+      ${st.tpl === "cumple" ? `<div class="field"><label>¿A quién saludas?</label><input class="input" data-dif="para" maxlength="24" value="${esc(st.para)}" placeholder="Su nombre" list="difCumples">
+        <datalist id="difCumples">${FI.getCumplesCache().map((c) => `<option value="${esc(c.n)}">${esc(FI.mdTexto(c.md))}</option>`).join("")}</datalist></div>` : ""}
       ${st.tpl === "invita" ? `<div class="field"><label>¿A quién invitas?</label><input class="input" data-dif="para" maxlength="24" value="${esc(st.para)}" placeholder="Su nombre (opcional)"></div>` : ""}
       <div class="field"><label>Formato</label>${sel("fmt", Object.entries(FORMATS).map(([k, v]) => [k, v[2]]), st.fmt)}</div>
       <div class="field"><label>Estilo</label><div class="dif-sw" role="radiogroup" aria-label="Estilo">${E.STYLES.map((x) => `<button type="button" role="radio" aria-checked="${st.style === x.id}" title="${esc(x.name)}" data-action="difStyle" data-v="${x.id}" style="--a:${x.bg};--b:${x.split || x.b1}"><span class="sr-only">${esc(x.name)}</span></button>`).join("")}</div></div>
@@ -101,6 +107,8 @@ function pieceData() {
     d = { big: n, bigLabel: n === 1 ? "día" : "días", hand: n ? "Faltan…" : "¡Es hoy!", title: `para *${clean(e.title)}*`, sub: fmtDate(e.when) + (e.start ? ` · ${e.start}` : "") };
   }
   if (st.tpl === "invita") d = { kicker: "Invitación", title: st.para ? `*${st.para}*, hay un lugar para ti` : "Hay un lugar *para ti*", hand: myName() ? `${myName()} te invita` : "Te invito", sub: "Pastoral Juvenil Ágape · Parroquia San Miguel de Yungay" };
+  if (st.tpl === "cumple") d = { ...FI.piezaCumple(st.para.trim(), "").d, kicker: "Comunidad Ágape" };
+  if (st.tpl === "aniversario") d = { ...FI.piezaFecha({ aniv: true }, "").d };
   if ((st.tpl === "evento" || st.tpl === "cuenta") && !e) d = { title: "Pronto *nuevas actividades*", hand: "Atento a la agenda" };
   if (st.title) d.title = st.title;
   if (st.hand) d.hand = st.hand;
@@ -288,7 +296,7 @@ function onField(k, v, changed) {
   if (changed && (k === "tpl" || k === "phrase" || k === "ev")) {
     st.title = st.hand = st.sub = "";
     if (k === "phrase") st.ill = (E.PHRASES[st.phrase] || {}).ill || st.ill;
-    if (k === "tpl") { st.ill = { frase: (E.PHRASES[st.phrase] || {}).ill, evento: "camino", cuenta: "juego", invita: "amigos" }[v] || st.ill; st.qr = v === "invita" ? "puente" : st.qr || "app"; }
+    if (k === "tpl") { st.ill = { frase: (E.PHRASES[st.phrase] || {}).ill, evento: "camino", cuenta: "juego", invita: "amigos", cumple: "torta", aniversario: "fiesta" }[v] || st.ill; st.qr = v === "invita" ? "puente" : st.qr || "app"; }
     $("#difBody").innerHTML = body();
   }
   paint();

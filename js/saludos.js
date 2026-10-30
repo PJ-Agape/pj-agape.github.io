@@ -4,6 +4,7 @@
 import { esc, icon, toast } from "./util.js";
 import * as cloud from "./cloud.js";
 import * as E from "./estudio.js";
+import * as F from "./fiestas.js";
 
 let data = null, sel = null;
 
@@ -148,6 +149,19 @@ const part = (x, k) => `<article class="sal-part ${k}">
     <div class="sal-wa">${wa(x[k] || "")}</div>
   </article>`;
 
+// Cumpleaños y fechas Ágape del día elegido: su saludo con imagen
+function celebraciones(iso) {
+  const dd = F.delDia(iso); let h = "";
+  dd.cumples.forEach((c, i) => {
+    const k = "c" + i; F.piezas.set(k, { text: F.textoCumple(c.n, iso), pz: F.piezaCumple(c.n, iso), name: `agAPPe-cumple-${c.n.toLowerCase().replace(/[^a-z0-9áéíóúñ]+/gi, "-")}` });
+    h += F.parteHTML(k, `🎂 Cumpleaños de ${esc(c.n)}`, "Para el grupo de la parroquia", "", "Solo para el grupo con cuenta: no lo envíes al canal público, por cuidado de los jóvenes.");
+  });
+  dd.fechas.forEach((f, i) => {
+    const k = "f" + i; F.piezas.set(k, { text: F.textoFecha(f, iso), pz: F.piezaFecha(f, iso), name: `agAPPe-${f.id}` });
+    h += F.parteHTML(k, `🎉 ${f.aniv ? "Aniversario de Ágape" : esc(f.t)}`, "Para el grupo y la comunidad de WhatsApp", "");
+  });
+  return h;
+}
 export async function adminView() {
   const d = await load();
   if (!d) return `<header class="page-head"><span class="eyebrow">Gestión</span><h1>Saludos para WhatsApp</h1></header><div class="note">No se pudieron cargar los saludos. Revisa tu conexión.</div>`;
@@ -157,12 +171,17 @@ export async function adminView() {
   const night = new Date().getHours() >= 17 && sel === t;
   setTimeout(() => document.querySelector(".sal-day.on")?.scrollIntoView({ block: "nearest", inline: "center" }), 50);
   const bienv = await bienvHTML();
+  await F.load().catch(() => {});
+  const fiestas = celebraciones(sel);
+  setTimeout(() => F.pintarPiezas(), 40);
   return `<header class="page-head"><span class="eyebrow">Gestión</span><h1>Saludos para <em>WhatsApp</em></h1>
     <p>Buenos días con el Evangelio, una perla de sabiduría para el día y buenas noches con las Vísperas, del ${esc(d.dias[0].fecha.toLowerCase())} al ${esc(d.dias[d.dias.length - 1].fecha.toLowerCase())}. Los de buenos días y buenas noches van a la comunidad de internautas agAPPe, con tono misionero: invitan a reenviarlos para que crezca el Ágape digital, unido a los jóvenes de la parroquia. Desde el celular, «Enviar a WhatsApp» abre el menú para compartir: eliges WhatsApp y la comunidad, y la imagen va con su texto. En el computador son dos pasos: el botón copia la imagen, la pegas en el chat (Ctrl+V) y luego copia el texto para pegarlo junto a ella; sale un solo mensaje.</p></header>
   ${bienv}
   <div class="sal-days" role="list">${d.dias.map((y) => `<button role="listitem" class="sal-day ${y.iso === sel ? "on" : ""} ${y.iso === t ? "today" : ""} ${y.iso < t ? "past" : ""}" data-action="salPick" data-iso="${y.iso}" title="${esc(y.titulo)}"><small>${esc(y.fecha.split(" ")[0].slice(0, 3))}</small><b>${+y.iso.slice(8)}</b><small>${["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][+y.iso.slice(5, 7) - 1]}</small></button>`).join("")}</div>
   <section class="card sal-card"><div class="sal-top"><h2>${sel === t ? "Hoy · " : ""}${esc(x.fecha)}</h2><span class="muted small">${esc(x.titulo)}</span></div>
+    ${fiestas ? `<div class="sal-grid sal-fiestas">${fiestas}</div>` : ""}
     <div class="sal-grid">${(night ? ["noche", "dia", "perla"] : ["dia", "perla", "noche"]).filter((k) => x[k]).map((k) => part(x, k)).join("")}${partFuera(x)}</div></section>
+  ${F.fechasAdminHTML()}
   <p class="xs muted">Los versículos de la noche vienen del salmo de Vísperas de cada día, en traducción sencilla. Para la antífona oficial, revisa la Liturgia de las Horas.</p>`;
 }
 
@@ -240,6 +259,10 @@ export function registerActions(actions, render) {
   };
   actions.bvReset = () => { bv.tpl = bvDef(); const ta = document.getElementById("bvTpl"); if (ta) ta.value = bv.tpl; bvRefresh(false); toast("Volviste al mensaje original. Para dejarlo fijo, guárdalo.", ""); };
   actions.salPick = (el) => { sel = el.dataset.iso; render(); };
+  const fp = (k) => F.piezas.get(k);
+  actions.fiShare = async (el) => { const p = fp(el.dataset.k); if (!p) return; return esPC() ? pcShare(el, () => F.piezaBlob(el.dataset.k), p.text) : shareImg(await F.piezaBlob(el.dataset.k), p.name + ".png", p.text); };
+  actions.fiCopy = async (el) => { const p = fp(el.dataset.k); if (!p) return; try { await navigator.clipboard.writeText(p.text); toast("Texto copiado 📋", "ok"); } catch { toast("No se pudo copiar", ""); } };
+  actions.fiSave = async (el) => { const p = fp(el.dataset.k); if (!p) return; const b = await F.piezaBlob(el.dataset.k); if (!b) return; const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = p.name + ".png"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); };
   actions.salCopy = async (el) => {
     const p = pick(el.dataset.iso, el.dataset.k); if (!p) return;
     try { await navigator.clipboard.writeText(p.text); toast("Texto copiado 📋", "ok"); } catch { toast("No se pudo copiar", ""); }

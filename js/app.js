@@ -19,6 +19,7 @@ import * as salmos from "./salmos.js";
 import * as AV from "./avatares.js";
 import * as acompanar from "./acompanar.js";
 import * as desafio from "./desafio.js";
+import * as fiestas from "./fiestas.js";
 import * as momentos from "./momentos.js";
 import * as apariencia from "./apariencia.js";
 import * as juegos from "./juegos.js";
@@ -397,7 +398,7 @@ function nextLink(course, st) {
 }
 
 function viewHome() {
-  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); });
+  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); });
   const course = S.activeCourse();
   const st = S.courseState(course);
   // Continuar: la unidad donde quedaste (o la siguiente), en una sola tarjeta.
@@ -446,6 +447,7 @@ function viewHome() {
   // El resto vive en las pestañas de abajo (Formación, Orar, Comunidad).
   return `
   ${inicio.greetHTML()}
+  <div id="fiestaSlot"></div>
   ${solicitud.homeCard()}
   <div id="desafioHoy"></div>
   ${go}
@@ -1555,6 +1557,7 @@ salmos.setup({ actions, render: () => render(), onAfterRender, cloud });
 acompanar.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 ayuda.setup({ actions, render: () => render(), onAfterRender, cloud });
 desafio.setup({ actions, render: () => render(), cloud });
+fiestas.setup({ actions, render: () => render() });
 momentos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 juegos.setup({ actions, render: () => render(), onAfterRender, onLeave });
 podcast.setup({ actions, render: () => render(), onAfterRender, cloud });

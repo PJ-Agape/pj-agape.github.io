@@ -5011,3 +5011,39 @@ html.papel .ad-banner .ad-banner-art, .ad-banner .ad-banner-art { display: grid 
 .cap-av-red { display: inline-grid; place-items: center; border-radius: 50%; overflow: hidden; background: #0b2566; }
 .cap-av-red .ad-sello { width: 100%; height: 100%; }
 .cap-vela-red .cap-vela-by b { color: #0b2566; }
+/* Celebraciones: cumpleaños y fechas Ágape (Inicio, Capilla, Gestión) */
+.fi-card { position: relative; overflow: hidden; display: flex; gap: 14px; align-items: flex-start; margin-top: 14px; padding: 16px; background: #fff1c7; border: 2px solid var(--pp-bd, #0b2566); box-shadow: var(--pp-sh-m, 4px 4px 0 #0b2566); }
+.fi-card.fi-yo { background: #ffe3d6; }
+.fi-card.fi-fecha { background: #e1f3fd; }
+.fi-card.fi-cuenta { background: #fff6e5; align-items: center; }
+.fi-card.is-pronto { background: #fff6e5; }
+.fi-ill { flex: none; width: 108px; color: var(--cn, #0b2566); position: relative; z-index: 1; }
+.fi-ill svg { width: 100%; height: auto; display: block; }
+.fi-txt { flex: 1; min-width: 0; display: grid; gap: 4px; position: relative; z-index: 1; }
+.fi-hand { font-family: var(--font-hand); font-weight: 700; font-size: 1.3rem; color: #ef591c; line-height: 1.1; }
+.fi-card h2 { margin: 0; font-family: var(--font-display); font-size: 1.35rem; color: var(--cn, #0b2566); line-height: 1.15; }
+.fi-card p { margin: 2px 0 0; font-weight: 600; color: var(--cn, #0b2566); }
+.fi-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.fi-meta { font-size: .82rem; opacity: .8; }
+.fi-meta:empty { display: none; }
+.fi-form { display: grid; gap: 8px; margin-top: 8px; }
+.fi-form[hidden] { display: none; }
+.fi-num { flex: none; width: 76px; height: 76px; border-radius: 50%; background: #ef591c; color: #fff; display: grid; place-content: center; text-align: center; line-height: 1; }
+.fi-num b { font-family: var(--font-display); font-size: 2rem; }
+.fi-num span { font-size: .8rem; font-weight: 700; }
+.fi-firmas { display: grid; gap: 8px; margin-top: 8px; }
+.fi-firmas-h { font-weight: 800; font-size: .9rem; color: var(--cn, #0b2566); }
+.fi-firma { display: flex; gap: 8px; align-items: flex-start; background: #fff; border: 1.5px solid #0b2566; border-radius: 14px; padding: 8px 10px; }
+.fi-firma p { margin: 0; font-weight: 500; font-size: .92rem; }
+.fi-firma b { display: block; font-size: .82rem; }
+.fi-confeti { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.fi-confeti i { position: absolute; top: -12px; left: var(--x); width: 7px; height: 12px; border-radius: 2px; background: var(--c); transform: rotate(var(--r)); opacity: 0; animation: fiCae 3.2s ease-in var(--d) 2 forwards; }
+@keyframes fiCae { 0% { opacity: 1; transform: translateY(0) rotate(var(--r)); } 100% { opacity: 0; transform: translateY(260px) rotate(calc(var(--r) + 300deg)); } }
+@media (prefers-reduced-motion: reduce) { .fi-confeti { display: none; } }
+@media (max-width: 520px) { .fi-ill { width: 78px; } .fi-card h2 { font-size: 1.2rem; } }
+.cap-vela-fiesta { background: #fff1c7 !important; }
+.fi-adm { margin-top: 16px; }
+.fi-adm-list { display: grid; gap: 10px; margin-top: 10px; }
+.fi-adm-row { display: grid; gap: 6px; padding: 10px; border: 1.5px dashed rgba(11,37,102,.35); border-radius: 14px; }
+.fi-adm-row select { min-width: 0; }
+.fi-ill img { width: 100%; height: auto; display: block; }

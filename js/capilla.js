@@ -8,6 +8,7 @@ import * as papa from "./papa.js";
 import { illus } from "./ilustraciones.js";
 import * as E from "./entrada.js";
 import * as AD from "./agape-digital.js";
+import * as F from "./fiestas.js";
 import { avatar } from "./avatares.js";
 
 // Misa en vivo: la de hoy del canal de Magnificat TV (data/misa-vivo.json, la busca cada hora la
@@ -312,7 +313,7 @@ const candleSVG = (lit = true, cls = "") => `<svg class="cap-candle ${lit ? "lit
 // ---------------------------------------------------------------------------
 // Vista
 // ---------------------------------------------------------------------------
-let velas = null, velasRed = [], focusVela = null, focusDone = false;
+let velas = null, velasRed = [], velasFiesta = [], focusVela = null, focusDone = false;
 let altarOpen = (() => { try { return sessionStorage.getItem("agape_altar") === "1"; } catch { return false; } })();
 function setAltar(open) {
   altarOpen = open; try { sessionStorage.setItem("agape_altar", open ? "1" : "0"); } catch {}
@@ -397,6 +398,8 @@ export function view(opt = {}) {
     // Las intenciones que dejan los visitantes del Ágape digital, como velas de la comunidad
     const stopRed = ctx.cloud.watchIntencionesRed((rows) => { velasRed = rows; paintVelas(); }, () => {});
     ctx.onLeave(stopRed);
+    // Cumpleaños y fechas Ágape de hoy: una vela especial de la comunidad
+    F.velasHoy().then((l) => { velasFiesta = l; paintVelas(); }).catch(() => {});
     paintVelas();
   });
   ctx.onAfterRender(() => { wheelInit(); });
@@ -589,7 +592,7 @@ function paintVelas(err) {
   const week = Date.now() - 7 * 86400000;
   const red = (velasRed || []).map((r) => ({ id: "red:" + r.id, red: true, text: r.t || "", authorName: "Un internauta del Ágape digital", prays: r.prays || {}, createdAt: r.createdAt }));
   const ts = (v) => (v.createdAt && v.createdAt.toDate ? v.createdAt.toDate().getTime() : Date.now());
-  const list = [...velas, ...red].sort((a, b) => ts(b) - ts(a)).filter((v) => { const d = v.createdAt && v.createdAt.toDate ? v.createdAt.toDate() : new Date(); return d.getTime() >= week; });
+  const list = [...velasFiesta, ...[...velas, ...red].sort((a, b) => ts(b) - ts(a))].filter((v) => { const d = v.createdAt && v.createdAt.toDate ? v.createdAt.toDate() : new Date(); return d.getTime() >= week; });
   const me = ctx.cloud.myUid(), staff = st().isStaff;
   // El altar: todas las velas de la semana juntas; la llama crece con cada persona que reza.
   const altar = $("#velaAltar"), sum = $("#velaSum");
@@ -603,17 +606,17 @@ function paintVelas(err) {
     const ps = prayers(v, me), n = ps.length, mine = ps.some((p) => p.me);
     const focus = focusVela === v.id, long = v.text && v.text.length > 260, clamp = long && !focus;
     const author = ps.find((p) => p.uid === v.authorUid) || {};
-    return `<article class="cap-vela${focus ? " cap-vela-focus" : ""}${v.red ? " cap-vela-red" : ""}" data-vela="${esc(v.id)}" style="--r:${[-0.8, 0.6, -0.3, 0.9][i % 4]}deg;--f:${(1 + Math.min(n, 12) * 0.06).toFixed(2)}">
+    return `<article class="cap-vela${focus ? " cap-vela-focus" : ""}${v.red ? " cap-vela-red" : ""}${v.fiesta ? " cap-vela-fiesta" : ""}" data-vela="${esc(v.id)}" style="--r:${[-0.8, 0.6, -0.3, 0.9][i % 4]}deg;--f:${(1 + Math.min(n, 12) * 0.06).toFixed(2)}">
       <div class="cap-vela-c">${candleSVG(true)}</div>
       <div class="cap-vela-body">
         ${v.text ? `<p class="cap-vela-t${clamp ? " cap-clamp" : ""}">${esc(v.text)}</p>${long ? `<button class="cap-more" data-action="velaMore">${clamp ? "Leer todo" : "Mostrar menos"}</button>` : ""}`
           : `<p class="cap-vela-t is-silent">Una intención en silencio</p>`}
-        <div class="cap-vela-by">${v.red ? `<span class="cap-av cap-av-red" aria-hidden="true">${AD.SELLO()}</span><span><b>Un internauta del Ágape digital</b> la dejó ${dayLabel(v.createdAt)}</span>` : `${avatar(author.a || "", v.authorName || "Alguien", "cap-av")}<span><b>${esc(v.authorName || "Alguien")}</b> la encendió ${dayLabel(v.createdAt)}</span>`}</div>
+        <div class="cap-vela-by">${v.fiesta ? `<span class="cap-av cap-av-red" aria-hidden="true">${AD.SELLO()}</span><span><b>La comunidad Ágape</b> la encendió hoy</span>` : v.red ? `<span class="cap-av cap-av-red" aria-hidden="true">${AD.SELLO()}</span><span><b>Un internauta del Ágape digital</b> la dejó ${dayLabel(v.createdAt)}</span>` : `${avatar(author.a || "", v.authorName || "Alguien", "cap-av")}<span><b>${esc(v.authorName || "Alguien")}</b> la encendió ${dayLabel(v.createdAt)}</span>`}</div>
         <div class="cap-vela-act">
           <button class="cap-pray${mine ? " on" : ""}" data-action="capPray" data-id="${esc(v.id)}" data-on="${mine ? 0 : 1}" aria-pressed="${mine}">${icon("flame")} ${mine ? "Estás rezando" : "Rezo contigo"}</button>
           ${n ? `<span class="cap-pray-who"><span class="cap-stack" aria-hidden="true">${ps.slice(0, 5).map((p) => avatar(p.a, p.me ? "Tú" : p.n || "Alguien", "cap-av")).join("")}</span><span>${esc(whoText(ps))}</span></span>` : ""}
         </div>
-        ${v.authorUid === me || staff ? `<button class="cap-vela-del" data-action="capVelaDel" data-id="${esc(v.id)}">Retirar ${v.authorUid === me ? "mi" : "esta"} vela</button>` : ""}
+        ${!v.fiesta && (v.authorUid === me || staff) ? `<button class="cap-vela-del" data-action="capVelaDel" data-id="${esc(v.id)}">Retirar ${v.authorUid === me ? "mi" : "esta"} vela</button>` : ""}
       </div>
     </article>`;
   }).join("");
@@ -1175,6 +1178,14 @@ function registerActions() {
     const on = el.dataset.on === "1";
     if (on) el.closest(".cap-vela")?.classList.add("cap-vela-joined");
     const id = el.dataset.id;
+    if (id.startsWith("fiesta:")) {
+      ctx.cloud.prayFiesta(id.slice(7), on).then(() => {
+        const v = velasFiesta.find((x) => x.id === id), me = ctx.cloud.myUid(), acc = st().account || {};
+        if (v) { v.prays = { ...v.prays }; if (on) v.prays[me] = { n: ctx.cloud.shortName(acc.name || ""), a: acc.avatar || "" }; else delete v.prays[me]; }
+        paintVelas(); if (on) toast("Gracias por rezar con la comunidad");
+      }).catch(() => toast("No se pudo guardar", ""));
+      return;
+    }
     (id.startsWith("red:") ? ctx.cloud.prayIntencionRed(id.slice(4), on) : ctx.cloud.prayVela(id, on)).then(() => { if (on) toast("Gracias por rezar con la comunidad"); }).catch(() => toast("No se pudo guardar", ""));
   };
   A.capVelaDel = (el) => {

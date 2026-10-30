@@ -37,7 +37,7 @@ const av = (j, cls = "") => {
 
 // Cumpleaños para Inicio (solo con autorización de la familia): nombre corto y día/mes.
 async function rebuildCumples() {
-  const items = (jovenes || []).filter((j) => j.activo !== false && j.publico && /^\d{2}-\d{2}$/.test(j.cumple || "")).map((j) => ({ n: shortName(j.nombre), md: j.cumple }));
+  const items = (jovenes || []).filter((j) => j.activo !== false && j.publico && /^\d{2}-\d{2}$/.test(j.cumple || "")).map((j) => ({ n: shortName(j.nombre), md: j.cumple, ...(j.uid ? { uid: j.uid } : {}) }));
   try { await ctx.cloud.saveCumples({ items }); } catch (e) { console.warn("Cumpleaños:", e); }
 }
 
