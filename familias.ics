@@ -96,6 +96,17 @@ DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
 CATEGORIES:Misa
 END:VEVENT
 BEGIN:VEVENT
+UID:WA5hkb1Jun7eaG3RNWrK@pj-agape
+DTSTAMP:20261030T004438Z
+DTSTART;TZID=America/Santiago:20261030T190000
+DTEND;TZID=America/Santiago:20261030T190000
+SUMMARY:Misa de oración por los enfermos en Huepil
+LOCATION:Templo Parroquia de Huepil
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
+ es/familias/
+CATEGORIES:Misa
+END:VEVENT
+BEGIN:VEVENT
 UID:3CvJPI64qAowRztBN3Ta@pj-agape
 DTSTAMP:20261027T232824Z
 DTSTART;TZID=America/Santiago:20261101T113000

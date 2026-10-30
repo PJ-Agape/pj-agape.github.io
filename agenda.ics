@@ -118,6 +118,17 @@ DESCRIPTION:Para: TODOS\n\nAgenda Ágape · pj-agape.github.io/Formacion_Mo
 CATEGORIES:Misa
 END:VEVENT
 BEGIN:VEVENT
+UID:WA5hkb1Jun7eaG3RNWrK@pj-agape
+DTSTAMP:20261030T004438Z
+DTSTART;TZID=America/Santiago:20261030T190000
+DTEND;TZID=America/Santiago:20261030T190000
+SUMMARY:Misa de oración por los enfermos en Huepil
+LOCATION:Templo Parroquia de Huepil
+DESCRIPTION:Para: Todos\n\nAgenda Ágape · pj-agape.github.io/Formacion_Mo
+ nitores/#/agenda
+CATEGORIES:Misa
+END:VEVENT
+BEGIN:VEVENT
 UID:sibDn1KHVlS3jx3lSIW7@pj-agape
 DTSTAMP:20261009T022314Z
 DTSTART;TZID=America/Santiago:20261031T200000
