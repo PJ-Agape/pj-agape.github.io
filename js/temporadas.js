@@ -199,3 +199,29 @@ export function setup(c) {
   A.tpAbrir = (el) => verVentana(+el.dataset.i);
   A.tpMarco = (el) => { try { sessionStorage.setItem("dif_pre", JSON.stringify({ tab: "marco", frame: el.dataset.f })); } catch {} location.hash = "#/difusion"; };
 }
+
+// Después de leer el Evangelio: una sola invitación para seguir rezándolo (cambia según el día;
+// en el Mes de María y en Adviento, su campaña). Va en la Capilla, bajo el Evangelio.
+const DESPUES = [
+  ["rato", "Quédate un rato con Él", "Unos minutos de silencio con lo que escuchaste hoy."],
+  ["salmos", "Responde con un salmo", "Elige cómo llegas y reza el Evangelio con un salmo."],
+  ["rato", "Deja que la Palabra te hable", "Un rato de silencio guiado, al estilo de Santa Teresa."],
+  ["rosario", "Medítalo junto a María", "Reza un misterio del Rosario con lo que leíste."],
+  ["intenciones", "Lleva a alguien en tu oración", "Enciende una vela por quien te vino a la mente al leer."],
+  ["oremus", "Termina con una oración", "Elige una oración de Oremus para cerrar tu lectura."],
+  ["cancionero", "Canta la Palabra", "Busca una canción que te ayude a rezar lo de hoy."],
+];
+export function despuesEvangelio(d = hoy0()) {
+  const a = adviento(d), m = mesMaria(d);
+  if (a.activo) return { ill: "l_navidad", t: `Calendario de Adviento · día ${a.dia}`, x: "Abre la ventanita de hoy y sigue preparando la Navidad.", href: "#/adviento" };
+  if (m.activo) return { ill: "maria", t: `Mes de María · día ${m.dia}`, x: florDe(m.dia), href: "#/mesdemaria" };
+  const [k, t, x] = DESPUES[d.getDay()], tool = TOOLS.find((y) => y.k === k);
+  return { tool, t, x, href: tool.href };
+}
+export function despuesHTML() {
+  const v = despuesEvangelio();
+  return `<a class="card link tp-card tp-despues" href="${v.href}">
+    <span class="tp-ill">${v.tool ? ilu(v.tool) : illus(v.ill)}</span>
+    <span class="tp-txt"><span class="tp-hand">para seguir rezándolo</span><strong>${esc(v.t)}</strong><span>${esc(v.x)}</span></span>
+    <span class="ds-go" aria-hidden="true">${icon("arrowR")}</span></a>`;
+}

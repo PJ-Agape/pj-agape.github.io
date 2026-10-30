@@ -101,7 +101,7 @@ export function marcar(k) {
   if (s.n >= s.total && !p.premio) {
     p.premio = true; p.logros = [...new Set([...(p.logros || []), p.m])]; guardar(p);
     setTimeout(() => toast(`¡Completaste tu Pasaporte Ágape de ${MESES[new Date().getMonth()]}! Tienes un marco nuevo en el Estudio de difusión.`, "ok", 7000), 900);
-  } else setTimeout(() => toast(`Nuevo sello en tu Pasaporte Ágape: ${tool(k).n} (${s.n} de ${s.total})`, "ok", 3500), 900);
+  } else if (k !== "evangelio") setTimeout(() => toast(`Nuevo sello en tu Pasaporte Ágape: ${tool(k).n} (${s.n} de ${s.total})`, "ok", 3500), 900); // en el Evangelio, nada que distraiga
 }
 
 // --- Cuánta gente pasó por cada herramienta esta semana --------------------------

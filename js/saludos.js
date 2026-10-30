@@ -5,7 +5,6 @@ import { esc, icon, toast } from "./util.js";
 import * as cloud from "./cloud.js";
 import * as E from "./estudio.js";
 import * as F from "./fiestas.js";
-import * as TP from "./temporadas.js";
 
 let data = null, sel = null;
 
@@ -112,30 +111,9 @@ async function load() {
   return data;
 }
 
-// Invitación del día: cada día el saludo lleva a un rincón distinto de la app (Mes de María y Adviento tienen el suyo)
-const INVITA = [
-  ["📻", "Hoy te invitamos a escuchar una *radio católica* en vivo", "#/oracion/radio"], // domingo
-  ["🎶", "Hoy te invitamos a *rezar con los Salmos*: elige cómo llegas y te regalamos uno", "#/salmos"],
-  ["🤫", "Hoy te invitamos a regalarle a Jesús *un rato de silencio*", "#/oracion/silencio"],
-  ["📿", "Hoy te invitamos a rezar el *Rosario*, cuenta a cuenta", "#/oracion/rosario"],
-  ["🎸", "Hoy te invitamos a buscar una canción en el *Cancionero*", "#/cancionero"],
-  ["🕯️", "Hoy te invitamos a *encender una vela* y rezar por las intenciones de otros", "#/oracion/velas"],
-  ["🙏", "Hoy te invitamos a rezar con una oración de *Oremus*", "#/oremus"],
-];
-export function invitacion(iso) {
-  const [y, m, d] = iso.split("-").map(Number), dt = new Date(y, m - 1, d);
-  const a = TP.adviento(dt), mm = TP.mesMaria(dt);
-  if (a.activo) return `🎁 *Calendario de Adviento · día ${a.dia}:* abre la ventanita de hoy 👉 ${APP}#/adviento`;
-  if (mm.activo) return `🌹 *Mes de María · día ${mm.dia}:* la flor de hoy para María y el Rosario 👉 ${APP}#/mesdemaria`;
-  const [e, t, h] = INVITA[dt.getDay()];
-  return `${e} ${t} 👉 ${APP}${h}`;
-}
-function textoDe(x, k) {
-  if (k === "fuera") return fuera(x);
-  if (k !== "dia" || !x.dia) return x[k] || "";
-  const i = x.dia.indexOf("📖 Léelo completo");
-  return i > 0 ? `${x.dia.slice(0, i)}${invitacion(x.iso)}\n${x.dia.slice(i)}` : `${x.dia}\n\n${invitacion(x.iso)}`;
-}
+// El saludo es el Evangelio: el texto va tal cual, con su único enlace a la Capilla (abre el Evangelio del día).
+// La invitación a otros rincones vive en la app, justo después de leer el Evangelio (ver capilla.js).
+const textoDe = (x, k) => (k === "fuera" ? fuera(x) : x[k] || "");
 // Versión general, para compartir fuera de la comunidad (canal, estados, otros grupos):
 // la fecha, la frase del Evangelio, la cita, el enlace y la invitación a reenviarlo (misioneros digitales).
 function fuera(x) {
@@ -148,8 +126,6 @@ ${frase ? `«${frase}»\n` : ""}${x.cita}
 
 Te invitamos a la Capilla Ágape (deja ahí tu intención: la llevamos a la misa):
 ${APP}capilla
-
-${invitacion(x.iso)}
 
 🙏 *Sé misionero digital:* reenvía este mensaje a tus contactos. Así, día a día, vamos formando el *Ágape digital*: una gran red de internautas que rezan con la Palabra.`;
 }

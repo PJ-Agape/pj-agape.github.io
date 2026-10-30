@@ -410,7 +410,6 @@ export function view(opt = {}) {
       <span class="cap-row-txt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("right")}</${attrs.startsWith("href") ? "a" : "button"}>`;
   let num = 0; // los rincones se numeran solos, en orden
   return `${AD.bienvenidaHTML()}
-  ${TP.tarjetaHTML() ? `<div class="tp-cap">${TP.tarjetaHTML()}</div>` : ""}
   <section class="cap-a-hero" style="--season:${s.hex}">
     <div class="cap-arch">
       ${roseWindow()}
@@ -438,6 +437,7 @@ export function view(opt = {}) {
     <div class="cap-vbox" id="capEvVid" ${vidSel === "ev" ? "" : "hidden"}>${evVideoHTML()}</div>
     <div class="cap-a-ev" id="capGospel">${gospelHead(s)}</div>
     <a class="cap-hoy-link" id="capEvLink" href="${esc(evUrl())}" target="_blank" rel="noopener">Leer el Evangelio completo en Vatican News ${icon("arrowR")}</a>
+    ${TP.despuesHTML()}
     ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}
   </section>
 
