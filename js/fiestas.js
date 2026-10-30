@@ -294,7 +294,7 @@ function registerActions() {
     const id = f.dataset.fiform, t = f.t.value.trim(); if (!t) { f.t.focus(); return; }
     const b = f.querySelector("button[type=submit]"); if (b) b.disabled = true;
     try { await cloud.firmaFiesta(id, t); const d = docs.get(id) || {}; d.firmas = { ...(d.firmas || {}), [cloud.myUid()]: { t } }; docs.set(id, d); toast("¡Saludo guardado! Lo verá el día de su cumpleaños.", "ok"); refresh(); }
-    catch { toast("No se pudo guardar. Si recién se actualizó la app, falta publicar las reglas nuevas de Firebase.", "", 5000); if (b) b.disabled = false; }
+    catch (err) { console.warn("Saludo:", err); toast(err && err.code === "permission-denied" ? "Firebase no dejó guardar el saludo (permiso denegado). Revisa que las reglas publicadas sean las últimas." : `No se pudo guardar el saludo${err && err.code ? ` (${err.code})` : ""}. Revisa tu conexión.`, "", 7000); if (b) b.disabled = false; }
   });
 }
 
