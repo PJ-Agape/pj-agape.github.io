@@ -750,6 +750,9 @@ const ini = (n) => String(n || "?").trim().split(/\s+/).slice(0, 2).map((w) => w
 const first = (n) => String(n || "").split(" ")[0];
 // Las cuentas de jóvenes y aspirantes entran solas a la lista de Acompañar (vinculadas a su cuenta),
 // y si cambió su rol, su etapa se pone al día. Así todos aparecen para asignar.
+// Si la cuenta vinculada ya es dirigente, coordinador o administrador, ya no es un joven por acompañar
+// (su ficha antigua queda, pero no se cuenta para asignar ni en la campanita).
+const yaEsGuia = (j) => !!j.uid && (people?.users || []).some((u) => u.uid === j.uid && !YOUTH.includes(u.role));
 async function syncJovenesCuentas() {
   const users = (people?.users || []).filter((u) => u.active !== false && YOUTH.includes(u.role));
   let n = 0;
@@ -775,7 +778,7 @@ async function asignarView() {
   const all = (people?.users || []), nameOf = (uid) => { const u = all.find((x) => x.uid === uid); return u ? u.name || u.email : ""; };
   const color = Object.fromEntries(guides.map((g, i) => [g.uid, ASG_COL[i % ASG_COL.length]]));
   if (asgSel && !guides.some((g) => g.uid === asgSel)) asgSel = "";
-  const js = (jovenesAll || []).filter((j) => j.activo !== false && ["ingreso", "madurez", "aspirante"].includes(j.etapa));
+  const js = (jovenesAll || []).filter((j) => j.activo !== false && ["ingreso", "madurez", "aspirante"].includes(j.etapa) && !yaEsGuia(j));
   const sin = js.filter((j) => !j.guia).length;
   const cnt = (uid, k) => js.filter((j) => j[k] === uid).length;
   const list = js.filter((j) => asgFilter !== "sin" || !j.guia);
@@ -809,7 +812,7 @@ function suggestAsg() {
   const guides = eligibleGuides().map((g) => g.uid);
   const out = {};
   if (!guides.length) return out;
-  const js = (jovenesAll || []).filter((j) => j.activo !== false && ["ingreso", "madurez", "aspirante"].includes(j.etapa));
+  const js = (jovenesAll || []).filter((j) => j.activo !== false && ["ingreso", "madurez", "aspirante"].includes(j.etapa) && !yaEsGuia(j));
   const total = {}, byStage = {};
   guides.forEach((g) => (total[g] = 0));
   js.forEach((j) => { if (j.guia && total[j.guia] != null) { total[j.guia]++; byStage[j.etapa + j.guia] = (byStage[j.etapa + j.guia] || 0) + 1; } });

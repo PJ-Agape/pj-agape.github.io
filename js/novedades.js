@@ -88,7 +88,10 @@ async function fetchAll() {
   const now = Date.now(), dia = now >= at(7) ? at(7) : at(7) - DAY; // lo diario se marca como nuevo cada mañana
   // Para administradores y coordinación: jóvenes sin dirigente y el saludo del día
   if (cloud.state().isAdmin || cloud.state().role === "coordinador") {
-    const sin = (await cloud.listJovenes().catch(() => [])).filter((j) => j.activo !== false && !j.guia && ["ingreso", "madurez", "aspirante"].includes(j.etapa)); // los mismos que muestra Gestión → Asignar
+    const [jl, gente] = await Promise.all([cloud.listJovenes().catch(() => []), cloud.listPeople().catch(() => [])]);
+    const guias = new Set(gente.filter((u) => !["ingreso", "madurez", "aspirante"].includes(u.role)).map((u) => u.uid));
+    // los mismos que muestra Gestión → Asignar: jóvenes activos de Ingreso, Madurez o Aspirante, cuya cuenta (si tienen) no sea de dirigente
+    const sin = jl.filter((j) => j.activo !== false && !j.guia && ["ingreso", "madurez", "aspirante"].includes(j.etapa) && !(j.uid && guias.has(j.uid)));
     if (sin.length) out.push({ pend: true, ts: dia, e: "", href: "#/admin/asignar", t: sin.length === 1 ? "Un joven sin dirigente" : `${sin.length} jóvenes sin dirigente`,
       d: short(sin.map((j) => String(j.nombre || "").split(" ")[0]).join(", ")) });
     if (isOn("saludo") && now >= at(7)) out.push({ ts: at(7), e: "☀️", href: "#/admin/saludos", t: "El saludo de hoy está listo", d: "Buenos días con el Evangelio, para enviar al grupo por WhatsApp." });
