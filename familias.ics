@@ -34,8 +34,7 @@ DTSTART;TZID=America/Santiago:20261009T203000
 DTEND;TZID=America/Santiago:20261009T213000
 SUMMARY:Ensayo de coro
 LOCATION:Salón Parroquial
-DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
- es/familias/
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/familias/
 CATEGORIES:Actividad
 END:VEVENT
 BEGIN:VEVENT
@@ -45,8 +44,7 @@ DTSTART;TZID=America/Santiago:20261010T110000
 DTEND;TZID=America/Santiago:20261010T130000
 SUMMARY:Misa en El Castillo
 LOCATION:Capilla sector El Castillo
-DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
- es/familias/
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/familias/
 CATEGORIES:Liturgia
 END:VEVENT
 BEGIN:VEVENT
@@ -56,8 +54,7 @@ DTSTART;TZID=America/Santiago:20261010T200000
 DTEND;TZID=America/Santiago:20261010T210000
 SUMMARY:Misa juvenil
 LOCATION:Templo Parroquial
-DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
- es/familias/
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/familias/
 CATEGORIES:Liturgia
 END:VEVENT
 BEGIN:VEVENT
@@ -80,7 +77,7 @@ SUMMARY:Misa bendición de las familias
 LOCATION:Templo Parroquial
 DESCRIPTION:Recuerda traer una foto de tu familia\, se impartirá una bendi
  ción especial en esta misa.\n\nPastoral Juvenil Ágape · pj-agape.github
- .io/Formacion_Monitores/familias/
+ .io/familias/
 CATEGORIES:Liturgia
 TRANSP:TRANSPARENT
 END:VEVENT
@@ -91,8 +88,7 @@ DTSTART;TZID=America/Santiago:20261030T140300
 DTEND;TZID=America/Santiago:20261030T140300
 SUMMARY:Misa en Sector El avellano
 LOCATION:Capilla sector El avellano
-DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
- es/familias/
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/familias/
 CATEGORIES:Misa
 END:VEVENT
 BEGIN:VEVENT
@@ -102,8 +98,7 @@ DTSTART;TZID=America/Santiago:20261030T190000
 DTEND;TZID=America/Santiago:20261030T190000
 SUMMARY:Misa de oración por los enfermos en Huepil
 LOCATION:Templo Parroquia de Huepil
-DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
- es/familias/
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/familias/
 CATEGORIES:Misa
 END:VEVENT
 BEGIN:VEVENT
@@ -113,8 +108,7 @@ DTSTART;TZID=America/Santiago:20261101T113000
 DTEND;TZID=America/Santiago:20261101T113000
 SUMMARY:Misa de todos los Santos
 LOCATION:Cementerio municipal de Yungay
-DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
- es/familias/
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/familias/
 CATEGORIES:Liturgia
 END:VEVENT
 BEGIN:VEVENT
@@ -126,7 +120,7 @@ RRULE:FREQ=WEEKLY;UNTIL=20261209T035959Z
 SUMMARY:Dirigir oración Mes de María
 LOCATION:Templo Parroquial
 DESCRIPTION:Rosario\, flores.\n\nPastoral Juvenil Ágape · pj-agape.github
- .io/Formacion_Monitores/familias/
+ .io/familias/
 CATEGORIES:Festividad
 END:VEVENT
 BEGIN:VEVENT
@@ -141,7 +135,7 @@ DESCRIPTION:Misa: 11:30 hrs.\, en el templo.\n🚶 Punto de partida: Entrad
  aje: $7.000 por persona.\n📝 Inscripciones: Secretaría parroquial.\n
  🎶 Coro Ágape: Pendiente de confirmar si deberá animar la peregrinaci
  ón y la posterior Misa.\n\nPastoral Juvenil Ágape · pj-agape.github.io/
- Formacion_Monitores/familias/
+ familias/
 CATEGORIES:Encuentro
 END:VEVENT
 BEGIN:VEVENT
@@ -151,8 +145,7 @@ DTSTART;TZID=America/Santiago:20261114T190000
 DTEND;TZID=America/Santiago:20261114T190000
 SUMMARY:Festival de la voz en Tucapel
 LOCATION:Teatro Tucapel
-DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
- es/familias/
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/familias/
 CATEGORIES:Encuentro
 END:VEVENT
 BEGIN:VEVENT
@@ -162,8 +155,7 @@ DTSTART;TZID=America/Santiago:20261119T100000
 DTEND;TZID=America/Santiago:20261119T100000
 SUMMARY:Visita de Mons. Andrés Ferrada Moreira
 LOCATION:Templo Parroquial
-DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/Formacion_Monitor
- es/familias/
+DESCRIPTION:Pastoral Juvenil Ágape · pj-agape.github.io/familias/
 CATEGORIES:Encuentro
 END:VEVENT
 BEGIN:VEVENT
@@ -197,7 +189,7 @@ DTEND;TZID=America/Santiago:20261121T213000
 SUMMARY:Encuentro Ágape
 LOCATION:Salón parroquial
 DESCRIPTION:Coordina Maxi\n\nPastoral Juvenil Ágape · pj-agape.github.io/
- Formacion_Monitores/familias/
+ familias/
 CATEGORIES:Encuentro
 END:VEVENT
 BEGIN:VEVENT
