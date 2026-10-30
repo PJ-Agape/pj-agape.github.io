@@ -1211,7 +1211,7 @@ function bindActions() {
     let guia = j.guia || "", guia2 = j.guia2 || "";
     if (asgMode === "guia") { if (guia === asgSel) guia = ""; else { guia = asgSel; if (guia2 === asgSel) guia2 = ""; } }
     else { if (guia2 === asgSel) guia2 = ""; else if (guia === asgSel) { toast("Ya lo acompaña a cargo", ""); return; } else guia2 = asgSel; }
-    try { await asgWrite(j, guia, guia2); asgRender(); }
+    try { await asgWrite(j, guia, guia2); asgRender(); novedades.refresh(true); } // la campanita se pone al día al tiro
     catch (e) { console.warn(e); toast("No se pudo guardar. Revisa la conexión.", ""); asgRender(); }
   };
   A.aAsgSuggest = async (el) => {
@@ -1223,7 +1223,7 @@ function bindActions() {
     el.disabled = true;
     try { for (const id of ids) { const j = jovenesAll.find((x) => x.id === id); await asgWrite(j, plan[id], j.guia2 || ""); } toast(`Listo: ${ids.length} asignado${ids.length === 1 ? "" : "s"}`, "ok"); }
     catch (e) { console.warn(e); toast("No se pudo terminar el reparto. Revisa la conexión.", ""); }
-    asgRender();
+    asgRender(); novedades.refresh(true);
   };
   A.aPeopleCsv = () => peopleCsv();
   A.aInvite = () => openInvite();

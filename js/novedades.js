@@ -88,7 +88,7 @@ async function fetchAll() {
   const now = Date.now(), dia = now >= at(7) ? at(7) : at(7) - DAY; // lo diario se marca como nuevo cada mañana
   // Para administradores y coordinación: jóvenes sin dirigente y el saludo del día
   if (cloud.state().isAdmin || cloud.state().role === "coordinador") {
-    const sin = (await cloud.listJovenes().catch(() => [])).filter((j) => j.activo !== false && !j.guia);
+    const sin = (await cloud.listJovenes().catch(() => [])).filter((j) => j.activo !== false && !j.guia && ["ingreso", "madurez", "aspirante"].includes(j.etapa)); // los mismos que muestra Gestión → Asignar
     if (sin.length) out.push({ pend: true, ts: dia, e: "", href: "#/admin/asignar", t: sin.length === 1 ? "Un joven sin dirigente" : `${sin.length} jóvenes sin dirigente`,
       d: short(sin.map((j) => String(j.nombre || "").split(" ")[0]).join(", ")) });
     if (isOn("saludo") && now >= at(7)) out.push({ ts: at(7), e: "☀️", href: "#/admin/saludos", t: "El saludo de hoy está listo", d: "Buenos días con el Evangelio, para enviar al grupo por WhatsApp." });
