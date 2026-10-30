@@ -274,7 +274,7 @@ export async function flushPush() {
       await fb.setDoc(fb.doc(db, "progress", uid), {
         json: JSON.stringify(all), summary: summarize(all),
         name: account.name, parish: account.parish || "", email: account.email, updatedAt: fb.serverTimestamp(),
-      });
+      }, { merge: true }); // merge: no borra otros campos del documento (p. ej. el Pasaporte Ágape)
     }
     if (dirty.notes) {
       dirty.notes = false;
@@ -1010,6 +1010,13 @@ export async function getCumples() {
   }
   return { ...(lista || {}), items };
 }
+// Pasaporte Ágape y recorrido de bienvenida de cada cuenta: se guardan en su documento de avance
+// para que se mantengan en todos sus dispositivos.
+export async function getDescubre() {
+  if (!enabled || !db || !user || status !== "ready") return null;
+  try { const s = await withTimeout(fb.getDoc(fb.doc(db, "progress", user.uid)), 8000); return (s.exists() && s.data().descubre) || {}; } catch { return null; }
+}
+export const saveDescubre = (d) => (enabled && db && user && status === "ready" ? fb.setDoc(fb.doc(db, "progress", user.uid), { descubre: d }, { merge: true }) : Promise.resolve());
 // Fechas Ágape (aniversario, fiesta patronal…): las edita el equipo; las ve todo el mundo.
 export const getFechas = () => getContent("fechas");
 export const saveFechas = (d) => setContent("fechas", d);

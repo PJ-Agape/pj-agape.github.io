@@ -62,8 +62,35 @@ function leer() {
   if (!p || p.m !== mesKey()) p = { m: mesKey(), s: {}, premio: false, logros: (p && p.logros) || [] };
   return p;
 }
-const guardar = (p) => { try { localStorage.setItem(PKEY, JSON.stringify(p)); } catch {} };
-export function sellos() { const p = leer(), hs = herramientas(); return { p, hs, n: hs.filter((t) => p.s[t.k]).length, total: hs.length }; }
+const guardar = (p) => { try { localStorage.setItem(PKEY, JSON.stringify(p)); } catch {} subir(); };
+// Con cuenta, el pasaporte y el recorrido también se guardan en la nube: así no se pierden al cambiar
+// de navegador o de celular. Se juntan los sellos de todos los dispositivos.
+const tourVisto = () => { try { return !!localStorage.getItem("agape_tour1"); } catch { return false; } };
+let subirT = 0, sincronizado = null;
+function subir() {
+  if (!conCuenta() || !sincronizado) return;
+  clearTimeout(subirT);
+  subirT = setTimeout(() => { let p = null; try { p = JSON.parse(localStorage.getItem(PKEY) || "null"); } catch {}
+    cloud.saveDescubre({ p: p || null, tour: tourVisto() }).catch(() => {}); }, 1200);
+}
+export function sincronizar() {
+  if (!conCuenta()) return Promise.resolve(false);
+  if (sincronizado) return sincronizado;
+  sincronizado = cloud.getDescubre().then((d) => {
+    if (!d) { sincronizado = null; return false; }
+    const loc = leer(), nube = d.p && d.p.m === loc.m ? d.p : null;
+    if (nube) {
+      for (const [k, f] of Object.entries(nube.s || {})) if (!loc.s[k] || f < loc.s[k]) loc.s[k] = f;
+      loc.premio = !!(loc.premio || nube.premio);
+    }
+    loc.logros = [...new Set([...(loc.logros || []), ...((d.p && d.p.logros) || [])])];
+    try { localStorage.setItem(PKEY, JSON.stringify(loc)); if (d.tour) localStorage.setItem("agape_tour1", "1"); } catch {}
+    subir();
+    return true;
+  }).catch(() => { sincronizado = null; return false; });
+  return sincronizado;
+}
+export function sellos() { const p = leer(), hs = herramientas(); return { p, hs, n: hs.filter((t) => p.s[t.k]).length, total: hs.length, lleno: !!p.premio || hs.every((t) => p.s[t.k]) }; }
 export const completo = () => { const s = sellos(); return s.n >= s.total || (leer().logros || []).length > 0; };
 // Se llama cada vez que se abre una pantalla (misma clave del contador «Lo más visto»)
 export function marcar(k) {
@@ -102,6 +129,7 @@ function recomendada() {
 }
 export async function paintHome() {
   const slot = document.getElementById("descubreSlot"); if (!slot) return;
+  await sincronizar();
   const t = recomendada(), s = sellos(), sem = await semanaVistas();
   const g = gente(t.k, sem);
   const s2 = document.getElementById("descubreSlot"); if (!s2) return;
@@ -138,8 +166,7 @@ export async function siguiente(v, k) {
 
 // --- Página del Pasaporte -------------------------------------------------------
 export function view() {
-  const { p, hs, n, total } = sellos(), mes = MESES[new Date().getMonth()];
-  const lleno = n >= total;
+  const { p, hs, n, total, lleno } = sellos(), mes = MESES[new Date().getMonth()];
   const fecha = (iso) => { const [, m, d] = iso.split("-").map(Number); return `${d} ${MESES[m - 1].slice(0, 3)}`; };
   return `<header class="page-head"><span class="eyebrow">Descubre Ágape</span><h1>Pasaporte <em>Ágape</em></h1>
     <p>Cada rincón de la app que visitas este mes te da un sello. Recorre todos y recibe el marco especial «Peregrino Ágape» para tu foto. Se renueva cada mes y queda guardado en este dispositivo.</p></header>
@@ -180,8 +207,16 @@ function tourHTML() {
       ${last ? `<button class="btn btn-gold" data-action="dsTourFin">Empezar</button>` : `<button class="btn btn-ghost btn-sm" data-action="dsTourFin">Saltar</button><button class="btn btn-primary" data-action="dsTourSig">Siguiente</button>`}
     </div></div>`;
 }
-export function tour(force) {
-  try { if (!force && localStorage.getItem("agape_tour1")) return; localStorage.setItem("agape_tour1", "1"); } catch { if (!force) return; }
+export async function tour(force) {
+  if (!force) {
+    if (tourVisto()) return;
+    // Espera a saber si hay cuenta (y a traer lo guardado en ella) antes de decidir
+    for (let i = 0; i < 16 && cloud.enabled && cloud.state().status === "loading"; i++) await new Promise((r) => setTimeout(r, 250));
+    await sincronizar();
+    if (tourVisto() || !document.getElementById("descubreSlot")) return;
+  }
+  try { localStorage.setItem("agape_tour1", "1"); } catch {}
+  subir();
   tourI = 0;
   let d = document.getElementById("dsTourDlg");
   if (!d) { d = document.createElement("dialog"); d.id = "dsTourDlg"; d.className = "sheet ds-tour-dlg"; d.setAttribute("aria-label", "Recorrido de la app"); document.body.appendChild(d); }
