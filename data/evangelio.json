@@ -1,19 +1,12 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-10-30": {
-   "titulo": "Viernes de la 30.ª semana del Tiempo Ordinario",
-   "cita": "Lc 14,1-6",
-   "frase": "¿Está permitido curar en sábado?",
-   "video": "rSN7xu_8M3g",
-   "reflexion": "ChcuhC97h8M"
-  },
   "2026-10-31": {
    "titulo": "Sábado de la 30.ª semana del Tiempo Ordinario",
    "cita": "Lc 14,1.7-11",
    "frase": "El que se humilla será ensalzado.",
-   "video": "6pz5Popz4fw",
-   "reflexion": "K6HCF-c4DfU"
+   "reflexion": "K6HCF-c4DfU",
+   "video": "6pz5Popz4fw"
   },
   "2026-11-01": {
    "titulo": "Todos los Santos",
@@ -60,6 +53,11 @@
    "titulo": "Dedicación de la Basílica de San Juan de Letrán",
    "cita": "Jn 2,13-22",
    "frase": "Él se refería al templo de su cuerpo."
+  },
+  "2026-11-10": {
+   "titulo": "Martes de la 32.ª semana del Tiempo Ordinario",
+   "cita": "Lc 17,7-10",
+   "frase": "Somos simples servidores, no hemos hecho más que cumplir con nuestro deber."
   }
  }
 }
