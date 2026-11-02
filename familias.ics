@@ -160,13 +160,13 @@ CATEGORIES:Encuentro
 END:VEVENT
 BEGIN:VEVENT
 UID:VeMwHiLQVTKbhMDx6w2u@pj-agape
-DTSTAMP:20261024T110306Z
+DTSTAMP:20261102T141054Z
 DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
 SUMMARY:Inscripciones Encuentro juvenil en Quillon
 DESCRIPTION:Llenar planilla y realizar el pago por participante\n\nPastoral
   Juvenil Ágape · pj-agape.github.io/familias/
-CATEGORIES:Actividad
+CATEGORIES:Encuentro
 TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
