@@ -14,12 +14,12 @@ let ctx = null; // { actions, render, onAfterRender, onLeave, cloud }
 export function setup(c) { ctx = c; registerActions(); fondo.wire(toast); }
 const $ = (s, r = document) => r.querySelector(s);
 
-// Cada tipo pertenece a un área, y cada área tiene su panel: Comunidad, Capilla (al final) y Formación.
+// Cada tipo pertenece a un área, y cada área tiene su panel: Comunidad, Capilla (al final) y Recursos.
 // Lo que se destaca en Inicio sale además en las diapositivas de Inicio.
 export const AREAS = {
   comunidad: { t: "Comunidad", c: "#ef591c", hand: "para encontrarnos", href: "#/red" },
   capilla: { t: "Capilla", c: "#c98a00", hand: "para celebrar", href: "#/oracion" },
-  formacion: { t: "Formación", c: "#1351a4", hand: "para crecer", href: "#/formacion" },
+  formacion: { t: "Recursos", c: "#1351a4", hand: "para preparar", href: "#/recursos" },
 };
 export const TYPES = {
   cumpleanos: { label: "Cumpleaños", color: "#f6b7a0", area: "comunidad" },
@@ -447,7 +447,7 @@ function ics(e) {
   document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 }
 
-// Paneles por área: Comunidad, Capilla (al final) y Formación muestran sus próximas fechas.
+// Paneles por área: Comunidad, Capilla (al final) y Recursos muestran sus próximas fechas.
 export const panelSlot = (area) => `<div class="ag-panel-slot" data-ag-panel="${area}"></div>`;
 export async function fillPanels() {
   if (!document.querySelector("[data-ag-panel]")) return;

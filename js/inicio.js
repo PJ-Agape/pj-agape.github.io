@@ -1,5 +1,7 @@
-// Inicio ordenado en tres bloques (Formación · Orar · Comunidad), sus páginas
-// de bloque (#/formacion y #/red) y el buscador de toda la app (#/buscar).
+// Inicio ordenado en tres bloques (Recursos · Orar · Comunidad), sus páginas
+// de bloque (#/recursos y #/red) y el buscador de toda la app (#/buscar).
+// La formación (cursos, evaluaciones y su seguimiento) se lleva en una aplicación aparte desde noviembre de 2026;
+// su código quedó en la rama respaldo/formacion.
 
 import * as conocer from "./conocer.js";
 import * as S from "./store.js";
@@ -25,7 +27,6 @@ function who() {
   const joven = cloud.enabled && !!s.isJoven, asp = !!s.ready && s.role === "aspirante";
   return {
     s, joven, asp, guest: cloud.enabled && !s.ready,
-    curso: S.hasVisibleCourse(), // hay un curso para esta persona (los visitantes y jóvenes ven solo los abiertos, como la guía)
     equipo: !cloud.enabled || (!!s.ready && !joven && !asp), // materiales, dinámicas, guía
     guia: !cloud.enabled || !!s.isGuide,
     cuenta: !cloud.enabled || !!s.ready,
@@ -36,8 +37,8 @@ function who() {
 // Los tres bloques y todo lo que hay dentro
 // ---------------------------------------------------------------------------
 export const BLOCKS = {
-  formacion: { t: "Formación", hand: "para crecer", href: "#/formacion", ill: "apostoles", c: "#1351a4", soft: "#e1f3fd",
-    d: "El curso de dirigentes, los cursos de la comunidad y los recursos para preparar." },
+  formacion: { t: "Recursos", hand: "para preparar y compartir", href: "#/recursos", ill: "biblia", c: "#1351a4", soft: "#e1f3fd",
+    d: "Materiales, presentaciones, dinámicas y la guía de agAPPe." },
   red: { t: "Comunidad", hand: "para encontrarnos", href: "#/red", ill: "amigos", c: "#ef591c", soft: "#fde0d2",
     d: "El muro, el chat, la agenda y todo lo que compartimos como grupo." },
   espiritu: { t: "Orar", hand: "para rezar", href: "#/oracion", ill: "jesus", c: "#c98a00", soft: "#fff0c2",
@@ -45,12 +46,13 @@ export const BLOCKS = {
 };
 // e: emoji · t: título · d: descripción · kw: palabras para el buscador · ok: quién lo ve
 const ITEMS = [
-  { b: "formacion", e: "", t: "Cursos", d: "La guía de agAPPe y los cursos de formación.", href: "#/itinerario", kw: "curso cursos formacion itinerario unidades modulos guia tutorial bienvenido agappe manual como funciona", ok: (w) => w.curso },
-  { b: "formacion", e: "", t: "Mi cuaderno", d: "Lo que escribiste en las reflexiones.", href: "#/cuaderno", kw: "cuaderno notas reflexion respuestas", ok: (w) => w.curso, hub: false },
-  { b: "formacion", e: "", t: "Credenciales", d: "Tarjetas de solapa con foto, nombre y parroquia para los encuentros.", href: "#/credenciales", kw: "credenciales credencial tarjeta solapa lanyard portacredencial gafete nombre encuentro retiro", ok: (w) => w.equipo || w.asp, hub: false }, // vive en Materiales → Para imprimir
+  { b: "formacion", e: "", t: "Guía de agAPPe", d: "Cómo funciona la app: sus rincones, tu cuenta y dónde pedir ayuda.", href: "#/guia", kw: "guia tutorial bienvenido agappe manual como funciona ayuda usar app", ok: () => true },
+  { b: "formacion", e: "", t: "Presentaciones", d: "Para proyectar en los encuentros, a pantalla completa.", href: "#/materiales?f=presentaciones", kw: "presentaciones diapositivas proyectar charla", ok: (w) => w.equipo || w.asp },
+  { b: "formacion", e: "", t: "Estudio de difusión", d: "Marcos de foto, historias, stickers y fondos para compartir.", href: "#/difusion", kw: "difusion stickers fondos marco foto historias invitacion", ok: (w) => w.cuenta },
+  { b: "formacion", e: "", t: "Credenciales", d: "Tarjetas de solapa con foto, nombre y parroquia para los encuentros.", href: "#/credenciales", kw: "credenciales credencial tarjeta solapa lanyard portacredencial gafete nombre encuentro retiro", ok: (w) => w.equipo || w.asp },
   { b: "formacion", e: "", t: "Materiales", d: "Presentaciones, guías, banco de dinámicas y todo lo que se imprime.", href: "#/materiales", kw: "materiales recursos documentos biblioteca links imprimir presentaciones guias dinamicas credenciales", ok: (w) => w.equipo || w.asp },
   { b: "formacion", e: "", t: "Materiales", d: "Difusión, cancionero, oraciones y la biblioteca digital.", href: "#/materiales", kw: "materiales recursos biblioteca difusion cancionero oremus", ok: (w) => !w.equipo && !w.asp },
-  { b: "formacion", e: "", t: "Dinámicas", d: "Juegos, rompehielos y dinámicas de oración.", href: "#/dinamicas", kw: "dinamicas juegos rompehielos actividades", ok: (w) => w.equipo, hub: false },
+  { b: "formacion", e: "", t: "Dinámicas", d: "Juegos, rompehielos y dinámicas de oración.", href: "#/dinamicas", kw: "dinamicas juegos rompehielos actividades", ok: (w) => w.equipo },
   { b: "formacion", e: "", t: "¿Quieres ser dirigente?", d: "Presentación «Sé puente».", href: "presentaciones/se-puente.html", ext: true, kw: "dirigente se puente vocacion servir", ok: (w) => w.guest || w.joven },
   { b: "red", e: "", t: "Muro", d: "Avisos, logros y conversaciones del grupo.", href: "#/muro", kw: "muro avisos publicaciones noticias logros encuesta plaza", ok: () => true, hub: false }, // en La Plaza Ágape
   { b: "red", e: "", t: "Podcast Ágape", d: "Episodios de nuestro podcast.", href: "#/podcast", kw: "podcast episodios youtube escuchar audio canal", ok: () => true, hub: false }, // franja de radios en Inicio
@@ -73,14 +75,14 @@ const ITEMS = [
 ];
 const descFor = (k, w) => k !== "formacion" ? BLOCKS[k].d
   : w.equipo ? BLOCKS.formacion.d
-  : "Crecer en la fe y aprender a acompañar a otros.";
+  : "Materiales para invitar, cantar y rezar, y la guía de agAPPe.";
 export const itemsFor = (b) => { const w = who(); return ITEMS.filter((x) => x.b === b && x.ok(w)); };
 const inHub = (x) => { const h = x.hub; return h === undefined ? true : typeof h === "function" ? h(who()) : h; };
 const itemCard = (x) => x.links ? `<div class="card hub-item hub-multi">
-    <span class="hub-e" aria-hidden="true">${icon({ formacion: "route", red: "users", espiritu: "flame" }[x.b] || "sparkle")}</span><span><strong>${esc(x.t)}</strong><span class="muted small">${esc(x.d)}</span>
+    <span class="hub-e" aria-hidden="true">${icon({ formacion: "book", red: "users", espiritu: "flame" }[x.b] || "sparkle")}</span><span><strong>${esc(x.t)}</strong><span class="muted small">${esc(x.d)}</span>
     <span class="hub-links">${x.links.filter((l) => !l[2] || l[2](who())).map(([l, h]) => `<a class="chip-link" href="${esc(h)}">${esc(l)} ${icon("right")}</a>`).join("")}</span></span></div>`
   : `<a class="card link hub-item" href="${esc(x.href)}" ${x.ext ? 'target="_blank" rel="noopener"' : ""}>
-    <span class="hub-e" aria-hidden="true">${icon({ formacion: "route", red: "users", espiritu: "flame" }[x.b] || "sparkle")}</span><span><strong>${esc(x.t)}</strong><span class="muted small">${esc(x.d)}</span></span>${icon("right")}</a>`;
+    <span class="hub-e" aria-hidden="true">${icon({ formacion: "book", red: "users", espiritu: "flame" }[x.b] || "sparkle")}</span><span><strong>${esc(x.t)}</strong><span class="muted small">${esc(x.d)}</span></span>${icon("right")}</a>`;
 
 // ---------------------------------------------------------------------------
 // Inicio: saludo + buscador + los tres bloques
@@ -110,7 +112,7 @@ export function greetHTML() {
   </section>`;
 }
 const searchBox = (id, val = "") => `<form class="home-search" role="search" data-search="${id}" onsubmit="return false">
-    ${icon("search")}<input id="${id}" type="search" placeholder="Buscar en agAPPe: canción, oración, unidad…" autocomplete="off" value="${esc(val)}" aria-label="Buscar en la app">
+    ${icon("search")}<input id="${id}" type="search" placeholder="Buscar en agAPPe: canción, oración, salmo…" autocomplete="off" value="${esc(val)}" aria-label="Buscar en la app">
   </form><div class="search-res" id="${id}Res" aria-live="polite"></div>`;
 
 // Puertas a los tres bloques (Inicio): grandes, de color, a un toque
@@ -119,10 +121,9 @@ export function doorsHTML() {
     return `<a class="door" href="${b.href}" style="--bc:${b.c};--bs:${b.soft}"><span class="door-ill">${illus(b.ill, "")}</span><span class="door-h">${esc(b.hand)}</span><strong>${esc(b.t)}</strong></a>`; }).join("")}</nav>`;
 }
 export function blocksHTML() {
-  const w = who(), course = S.activeCourse(), st = S.courseState(course);
+  const w = who();
   const status = {
-    formacion: w.curso ? `<span class="blk-bar"><i style="width:${st.totalSessions ? Math.round((st.readSessions / st.totalSessions) * 100) : 0}%"></i></span>${st.readSessions}/${st.totalSessions} unidades del curso`
-      : "Ingresa para empezar tu camino",
+    formacion: w.equipo || w.asp ? "Materiales y presentaciones para preparar" : "Para invitar, cantar y rezar",
     red: `<span id="blkRed">${w.cuenta ? "Lo que pasa en el grupo" : "La agenda está abierta para todos"}</span>`,
     espiritu: `<span id="blkGospel">Pasa, Él te espera</span>`,
   };
@@ -161,74 +162,19 @@ function matBanner(w) {
     <div class="hub-cb-art" aria-hidden="true"><i class="hub-cb-sun"></i>${illus("biblia", "hub-cb-il")}</div>
   </section>`;
 }
-// El curso, en grande: como las diapositivas de Inicio (ilustración, título y el paso que sigue).
-function courseBanner(course, st) {
-  const pct = st.totalSessions ? Math.round((st.readSessions / st.totalSessions) * 100) : 0;
-  const nx = st.next, ses = nx && nx.type === "session" ? nx.session : null;
-  const ph = nx ? (course.phases[nx.phase] || {}) : {};
-  const ab = !!course.abierto;
-  const main = st.complete ? (ab ? { href: "#/itinerario", label: "Volver a recorrerla" } : { href: "#/constancia", label: "Ver mi constancia" })
-    : ses ? { href: `#/vivir/${nx.phase}/${encodeURIComponent(ses.id)}`, label: st.readSessions ? "Seguir donde quedé" : ab ? "Comenzar" : "Comenzar el curso" }
-    : nx ? { href: "#/itinerario", label: `Rendir la evaluación del módulo ${ph.phaseNum || nx.phase + 1}` } : { href: "#/itinerario", label: "Ver el curso" };
-  const now = st.complete ? (ab ? "¡Ya conoces la casa! Te esperamos en el próximo encuentro." : "¡Completaste el curso! Gracias por tu entrega.") : ses ? `Ahora: ${ses.id ? esc(ses.id) + " · " : ""}${esc(ses.title)}` : nx ? `Te falta la evaluación de «${esc(ph.title || "este módulo")}»` : "";
-  return `<section class="hub-cbanner hub-curso${st.complete ? " is-done" : ""}" data-curso-id="${esc(course.id)}" aria-labelledby="hubCT-${esc(course.id)}">
-    <div class="hub-cb-txt">
-      <span class="eyebrow">${ab ? "Para todos" : "Curso de formación de dirigentes"}</span>
-      <span class="hub-cb-hand">${st.complete ? (ab ? "bienvenido a casa" : "¡lo lograste!") : ab ? "empieza por aquí" : "tu camino de dirigente"}</span>
-      <h2 id="hubCT-${esc(course.id)}">${esc(course.title)}</h2>
-      <div class="hub-cb-prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="Avance del curso"><i style="width:${pct}%"></i></div>
-      <p class="hub-cb-meta"><b>${st.readSessions} de ${st.totalSessions}</b> unidades · <b>${st.donePhases} de ${course.phases.length}</b> módulos</p>
-      ${now ? `<p class="hub-cb-now">${now}</p>` : ""}
-      <div class="hub-cb-btns"><a class="btn btn-gold" href="${main.href}" data-curso="${esc(course.id)}">${esc(main.label)} ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/itinerario" data-curso="${esc(course.id)}">Ver el itinerario</a></div>
-    </div>
-    <div class="hub-cb-art" aria-hidden="true"><i class="hub-cb-sun"></i>${illus(ab ? "acogida" : st.complete ? "envio" : "camino", "hub-cb-il")}</div>
-  </section>`;
+// La guía de agAPPe, en grande: para quien quiere saber cómo funciona la app.
+function guiaBanner() {
+  return `<a class="card link hub-guia" href="#/guia">
+    <span class="hub-guia-art" aria-hidden="true">${illus("acogida", "")}</span>
+    <span class="hub-guia-txt"><span class="eyebrow">Para todos</span><strong>Guía de agAPPe</strong>
+      <span class="muted small">Cómo funciona la app: sus rincones, tu cuenta y dónde pedir ayuda.</span></span>${icon("arrowR")}</a>`;
 }
-// Todos los cursos que la persona puede hacer, juntos en una tarjeta que se desliza.
-function cursosHTML(active) {
-  const list = S.content().courses.filter((x) => !x.hidden || x.id === active.id);
-  if (list.length < 2) return `<div class="hub-cursos is-one">${courseBanner(active, S.courseState(active))}</div>`;
-  const i0 = Math.max(0, list.findIndex((x) => x.id === active.id));
-  ctx.onAfterRender(() => cursosInit(i0));
-  return `<div class="hub-cursos" aria-roledescription="carrusel" aria-label="Tus cursos">
-    <div class="hub-cur-track" id="hubCurTrack">${list.map((x) => courseBanner(x, S.courseState(x))).join("")}</div>
-    <div class="hub-cur-ctrl">
-      <button type="button" class="icon-btn" data-curgo="-1" aria-label="Curso anterior">${icon("left")}</button>
-      <div class="hub-cur-dots">${list.map((x, i) => `<button type="button" data-curto="${i}" aria-label="${esc(x.title)}" class="${i === i0 ? "on" : ""}"></button>`).join("")}</div>
-      <span class="hub-cur-n" id="hubCurN">${i0 + 1} de ${list.length}</span>
-      <button type="button" class="icon-btn" data-curgo="1" aria-label="Curso siguiente">${icon("right")}</button>
-    </div>
-  </div>`;
-}
-function cursosInit(i0) {
-  const tr = document.getElementById("hubCurTrack"); if (!tr) return;
-  const n = tr.children.length, box = tr.closest(".hub-cursos");
-  const cur = () => Math.round(tr.scrollLeft / Math.max(1, tr.clientWidth));
-  const go = (i, smooth = true) => tr.scrollTo({ left: Math.max(0, Math.min(n - 1, i)) * tr.clientWidth, behavior: smooth ? "smooth" : "auto" });
-  const paint = () => {
-    const i = cur();
-    box.querySelectorAll("[data-curto]").forEach((d, j) => d.classList.toggle("on", j === i));
-    const lbl = document.getElementById("hubCurN"); if (lbl) lbl.textContent = `${i + 1} de ${n}`;
-    box.querySelector('[data-curgo="-1"]').disabled = i === 0; box.querySelector('[data-curgo="1"]').disabled = i === n - 1;
-  };
-  go(i0, false); paint();
-  tr.addEventListener("scroll", () => requestAnimationFrame(paint), { passive: true });
-  box.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-curgo], [data-curto]"); if (!b) return;
-    go(b.dataset.curto != null ? +b.dataset.curto : cur() + +b.dataset.curgo);
-  });
-}
-// Al abrir un curso desde su tarjeta, ese queda como el curso activo
-if (typeof document !== "undefined") document.addEventListener("click", (e) => {
-  const a = e.target.closest && e.target.closest("a[data-curso]"); if (a) S.setActiveCourse(a.dataset.curso);
-}, true);
-export function viewFormacion() {
-  const w = who(), course = S.activeCourse(), st = S.courseState(course);
-  const b = BLOCKS.formacion;
-  return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">Bloque 1 · ${esc(b.hand)}</span><h1>Formación</h1><p>${esc(descFor("formacion", w))}</p></header>
-  ${w.curso ? cursosHTML(course) : ""}
+export function viewRecursos() {
+  const w = who(), b = BLOCKS.formacion;
+  return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">${esc(b.hand)}</span><h1>Recursos</h1><p>${esc(descFor("formacion", w))}</p></header>
   ${matBanner(w)}
-  <div class="hub-grid">${itemsFor("formacion").filter((x) => inHub(x) && x.href !== "#/itinerario" && x.href !== "#/materiales").map(itemCard).join("")}</div>
+  <div class="hub-grid">${itemsFor("formacion").filter((x) => inHub(x) && x.href !== "#/materiales" && x.href !== "#/guia").map(itemCard).join("")}</div>
+  ${guiaBanner()}
 `;
 }
 // La Plaza Ágape: nuestra red social. Junta lo que vivimos (Momentos), lo que conversamos (Muro)
@@ -284,10 +230,7 @@ function index() {
   add("Secciones", "", "Mi perfil y avatar", "Tu cuenta, tu avatar y tu tema.", "#/perfil", "perfil cuenta avatar foto nombre tema oscuro");
   add("Secciones", "", "Ayuda", "Respuestas cortas: ¿cómo hago…?", "#/ayuda", "ayuda como hago tutorial");
   add("Secciones", "", "Accesibilidad", "Tamaño de letra y lectura en voz alta.", "#/accesibilidad", "accesibilidad letra grande leer voz");
-  if (w.curso) {
-    const c = S.activeCourse();
-    (c.phases || []).forEach((p, pi) => (p.sessions || []).forEach((s) => add("Unidades del curso", "", `${s.id} ${s.title}`, p.title, `#/unidad/${pi}/${encodeURIComponent(s.id)}`, s.summary || "")));
-  }
+
   ORACIONES.forEach((o) => add("Oraciones", "", o.t, o.note || "Recemos juntos", `#/oremus/${encodeURIComponent(o.t)}`));
   SALMOS.forEach((s) => add("Salmos", "", `Salmo ${s.n} · ${s.t}`, `«${s.v}»`, `#/salmos/${s.n}`, s.intro));
   try { songList().forEach((s) => add("Canciones", "", s.title, s.author || "Cancionero", `#/cancionero/${encodeURIComponent(s.id)}`, (s.momentos || []).join(" "))); } catch {}
@@ -325,7 +268,7 @@ async function loadAgenda() {
 export function viewBuscar(q = "") {
   ctx.onAfterRender(() => { const i = document.getElementById("pageQ"); if (i) { i.focus(); paint("pageQ", true); } });
   return `<header class="page-head"><span class="eyebrow">Buscar</span><h1>¿Qué estás <em>buscando</em>?</h1>
-    <p>Secciones, unidades del curso, canciones, oraciones, dinámicas, actividades y ayuda.</p></header>
+    <p>Secciones, canciones, oraciones, salmos, dinámicas, actividades y ayuda.</p></header>
     <div class="search-page">${searchBox("pageQ", q)}</div>`;
 }
 function paint(id, full) {

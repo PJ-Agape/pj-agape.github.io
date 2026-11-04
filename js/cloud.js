@@ -10,10 +10,10 @@ export const enabled = !!(CONFIG.firebase && CONFIG.firebase.apiKey);
 
 // Roles de la pastoral
 export const ROLES = [
-  { key: "admin", label: "Administrador", short: "Admin", desc: "Todo: Gestión completa, cuentas, roles, contenido del curso y seguimiento." },
-  { key: "coordinador", label: "Coordinador", short: "Coordinación", desc: "Agenda, Portada de Inicio y moderación del muro y del chat. No cambia roles ni el curso." },
-  { key: "dirigente", label: "Dirigente", short: "Dirigente", desc: "Hace el curso, participa en el muro y en sus salas de chat." },
-  { key: "aspirante", label: "Aspirante", short: "Aspirante", desc: "Se prepara para ser dirigente: el curso y la sala Aspirantes." },
+  { key: "admin", label: "Administrador", short: "Admin", desc: "Todo: Gestión completa, cuentas, roles, contenidos y estadísticas." },
+  { key: "coordinador", label: "Coordinador", short: "Coordinación", desc: "Agenda, Portada de Inicio y moderación del muro y del chat. No cambia roles." },
+  { key: "dirigente", label: "Dirigente", short: "Dirigente", desc: "Acompaña a los jóvenes, participa en el muro y en sus salas de chat." },
+  { key: "aspirante", label: "Aspirante", short: "Aspirante", desc: "Se prepara para ser dirigente: participa en la sala Aspirantes." },
   { key: "ingreso", label: "Joven · Ingreso", short: "Ingreso", desc: "Joven del grupo: agenda, muro, sala general y capilla." },
   { key: "madurez", label: "Joven · Madurez", short: "Madurez", desc: "Joven del grupo: agenda, muro, sala general y capilla." },
 ];
@@ -69,8 +69,6 @@ function realState(account, va) {
     isJoven: !!(account && account.active !== false && ["ingreso", "madurez"].includes(account.role)),
     // Apostolado del cancionero: además del equipo, quienes un administrador habilita.
     canSongs: !!(account && account.active !== false && (STAFF.includes(account.role) || account.cantor === true)),
-    // Formación: los administradores y quienes tienen la marca «formador» importan y publican cursos de la comunidad.
-    canCourses: !!(account && account.active !== false && (account.role === "admin" || account.formador === true)),
     ready: status === "ready",
   };
 }
@@ -391,7 +389,7 @@ export const VISTAS = {
   inicio: "Inicio", evangelio: "Evangelio del día", capilla: "Capilla", rosario: "Rosario", rato: "Un rato con Jesús",
   intenciones: "Intenciones", radio: "Radios", salmos: "Salmos", oremus: "Recemos juntos", cancionero: "Cancionero",
   comunidad: "Comunidad", muro: "Muro", chat: "Chat", momentos: "Momentos", juegos: "Juegos", podcast: "Podcast",
-  agenda: "Agenda", formacion: "Formación", curso: "Cursos", materiales: "Materiales", dinamicas: "Dinámicas",
+  agenda: "Agenda", formacion: "Recursos", materiales: "Materiales", dinamicas: "Dinámicas",
   difusion: "Estudio de difusión", ayuda: "Ayuda", buscar: "Buscador",
 };
 export async function countView(sec) {
@@ -910,21 +908,6 @@ export const watchRepertorios = watchCol("repertorios");
 export const saveRepertorio = saveIn("repertorios");
 export const deleteRepertorio = (id) => fb.deleteDoc(fb.doc(db, "repertorios", id));
 
-// Cursos de la comunidad (colección «cursos»): los publican administradores y formadores, sin tocar el
-// resto del contenido. Cada documento guarda un curso completo como JSON. Los lee cualquiera.
-export async function getCursos() {
-  if (!enabled || !db) return null;
-  try {
-    const qs = await withTimeout(fb.getDocs(fb.collection(db, "cursos")), 8000);
-    return snapRows(qs).map((r) => { const c = safeJSON(r.json, null); return c && c.id ? { ...c, _meta: { by: r.by || "", updatedAt: r.updatedAt && r.updatedAt.toMillis ? r.updatedAt.toMillis() : 0 } } : null; }).filter(Boolean);
-  } catch (e) { console.warn("cursos:", e && (e.code || e.message)); return null; }
-}
-export async function saveCurso(course) {
-  const c = { ...course }; delete c._meta;
-  await fb.setDoc(fb.doc(db, "cursos", c.id), { json: JSON.stringify(c), title: String(c.title || "Curso").slice(0, 120), hidden: !!c.hidden,
-    by: (account && (account.name || account.email)) || "", updatedBy: account.email, updatedAt: fb.serverTimestamp() });
-}
-export const deleteCurso = (id) => fb.deleteDoc(fb.doc(db, "cursos", id));
 
 // ---------------------------------------------------------------------------
 // Banco de dinámicas (lo ven quienes tienen cuenta; lo alimentan los guías).

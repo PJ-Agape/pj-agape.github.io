@@ -16,7 +16,6 @@ export const TIPOS = [
   { k: "encuestas", e: "", t: "Encuestas", d: "Cuando hay una encuesta nueva para votar.", on: true },
   { k: "agenda", e: "", t: "Novedades de la agenda", d: "Actividades nuevas o que cambiaron.", on: true },
   { k: "chat", e: "", t: "Mensajes nuevos en el chat", d: "Cuando hay mensajes en las salas donde estás.", on: false },
-  { k: "formacion", e: "", t: "Recordatorio de formación", d: "Cada lunes: «Recuerda avanzar en tu formación» (a los jóvenes, su encuentro de la semana).", on: false },
   { k: "rosario", e: "", t: "Misterios del día", d: "Cada mañana: qué misterios del Rosario corresponden hoy.", on: false },
   { k: "saludo", e: "", t: "Saludo del día listo (equipo)", d: "Cada mañana, a administradores y coordinación: el saludo de buenos días para enviar al grupo.", on: true },
   { k: "evangelio", e: "", t: "Evangelio del día", d: "Cada mañana: la cita y la frase del Evangelio de hoy.", on: false },
@@ -103,11 +102,7 @@ async function fetchAll() {
     last.forEach(([x, m]) => { const ts = m && ms(m.createdAt); if (ts > since && m.authorUid !== me) out.push({ ts, e: "", href: `#/chat/${encodeURIComponent(x.key)}`,
       t: `Mensajes nuevos en «${x.name || x.title || x.key}»`, d: `${m.authorName || "Alguien"}: ${short(m.text, 60)}` }); });
   }
-  if (isOn("formacion") && now >= at(8, lunes())) {
-    const st = cloud.state();
-    if (!st.isJoven) { const c = S.activeCourse(), cs = S.courseState(c);
-      if (!cs.complete) out.push({ ts: at(8, lunes()), e: "", href: "#/itinerario", t: "Recuerda avanzar en tu formación", d: `Llevas ${cs.readSessions} de ${cs.totalSessions} unidades. ¡Una más esta semana!` }); }
-  }
+
   if (isOn("rosario") && now >= at(8)) { const m = MYST_DIA[new Date().getDay()];
     out.push({ ts: at(8), e: "", href: "#/oracion/maria", t: `Hoy corresponde rezar los misterios ${m}`, d: "Un Rosario con María, solo o en comunidad." }); }
   if (isOn("evangelio") && now >= at(7)) { const g = await todayGospel().catch(() => null);

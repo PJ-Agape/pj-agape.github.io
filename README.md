@@ -1,5 +1,7 @@
 # Formación de Monitores · Pastoral Juvenil Ágape
 
+> **Noviembre de 2026:** la formación (cursos, evaluaciones, cuaderno, constancias, cursos de la comunidad, requisitos por rol y el seguimiento del avance) salió de agAPPe y se lleva en una aplicación aparte. El código quedó en la rama [`respaldo/formacion`](https://github.com/PJ-Agape/pj-agape.github.io/tree/respaldo/formacion). La pestaña Formación pasó a llamarse **Recursos** (materiales, presentaciones, dinámicas y la Guía de agAPPe en `#/guia`).
+
 Aula virtual para la formación de dirigentes: curso de 5 módulos y 21 unidades que cada dirigente avanza a su ritmo, con lecturas, Palabra de Dios, documentos de la Iglesia, cuaderno personal de reflexión, evaluaciones por módulo y constancia con QR. Incluye además la guía de servicio, materiales y oraciones. Se instala en el celular como app y funciona sin internet.
 
 ## Estructura

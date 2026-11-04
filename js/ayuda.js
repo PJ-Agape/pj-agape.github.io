@@ -13,11 +13,11 @@ const GUIAS = ["dirigente", "coordinador", "admin"];
 const EQUIPO = ["coordinador", "admin"];
 const TEMAS = [
   ["inicio", "Primeros pasos"], ["agenda", "Agenda"], ["muro", "Muro y chat"],
-  ["oracion", "Capilla y cancionero"], ["itinerario", "Formación"], ["comunidad", "Acompañar"], ["admin", "Gestión"],
+  ["oracion", "Capilla y cancionero"], ["recursos", "Recursos"], ["comunidad", "Acompañar"], ["admin", "Gestión"],
 ];
 const T = [
   // Primeros pasos
-  { t: "inicio", q: "¿Hay una guía para conocer la app?", who: ["visitante", ...CUENTA], a: ["Sí: en Formación está «Bienvenido a agAPPe», un curso corto para todos.", "Son 7 unidades breves: cómo moverte, qué hay en cada pestaña y qué se abre con tu cuenta.", "No necesitas cuenta para hacerlo."], go: "#/formacion" },
+  { t: "inicio", q: "¿Hay una guía para conocer la app?", who: ["visitante", ...CUENTA], a: ["Sí: en Recursos está la «Guía de agAPPe», para todos.", "Cuenta cómo moverte, qué hay en cada pestaña y qué se abre con tu cuenta.", "No necesitas cuenta para leerla."], go: "#/guia" },
   { t: "inicio", q: "¿Cómo entro a la app?", who: ["visitante"], a: ["Toca «Ingresar» arriba a la derecha.", "Elige «Continuar con Google» con el correo con que te invitaron.", "Si dice que tu correo no está invitado, pídele al equipo que te invite con ese correo."], go: "#/perfil", el: "[data-action=signIn]" },
   { t: "inicio", q: "¿Cómo instalo la app en mi celular?", who: ["visitante", ...CUENTA], a: ["En Android (Chrome): menú ⋮ → «Instalar app» o «Agregar a pantalla principal».", "En iPhone (Safari): botón Compartir → «Agregar a inicio».", "Queda como un ícono más y funciona aunque tengas poca señal."], go: "#/perfil", el: "[data-action=install]" },
   { t: "inicio", q: "¿Cómo pongo el marco de Ágape en mi foto de perfil?", who: CUENTA, a: ["En Comunidad toca «Estudio de difusión» → «Marco de foto».", "Elige tu foto y un marco; ajusta con «Acercar» y «Mover».", "Toca «Descargar» y ponla de foto en WhatsApp o Facebook. Tu foto no se sube a ninguna parte."], go: "#/difusion", el: ".dif-tabs" },
@@ -54,10 +54,9 @@ const T = [
   { t: "admin", q: "¿Cómo habilito a alguien para el cancionero?", who: ["admin"], a: ["En Gestión → Dirigentes, abre la ficha de la persona.", "En «Apostolado del cancionero» marca «Ayuda a construir el cancionero».", "Podrá agregar y editar canciones y repertorios. Borrar sigue siendo del equipo."], go: "#/admin/dirigentes" },
   { t: "oracion", q: "¿Cómo agrego una canción?", who: CUENTA, a: ["Si eres del equipo o te habilitaron para el cancionero, toca «Agregar una canción».", "Pega la letra con los acordes entre corchetes, justo antes de la sílaba: [G]Somos jóvenes de [D]Yungay."], go: "#/cancionero", el: "[data-action=canNew]" },
 
-  // Formación
-  { t: "itinerario", q: "¿Cómo avanzo en el curso?", who: ["aspirante", ...GUIAS], a: ["En Formación, toca la unidad que sigue: se abre como presentación.", "En la última lámina toca «Marcar unidad como completada». Al completar todas las de un módulo se abre su evaluación."], go: "#/itinerario" },
-  { t: "itinerario", q: "¿Dónde quedan mis respuestas del cuaderno?", who: ["aspirante", ...GUIAS], a: ["En Formación → Curso de dirigentes → «Mi cuaderno». Solo tú las lees.", "Puedes descargarlas como texto."], go: "#/cuaderno", el: "[data-action=downloadNotes]" },
-  { t: "itinerario", q: "¿Puedo leer la unidad completa en vez de la presentación?", who: ["aspirante", ...GUIAS], a: ["Sí. Dentro de la presentación toca «📄 Texto completo» arriba a la derecha."] },
+  // Recursos
+  { t: "recursos", q: "¿Dónde están las presentaciones y los materiales?", who: ["visitante", ...CUENTA], a: ["En la pestaña Recursos toca «Abrir Materiales».", "Cada fichero agrupa un tipo de material: presentaciones, difusión, música, oración, guías y para imprimir.", "Sin cuenta ves lo de difusión, música, oración y la biblioteca; con cuenta de dirigente, todo."], go: "#/recursos" },
+  { t: "recursos", q: "¿Dónde quedó la formación de dirigentes?", who: ["aspirante", ...GUIAS], a: ["Los cursos de formación y su seguimiento se llevan ahora en una aplicación aparte, preparada para eso.", "agAPPe queda para orar, encontrarnos y compartir los recursos de la pastoral."] },
 
   // Acompañar
   { t: "comunidad", q: "¿Cómo agrego a un joven a la lista?", who: GUIAS, a: ["En Acompañar, toca «Agregar joven».", "Nombre, etapa y cumpleaños (día y mes). Marca la autorización de la familia solo si la firmaron."], go: "#/acompanar", el: "[data-action=acNew]" },

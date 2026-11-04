@@ -188,7 +188,7 @@ export function clearLegacy() {
 }
 
 // ---------------- Perfil del dirigente ----------------
-const DEFAULT_NAME = "Dirigente en Formación";
+const DEFAULT_NAME = "Amigo de Ágape";
 
 export function getProfile() {
   const p = read(K.profile) || {};

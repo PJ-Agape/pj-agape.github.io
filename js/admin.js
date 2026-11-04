@@ -1,5 +1,6 @@
-// Panel de Gestión: edición de itinerarios, evaluaciones, materiales, oraciones
-// y guía de comunidad. Todo se edita en un borrador y se publica al final.
+// Panel de Gestión: cuentas, comunicación, materiales y oraciones. Los contenidos se editan en un
+// borrador y se publican al final. La formación (cursos, evaluaciones y su seguimiento) se lleva en una
+// aplicación aparte desde noviembre de 2026; su código quedó en la rama respaldo/formacion.
 
 import * as hoy from "./gestion-hoy.js";
 import * as evAdmin from "./evangelio-admin.js";
@@ -15,7 +16,6 @@ import * as S from "./store.js";
 import * as portada from "./portada.js";
 import * as inicioAdmin from "./inicio-admin.js";
 import * as familiasAdmin from "./familias-admin.js";
-import * as cursosCom from "./cursos-comunidad.js";
 import * as apAdmin from "./apariencia-admin.js";
 import { esc, icon, toast, sha256, download, clone, slug, getPath, setPath, plain } from "./util.js";
 
@@ -46,7 +46,6 @@ export async function renderAdmin(sub, _api) {
     // Gestión se ajusta al rol: coordinación ve casi todo; los dirigentes, su tablero «Hoy» y sus jóvenes.
     if (!st.isAdmin) {
       const pg0 = sub.split("/").filter(Boolean)[0] || "";
-      if (st.canCourses && (pg0 === "formacion" || !st.isGuide)) return shell("formacion", await cursosCom.view(pg0 === "formacion" ? sub : "formacion"));
       if (!st.isGuide) return `<div class="card" style="max-width:480px;margin:6vh auto 0;text-align:center;padding:32px">
         <div class="tile-ico" style="margin:0 auto 12px">${icon("lock")}</div>
         <h1 class="display" style="font-size:1.6rem">Gestión es para el equipo</h1>
@@ -70,8 +69,6 @@ export async function renderAdmin(sub, _api) {
     case "resumen": body = await summaryView(draft); break;
     case "dirigentes": body = cloudOn ? await (parts[1] ? personView(parts[1]) : peopleView()) : summaryView(draft); break;
     case "asignar": body = cloudOn ? await asignarView() : summaryView(draft); break;
-    case "itinerarios": body = parts[1] != null ? courseView(draft, +parts[1]) : coursesView(draft); break;
-    case "formacion": body = cloudOn ? await cursosCom.view(sub) : summaryView(draft); break;
     case "portada": body = portada.adminView(); break;
     case "apariencia": body = cloudOn ? await apAdmin.adminView() : summaryView(draft); break;
     case "inicio": body = cloudOn ? inicioAdmin.adminView() : summaryView(draft); break;
@@ -121,8 +118,6 @@ function navGroups() {
       ["familias", "#/admin/familias", "Página para familias", "users", cloudOn && C],
     ]],
     ["Contenidos", [
-      ["itinerarios", "#/admin/itinerarios", "Cursos", "route", A],
-      ["formacion", "#/admin/formacion", "Cursos de la comunidad", "route", cloudOn && !!st.canCourses],
       ["materiales", "#/admin/materiales", "Materiales", "book", A],
       ["oracion", "#/admin/oracion", "Oración", "flame", A],
       ["evangelio", "#/admin/evangelio", "Evangelio y fiestas", "book", cloudOn && A],
@@ -203,15 +198,11 @@ async function doLogin(pass) {
 // Resumen
 // ---------------------------------------------------------------------------
 async function summaryView(d) {
-  const phases = d.courses.reduce((a, c) => a + c.phases.length, 0);
-  const sessions = d.courses.reduce((a, c) => a + c.phases.reduce((b, p) => b + p.sessions.length, 0), 0);
-  const questions = d.courses.reduce((a, c) => a + c.phases.reduce((b, p) => b + (p.quiz?.questions?.length || 0), 0), 0);
   const legacy = legacyDiff(d);
   const stat = (n, l) => `<div class="card stat"><b>${n}</b><span class="muted small">${l}</span></div>`;
   return `
   <header class="page-head"><span class="eyebrow">Gestión</span><h1>Resumen</h1>
     <p>Todo lo que edites queda en un borrador en este dispositivo. Cuando esté listo, lo publicas y todos los dirigentes lo verán.</p></header>
-  ${cloudOn ? await followSummary() : ""}
   ${cloudOn ? await visitsCard() : ""}
   ${cloudOn ? await grupo.adminHTML() : ""}
   ${cloudOn ? await novedades.adminHTML() : ""}
@@ -221,14 +212,11 @@ async function summaryView(d) {
     <p class="muted small" style="margin-top:6px">Este navegador guarda cambios hechos con el panel antiguo (${legacy.join(", ")}). ¿Quieres traerlos al borrador para publicarlos?</p>
     <div class="row-wrap" style="margin-top:12px"><button class="btn btn-sm btn-primary" data-action="aImportLegacy">Traer al borrador</button>
     <button class="btn btn-sm btn-ghost" data-action="aDropLegacy">Ignorar</button></div></div>` : ""}
-  <div class="grid grid-4">
-    ${stat(d.courses.length, "cursos")}${stat(phases, "módulos")}${stat(sessions, "unidades")}${stat(questions, "preguntas de evaluación")}
-  </div>
   <div class="card">
     <h3>Cómo publicar cambios</h3>
     <ol class="steps muted">
-      <li><b>Edita</b> en Cursos, Materiales, Oración o Comunidad. Se guarda solo.</li>
-      <li><b>Revisa</b> con «Vista previa»: ves la página tal como la verán los dirigentes.</li>
+      <li><b>Edita</b> en Materiales u Oración. Se guarda solo.</li>
+      <li><b>Revisa</b> con «Vista previa»: ves la página tal como la verá la comunidad.</li>
       <li><b>Publica</b>: ${cloudOn ? "con un botón, desde «Publicar»" : `descargas <span class="kbd">contenido.json</span> y lo subes a la carpeta <span class="kbd">data</span> del repositorio`}.</li>
     </ol>
   </div>
@@ -253,143 +241,9 @@ function legacyDiff(d) {
 // ---------------------------------------------------------------------------
 // Itinerarios
 // ---------------------------------------------------------------------------
-function coursesView(d) {
-  return `
-  <header class="page-head row-wrap" style="align-items:flex-end">
-    <div><span class="eyebrow">Gestión</span><h1>Cursos</h1><p>Cada curso tiene módulos, unidades de estudio y una evaluación por módulo. Los cursos <b>ocultos</b> solo los ven los administradores: puedes prepararlos con calma y publicarlos cuando se necesiten. En «Editar» → «Dirigido a» eliges para quiénes es cada formación (asesores, coordinadores, dirigentes o aspirantes).</p></div>
-    <span class="spacer"></span>
-    <div class="row-wrap" style="gap:8px"><a class="btn btn-soft" href="#/admin/formacion">${icon("ul")} Cursos de la comunidad (Word o PDF)</a>
-    <button class="btn btn-primary" data-action="aNewCourse">${icon("plus")} Nuevo curso</button></div>
-  </header>
-  <div class="note" style="margin-bottom:14px"><b>Novedades en los cursos.</b> Hay contenido nuevo en el sitio: <b>«Bienvenido a agAPPe»</b>, la guía de la app para todos (también para visitantes sin cuenta y para los jóvenes); los cursos <b>«Asesorar es acompañar»</b> (para asesores) y <b>«Coordinar es servir»</b> (para coordinadores), de 5 módulos cada uno, y en el curso de dirigentes las oraciones finales de acción de gracias, las unidades 1.5 y 1.6, el Módulo 6 sobre la Eucaristía y ajustes en las unidades 1.4, 5.1 y 5.5. Tráelo a tu borrador (lo demás que hayas editado queda igual), revísalo y publica.
-    <div style="margin-top:8px"><button class="btn btn-sm btn-soft" data-action="aSyncCourse">${icon("ul")} Traer las novedades</button></div></div>
-  <div class="stack" style="--gap:12px">
-    ${d.courses.map((c, i) => {
-      const n = c.phases.reduce((a, p) => a + p.sessions.length, 0);
-      return `<div class="card row" style="padding:16px 18px">
-        <span class="tile-ico" style="margin:0;background:var(--accent-soft);color:var(--accent-text)">${icon("route")}</span>
-        <a href="#/admin/itinerarios/${i}" style="flex:1;min-width:0;text-decoration:none;color:inherit">
-          <strong style="display:block">${esc(c.title)} ${c.hidden ? `<span class="chip warn" style="vertical-align:middle">Oculto</span>` : `<span class="chip ok" style="vertical-align:middle">Público</span>`}</strong>
-          <span class="muted small">${c.phases.length} módulos · ${n} unidades · ${c.abierto ? "abierto a todos, también sin cuenta" : S.paraDe(c).length ? `para ${esc(S.paraDe(c).map((k) => S.PARA.find((x) => x[0] === k)[1].replace(/ \(.*\)/, "").toLowerCase()).join(", "))}` : "para todos"}</span></a>
-        <div class="row" style="gap:4px">
-          ${iconBtn("up", "aMoveCourse", `data-i="${i}" data-d="-1"`, "Subir", i === 0)}
-          ${iconBtn("down", "aMoveCourse", `data-i="${i}" data-d="1"`, "Bajar", i === d.courses.length - 1)}
-          <button class="btn btn-sm ${c.hidden ? "btn-primary" : "btn-ghost"}" data-action="aHideCourse" data-i="${i}" title="${c.hidden ? "Hacerlo visible para todos" : "Ocultarlo (solo lo verán los administradores)"}">${icon(c.hidden ? "eye" : "lock")} ${c.hidden ? "Publicar curso" : "Ocultar"}</button>
-          ${iconBtn("copy", "aDupCourse", `data-i="${i}"`, "Duplicar")}
-          ${d.courses.length > 1 ? iconBtn("trash", "aDelCourse", `data-i="${i}"`, "Eliminar", false, "danger") : ""}
-          <a class="btn btn-sm btn-soft" href="#/admin/itinerarios/${i}">Editar</a>
-        </div></div>`;
-    }).join("")}
-  </div>
-  ${reqCardHTML(d)}`;
-}
-// ---------- Formación requerida por rol ----------
-// Qué cursos debe tener aprobados cada rol. Los de «Dirigente» se exigen para acompañar jóvenes
-// (Gestión → Asignar jóvenes), también a coordinadores y administradores que acompañan.
-const REQ_ROLES = [["dirigente", "Dirigente", "Para acompañar jóvenes: solo aparecen en «Asignar jóvenes» quienes los tienen aprobados."],
-  ["coordinador", "Coordinador", ""], ["asesor", "Asesor", ""], ["admin", "Administrador", ""]];
-const reqContent = () => S.getDraft() || S.publishedContent() || { courses: [] };
-const reqs = () => reqContent().requisitos || {};
-const reqCourses = (role) => (reqs()[role] || []).map((id) => (reqContent().courses || []).find((c) => c.id === id)).filter(Boolean);
-const meetsReq = (u, role) => reqCourses(role).every((c) => rowFor(u, c).complete);
-function reqCardHTML(d) {
-  const courses = d.courses.filter((c) => !c.abierto);
-  const R = d.requisitos || {};
-  return `<div class="card req-card" style="margin-top:18px"><h3>Formación requerida por rol</h3>
-    <p class="muted small" style="margin-top:4px">Marca qué cursos debe tener aprobados cada rol. Los de <b>Dirigente</b> se piden para acompañar jóvenes: en «Asignar jóvenes» solo aparecen quienes los tienen, también coordinadores y administradores. En cada ficha se ve qué le falta a cada persona. Recuerda publicar los cambios.</p>
-    <div class="stack" style="--gap:12px;margin-top:12px">${REQ_ROLES.map(([k, l, help]) => `<div class="req-row"><b>${esc(l)}</b>${help ? `<span class="xs muted">${esc(help)}</span>` : ""}
-      <div class="row-wrap" style="gap:6px;margin-top:6px">${courses.map((c) => `<label class="chip ${(R[k] || []).includes(c.id) ? "accent" : ""}" style="cursor:pointer;padding:6px 10px">
-        <input type="checkbox" data-action="aReq" data-r="${k}" data-id="${esc(c.id)}" ${(R[k] || []).includes(c.id) ? "checked" : ""}> ${esc(c.title)}</label>`).join("")}
-        ${(R[k] || []).length ? "" : `<span class="xs muted">Sin requisito</span>`}</div></div>`).join("")}</div>
-  </div>`;
-}
-function reqFichaHTML(u) {
-  const roles = [u.role || "dirigente", ...(guideRoles(u) ? ["dirigente"] : []), ...(u.asesor ? ["asesor"] : [])].filter((r, i, a) => a.indexOf(r) === i && reqCourses(r).length);
-  if (!roles.length) return "";
-  return `<div class="card"><h3>Formación requerida</h3>
-    ${roles.map((r) => `<p class="small" style="margin-top:8px"><b>${r === "dirigente" && (u.role || "dirigente") !== "dirigente" ? "Para acompañar jóvenes" : esc((REQ_ROLES.find((x) => x[0] === r) || [r, r])[1])}:</b></p>
-      <div class="row-wrap" style="gap:6px;margin-top:4px">${reqCourses(r).map((c) => rowFor(u, c).complete ? `<span class="chip ok">${icon("check")} ${esc(c.title)}</span>` : `<span class="chip warn">Falta: ${esc(c.title)}</span>`).join("")}</div>`).join("")}
-  </div>`;
-}
 function iconBtn(ic, action, attrs, label, disabled = false, cls = "") {
   return `<button class="icon-btn ${cls}" data-action="${action}" ${attrs} title="${label}" aria-label="${label}" ${disabled ? "disabled style='opacity:.3'" : ""}>${icon(ic)}</button>`;
 }
-
-function courseView(d, ci) {
-  const c = d.courses[ci];
-  if (!c) { location.hash = "#/admin/itinerarios"; return ""; }
-  return `
-  <nav class="crumbs"><a href="#/admin/itinerarios">Cursos</a>${icon("right")}<span>${esc(c.title)}</span></nav>
-  <div class="card">
-    <div class="row-wrap" style="align-items:flex-start">
-      <div style="flex:1;min-width:220px">
-        <span class="chip accent">Tema ${esc(c.theme)}</span>
-        <h1 class="display" style="font-size:1.9rem;margin-top:8px">${esc(c.title)}</h1>
-        <p class="muted small" style="margin-top:6px">${esc(S.courseDesc(c))}</p>
-      </div>
-      <button class="btn btn-sm btn-soft" data-action="aEditCourse" data-ci="${ci}">${icon("edit")} Editar datos</button>
-    </div>
-  </div>
-
-  <div class="tree">
-    ${c.phases.map((p, pi) => `
-    <section class="tree-phase">
-      <div class="tree-phase-head">
-        <span class="badge">${esc(p.phaseNum)}</span>
-        <div class="ttl"><strong>${esc(p.title)}</strong><span class="xs muted">${esc(p.desc)}</span></div>
-        <div class="tools">
-          ${iconBtn("up", "aMovePhase", `data-ci="${ci}" data-pi="${pi}" data-d="-1"`, "Subir módulo", pi === 0)}
-          ${iconBtn("down", "aMovePhase", `data-ci="${ci}" data-pi="${pi}" data-d="1"`, "Bajar módulo", pi === c.phases.length - 1)}
-          ${iconBtn("edit", "aEditPhase", `data-ci="${ci}" data-pi="${pi}"`, "Editar módulo")}
-          ${c.phases.length > 1 ? iconBtn("trash", "aDelPhase", `data-ci="${ci}" data-pi="${pi}"`, "Eliminar módulo", false, "danger") : ""}
-        </div>
-      </div>
-      <div class="tree-items">
-        ${p.sessions.map((s, si) => `
-        <div class="tree-item">
-          <span class="session-num" style="width:36px;height:36px;font-size:.75rem">${esc(s.id)}</span>
-          <div class="t" data-action="aEditSession" data-ci="${ci}" data-pi="${pi}" data-si="${si}">
-            <strong>${esc(s.title)}</strong><span>${esc(plain(s.objective).slice(0, 90))}</span></div>
-          <div class="tools">
-            ${iconBtn("up", "aMoveSession", `data-ci="${ci}" data-pi="${pi}" data-si="${si}" data-d="-1"`, "Subir", si === 0)}
-            ${iconBtn("down", "aMoveSession", `data-ci="${ci}" data-pi="${pi}" data-si="${si}" data-d="1"`, "Bajar", si === p.sessions.length - 1)}
-            ${iconBtn("copy", "aDupSession", `data-ci="${ci}" data-pi="${pi}" data-si="${si}"`, "Duplicar")}
-            ${p.sessions.length > 1 ? iconBtn("trash", "aDelSession", `data-ci="${ci}" data-pi="${pi}" data-si="${si}"`, "Eliminar", false, "danger") : ""}
-          </div>
-        </div>`).join("")}
-      </div>
-      <div class="tree-add">
-        <button class="btn btn-sm btn-ghost" data-action="aAddSession" data-ci="${ci}" data-pi="${pi}">${icon("plus")} Unidad</button>
-        <button class="btn btn-sm btn-soft" data-action="aEditQuiz" data-ci="${ci}" data-pi="${pi}">${icon("check")} Evaluación · ${p.quiz?.questions?.length || 0} pregunta${(p.quiz?.questions?.length || 0) === 1 ? "" : "s"}</button>
-      </div>
-    </section>`).join("")}
-  </div>
-  <button class="btn btn-ghost btn-block" data-action="aAddPhase" data-ci="${ci}">${icon("plus")} Agregar módulo</button>`;
-}
-
-// Mantiene la numeración coherente: módulo N → unidades N.1, N.2…
-function renumber(course) {
-  const base = course.phases[0] && Number(course.phases[0].phaseNum) === 1 ? 1 : 0;
-  course.phases.forEach((p, i) => {
-    p.phaseNum = i + base;
-    p.sessions.forEach((s, j) => { s.id = `${p.phaseNum}.${j + 1}`; });
-  });
-}
-const blankSession = () => ({ id: "", title: "Nueva unidad", time: "45 min", objective: "", intro: "", sections: [{ title: "", body: "" }],
-  bible: { ref: "", comment: "" }, church: [], questions: [""], activity: "", prayer: "", resources: [] });
-// Adapta unidades con el formato anterior (encuentros) al formato de aula virtual.
-function normalizeUnit(u) {
-  const o = clone(u);
-  if (typeof o.bible === "string") o.bible = { ref: "", comment: o.bible };
-  o.bible = o.bible || { ref: "", comment: "" };
-  o.sections = o.sections || [];
-  if (o.dynamic) { o.sections.push({ title: "Clave para comprender a los jóvenes", body: o.dynamic }); delete o.dynamic; }
-  ["church", "resources"].forEach((k) => { o[k] = o[k] || []; });
-  ["intro", "activity"].forEach((k) => { o[k] = o[k] || ""; });
-  return o;
-}
-const blankQuestion = () => ({ q: "", options: ["", "", ""], correct: 0, feedback: "" });
-const blankPhase = (n) => ({ phaseNum: n, title: "Nuevo módulo", desc: "", intro: "", sessions: [blankSession()], quiz: { badge: `Evaluación módulo ${n}`, title: "Discernimiento", questions: [blankQuestion()] } });
 
 // ---------------------------------------------------------------------------
 // Materiales y Oración
@@ -482,7 +336,6 @@ function cloudGate(st) {
 }
 
 let people = null;          // cache del panel
-let peopleCourse = null;    // curso seleccionado en el panel
 let peopleFilter = "";
 const tsDate = (t) => (t && typeof t.toDate === "function" ? t.toDate() : t ? new Date(t) : null);
 function ago(t) {
@@ -505,28 +358,8 @@ async function loadPeople(force) {
   }
   return people;
 }
-function courseTotals(course) {
-  return { units: course.phases.reduce((a, p) => a + p.sessions.length, 0), modules: course.phases.length };
-}
-function rowFor(u, course) {
-  const s = (u.progress && u.progress.summary && u.progress.summary[course.id]) || {};
-  return { units: s.units || 0, modules: s.modules || 0, complete: !!s.complete, cert: s.certCode || "", last: u.progress?.updatedAt || u.lastSeen };
-}
-
-async function followSummary() {
-  let data;
-  try { data = await loadPeople(); } catch { return `<div class="note warn">No se pudo cargar el seguimiento. Revisa la conexión.</div>`; }
-  const course = S.content().courses[0];
-  const t = courseTotals(course);
-  const dir = data.users.filter((u) => u.active !== false);
-  const rows = dir.map((u) => rowFor(u, course));
-  const started = rows.filter((r) => r.units > 0).length;
-  const done = rows.filter((r) => r.complete).length;
-  const week = dir.filter((u) => { const d = tsDate(u.progress?.updatedAt || u.lastSeen); return d && Date.now() - d.getTime() < 7 * 864e5; }).length;
-  const stat = (n, l) => `<div class="card stat"><b>${n}</b><span class="muted small">${l}</span></div>`;
-  return `<div class="grid grid-4">${stat(dir.length, "personas con cuenta")}${stat(started, "comenzaron el curso")}${stat(done, "completaron el curso")}${stat(week, "activas esta semana")}</div>
-    <a class="btn btn-soft" href="#/admin/dirigentes" style="align-self:flex-start">${icon("users")} Ver seguimiento de dirigentes · ${t.units} unidades por curso</a>`;
-}
+// Última vez que la persona entró a la app
+const rowFor = (u) => ({ last: u.lastSeen });
 
 // Visitas (contador anónimo por día) y actividad de las cuentas (última vez que entraron)
 async function visitsCard() {
@@ -587,23 +420,19 @@ async function peopleView() {
   let data;
   try { data = await loadPeople(); }
   catch (e) { return `<div class="note warn">No se pudo cargar el seguimiento (${esc(e.code || e.message)}). Revisa la conexión y las reglas de Firestore.</div>`; }
-  const courses = S.content().courses;
-  const course = courses.find((c) => c.id === peopleCourse) || courses[0];
-  const t = courseTotals(course);
   const q = peopleFilter.toLowerCase();
   const list = data.users
     .filter((u) => !q || [u.name, u.email, u.parish].join(" ").toLowerCase().includes(q))
-    .map((u) => ({ u, r: rowFor(u, course) }))
-    .sort((a, b) => (a.u.active === false) - (b.u.active === false) || b.r.units - a.r.units || String(a.u.name).localeCompare(b.u.name));
+    .map((u) => ({ u, r: rowFor(u) }))
+    .sort((a, b) => (a.u.active === false) - (b.u.active === false) || String(a.u.name).localeCompare(b.u.name));
   return `
   <header class="page-head row-wrap" style="align-items:flex-end">
-    <div><span class="eyebrow">Gestión</span><h1>Dirigentes</h1><p>Invita por correo a quienes harán el curso y sigue su avance. El cuaderno personal de cada uno es privado y no aparece aquí.</p></div>
+    <div><span class="eyebrow">Gestión</span><h1>Cuentas</h1><p>Invita por correo a quienes participan en Ágape, aprueba solicitudes y ajusta el rol de cada uno.</p></div>
     <span class="spacer"></span>
     <button class="btn btn-primary" data-action="aInvite">${icon("plus")} Invitar</button>
   </header>
 
   <div class="row-wrap">
-    ${courses.length > 1 ? `<select class="select" style="width:auto" id="peopleCourse">${courses.map((c) => `<option value="${esc(c.id)}" ${c.id === course.id ? "selected" : ""}>${esc(c.title)}</option>`).join("")}</select>` : ""}
     <input class="input" id="peopleSearch" style="flex:1;min-width:200px" placeholder="Buscar por nombre, correo o parroquia" value="${esc(peopleFilter)}">
     <button class="btn btn-sm btn-ghost" data-action="aPeopleRefresh">${icon("undo")} Actualizar</button>
     <button class="btn btn-sm btn-ghost" data-action="aPeopleCsv">${icon("dl")} Exportar planilla</button>
@@ -613,20 +442,18 @@ async function peopleView() {
 
   ${solicitudesCard(data.solicitudes || [])}
 
-  ${inactiveCard(data.users, course)}
+  ${inactiveCard(data.users)}
 
-  ${peopleMode === "cuadros" ? peopleCards(list, course, t) : `<div class="card people-table">
+  ${peopleMode === "cuadros" ? peopleCards(list) : `<div class="card people-table">
     <table>
-      <thead><tr><th>Dirigente</th><th>Avance en unidades</th><th>Módulos</th><th>Última actividad</th><th>Constancia</th></tr></thead>
+      <thead><tr><th>Persona</th><th>Correo</th><th>Última actividad</th></tr></thead>
       <tbody>
       ${list.length ? list.map(({ u, r }) => `<tr class="${u.active === false ? "paused" : ""}">
         <td><a href="#/admin/dirigentes/${esc(u.uid)}"><b>${esc(u.name || u.email)}</b></a>
-          <span class="sub">${esc(u.parish || "")}${u.role && u.role !== "dirigente" ? ` · <span class="chip ${api.cloud.isStaffRole(u.role) ? "warn" : "accent"}">${esc(api.cloud.roleLabel(u.role))}</span>` : ""}${u.asesor ? ` · <span class="chip">Asesor</span>` : ""}${u.formador ? ` · <span class="chip">Formación</span>` : ""}${u.cantor ? ` · <span class="chip" title="Apostolado del cancionero">Cancionero</span>` : ""}${u.active === false ? ` · <span class="chip">En pausa</span>` : ""}</span></td>
-        <td><div class="cell-bar"><div class="mini-bar"><i style="width:${t.units ? (r.units / t.units) * 100 : 0}%"></i></div><span>${r.units}/${t.units}</span></div></td>
-        <td>${r.modules}/${t.modules}</td>
+          <span class="sub">${esc(u.parish || "")}${u.role && u.role !== "dirigente" ? ` · <span class="chip ${api.cloud.isStaffRole(u.role) ? "warn" : "accent"}">${esc(api.cloud.roleLabel(u.role))}</span>` : ""}${u.asesor ? ` · <span class="chip">Asesor</span>` : ""}${u.cantor ? ` · <span class="chip" title="Apostolado del cancionero">Cancionero</span>` : ""}${u.active === false ? ` · <span class="chip">En pausa</span>` : ""}</span></td>
+        <td class="xs">${esc(u.email || "")}</td>
         <td>${ago(r.last)}</td>
-        <td>${r.complete ? `<a href="#/verificar/${encodeURIComponent(r.cert)}" class="chip ok">${icon("award")} ${esc(r.cert)}</a>` : `<span class="muted">—</span>`}</td>
-      </tr>`).join("") : `<tr><td colspan="5" class="muted" style="text-align:center;padding:24px">${data.users.length ? "Nadie coincide con la búsqueda." : "Aún no hay dirigentes con cuenta. Invita al primero."}</td></tr>`}
+      </tr>`).join("") : `<tr><td colspan="3" class="muted" style="text-align:center;padding:24px">${data.users.length ? "Nadie coincide con la búsqueda." : "Aún no hay personas con cuenta. Invita a la primera."}</td></tr>`}
       </tbody>
     </table>
   </div>`}
@@ -661,30 +488,25 @@ function solicitudesCard(list) {
 // ---------- Quién lleva días sin entrar ----------
 const LIVE_URL = "https://pj-agape.github.io/";
 const daysSince = (t) => { const d = tsDate(t); return d && !isNaN(d) ? Math.floor((Date.now() - d.getTime()) / 864e5) : null; };
-function reminderText(u, kind) {
+function reminderText(u) {
   const n = String(u.name || "").split(" ")[0];
-  return kind === "curso"
-    ? `¡Hola${n ? " " + n : ""}! 💙 ¿Cómo vas? Tu formación en Ágape te espera: unos minutos hoy en «El Arte de Encontrarnos» y das un paso más. ¡Tú puedes! ${LIVE_URL}`
-    : `¡Hola${n ? " " + n : ""}! 💙 Te extrañamos en la app de Ágape. Hay novedades, la Capilla y tu comunidad te esperan 🙌 ${LIVE_URL}`;
+  return `¡Hola${n ? " " + n : ""}! 💙 Te extrañamos en la app de Ágape. Hay novedades, la Capilla y tu comunidad te esperan 🙌 ${LIVE_URL}`;
 }
-function inactiveCard(users, course) {
+function inactiveCard(users) {
   const rows = [];
   users.filter((u) => u.active !== false && !api.cloud.isStaffRole(u.role)).forEach((u) => {
-    const dApp = daysSince(u.lastSeen), r = rowFor(u, course);
-    const formRole = ["dirigente", "aspirante"].includes(u.role || "dirigente");
-    const dCur = daysSince(u.progress?.updatedAt);
+    const dApp = daysSince(u.lastSeen);
     if (dApp != null && dApp >= 2) rows.push({ u, kind: "app", d: dApp });
-    else if (formRole && !r.complete && (dCur == null || dCur >= 2)) rows.push({ u, kind: "curso", d: dCur });
   });
   if (!rows.length) return "";
   rows.sort((a, b) => (b.d ?? 999) - (a.d ?? 999));
-  return `<details class="card inact-card"><summary><b>Para dar un empujoncito · ${rows.length}</b> <span class="small muted">— llevan 2 días o más sin entrar a la app o sin avanzar en la formación</span></summary>
+  return `<details class="card inact-card"><summary><b>Para dar un empujoncito · ${rows.length}</b> <span class="small muted">— llevan 2 días o más sin entrar a la app</span></summary>
     <div class="inact-list">${rows.map(({ u, kind, d }) => {
-      const txt = reminderText(u, kind);
+      const txt = reminderText(u);
       return `<div class="inact-row"><div style="flex:1;min-width:180px"><b>${esc(u.name || u.email)}</b>
-        <span class="xs muted">${kind === "app" ? `Sin entrar a la app hace ${d} días` : d == null ? "Aún no comienza la formación" : `Sin avanzar en la formación hace ${d} días`} · ${esc(api.cloud.roleLabel(u.role))}</span></div>
+        <span class="xs muted">Sin entrar a la app hace ${d} días · ${esc(api.cloud.roleLabel(u.role))}</span></div>
         <a class="btn btn-sm btn-soft" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(txt)}" title="Abre WhatsApp con el mensaje listo; tú eliges a quién">WhatsApp</a>
-        ${u.email ? `<a class="btn btn-sm btn-ghost" href="mailto:${encodeURIComponent(u.email)}?subject=${encodeURIComponent(kind === "curso" ? "Tu formación te espera" : "¡Te extrañamos en Ágape!")}&body=${encodeURIComponent(txt)}">Correo</a>` : ""}</div>`;
+        ${u.email ? `<a class="btn btn-sm btn-ghost" href="mailto:${encodeURIComponent(u.email)}?subject=${encodeURIComponent("¡Te extrañamos en Ágape!")}&body=${encodeURIComponent(txt)}">Correo</a>` : ""}</div>`;
     }).join("")}</div>
     <p class="xs muted" style="margin-top:8px">WhatsApp se abre con el mensaje listo y tú eliges el contacto: la app no guarda números de teléfono. Un mensaje de alguien que lo conoce vale más que cualquier aviso automático.</p></details>`;
 }
@@ -703,12 +525,11 @@ function guideLoad() {
   (jovenesAll || []).filter((j) => j.activo !== false).forEach((j) => { [j.guia, j.guia2].filter(Boolean).forEach((g) => { (load[g] = load[g] || []).push(j); }); });
   return load;
 }
-function peopleCards(list, course, t) {
+function peopleCards(list) {
   const load = guideLoad(), byUid = Object.fromEntries((jovenesAll || []).filter((j) => j.uid).map((j) => [j.uid, j]));
   const names = Object.fromEntries((people?.users || []).map((u) => [u.uid, u.name || u.email]));
   const card = ({ u, r }, g) => {
     const paused = u.active === false, j = byUid[u.uid], mine = load[u.uid] || [];
-    const prog = `<div class="pc-prog"><div class="mini-bar"><i style="width:${t.units ? (r.units / t.units) * 100 : 0}%"></i></div><span class="xs">${r.units}/${t.units} unidades · ${r.modules}/${t.modules} módulos</span></div>`;
     let body = "";
     if (g.k === "joven") {
       const gs = j ? [j.guia, j.guia2].filter(Boolean).map((x) => names[x] || j[x === j.guia ? "guiaNombre" : "guia2Nombre"] || "—") : [];
@@ -716,8 +537,7 @@ function peopleCards(list, course, t) {
         <p class="xs muted">Activo ${ago(r.last)}</p>
         <p class="small">${gs.length ? `Lo acompaña: <b>${esc(gs.join(" y "))}</b>` : `<span class="muted">Sin dirigente asignado</span>`}</p>`;
     } else {
-      body = `${prog}
-        <p class="small">${r.complete ? `<span class="chip ok">${icon("award")} Curso aprobado</span>` : `<span class="chip">Curso en camino</span>`}
+      body = `<p class="small"><span class="chip">${esc(api.cloud.roleLabel(u.role))}</span>
         ${g.k !== "aspirante" ? ` <span class="chip ${mine.length ? "accent" : ""}">${mine.length} joven${mine.length === 1 ? "" : "es"}</span>` : ""}</p>
         <p class="xs muted">Última actividad: ${ago(r.last)}</p>`;
     }
@@ -736,11 +556,10 @@ function peopleCards(list, course, t) {
 
 // ---------- Asignar jóvenes a dirigentes ----------
 let asg = null; // borrador { [jovenId]: { guia, guia2 } }
-// Pueden acompañar jóvenes los dirigentes, coordinadores y administradores con cuenta activa que tengan
-// aprobados los cursos requeridos para «Dirigente» (Gestión → Cursos → Formación requerida por rol).
+// Pueden acompañar jóvenes los dirigentes, coordinadores y administradores con cuenta activa.
 const guideRoles = (u) => u.active !== false && ["dirigente", "coordinador", "admin"].includes(u.role || "dirigente");
 function eligibleGuides() {
-  return (people?.users || []).filter((u) => guideRoles(u) && meetsReq(u, "dirigente"))
+  return (people?.users || []).filter((u) => guideRoles(u))
     .sort((a, b) => String(a.name).localeCompare(String(b.name), "es"));
 }
 // Asignar es «pintar»: eliges un dirigente arriba y tocas a los jóvenes que acompañará. Cada toque se guarda solo.
@@ -773,8 +592,6 @@ async function asignarView() {
   if (nuevos) setTimeout(() => toast(`${nuevos} cuenta${nuevos === 1 ? "" : "s"} de jóvenes quedaron al día en la lista`, "ok"), 300);
   asg = null;
   const guides = eligibleGuides();
-  const faltan = (people?.users || []).filter((u) => guideRoles(u) && !meetsReq(u, "dirigente"));
-  const reqD = reqCourses("dirigente");
   const all = (people?.users || []), nameOf = (uid) => { const u = all.find((x) => x.uid === uid); return u ? u.name || u.email : ""; };
   const color = Object.fromEntries(guides.map((g, i) => [g.uid, ASG_COL[i % ASG_COL.length]]));
   if (asgSel && !guides.some((g) => g.uid === asgSel)) asgSel = "";
@@ -791,7 +608,6 @@ async function asignarView() {
   return `
   <header class="page-head"><span class="eyebrow">Gestión</span><h1>Asignar <em>jóvenes</em></h1>
     <p><b>1.</b> Elige un dirigente. <b>2.</b> Toca a los jóvenes que acompañará. Se guarda solo; vuelve a tocar para quitarlo.</p></header>
-  ${reqD.length ? `<p class="xs muted" style="margin:-6px 0 12px">Solo aparecen quienes tienen aprobado ${reqD.map((c) => `«${esc(c.title)}»`).join(" y ")}.${faltan.length ? ` Les falta: ${faltan.map((u) => esc(first(u.name || u.email))).join(", ")}.` : ""} <a href="#/admin/itinerarios">Cambiar</a></p>` : ""}
   ${!guides.length ? `<div class="note warn">Todavía no hay dirigentes disponibles para asignar.</div>` : `
   <div class="asg-guides" role="radiogroup" aria-label="Dirigente">${guides.map((g) => `<button class="asg-g${asgSel === g.uid ? " on" : ""}" role="radio" aria-checked="${asgSel === g.uid}" data-action="aAsgPick" data-uid="${esc(g.uid)}" style="--gc:${color[g.uid]}">
       <span class="asg-av">${esc(ini(g.name || g.email))}</span><span class="asg-gn"><b>${esc(String(g.name || g.email).split(" ").slice(0, 2).join(" "))}</b><small>${cnt(g.uid, "guia")} a cargo${cnt(g.uid, "guia2") ? ` · ${cnt(g.uid, "guia2")} de apoyo` : ""}</small></span></button>`).join("")}</div>
@@ -830,17 +646,16 @@ async function personView(uid) {
   const data = await loadPeople();
   const u = data.users.find((x) => x.uid === uid);
   if (!u) return `<div class="note warn">No se encontró a esta persona. <a href="#/admin/dirigentes">Volver</a></div>`;
-  const detail = api.cloud.userProgressDetail(u.progress);
   const me = api.cloud.state().account;
   return `
-  <nav class="crumbs"><a href="#/admin/dirigentes">Dirigentes</a>${icon("right")}<span>${esc(u.name)}</span></nav>
+  <nav class="crumbs"><a href="#/admin/dirigentes">Cuentas</a>${icon("right")}<span>${esc(u.name)}</span></nav>
   <div class="card row-wrap" style="align-items:flex-start">
     <div style="flex:1;min-width:220px">
       <h1 class="display" style="font-size:1.8rem">${esc(u.name)}</h1>
       <p class="muted small" style="margin-top:4px">${esc(u.email)}${u.parish ? " · " + esc(u.parish) : ""}</p>
       <div class="row-wrap" style="margin-top:10px"><span class="chip ${api.cloud.isStaffRole(u.role) ? "warn" : "accent"}">${esc(api.cloud.roleLabel(u.role))}</span>${api.cloud.isProtected(u.email) ? ` <span class="chip">${icon("lock")} Cuenta protegida</span>` : ""}${consentChip(u)}
         ${u.active === false ? `<span class="chip">En pausa</span>` : `<span class="chip ok">Activa</span>`}
-        <span class="chip">Última actividad: ${ago(u.progress?.updatedAt || u.lastSeen)}</span></div>
+        <span class="chip">Última actividad: ${ago(u.lastSeen)}</span></div>
     </div>
     ${u.uid !== me.uid && !api.cloud.isProtected(u.email) ? `<div class="row-wrap">
       <label class="field" style="margin:0"><span class="xs muted">Rol</span>
@@ -854,7 +669,6 @@ async function personView(uid) {
     <div class="row-wrap" style="margin-top:12px"><a class="btn btn-sm btn-primary" href="#/ficha/${encodeURIComponent(jv.id)}">${icon("lock")} Abrir la ficha privada</a>
       <a class="btn btn-sm btn-ghost" href="#/acompanar/joven/${encodeURIComponent(jv.id)}">Ver en la lista de jóvenes</a></div></div>`
     : YOUTH.includes(u.role) ? `<div class="card"><h3>Ficha privada</h3><p class="muted small" style="margin-top:4px">Para tener su ficha privada, agrégalo a la lista de jóvenes en <a href="#/acompanar">Acompañar</a> y vincula su cuenta.</p></div>` : ""; })()}
-  ${reqFichaHTML(u)}
   ${YOUTH.includes(u.role) || u.consent ? `<div class="card"><h3>Consentimiento de la familia</h3>
     <p class="muted small" style="margin-top:4px">El papel firmado se guarda en la carpeta de consentimientos de la pastoral; aquí queda registrado qué autorizó la familia. Si cambia algo (por ejemplo, ya no autoriza fotos), edítalo aquí.</p>
     <div class="row-wrap" style="margin-top:10px">${consentChip(u)}</div>
@@ -862,15 +676,8 @@ async function personView(uid) {
       <button class="btn btn-sm btn-soft" data-action="aUserConsentPdf" data-uid="${esc(u.uid)}">${icon("dl")} Descargar el PDF con sus datos</button></div>
   </div>` : ""}
   <div class="card"><h3>Asesor de la pastoral</h3>
-    <p class="muted small" style="margin-top:4px">Los asesores ven las formaciones dirigidas a asesores, además de las de su rol.</p>
     <label class="chip ${u.asesor ? "accent" : ""}" style="cursor:pointer;padding:8px 12px;margin-top:12px">
       <input type="checkbox" data-action="aUserAsesor" data-uid="${esc(u.uid)}" ${u.asesor ? "checked" : ""}> Es asesor o asesora de Ágape</label>
-  </div>
-  <div class="card"><h3>Formación</h3>
-    ${u.role === "admin" ? `<p class="muted small" style="margin-top:4px">Como administrador, ya puede importar y publicar cursos.</p>`
-      : `<p class="muted small" style="margin-top:4px">Puede importar cursos desde un Word o PDF, revisarlos y publicarlos en «Cursos de la comunidad». No toca el resto de la app.</p>
-      <label class="chip ${u.formador ? "accent" : ""}" style="cursor:pointer;padding:8px 12px;margin-top:12px">
-        <input type="checkbox" data-action="aUserFormador" data-uid="${esc(u.uid)}" ${u.formador ? "checked" : ""}> Prepara cursos de formación</label>`}
   </div>
   <div class="card"><h3>Apostolado del cancionero</h3>
     ${api.cloud.isStaffRole(u.role) ? `<p class="muted small" style="margin-top:4px">Como ${esc(api.cloud.roleLabel(u.role).toLowerCase())}, ya puede agregar y editar canciones y celebraciones.</p>`
@@ -886,40 +693,17 @@ async function personView(uid) {
         `<label class="chip ${salas.includes(x.key) || api.cloud.isStaffRole(u.role) ? "accent" : ""}" style="cursor:pointer;padding:8px 12px">
           <input type="checkbox" data-action="aUserSala" data-uid="${esc(u.uid)}" data-sala="${x.key}" ${salas.includes(x.key) || api.cloud.isStaffRole(u.role) ? "checked" : ""} ${api.cloud.isStaffRole(u.role) ? "disabled" : ""}> ${esc(x.name)}</label>`).join("")}</div></div>`;
   })()}
-  ${S.content().courses.map((course) => {
-    const p = detail[course.id] || { read: {}, phases: {}, scores: {} };
-    const any = Object.keys(p.read || {}).length || Object.keys(p.phases || {}).length;
-    if (!any && course !== S.content().courses[0]) return "";
-    return `<div class="card">
-      <div class="row-wrap"><h3>${esc(course.title)}</h3><span class="spacer"></span>
-        ${p.completedDate ? `<span class="chip ok">${icon("award")} Completado ${esc(new Date(p.completedDate).toLocaleDateString("es-CL"))}</span>` : ""}</div>
-      <div class="stack" style="--gap:14px;margin-top:14px">
-      ${course.phases.map((ph, i) => {
-        const read = ph.sessions.filter((se) => p.read?.[S.sessionKey(i, se)]).length;
-        const sc = p.scores?.[i];
-        return `<div>
-          <div class="row-wrap"><b class="small">Módulo ${esc(ph.phaseNum)} · ${esc(ph.title)}</b><span class="spacer"></span>
-            ${p.phases?.[i] ? `<span class="chip ok">Aprobado${sc ? ` · ${sc.right}/${sc.total}` : ""}</span>` : sc ? `<span class="chip warn">Evaluación ${sc.right}/${sc.total}</span>` : ""}
-            <span class="xs muted">${read}/${ph.sessions.length} unidades</span></div>
-          <div class="unit-dots">${ph.sessions.map((se) => `<span class="${p.read?.[S.sessionKey(i, se)] ? "on" : ""}" title="${esc(se.id + " · " + se.title)}">${esc(se.id)}</span>`).join("")}</div>
-        </div>`;
-      }).join("")}
-      </div></div>`;
-  }).join("")}`;
+`;
 }
 
 function peopleCsv() {
-  const courses = S.content().courses;
-  const course = courses.find((c) => c.id === peopleCourse) || courses[0];
-  const t = courseTotals(course);
   const cell = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const lines = [["Nombre", "Correo", "Parroquia", "Rol", "Estado", "Unidades completadas", "Total unidades", "Módulos aprobados", "Última actividad", "Constancia"].map(cell).join(",")];
+  const lines = [["Nombre", "Correo", "Parroquia", "Rol", "Estado", "Última actividad"].map(cell).join(",")];
   people.users.forEach((u) => {
-    const r = rowFor(u, course), d = tsDate(r.last);
-    lines.push([u.name, u.email, u.parish, api.cloud.roleLabel(u.role), u.active === false ? "En pausa" : "Activa",
-      r.units, t.units, r.modules, d && !isNaN(d) ? d.toISOString().slice(0, 10) : "", r.complete ? r.cert : ""].map(cell).join(","));
+    const d = tsDate(u.lastSeen);
+    lines.push([u.name, u.email, u.parish, api.cloud.roleLabel(u.role), u.active === false ? "En pausa" : "Activa", d && !isNaN(d) ? d.toISOString().slice(0, 10) : ""].map(cell).join(","));
   });
-  download(`seguimiento-${slug(course.title)}.csv`, "﻿" + lines.join("\n"), "text/csv;charset=utf-8");
+  download("cuentas-agape.csv", "\ufeff" + lines.join("\n"), "text/csv;charset=utf-8");
 }
 
 // ---------------------------------------------------------------------------
@@ -942,23 +726,6 @@ function settingsView() {
 // Editor genérico (diálogo) con formularios descritos por "specs"
 // ---------------------------------------------------------------------------
 const SPECS = {
-  course: () => [["title", "Título del curso", "text"], ["theme", "Tema de color", "select", THEMES], ["description", "Descripción / propósito", "textarea"],
-    ["", "Dirigido a", "heading"], ["", "Marca a quiénes está dirigida esta formación. Si no marcas ninguno, la ven todos. Los administradores siempre ven todos los cursos.", "note"],
-    ...S.PARA.map(([k, l]) => [`para.${k}`, l, "check"])],
-  phase: () => [["title", "Título del módulo", "text"], ["desc", "Descripción breve", "text", null, "Ej: 4 unidades · Acogida y confianza"],
-    ["intro", "Presentación del módulo", "textarea"]],
-  session: () => [
-    ["title", "Título de la unidad", "text"], ["time", "Tiempo de estudio", "text", null, "Ej: 45 min"],
-    ["objective", "Objetivo de aprendizaje", "textarea"], ["intro", "Introducción", "textarea"],
-    ["sections", "Contenido de estudio (secciones)", "objlist", [["title", "Título de la sección", "text"], ["body", "Texto", "textarea"]], "Sección", "Separa párrafos con una línea en blanco. Una línea que empieza con «- » se muestra como lista. Usa &lt;strong&gt;…&lt;/strong&gt; para destacar."],
-    ["", "Palabra de Dios", "heading"],
-    ["bible.ref", "Cita bíblica", "text", null, "Ej: Lucas 24,13-35 · Los discípulos de Emaús"], ["bible.comment", "Comentario", "textarea"],
-    ["church", "La Iglesia nos dice", "objlist", [["source", "Documento y número", "text", "Ej: Christus vivit 206"], ["text", "Idea o cita breve", "textarea"], ["url", "Enlace a la fuente", "text", "https://www.vatican.va/…"]], "Referencia"],
-    ["questions", "Preguntas para la reflexión personal (cuaderno)", "list", null, "Pregunta"],
-    ["activity", "Llévalo a tu grupo (práctica)", "textarea"],
-    ["prayer", "Oración", "textarea"],
-    ["resources", "Para profundizar (recursos)", "objlist", [["title", "Título", "text"], ["url", "Enlace", "text", "https://…"], ["note", "Nota breve", "text"]], "Recurso"]],
-  quiz: () => [["badge", "Etiqueta", "text"], ["title", "Título de la evaluación", "text"], ["questions", "Preguntas", "questions"]],
   card: (o, key) => {
     const types = key === "materials" ? Object.entries(TYPE_LABEL) : [["text", "Texto de oración"], ["list", "Pasos (uno por línea)"]];
     const f = [["tag", "Etiqueta", "text"], ["title", "Título", "text"], ["type", "Tipo de contenido", "select", types]];
@@ -969,7 +736,7 @@ const SPECS = {
   },
   box: () => [["title", "Título de la sección", "text"], ["desc", "Descripción", "textarea"]],
   invite: (o) => [["email", "Correo de Google", "text", null, "nombre@gmail.com"], ["name", "Nombre y apellido", "text"], ["parish", "Capilla o parroquia", "text"],
-    ["role", "Rol", "select", [["ingreso", "Joven · Ingreso"], ["madurez", "Joven · Madurez"], ["aspirante", "Aspirante (curso y sala Aspirantes)"], ["dirigente", "Dirigente (hace el curso)"], ["coordinador", "Coordinador (agenda, portada y moderación)"], ["admin", "Administrador (gestión completa)"]]],
+    ["role", "Rol", "select", [["ingreso", "Joven · Ingreso"], ["madurez", "Joven · Madurez"], ["aspirante", "Aspirante (sala Aspirantes)"], ["dirigente", "Dirigente"], ["coordinador", "Coordinador (agenda, portada y moderación)"], ["admin", "Administrador (gestión completa)"]]],
     ...(YOUTH.includes(o.role) ? [
       ["", "Consentimiento de la familia", "heading"],
       ["", "Antes de crear la cuenta de un joven, su papá, mamá o apoderado/a firma el consentimiento. Guárdalo en la carpeta de consentimientos; aquí solo queda registrado.", "note"],
@@ -1132,7 +899,6 @@ function bindActions() {
   const A = api.actions;
   saludos.registerActions(A, () => api.render());
   conocer.registerAdmin(A, () => api.render());
-  cursosCom.setup(api);
   evAdmin.registerActions(A, () => api.render());
 
   document.addEventListener("submit", async (e) => {
@@ -1312,7 +1078,7 @@ Ya tienes tu cuenta. ${que}
 Para entrar, abre este enlace, toca «Ingresar» y elige «Continuar con Google» con tu correo ${email}:
 ${url}
 
-Te recomendamos partir por «Bienvenido a agAPPe», en Formación: es un recorrido corto para conocer la app.
+Te recomendamos partir por la «Guía de agAPPe», en Recursos: cuenta en pocos minutos cómo funciona la app.
 
 ¡Qué alegría tenerte en la comunidad!`;
   };
@@ -1366,14 +1132,7 @@ Te recomendamos partir por «Bienvenido a agAPPe», en Formación: es un recorri
     try { await api.cloud.updateUser(u.uid, { asesor: on }); await loadPeople(true); api.render(); toast(on ? "Marcado como asesor" : "Ya no figura como asesor"); }
     catch (e) { el.checked = !on; toast("No se pudo cambiar: " + (e.code || e.message), ""); }
   };
-  A.aUserFormador = async (el) => {
-    const data = await loadPeople();
-    const u = data.users.find((x) => x.uid === el.dataset.uid);
-    if (!u) return;
-    const on = !u.formador; el.checked = on;
-    try { await api.cloud.updateUser(u.uid, { formador: on }); await loadPeople(true); api.render(); toast(on ? "Ya puede preparar y publicar cursos" : "Ya no prepara cursos"); }
-    catch (e) { el.checked = !on; toast("No se pudo cambiar: " + (e.code || e.message), ""); }
-  };
+
   A.aUserCantor = async (el) => {
     const data = await loadPeople();
     const u = data.users.find((x) => x.uid === el.dataset.uid);
@@ -1401,7 +1160,6 @@ Te recomendamos partir por «Bienvenido a agAPPe», en Formación: es un recorri
     clearTimeout(e.target._t);
     e.target._t = setTimeout(async () => { keepPeople = true; await api.render(); const i = document.getElementById("peopleSearch"); if (i) { i.focus(); i.setSelectionRange(pos, pos); } }, 250);
   });
-  document.addEventListener("change", (e) => { if (e.target.id === "peopleCourse") { peopleCourse = e.target.value; keepPeople = true; api.render(); } });
   A.aPreview = () => { S.ensureDraft(); S.setPreview(true); location.hash = "#/"; };
   A.aUndo = () => { if (!undo) return; S.saveDraft(undo); undo = null; toast("Cambio deshecho"); api.render(); };
   A.aDiscard = () => {
@@ -1425,147 +1183,6 @@ Te recomendamos partir por «Bienvenido a agAPPe», en Formación: es un recorri
     S.clearLegacy();
   }, { msg: "Contenido anterior traído al borrador" });
   A.aDropLegacy = () => { S.clearLegacy(); api.render(); };
-
-  // Itinerarios
-  A.aNewCourse = () => openEditor({
-    title: "Nuevo curso", spec: "course", obj: { title: "", theme: "amanecer", description: "", para: {} },
-    onSave: (o) => commit((d) => {
-      const c = { id: slug(o.title) + "-" + Date.now().toString(36), title: o.title || "Curso sin título", theme: o.theme, description: o.description, para: cleanPara(o.para), phases: [blankPhase(1)] };
-      renumber(c); d.courses.push(c);
-      setTimeout(() => (location.hash = `#/admin/itinerarios/${d.courses.length - 1}`));
-    }, { msg: "Curso creado" }),
-  });
-  A.aEditCourse = (el) => {
-    const ci = +el.dataset.ci, c = S.ensureDraft().courses[ci];
-    openEditor({ title: "Datos del curso", spec: "course", obj: { ...c, para: { ...(c.para || {}) } }, onSave: (o) => commit((d) => { Object.assign(d.courses[ci], { title: o.title, theme: o.theme, description: o.description, para: cleanPara(o.para) }); if (!d.courses[ci].para) delete d.courses[ci].para; }) });
-  };
-  A.aReq = (el) => {
-    const r = el.dataset.r, id = el.dataset.id;
-    commit((d) => {
-      d.requisitos = d.requisitos || {};
-      const list = new Set(d.requisitos[r] || []);
-      if (list.has(id)) list.delete(id); else list.add(id);
-      d.requisitos[r] = [...list];
-    }, { msg: "Formación requerida actualizada. Publica los cambios para que quede firme." });
-  };
-  A.aHideCourse = (el) => {
-    const d0 = S.getDraft() || S.publishedContent(), c = d0.courses[+el.dataset.i]; if (!c) return;
-    commit((d) => { d.courses[+el.dataset.i].hidden = !c.hidden; }, { msg: c.hidden ? "Curso público: se verá al publicar los cambios" : "Curso oculto: se aplicará al publicar los cambios. Si no queda ninguno público, Formación muestra solo la Guía de agAPPe." });
-  };
-  // Trae al borrador las novedades del sitio (data/contenido.json) sin pisar lo editado en Gestión:
-  // unidades y módulos que falten, oraciones finales, y solo las secciones que se corrigieron en el sitio.
-  const SECTION_UPDATES = { "curso-dirigentes-agape": [["1.4", "La primera comunidad como modelo"], ["5.1", "Tu vida de oración"], ["5.5", "Tu compromiso"]] };
-  const PHASE_TEXT_UPDATES = { "curso-dirigentes-agape": [1] }; // phaseNum con descripción e introducción nuevas
-  const NEW_COURSES = ["formacion-coordinadores", "formacion-asesores", "guia-agappe"]; // cursos nuevos del sitio que se agregan enteros si faltan
-  const FIRST_COURSES = ["guia-agappe"]; // estos quedan primeros en la lista
-  function mergeCourseNews(d, repo) {
-    let n = 0;
-    for (const rc of repo.courses || []) {
-      const c = d.courses.find((x) => x.id === rc.id);
-      if (!c) { if (NEW_COURSES.includes(rc.id)) { if (FIRST_COURSES.includes(rc.id)) d.courses.unshift(clone(rc)); else d.courses.push(clone(rc)); n++; } continue; }
-      // Curso nuevo ya traído antes: si el sitio tiene una revisión más reciente, se reemplaza entero
-      // (conservando si está oculto y a quién va dirigido, que se eligen en Gestión).
-      if (NEW_COURSES.includes(rc.id) && (rc.rev || 1) > (c.rev || 1)) {
-        const keep = { hidden: c.hidden, para: c.para };
-        d.courses[d.courses.indexOf(c)] = Object.assign(clone(rc), keep.para ? { para: keep.para } : {}, keep.hidden ? { hidden: true } : {});
-        n++; continue;
-      }
-      if (c.description && c.description.includes("5 módulos y 21 unidades") && rc.description !== c.description) { c.description = rc.description; n++; }
-      rc.phases.forEach((rp) => {
-        let ph = c.phases.find((x) => x.phaseNum === rp.phaseNum);
-        if (!ph) { c.phases.push(clone(rp)); n += 1 + rp.sessions.length; return; }
-        if ((PHASE_TEXT_UPDATES[rc.id] || []).includes(rp.phaseNum)) for (const k of ["desc", "intro"]) if (rp[k] && ph[k] !== rp[k]) { ph[k] = rp[k]; n++; }
-        rp.sessions.forEach((rs, k) => {
-          const se = ph.sessions.find((x) => x.id === rs.id);
-          if (!se) { ph.sessions.splice(Math.min(k, ph.sessions.length), 0, clone(rs)); n++; return; }
-          if (rs.prayer && se.prayer !== rs.prayer) { se.prayer = rs.prayer; n++; }
-          for (const [sid, title] of SECTION_UPDATES[rc.id] || []) {
-            if (sid !== rs.id) continue;
-            const rsec = rs.sections.find((x) => x.title === title), sec = (se.sections || []).find((x) => x.title === title);
-            if (rsec && sec && sec.body !== rsec.body) { sec.body = rsec.body; n++; }
-          }
-        });
-      });
-    }
-    return n;
-  }
-  A.aSyncCourse = async (el) => {
-    el.disabled = true;
-    try {
-      const repo = await (await fetch("data/contenido.json", { cache: "no-store" })).json();
-      const n = mergeCourseNews(clone(S.getDraft() || S.publishedContent()), repo);
-      if (!n) { toast("Los cursos ya están al día"); el.disabled = false; return; }
-      commit((d) => { mergeCourseNews(d, repo); }, { snapshot: true, msg: `${n} cambios traídos al borrador. Revísalos y publica.` });
-    } catch (e) { console.warn(e); toast("No se pudieron traer las novedades", ""); el.disabled = false; }
-  };
-  A.aMoveCourse = (el) => commit((d) => move(d.courses, +el.dataset.i, +el.dataset.d));
-  A.aDupCourse = (el) => commit((d) => {
-    const c = clone(d.courses[+el.dataset.i]); c.id = slug(c.title) + "-" + Date.now().toString(36); c.title += " (copia)";
-    d.courses.splice(+el.dataset.i + 1, 0, c);
-  }, { msg: "Curso duplicado" });
-  A.aDelCourse = (el) => {
-    const c = S.ensureDraft().courses[+el.dataset.i];
-    if (confirm(`¿Eliminar el curso "${c.title}" con todos sus módulos?`)) commit((d) => d.courses.splice(+el.dataset.i, 1), { snapshot: true, msg: "Curso eliminado" });
-  };
-
-  // Módulos
-  A.aAddPhase = (el) => commit((d) => { const c = d.courses[+el.dataset.ci]; c.phases.push(blankPhase(c.phases.length)); renumber(c); }, { msg: "Módulo agregado" });
-  A.aEditPhase = (el) => {
-    const ci = +el.dataset.ci, pi = +el.dataset.pi, p = S.ensureDraft().courses[ci].phases[pi];
-    openEditor({ title: `Módulo ${p.phaseNum}`, spec: "phase", obj: { title: p.title, desc: p.desc, intro: p.intro || "" }, onSave: (o) => commit((d) => Object.assign(d.courses[ci].phases[pi], { title: o.title, desc: o.desc, intro: o.intro })) });
-  };
-  A.aMovePhase = (el) => commit((d) => { const c = d.courses[+el.dataset.ci]; move(c.phases, +el.dataset.pi, +el.dataset.d); renumber(c); });
-  A.aDelPhase = (el) => {
-    const p = S.ensureDraft().courses[+el.dataset.ci].phases[+el.dataset.pi];
-    if (confirm(`¿Eliminar el módulo "${p.title}" con sus ${p.sessions.length} unidades y su evaluación?`))
-      commit((d) => { const c = d.courses[+el.dataset.ci]; c.phases.splice(+el.dataset.pi, 1); renumber(c); }, { snapshot: true, msg: "Módulo eliminado" });
-  };
-
-  // Unidades
-  const sessionEditor = (ci, pi, si, isNew) => {
-    const p = S.ensureDraft().courses[ci].phases[pi];
-    const s = isNew ? blankSession() : normalizeUnit(p.sessions[si]);
-    openEditor({
-      title: isNew ? "Nueva unidad" : `Unidad ${s.id}`, spec: "session", obj: s,
-      onSave: (o) => commit((d) => {
-        const c = d.courses[ci]; o.questions = (o.questions || []).filter((x) => x.trim());
-        o.sections = (o.sections || []).filter((x) => x.title.trim() || x.body.trim());
-        o.church = (o.church || []).filter((x) => x.source.trim() || x.text.trim());
-        o.resources = (o.resources || []).filter((x) => x.title.trim() && x.url.trim());
-        if (isNew) c.phases[pi].sessions.push(o); else c.phases[pi].sessions[si] = o;
-        renumber(c);
-      }, { msg: isNew ? "Unidad agregada" : "Unidad guardada" }),
-      onDelete: !isNew && p.sessions.length > 1 ? () => commit((d) => { const c = d.courses[ci]; c.phases[pi].sessions.splice(si, 1); renumber(c); }, { snapshot: true, msg: "Unidad eliminada" }) : null,
-    });
-  };
-  A.aEditSession = (el) => sessionEditor(+el.dataset.ci, +el.dataset.pi, +el.dataset.si, false);
-  A.aAddSession = (el) => sessionEditor(+el.dataset.ci, +el.dataset.pi, -1, true);
-  A.aMoveSession = (el) => commit((d) => { const c = d.courses[+el.dataset.ci]; move(c.phases[+el.dataset.pi].sessions, +el.dataset.si, +el.dataset.d); renumber(c); });
-  A.aDupSession = (el) => commit((d) => {
-    const c = d.courses[+el.dataset.ci], arr = c.phases[+el.dataset.pi].sessions, s = clone(arr[+el.dataset.si]);
-    s.title += " (copia)"; arr.splice(+el.dataset.si + 1, 0, s); renumber(c);
-  }, { msg: "Unidad duplicada" });
-  A.aDelSession = (el) => {
-    const s = S.ensureDraft().courses[+el.dataset.ci].phases[+el.dataset.pi].sessions[+el.dataset.si];
-    if (confirm(`¿Eliminar la unidad "${s.title}"?`))
-      commit((d) => { const c = d.courses[+el.dataset.ci]; c.phases[+el.dataset.pi].sessions.splice(+el.dataset.si, 1); renumber(c); }, { snapshot: true, msg: "Unidad eliminada" });
-  };
-
-  // Evaluación
-  A.aEditQuiz = (el) => {
-    const ci = +el.dataset.ci, pi = +el.dataset.pi, p = S.ensureDraft().courses[ci].phases[pi];
-    const quiz = p.quiz || { badge: `Evaluación módulo ${p.phaseNum}`, title: "Discernimiento", questions: [] };
-    if (!quiz.questions.length) quiz.questions.push(blankQuestion());
-    openEditor({
-      title: `Evaluación · Módulo ${p.phaseNum}`, spec: "quiz", obj: quiz,
-      onSave: (o) => {
-        const bad = o.questions.findIndex((q) => !q.q.trim() || q.options.some((x) => !x.trim()));
-        if (bad >= 0) { toast(`Completa la pregunta ${bad + 1} y todas sus opciones`, ""); return false; }
-        o.questions.forEach((q, i) => { q.q = `${i + 1}. ${q.q.replace(/^\s*\d+\.\s*/, "").trim()}`; if (q.correct >= q.options.length) q.correct = 0; });
-        commit((d) => { d.courses[ci].phases[pi].quiz = o; }, { msg: "Evaluación guardada" });
-      },
-    });
-  };
 
   // Materiales / Oración
   A.aEditBox = (el) => {

@@ -32,7 +32,7 @@ export const TOOLS = [
   { k: "agenda", n: "Agenda", href: "#/agenda", ill: "futuro", d: "Encuentros, celebraciones y actividades de Ágape.", soloVisita: true },
   { k: "comunidad", n: "Comunidad", href: "#/red", ill: "equipo", d: "El desafío de la semana, el muro y lo que compartimos.", cuenta: true },
   { k: "momentos", n: "Momentos", href: "#/momentos", ill: "comunidad", d: "Las fotos y recuerdos del grupo.", cuenta: true },
-  { k: "formacion", n: "Formación", href: "#/formacion", ill: "apostoles", d: "Cursos para crecer en la fe y aprender a acompañar.", cuenta: true },
+  { k: "formacion", n: "Recursos", href: "#/recursos", ill: "pizarra", d: "Materiales, presentaciones y la guía de agAPPe." },
 ];
 // Qué sugerir después de cada herramienta (en orden de preferencia)
 const NEXT = {
@@ -44,7 +44,7 @@ const NEXT = {
   radio: ["cancionero", "podcast", "juegos"], podcast: ["radio", "juegos", "evangelio"],
   juegos: ["difusion", "cancionero", "podcast"], difusion: ["juegos", "intenciones", "cancionero"],
   agenda: ["evangelio", "juegos", "difusion"], comunidad: ["momentos", "intenciones", "juegos"],
-  momentos: ["comunidad", "difusion", "juegos"], formacion: ["evangelio", "oremus", "rato"],
+  momentos: ["comunidad", "difusion", "juegos"], formacion: ["difusion", "cancionero", "oremus"],
   muro: ["momentos", "intenciones", "juegos"], chat: ["momentos", "juegos", "intenciones"],
 };
 const tool = (k) => TOOLS.find((t) => t.k === k);

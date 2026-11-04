@@ -37,6 +37,7 @@ import * as grupo from "./grupo.js";
 import * as inicio from "./inicio.js";
 import * as novedades from "./novedades.js";
 import * as papa from "./papa.js";
+import * as guia from "./guia.js";
 import { illus } from "./ilustraciones.js";
 
 // Secciones que se descargan recién al abrirlas (juegos, imprimir, credenciales, difusión y lo de Gestión):
@@ -51,13 +52,11 @@ const mod = {
   frente: lazy(() => import("./frente.js"), (m) => m.setup({ actions, onAfterRender, onLeave })),
   trivia: lazy(() => import("./trivia.js"), (m) => m.setup({ actions, onAfterRender, onLeave })),
   ultima: lazy(() => import("./ultima.js"), (m) => m.setup({ actions, onAfterRender, onLeave, cloud })),
-  cursoPrint: lazy(() => import("./curso-print.js"), (m) => m.setup({ actions, onAfterRender, onLeave, S, render: () => render() })),
   credenciales: lazy(() => import("./credenciales.js"), (m) => m.setup({ actions, onAfterRender })),
   difusion: lazy(() => import("./difusion.js"), (m) => m.setup({ actions, onAfterRender })),
   inicioAdmin: lazy(() => import("./inicio-admin.js"), (m) => m.setup({ actions, render: () => render(), onAfterRender, cloud })),
   familiasAdmin: lazy(() => import("./familias-admin.js"), (m) => m.setup({ actions, render: () => render(), onAfterRender, cloud })),
   dinamicas: lazy(() => import("./dinamicas.js"), (m) => m.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud })),
-  viva: lazy(() => import("./unidad-viva.js"), (m) => m.setup({ actions, render: () => render(), onLeave, S })),
   gEq: lazy(() => import("./gestion-equipo.js"), (m) => m.setup({ actions })),
 };
 
@@ -80,7 +79,7 @@ document.addEventListener("click", (e) => {
 });
 
 // ---------------------------------------------------------------------------
-// Enrutador por hash (#/itinerario, #/unidad/0/1.1, #/cuaderno, #/admin/...)
+// Enrutador por hash (#/recursos, #/oracion, #/red, #/admin/...)
 // ---------------------------------------------------------------------------
 const routes = [
   [/^\/$/, viewHome, "inicio"],
@@ -92,23 +91,21 @@ const routes = [
   [/^\/chat\/([A-Za-z0-9_-]+)$/, (k) => chat.viewRoom(k), "muro"],
   [/^\/muro\/([^/]+)$/, (id) => wall.viewPost(id), "muro"],
   [/^\/comunidad$/, () => { location.replace("presentaciones/guia-de-servicio.html"); return null; }, "comunidad"],
-  [/^\/itinerario$/, viewItinerary, "itinerario"],
-  [/^\/(?:unidad|encuentro)\/(\d+)\/([^/]+)$/, viewEncounter, "itinerario"],
-  [/^\/vivir\/(\d+)\/([^/?]+)(?:\?s=\d+)?$/, async (p, id) => (await (await mod.viva()).view(p, id)) ?? null, "itinerario"],
-  [/^\/cuaderno$/, viewNotebook, "itinerario"],
-  [/^\/materiales$/, viewMaterials, "materiales"],
-  [/^\/imprimir\/curso(?:\/(\d+))?(?:\/(\d+))?$/, (ci, pi) => mod.cursoPrint().then((m) => m.view(ci || 0, pi ?? "")), "materiales"],
+  // La formación (cursos, evaluaciones, cuaderno y constancias) se lleva en una aplicación aparte: los enlaces viejos llevan a Recursos.
+  [/^\/(?:itinerario|unidad|encuentro|vivir|cuaderno|constancia|verificar|imprimir\/curso)(?:\/.*)?(?:\?.*)?$/, () => { location.replace("#/recursos"); return null; }, "formacion"],
+  [/^\/materiales(?:\?f=([a-z]+))?$/, (f) => viewMaterials(f), "materiales"],
   [/^\/oracion$/, () => capilla.view(), "oracion"],
   [/^\/evangelio$/, () => capilla.view({ focus: "gospel" }), "oracion"],
   [/^\/oracion\/([a-z]+)$/, (k) => capilla.view({ focus: k }), "oracion"],
   [/^\/oremus\/libro$/, () => oremus.viewLibro(), "oracion"],
   [/^\/oremus(?:\/([^/?]+))?$/, (t) => capilla.oremusView(t ? decodeURIComponent(t) : ""), "oracion"],
   [/^\/oracion\/velas\/([^/?]+)$/, (id) => capilla.view({ focus: "velas", vela: id }), "oracion"],
-  [/^\/formacion$/, () => inicio.viewFormacion(), "formacion"],
+  [/^\/recursos$/, () => inicio.viewRecursos(), "formacion"],
+  [/^\/formacion$/, () => { location.replace("#/recursos"); return null; }, "formacion"],
   [/^\/solicitar$/, () => solicitud.view(), "perfil"],
   [/^\/conocer(?:\?(.*))?$/, (q) => conocer.view(q || ""), "perfil"],
   [/^\/ficha\/([^/?]+)$/, (id) => ficha.view(decodeURIComponent(id)), "acompanar"],
-  [/^\/(?:recorrido|tutorial|guia)(?:\?.*)?$/, () => { location.replace("#/formacion"); return null; }, "formacion"],
+  [/^\/(?:guia|recorrido|tutorial)(?:\?.*)?$/, () => guia.view(), "formacion"],
   [/^\/red$/, () => { onAfterRender(() => { desafio.homeCard(); momentos.homeStrip(); inicio.refreshInicioCfg(() => { if (location.hash === "#/red") render(); }); }); return inicio.viewRed(); }, "red"],
   [/^\/momentos$/, () => momentos.view(), "red"],
   [/^\/juegos$/, () => juegos.view(), "red"],
@@ -144,9 +141,7 @@ const routes = [
   [/^\/cancionero\/misa\/([^/?]+)$/, (id) => cancionero.viewMisa(id), "oracion"],
   [/^\/cancionero\/hoja(?:\?misa=([^&]+))?$/, (m) => cancionero.viewHoja(m), "oracion"],
   [/^\/cancionero\/([^/?]+)(?:\?misa=([^&]+))?$/, (id, m) => cancionero.viewSong(id, m), "oracion"],
-  [/^\/constancia$/, viewCertificate, "itinerario"],
   [/^\/perfil$/, viewProfile, "perfil"],
-  [/^\/verificar\/(.+)$/, viewVerify, "verificar"],
   [/^\/admin(?:\/(.*))?$/, viewAdmin, "admin"],
 ];
 
@@ -171,17 +166,12 @@ async function renderNow() {
   if (!cloud.enabled && section !== "admin" && section !== "perfil" && section !== "verificar" && !S.hasProfile()) {
     location.replace("#/perfil"); return;
   }
-  // Con cuentas: el curso pide iniciar sesión; el resto de la app queda abierto.
-  // Formación y Materiales: solo para cuentas invitadas.
+  // Con cuentas: el muro y los recursos del equipo piden iniciar sesión; el resto de la app queda abierto.
   // La portada de Materiales la ven todos (sin cuenta, solo difusión, música, oración y la biblioteca).
   const recursos = section === "materiales" && path !== "/materiales";
   // Jóvenes de Ingreso y Madurez: las secciones del equipo quedan fuera de su espacio.
-  // Los cursos abiertos (como «Bienvenido a agAPPe») los recorren todos: jóvenes y visitantes sin cuenta.
-  const cursoAbierto = section === "itinerario" && !/^\/(constancia|cuaderno)$/.test(path) && S.hasVisibleCourse();
-  if (cloud.enabled && cloud.state().isJoven && ((section === "itinerario" && !cursoAbierto && path !== "/cuaderno") || section === "comunidad" || recursos)) fn = viewSoloEquipo;
-  // Cursos en revisión: si todos están ocultos, el curso no se abre (salvo para administradores).
-  if (section === "itinerario" && !/^\/(constancia|cuaderno)$/.test(path) && !S.hasVisibleCourse() && !(cloud.enabled && !cloud.state().ready)) fn = viewEnRevision;
-  if (cloud.enabled && ((section === "itinerario" && !cursoAbierto) || section === "muro" || recursos) && !cloud.state().ready) fn = () => viewLogin(recursos ? "recursos" : section === "muro" ? "muro" : "curso");
+  if (cloud.enabled && cloud.state().isJoven && (section === "comunidad" || recursos)) fn = viewSoloEquipo;
+  if (cloud.enabled && (section === "muro" || recursos) && !cloud.state().ready) fn = () => viewLogin(recursos ? "recursos" : "muro");
   document.body.classList.toggle("is-admin", section === "admin");
   applyTheme();
   renderChrome(section);
@@ -211,15 +201,15 @@ const VISTA_RUTAS = [
   [/^\/$/, "inicio"], [/^\/evangelio/, "evangelio"], [/^\/oracion\/velas/, "intenciones"], [/^\/oracion\/(rosario|maria)/, "rosario"],
   [/^\/oracion\/silencio/, "rato"], [/^\/oracion\/radio/, "radio"], [/^\/oracion/, "capilla"], [/^\/oremus/, "oremus"], [/^\/salmos/, "salmos"],
   [/^\/cancionero/, "cancionero"], [/^\/red$/, "comunidad"], [/^\/muro/, "muro"], [/^\/chat/, "chat"], [/^\/momentos/, "momentos"],
-  [/^\/juegos/, "juegos"], [/^\/podcast/, "podcast"], [/^\/agenda/, "agenda"], [/^\/formacion$/, "formacion"],
-  [/^\/(itinerario|unidad|encuentro|vivir|cuaderno|constancia)/, "curso"], [/^\/(materiales|imprimir|credenciales)/, "materiales"],
+  [/^\/juegos/, "juegos"], [/^\/podcast/, "podcast"], [/^\/agenda/, "agenda"], [/^\/recursos$/, "formacion"],
+  [/^\/(materiales|imprimir|credenciales)/, "materiales"],
   [/^\/dinamicas/, "dinamicas"], [/^\/difusion/, "difusion"], [/^\/ayuda/, "ayuda"], [/^\/buscar/, "buscar"],
 ];
 const vistaDe = (path) => { const p = path.split("?")[0]; const r = VISTA_RUTAS.find(([re]) => re.test(p)); return r ? r[1] : ""; };
 // Sin botón flotante: la Ayuda está en el perfil y en el pie de página.
 function helpFab() { document.getElementById("helpFab")?.remove(); }
 // Identidad visual: ilustración de trazo simple en el encabezado de cada sección.
-const HEAD_ILLUS = { formacion: "apostoles", red: "amigos", buscar: "pregunta", agenda: "futuro", comunidad: "equipo", itinerario: "camino", materiales: "biblia", oracion: "jesus", muro: "amigos", perfil: "acogida", verificar: "envio", difusion: "envio" };
+const HEAD_ILLUS = { formacion: "biblia", red: "amigos", buscar: "pregunta", agenda: "futuro", comunidad: "equipo", itinerario: "camino", materiales: "biblia", oracion: "jesus", muro: "amigos", perfil: "acogida", verificar: "envio", difusion: "envio" };
 function decorate(v, section) {
   const hero = v.querySelector(".hero");
   if (hero && !hero.querySelector(".z-illus")) {
@@ -274,31 +264,24 @@ window.addEventListener("hashchange", render);
 
 document.addEventListener("agape:color", () => { a11y.apply(); applyTheme(); });
 function applyTheme() {
-  const c = S.activeCourse();
-  document.documentElement.dataset.theme = (c && c.theme) || "amanecer";
+  document.documentElement.dataset.theme = "amanecer";
   const pick = a11y.COLORES.find(([k]) => k && k === a11y.prefs().color);
-  const color = pick ? pick[2] : { amanecer: "#1351a4", cenaculo: "#0a2a6e", esperanza: "#0a3a78" }[c?.theme] || "#1351a4";
+  const color = pick ? pick[2] : { amanecer: "#1351a4", cenaculo: "#0a2a6e", esperanza: "#0a3a78" }.amanecer;
   $('meta[name="theme-color"]')?.setAttribute("content", color);
 }
-
-// Oración inicial de cada unidad: invocación al Espíritu Santo (la misma del devocionario).
-export const VEN_ESPIRITU = (ORACIONES.find((o) => o.t === "Ven Santo Espíritu") || {}).x || "";
-const openPrayerHTML = () => VEN_ESPIRITU ? `<section class="unit-sec unit-open" id="u-open"><span class="eyebrow">Oración inicial · Invocación al Espíritu Santo</span>
-  <p class="small muted unit-pray-lead">Antes de empezar, pide luz al Espíritu Santo para que lo que vas a aprender se haga vida y servicio.</p>
-  <div class="prayer">${esc(VEN_ESPIRITU).replace(/\n/g, "<br>")}</div></section>` : "";
 
 // ---------------------------------------------------------------------------
 // Cabecera, navegación inferior
 // ---------------------------------------------------------------------------
-// Navegación: Hoy · Formación · Orar · Comunidad (la Agenda vive dentro de Comunidad)
+// Navegación: Hoy · Recursos · Orar · Comunidad (la Agenda vive dentro de Comunidad)
 const NAV = [
   ["inicio", "#/", "Hoy", "home"],
-  ["formacion", "#/formacion", "Formación", "route"],
+  ["formacion", "#/recursos", "Recursos", "book"],
   ["oracion", "#/oracion", "Orar", "flame"],
   ["red", "#/red", "Comunidad", "users"],
 ];
 // Cada sección se marca en su bloque
-const TAB_OF = { itinerario: "formacion", materiales: "formacion", muro: "red", comunidad: "formacion", difusion: "formacion", acompanar: "red", agenda: "red" };
+const TAB_OF = { materiales: "formacion", muro: "red", comunidad: "formacion", difusion: "formacion", acompanar: "red", agenda: "red" };
 const navFor = () => NAV;
 // Franja «Ver como…» (solo equipo): recuerda que es una vista de prueba y cómo volver.
 const VER_COMO = [["visitante", "Visitante sin cuenta"], ["ingreso", "Joven · Ingreso"], ["madurez", "Joven · Madurez"], ["aspirante", "Aspirante"], ["dirigente", "Dirigente"], ["coordinador", "Coordinador"]];
@@ -379,49 +362,10 @@ function heroTitle(t) {
   const last = words.pop();
   return `${words.join(" ")} <em>${last}</em>`;
 }
-// Donde quedó cada persona: la unidad que abrió por última vez (en cualquier dispositivo, porque la
-// posición viaja con el avance) y, si no hay, la siguiente unidad pendiente.
-function resumeLink(course, st) {
-  if (st.complete) return "#/itinerario";
-  const pos = (S.progress(course.id).pos) || {};
-  let best = null;
-  for (const [k, v] of Object.entries(pos)) {
-    const [pi, sid] = [k.slice(0, k.indexOf(":")), k.slice(k.indexOf(":") + 1)];
-    const ph = course.phases[+pi]; if (!ph || !st.phases[+pi] || !st.phases[+pi].open) continue;
-    if (!(ph.sessions || []).some((x) => x.id === sid)) continue;
-    if (!best || String(v.at || "") > String(best.at || "")) best = { pi: +pi, sid, at: v.at };
-  }
-  if (best) return `#/vivir/${best.pi}/${encodeURIComponent(best.sid)}`;
-  const nx = nextLink(course, st);
-  return nx.quiz != null ? "#/itinerario" : nx.href;
-}
-function nextLink(course, st) {
-  if (st.complete) return course.abierto ? { href: "#/itinerario", label: "Volver a recorrerla" } : { href: "#/constancia", label: "Ver mi constancia" };
-  if (!st.next) return { href: "#/itinerario", label: "Ver itinerario" };
-  if (st.next.type === "session") {
-    return { href: `#/vivir/${st.next.phase}/${encodeURIComponent(st.next.session.id)}`, label: st.readSessions ? "Continuar donde quedé" : "Comenzar el curso" };
-  }
-  return { href: "#/itinerario", quiz: st.next.phase, label: `Rendir evaluación del módulo ${course.phases[st.next.phase].phaseNum}` };
-}
-
 function viewHome() {
   onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
-  const course = S.activeCourse();
-  const st = S.courseState(course);
-  // Continuar: la unidad donde quedaste (o la siguiente), en una sola tarjeta.
-  const go = S.hasVisibleCourse() && course && !st.complete ? (() => {
-    const nx = st.next, ses = nx && nx.type === "session" ? nx.session : null;
-    const pct = st.totalSessions ? Math.round((st.readSessions / st.totalSessions) * 100) : 0;
-    const now = ses ? `${ses.id ? esc(ses.id) + " · " : ""}${esc(ses.title)}` : nx ? "Te falta la evaluación del módulo" : "";
-    return `<a class="card link home-go" href="${resumeLink(course, st)}">
-      <span class="home-go-txt"><span class="eyebrow">${st.readSessions ? "Continuar" : "Empezar"} · ${esc(course.title)}</span>
-        ${now ? `<strong>${now}</strong>` : ""}
-        <span class="mini-bar"><i style="width:${pct}%"></i></span>
-        <span class="xs muted">${st.readSessions} de ${st.totalSessions} unidades</span></span>
-      <span class="home-go-btn" aria-hidden="true">${icon("arrowR")}</span></a>`;
-  })() : "";
   // Lo destacado: las diapositivas de Gestión → Portada (y la intención del Papa). No avanzan solas:
-  // se pasan deslizando el dedo o con las flechas. El curso ya está en «Continuar».
+  // se pasan deslizando el dedo o con las flechas.
   const carousel = () => {
     const slides = portada.current().filter((x) => !x.course);
     if (papa.enCarrusel()) slides.splice(Math.min(1, slides.length), 0, { papa: true, label: "Con el Papa" });
@@ -451,13 +395,12 @@ function viewHome() {
     if (list.length && slot) { slot.innerHTML = list.map((e) => cuenta.html(e, { href: `#/agenda/${e.when}` })).join(""); cuenta.start(); }
   });
   // Hoy: el saludo con el Evangelio, Continuar, lo destacado y las próximas fechas.
-  // El resto vive en las pestañas de abajo (Formación, Orar, Comunidad).
+  // El resto vive en las pestañas de abajo (Recursos, Orar, Comunidad).
   return `
   ${inicio.greetHTML()}
   <div id="fiestaSlot"></div>
   ${solicitud.homeCard()}
   <div id="desafioHoy"></div>
-  ${go}
   <div id="temporadaSlot"></div>
   <div id="descubreSlot"></div>
   ${carousel()}
@@ -468,7 +411,7 @@ function viewHome() {
   ${cloud.enabled && !cloud.state().ready ? `<a class="card link camino-banner" href="presentaciones/se-puente.html" target="_blank" rel="noopener" style="margin-top:16px">
     <span class="tile-ico tile-brand" style="margin:0">${icon("sparkle")}</span>
     <span style="flex:1"><span class="eyebrow">¿Quieres ser dirigente?</span><strong>Sé puente</strong>
-    <span class="muted small">Una presentación corta sobre qué es ser dirigente en Ágape y cómo es el curso.</span></span>${icon("right")}</a>` : ""}
+    <span class="muted small">Una presentación corta sobre qué es ser dirigente en Ágape.</span></span>${icon("right")}</a>` : ""}
   <div id="installSlot"></div>
   `;
 }
@@ -540,12 +483,6 @@ function tile(href, ic, title, text) {
   </a>`;
 }
 
-// ---------------------------------------------------------------------------
-// CURSO (módulos y unidades)
-// ---------------------------------------------------------------------------
-let expanded = {}; // courseId:phaseIdx -> bool
-let pendingQuiz = null;
-
 // Convierte texto con párrafos (línea en blanco) y listas ("- ") en HTML seguro.
 export function prose(text) {
   return String(text || "").split(/\n\s*\n/).map((block) => {
@@ -556,495 +493,6 @@ export function prose(text) {
     return `<p>${rich(lines.join(" "))}</p>`;
   }).join("");
 }
-const unitText = (u) => [u.title, u.objective, u.intro, typeof u.bible === "string" ? u.bible : u.bible?.ref, u.dynamic,
-  ...(u.sections || []).map((s) => s.title + " " + s.body)].join(" ");
-
-function ring(pct) {
-  const r = 40, c = 2 * Math.PI * r;
-  return `<div class="ring"><svg viewBox="0 0 92 92">
-    <circle cx="46" cy="46" r="${r}" fill="none" stroke="var(--line)" stroke-width="8"/>
-    <circle cx="46" cy="46" r="${r}" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round"
-      stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - pct / 100)}"/></svg>
-    <span class="val">${pct}%</span></div>`;
-}
-
-function viewItinerary() {
-  const c = S.content();
-  const course = S.activeCourse();
-  const st = S.courseState(course);
-  if (pendingQuiz != null) { const q = pendingQuiz; pendingQuiz = null; onAfterRender(() => openQuiz(q)); }
-  const unitPct = st.totalSessions ? Math.round((st.readSessions / st.totalSessions) * 100) : 0;
-
-  return `
-  <header class="page-head">
-    <span class="eyebrow">${course.abierto ? "Para todos" : "Curso de formación"}</span>
-    <h1>${esc(course.title)}</h1>
-    <p>${esc(S.courseDesc(course))}</p>
-  </header>
-
-  ${c.courses.length > 1 ? `<div class="course-switch" style="margin:14px 0 4px" aria-label="Elegir curso">
-    ${c.courses.map((x) => `<button aria-pressed="${x.id === course.id}" data-action="course" data-id="${esc(x.id)}">${esc(x.title)}${x.hidden ? " · oculto" : ""}</button>`).join("")}
-  </div>` : ""}
-
-  <div class="card progress-card" style="margin-top:16px">
-    ${ring(unitPct)}
-    <div>
-      <strong>${st.complete ? "¡Curso completado!" : st.readSessions ? "Vas avanzando a tu ritmo" : "Tu camino comienza aquí"}</strong>
-      <p class="muted small" style="margin-top:2px">${st.readSessions} de ${st.totalSessions} unidades completadas · ${st.donePhases} de ${course.phases.length} módulos ${course.abierto ? "completados" : "aprobados"}</p>
-      <div class="row-wrap" style="margin-top:12px">
-        ${st.complete && !course.abierto ? `<a class="btn btn-sm btn-ok" href="#/constancia">${icon("award")} Mi constancia</a>` : ""}
-        ${!cloud.enabled || cloud.state().ready ? `<a class="btn btn-sm btn-soft" href="#/cuaderno">${icon("book")} Mi cuaderno</a>` : ""}
-        ${course.abierto ? "" : `<button class="btn btn-sm btn-ghost" data-action="shareProgress">${icon("chat")} Enviar avance</button>`}
-        <button class="btn btn-sm btn-ghost" data-action="resetProgress">Reiniciar</button>
-      </div>
-    </div>
-  </div>
-
-  <label class="search" style="display:block;margin:18px 0 22px">
-    ${icon("search")}<span class="sr-only">Buscar unidad</span>
-    <input id="searchInput" type="search" placeholder="Buscar tema: escucha, Zaqueo, juego, descanso, prevención…" autocomplete="off">
-  </label>
-
-  <div class="path" id="path">
-    ${course.phases.map((ph, i) => phaseBlock(course, ph, i, st)).join("")}
-  </div>`;
-}
-
-function phaseBlock(course, ph, i, st) {
-  const s = st.phases[i];
-  const key = course.id + ":" + i;
-  const isCurrent = st.next && st.next.phase === i;
-  const exp = s.open && (expanded[key] ?? isCurrent);
-  const cls = s.done ? "is-done" : s.open ? "is-open" : "is-locked";
-  const qn = ph.quiz?.questions?.length || 0;
-  const ready = s.read === s.total;
-  return `
-  <section class="phase ${cls}" data-phase="${i}">
-    <div class="phase-node">${s.done ? icon("check") : s.open ? esc(ph.phaseNum) : icon("lock")}</div>
-    <div class="card phase-card" data-expanded="${!!exp}">
-      <button class="phase-head" ${s.open ? `data-action="togglePhase" data-key="${esc(key)}"` : "disabled"} aria-expanded="${!!exp}">
-        <div style="flex:1;min-width:0">
-          <div class="row-wrap" style="gap:6px;margin-bottom:6px">
-            <span class="chip ${s.done ? "ok" : s.open ? "accent" : ""}">Módulo ${esc(ph.phaseNum)} · ${s.done ? (qn ? "Aprobado" : "Completado") : s.open ? "En curso" : "Bloqueado"}</span>
-            ${s.open ? `<span class="chip">${s.read}/${s.total} unidades</span>` : ""}
-            ${s.score ? `<span class="chip">${s.score.right}/${s.score.total} en evaluación</span>` : ""}
-          </div>
-          <h3>${esc(ph.title)}</h3>
-          <p class="muted small" style="margin-top:4px">${esc(ph.desc)}</p>
-          ${s.open ? `<div class="mini-bar"><i style="width:${s.total ? (s.read / s.total) * 100 : 0}%"></i></div>` : ""}
-          ${!s.open ? `<p class="xs muted" style="margin-top:8px">Aprueba la evaluación del módulo anterior para desbloquearlo.</p>` : ""}
-        </div>
-        ${s.open ? `<span class="caret">${icon("down")}</span>` : ""}
-      </button>
-      ${s.open ? `<div class="phase-body" ${exp ? "" : "hidden"}>
-        ${ph.intro ? `<p class="muted small phase-intro">${rich(ph.intro)}</p>` : ""}
-        ${ph.sessions.map((se) => {
-          const read = st.p.read[S.sessionKey(i, se)], pos = !read && S.getPos(course.id, S.sessionKey(i, se));
-          return `<a class="session-row ${read ? "read" : ""}" href="#/vivir/${i}/${encodeURIComponent(se.id)}" data-search="${esc(plain(unitText(se)).toLowerCase())}">
-            <span class="session-num">${read ? icon("check") : esc(se.id)}</span>
-            <span style="min-width:0;flex:1"><h4>${esc(se.title)}</h4><p>${esc(plain(se.objective))}</p>${pos && pos.s > 0 ? `<span class="resume-chip">▶ Vas en la lámina ${pos.s + 1}${pos.n ? ` de ${pos.n}` : ""}</span>` : ""}</span>
-            <span class="xs muted nowrap">${esc(se.time || "")}</span>
-            <span class="arrow">${icon("right")}</span></a>`;
-        }).join("")}
-        <div class="phase-foot">
-          <span class="xs muted">${ready ? "Completaste todas las unidades del módulo." : qn ? `Completa las ${s.total} unidades para habilitar la evaluación.` : `Completa las ${s.total} unidades del módulo.`}</span>
-          ${qn ? `<button class="btn btn-sm ${s.done ? "btn-ghost" : ready ? "btn-primary" : "btn-ghost"}" data-action="quiz" data-phase="${i}" ${ready || s.done ? "" : "disabled"}>
-            ${s.done ? "Repasar evaluación" : `${ready ? "" : icon("lock")} Evaluación · ${qn} pregunta${qn > 1 ? "s" : ""}`}</button>` : ""}
-        </div>
-      </div>` : ""}
-    </div>
-  </section>`;
-}
-
-actions.togglePhase = (el) => {
-  const card = el.closest(".phase-card");
-  const open = card.dataset.expanded !== "true";
-  card.dataset.expanded = open;
-  el.setAttribute("aria-expanded", open);
-  card.querySelector(".phase-body").hidden = !open;
-  expanded[el.dataset.key] = open;
-};
-actions.course = (el) => { S.setActiveCourse(el.dataset.id); render(); };
-actions.quiz = (el) => openQuiz(+el.dataset.phase);
-actions.goQuiz = (el) => { pendingQuiz = +el.dataset.phase; location.hash = "#/itinerario"; };
-actions.resetProgress = () => {
-  const c = S.activeCourse();
-  if (confirm(`¿Reiniciar tu progreso en "${c.title}"? Se borrarán tus unidades completadas y módulos aprobados. Tu cuaderno se conserva.`)) {
-    S.resetProgress(c.id); expanded = {}; render(); toast("Progreso reiniciado");
-  }
-};
-actions.shareProgress = () => {
-  const c = S.activeCourse(), st = S.courseState(c), p = S.getProfile();
-  const msg = `¡Paz y bien! Soy ${p.name}${p.parish ? ` (${p.parish})` : ""}. Mi avance en el curso "${c.title}" de Ágape: ${st.readSessions} de ${st.totalSessions} unidades completadas y ${st.donePhases} de ${c.phases.length} módulos aprobados.`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
-};
-
-document.addEventListener("input", (e) => {
-  if (e.target.id !== "searchInput") return;
-  const q = e.target.value.trim().toLowerCase();
-  $$(".phase").forEach((ph) => {
-    const body = ph.querySelector(".phase-body");
-    if (!body) { ph.hidden = !!q; return; }
-    let any = 0;
-    body.querySelectorAll(".session-row").forEach((r) => {
-      const hit = !q || r.dataset.search.includes(q);
-      r.hidden = !hit; if (hit) any++;
-    });
-    const intro = body.querySelector(".phase-intro");
-    if (intro) intro.hidden = !!q;
-    if (q) { body.hidden = !any; ph.hidden = !any; ph.querySelector(".phase-card").dataset.expanded = !!any; }
-    else { ph.hidden = false; const card = ph.querySelector(".phase-card"); body.hidden = card.dataset.expanded !== "true"; }
-  });
-});
-
-// ---------------------------------------------------------------------------
-// UNIDAD
-// ---------------------------------------------------------------------------
-function viewEncounter(phaseIdx, sid) {
-  const course = S.activeCourse();
-  const i = +phaseIdx;
-  const ph = course.phases[i];
-  const se = ph && ph.sessions.find((s) => s.id === sid);
-  if (!se) return viewNotFound();
-  const st = S.courseState(course);
-  if (!st.phases[i].open) {
-    return `<div class="card" style="text-align:center;padding:40px">
-      <div class="tile-ico" style="margin:0 auto 12px">${icon("lock")}</div>
-      <h2 class="display">Este módulo aún está bloqueado</h2>
-      <p class="muted" style="margin-top:6px">Aprueba la evaluación del módulo anterior para abrir sus unidades.</p>
-      <a class="btn btn-primary" style="margin-top:18px" href="#/itinerario">Volver al curso</a></div>`;
-  }
-  const key = S.sessionKey(i, se);
-  const read = !!st.p.read[key];
-  const flat = [];
-  course.phases.forEach((p, pi) => { if (st.phases[pi].open) p.sessions.forEach((s) => flat.push([pi, s])); });
-  const pos = flat.findIndex(([pi, s]) => pi === i && s.id === se.id);
-  const prev = flat[pos - 1], next = flat[pos + 1];
-  const lastInPhase = ph.sessions[ph.sessions.length - 1].id === se.id;
-  const idxInPhase = ph.sessions.findIndex((s) => s.id === se.id) + 1;
-  const notes = S.getNotes(course.id, key);
-  const sections = se.sections || [];
-  const bible = typeof se.bible === "string" ? { ref: "", comment: se.bible } : (se.bible || {});
-
-  // Índice lateral
-  const toc = [
-    ["u-open", "Oración inicial"],
-    ...sections.map((s, n) => [`u-sec-${n}`, s.title]),
-    bible.comment ? ["u-bible", "Palabra de Dios"] : null,
-    se.church?.length ? ["u-church", "La Iglesia nos dice"] : null,
-    se.questions?.length ? ["u-reflect", "Para tu reflexión"] : null,
-    se.activity ? ["u-activity", "Llévalo a tu grupo"] : null,
-    se.prayer ? ["u-prayer", "Oración final"] : null,
-    se.resources?.length ? ["u-resources", "Para profundizar"] : null,
-  ].filter(Boolean);
-
-  const completeBtn = (block) => `<button class="btn ${block ? "btn-block" : ""} ${read ? "btn-ok" : "btn-primary"}" data-action="toggleRead" data-key="${esc(key)}">
-    ${read ? `${icon("check")} Unidad completada` : "Marcar unidad como completada"}</button>`;
-
-  return `
-  <nav class="crumbs no-print"><a href="#/itinerario">Formación</a>${icon("right")}<span>Módulo ${esc(ph.phaseNum)}</span>${icon("right")}<span>Unidad ${esc(se.id)}</span></nav>
-  <header class="enc-head">
-    <span class="eyebrow">Módulo ${esc(ph.phaseNum)} · ${esc(ph.title)}</span>
-    <h1>${esc(se.title)}</h1>
-    <div class="row-wrap">
-      ${se.time ? `<span class="chip accent">${icon("sparkle")} ${esc(se.time)} de estudio</span>` : ""}
-      <span class="chip">Unidad ${idxInPhase} de ${ph.sessions.length}</span>
-      ${read ? `<span class="chip ok">${icon("check")} Completada</span>` : ""}
-    </div>
-  </header>
-
-  <a class="uv-banner no-print" href="#/vivir/${i}/${encodeURIComponent(se.id)}"><span class="uv-banner-ico">▶</span>
-    <span><b>Vivir la unidad en modo interactivo</b><small>Láminas, tarjetas, desafíos y puntos. Este texto queda como complemento para leer con calma.</small></span>${icon("arrowR")}</a>
-  <div class="enc-layout" style="margin-top:24px">
-    <article class="unit">
-      ${openPrayerHTML()}
-      <div class="note accent objective"><b>Objetivo de aprendizaje.</b> ${rich(se.objective)}</div>
-      ${se.intro ? `<p class="lead-text">${rich(se.intro)}</p>` : ""}
-
-      ${sections.map((s, n) => `<section class="unit-sec" id="u-sec-${n}"><h2>${esc(s.title)}</h2>${prose(s.body)}</section>`).join("")}
-      ${se.dynamic ? `<section class="unit-sec"><h2>Clave para comprender a los jóvenes</h2>${prose(se.dynamic)}</section>` : ""}
-
-      ${bible.comment ? `<section class="unit-sec" id="u-bible"><span class="eyebrow">Palabra de Dios</span>
-        <div class="scripture">${bible.ref ? `<div class="ref">${esc(bible.ref)}</div>` : ""}${rich(bible.comment)}</div></section>` : ""}
-
-      ${se.church?.length ? `<section class="unit-sec" id="u-church"><span class="eyebrow">La Iglesia nos dice</span>
-        <div class="stack" style="--gap:10px;margin-top:12px">${se.church.map((c) => `
-          <div class="church-card"><div class="src">${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.source)} ${icon("arrowR")}</a>` : esc(c.source)}</div>
-          <p>${rich(c.text)}</p></div>`).join("")}</div></section>` : ""}
-
-      ${se.questions?.length ? `<section class="unit-sec" id="u-reflect"><span class="eyebrow">Para tu reflexión · Mi cuaderno</span>
-        <p class="xs muted" style="margin-top:6px">Tus respuestas se guardan solas en este dispositivo. Puedes revisarlas y descargarlas en «Mi cuaderno».</p>
-        <div class="stack" style="--gap:14px;margin-top:12px">${se.questions.map((q, n) => `
-          <label class="field reflect"><span class="q"><b>${n + 1}.</b> ${rich(q)}</span>
-            <textarea class="textarea" rows="3" data-note="${esc(key)}" data-qi="${n}" placeholder="Escribe aquí tu reflexión…">${esc(notes[n] || "")}</textarea></label>`).join("")}
-        </div><span class="xs muted saved" id="savedFlag" hidden>${icon("check")} Guardado</span></section>` : ""}
-
-      ${se.activity ? `<section class="unit-sec" id="u-activity"><div class="activity-card"><span class="eyebrow">Llévalo a tu grupo</span><p>${rich(se.activity)}</p></div></section>` : ""}
-
-      ${se.prayer ? `<section class="unit-sec" id="u-prayer"><span class="eyebrow">Oración final · Acción de gracias</span>
-        <p class="small muted unit-pray-lead">Da gracias por lo que aprendiste y ofrécelo a Dios, junto con tu servicio a la Iglesia.</p><div class="prayer">${rich(se.prayer)}</div></section>` : ""}
-
-      ${se.resources?.length ? `<section class="unit-sec" id="u-resources"><span class="eyebrow">Para profundizar</span>
-        <ul class="res-list">${se.resources.map((r) => `<li><a href="${esc(r.url)}" target="_blank" rel="noopener">
-          <span class="res-ico">${icon("book")}</span><span><b>${esc(r.title)}</b>${r.note ? `<small>${esc(r.note)}</small>` : ""}</span>${icon("arrowR")}</a></li>`).join("")}</ul></section>` : ""}
-
-      <div class="unit-end no-print">${completeBtn(true)}
-        ${lastInPhase && ph.quiz?.questions?.length && !st.phases[i].done ? `<p class="xs muted" style="text-align:center;margin-top:10px">Al completar todas las unidades del módulo se habilita su evaluación.</p>` : ""}
-      </div>
-    </article>
-
-    <aside class="enc-aside no-print">
-      <div class="card stack" style="--gap:12px">
-        ${completeBtn(true)}
-        <div class="mini-bar"><i style="width:${(st.phases[i].read / st.phases[i].total) * 100}%"></i></div>
-        <span class="xs muted">${st.phases[i].read} de ${st.phases[i].total} unidades completadas en este módulo</span>
-        ${toc.length ? `<nav class="toc">${toc.map(([id, t]) => `<a href="#" data-action="scrollTo" data-id="${id}">${esc(t)}</a>`).join("")}</nav>` : ""}
-        <div class="row" style="gap:8px">
-          <button class="btn btn-sm btn-ghost" style="flex:1" data-action="print">${icon("print")} Imprimir</button>
-          <button class="btn btn-sm btn-ghost" style="flex:1" data-action="shareEncounter" data-phase="${i}" data-id="${esc(se.id)}">${icon("chat")} Compartir</button>
-        </div>
-        ${st.phases[i].read === st.phases[i].total && ph.quiz?.questions?.length && !st.phases[i].done ? `<div class="note accent small">Completaste las unidades del módulo. <a href="#" data-action="quiz" data-phase="${i}"><b>Rendir la evaluación →</b></a></div>` : ""}
-      </div>
-    </aside>
-  </div>
-
-  <nav class="enc-nav no-print">
-    ${prev ? `<a href="#/unidad/${prev[0]}/${encodeURIComponent(prev[1].id)}"><div class="card"><span class="xs muted">Anterior</span><br><b>${esc(prev[1].title)}</b></div></a>` : "<span></span>"}
-    ${lastInPhase && ph.quiz?.questions?.length && !st.phases[i].done
-      ? `<a href="#" data-action="quiz" data-phase="${i}"><div class="card next" style="background:var(--accent-soft);border-color:transparent"><span class="xs muted">Siguiente paso</span><br><b>Evaluación del módulo ${esc(ph.phaseNum)}</b></div></a>`
-      : next ? `<a href="#/unidad/${next[0]}/${encodeURIComponent(next[1].id)}"><div class="card next"><span class="xs muted">Siguiente</span><br><b>${esc(next[1].title)}</b></div></a>` : "<span></span>"}
-  </nav>`;
-}
-actions.toggleRead = (el) => {
-  const course = S.activeCourse();
-  const on = S.toggleRead(course.id, el.dataset.key);
-  $$(`[data-action="toggleRead"][data-key="${CSS.escape(el.dataset.key)}"]`).forEach((b) => {
-    b.className = `btn btn-block ${on ? "btn-ok" : "btn-primary"}`;
-    b.innerHTML = on ? `${icon("check")} Unidad completada` : "Marcar unidad como completada";
-  });
-  const [pi] = el.dataset.key.split(":");
-  const s = S.courseState(course).phases[+pi];
-  if (on) toast(s.read === s.total ? "¡Módulo listo! Ya puedes rendir su evaluación" : "Unidad completada", "ok", 3500);
-  setTimeout(render, 900);
-};
-actions.scrollTo = (el) => {
-  document.getElementById(el.dataset.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-};
-actions.print = () => window.print();
-actions.shareEncounter = (el) => {
-  const c = S.activeCourse();
-  const se = c.phases[+el.dataset.phase].sessions.find((s) => s.id === el.dataset.id);
-  const bible = typeof se.bible === "string" ? se.bible : se.bible?.ref || "";
-  const text = `*${plain(se.title)}* (Unidad ${se.id} · ${c.title})\n\n🎯 ${plain(se.objective)}\n\n📖 ${plain(bible)}\n\n🙏 ${plain(se.prayer)}`;
-  if (navigator.share) navigator.share({ title: plain(se.title), text }).catch(() => {});
-  else window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener");
-};
-
-// Guardado automático del cuaderno
-let noteTimer = null;
-document.addEventListener("input", (e) => {
-  const t = e.target;
-  if (!t.dataset || t.dataset.note == null) return;
-  clearTimeout(noteTimer);
-  noteTimer = setTimeout(() => {
-    S.setNote(S.activeCourse().id, t.dataset.note, +t.dataset.qi, t.value);
-    const f = $("#savedFlag"); if (f) { f.hidden = false; clearTimeout(f._t); f._t = setTimeout(() => (f.hidden = true), 1500); }
-  }, 400);
-});
-
-// ---------------------------------------------------------------------------
-// MI CUADERNO
-// ---------------------------------------------------------------------------
-function viewNotebook() {
-  const course = S.activeCourse();
-  const p = S.getProfile();
-  let count = 0;
-  const body = course.phases.map((ph, i) => {
-    const units = ph.sessions.map((se) => {
-      const notes = S.getNotes(course.id, S.sessionKey(i, se));
-      const answered = (se.questions || []).map((q, n) => [q, notes[n]]).filter(([, a]) => a && a.trim());
-      if (!answered.length) return "";
-      count += answered.length;
-      return `<article class="nb-unit"><h3><a href="#/unidad/${i}/${encodeURIComponent(se.id)}">${esc(se.id)} · ${esc(se.title)}</a></h3>
-        ${answered.map(([q, a]) => `<p class="nb-q">${rich(q)}</p><p class="nb-a prose-pre">${esc(a)}</p>`).join("")}</article>`;
-    }).join("");
-    return units ? `<section class="nb-mod"><span class="eyebrow">Módulo ${esc(ph.phaseNum)}</span><h2 class="display">${esc(ph.title)}</h2>${units}</section>` : "";
-  }).join("");
-  return `
-  <nav class="crumbs no-print"><a href="#/itinerario">Formación</a>${icon("right")}<span>Mi cuaderno</span></nav>
-  <header class="page-head"><span class="eyebrow">${esc(course.title)}</span><h1>Mi cuaderno</h1>
-    <p>Tus reflexiones personales a lo largo del curso${p.name ? `, ${esc(p.name.split(" ")[0])}` : ""}. Se guardan solo en este dispositivo.</p></header>
-  <div class="row-wrap no-print" style="margin:8px 0 20px">
-    <button class="btn btn-sm btn-primary" data-action="print" ${count ? "" : "disabled"}>${icon("print")} Imprimir o guardar PDF</button>
-    <button class="btn btn-sm btn-ghost" data-action="downloadNotes" ${count ? "" : "disabled"}>${icon("dl")} Descargar como texto</button>
-  </div>
-  ${count ? `<div class="card notebook">${body}</div>` : `<div class="card" style="text-align:center;padding:36px">
-    <div class="tile-ico" style="margin:0 auto 12px">${icon("edit")}</div>
-    <h2 class="display">Tu cuaderno está vacío</h2>
-    <p class="muted" style="margin-top:6px">En cada unidad encontrarás preguntas para tu reflexión. Lo que escribas aparecerá aquí.</p>
-    <a class="btn btn-primary" style="margin-top:16px" href="#/itinerario">Ir al curso</a></div>`}`;
-}
-actions.downloadNotes = () => {
-  const course = S.activeCourse(), p = S.getProfile();
-  let out = `MI CUADERNO · ${course.title}\n${p.name}${p.parish ? " · " + p.parish : ""}\n${"=".repeat(40)}\n`;
-  course.phases.forEach((ph, i) => {
-    let block = "";
-    ph.sessions.forEach((se) => {
-      const notes = S.getNotes(course.id, S.sessionKey(i, se));
-      const qa = (se.questions || []).map((q, n) => [q, notes[n]]).filter(([, a]) => a && a.trim());
-      if (qa.length) block += `\n${se.id} ${plain(se.title)}\n` + qa.map(([q, a]) => `\n· ${plain(q)}\n${a}\n`).join("");
-    });
-    if (block) out += `\n\nMÓDULO ${ph.phaseNum}: ${plain(ph.title)}\n${"-".repeat(40)}${block}`;
-  });
-  const blob = new Blob([out], { type: "text/plain;charset=utf-8" });
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "mi-cuaderno-agape.txt";
-  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
-};
-
-// ---------------------------------------------------------------------------
-// EVALUACIÓN DE FASE
-// ---------------------------------------------------------------------------
-let Q = null;
-function openQuiz(phaseIdx) {
-  const course = S.activeCourse();
-  const ph = course.phases[phaseIdx];
-  if (!ph?.quiz?.questions?.length) return;
-  const ps = S.courseState(course).phases[phaseIdx];
-  if (!ps.open) return toast("Este módulo aún está bloqueado", "");
-  if (!ps.done && ps.read < ps.total) return toast(`Completa las ${ps.total} unidades del módulo para rendir la evaluación`, "", 3500);
-  Q = { course, phaseIdx, quiz: ph.quiz, step: 0, selected: null, answered: false, results: [] };
-  const d = $("#quizDialog");
-  d.querySelector("[data-q-badge]").textContent = ph.quiz.badge || `Evaluación módulo ${ph.phaseNum}`;
-  d.querySelector("[data-q-title]").textContent = ph.quiz.title || "Discernimiento pastoral";
-  renderQuiz();
-  d.showModal();
-}
-function renderQuiz() {
-  const d = $("#quizDialog");
-  const body = d.querySelector(".sheet-body");
-  const foot = d.querySelector(".sheet-foot");
-  const qs = Q.quiz.questions;
-  const bar = `<div class="quiz-progress">${qs.map((_, i) => {
-    const r = Q.results[i]; return `<i class="${r === true ? "right" : r === false ? "wrong" : i === Q.step ? "done" : ""}"></i>`;
-  }).join("")}</div>`;
-
-  if (Q.step >= qs.length) {
-    const right = Q.results.filter(Boolean).length, total = qs.length;
-    const need = Math.ceil(total * CONFIG.passRate);
-    const passed = right >= need;
-    const prog = S.recordQuiz(Q.course.id, Q.phaseIdx, right, total, passed);
-    const isLast = Q.phaseIdx === Q.course.phases.length - 1;
-    let finished = false;
-    if (passed && isLast) {
-      const before = prog.completedDate;
-      const done = S.completeCourse(Q.course.id);
-      finished = true;
-      if (!before) sendCompletion(Q.course, done);
-      cloud.registerCertificate(Q.course, done);
-    }
-    body.innerHTML = `${bar}
-      <div style="text-align:center;padding:10px 0 4px">
-        <div class="score-big" style="color:${passed ? "var(--ok)" : "var(--warn)"}">${right}/${total}</div>
-        <h3 class="display" style="font-size:1.5rem;margin-top:10px">${passed ? (finished ? "¡Completaste el curso!" : "¡Módulo aprobado!") : "Casi, vuelve a intentarlo"}</h3>
-        <p class="muted" style="margin-top:8px;max-width:44ch;margin-inline:auto">${passed
-          ? (finished ? "Has recorrido todo el camino con corazón pastoral. Tu constancia de formación y envío ya está lista." : "Se abrió el siguiente módulo del curso. ¡Sigue adelante!")
-          : `Necesitas al menos ${need} respuesta${need > 1 ? "s" : ""} adecuada${need > 1 ? "s" : ""}. Repasa las unidades del módulo y vuelve cuando quieras; lo importante es el discernimiento, no la nota.`}</p>
-      </div>`;
-    foot.innerHTML = passed
-      ? (finished ? `<span class="spacer"></span><button class="btn btn-primary" data-action="quizToCert">${icon("award")} Ver mi constancia</button>`
-                  : `<span class="spacer"></span><button class="btn btn-primary" data-action="quizClose">Continuar</button>`)
-      : `<button class="btn btn-ghost" data-action="quizClose">Repasar unidades</button><span class="spacer"></span><button class="btn btn-primary" data-action="quizRetry">Intentar de nuevo</button>`;
-    return;
-  }
-
-  const q = qs[Q.step];
-  body.innerHTML = `${bar}
-    <p class="quiz-q">${rich(q.q.replace(/^\s*\d+\.\s*/, ""))}</p>
-    <div class="opts" role="radiogroup">
-      ${q.options.map((o, i) => {
-        let cls = "";
-        if (Q.answered) { if (i === q.correct) cls = "is-right"; else if (i === Q.selected) cls = "is-wrong"; }
-        return `<button class="opt ${cls}" role="radio" aria-checked="${i === Q.selected}" data-action="quizPick" data-i="${i}" ${Q.answered ? "disabled" : ""}>
-          <span class="letter">${"ABCDEFG"[i]}</span><span>${rich(o)}</span></button>`;
-      }).join("")}
-    </div>
-    ${Q.answered ? `<div class="note ${Q.selected === q.correct ? "ok" : "warn"} feedback"><b>${Q.selected === q.correct ? "Respuesta adecuada." : "Orientación pastoral."}</b> ${rich(q.feedback)}</div>` : ""}`;
-  foot.innerHTML = `<span class="xs muted">Pregunta ${Q.step + 1} de ${qs.length}</span><span class="spacer"></span>
-    ${Q.answered
-      ? `<button class="btn btn-primary" data-action="quizNext">${Q.step + 1 < qs.length ? "Siguiente" : "Ver resultado"} ${icon("arrowR")}</button>`
-      : `<button class="btn btn-primary" data-action="quizAnswer" ${Q.selected == null ? "disabled" : ""}>Responder</button>`}`;
-}
-actions.quizPick = (el) => { if (Q.answered) return; Q.selected = +el.dataset.i; renderQuiz(); };
-actions.quizAnswer = () => {
-  if (Q.selected == null) return;
-  Q.answered = true; Q.results[Q.step] = Q.selected === Q.quiz.questions[Q.step].correct; renderQuiz();
-};
-actions.quizNext = () => { Q.step++; Q.selected = null; Q.answered = false; renderQuiz(); $("#quizDialog .sheet-body").scrollTop = 0; };
-actions.quizRetry = () => { Q.step = 0; Q.selected = null; Q.answered = false; Q.results = []; renderQuiz(); };
-actions.quizClose = () => { $("#quizDialog").close(); };
-actions.quizToCert = () => { $("#quizDialog").close(); location.hash = "#/constancia"; };
-$("#quizDialog")?.addEventListener("close", () => { if (Q) { Q = null; if (!location.hash.startsWith("#/constancia")) render(); } });
-
-function sendCompletion(course, prog) {
-  if (!CONFIG.sheetsUrl) return;
-  const p = S.getProfile();
-  fetch(CONFIG.sheetsUrl, {
-    method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain" },
-    body: JSON.stringify({ name: p.name, parish: p.parish, course: course.title, certCode: prog.certCode, result: "Completado" }),
-  }).catch(() => {});
-}
-
-// ---------------------------------------------------------------------------
-// CONSTANCIA
-// ---------------------------------------------------------------------------
-async function viewCertificate() {
-  const course = S.activeCourse();
-  if (course.abierto) { location.replace("#/itinerario"); return null; } // las guías abiertas no tienen constancia
-  const st = S.courseState(course);
-  if (!st.complete) {
-    return `<div class="card" style="text-align:center;padding:40px;max-width:560px;margin:4vh auto">
-      <div class="tile-ico" style="margin:0 auto 12px">${icon("award")}</div>
-      <h2 class="display">Tu constancia te espera</h2>
-      <p class="muted" style="margin-top:6px">Completa y aprueba los ${course.phases.length} módulos de "${esc(course.title)}" para recibirla. Llevas ${st.donePhases}.</p>
-      <a class="btn btn-primary" style="margin-top:18px" href="#/itinerario">Ir al curso</a></div>`;
-  }
-  const p = S.getProfile();
-  const date = new Date(st.p.completedDate || Date.now()).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" });
-  const sessions = st.totalSessions;
-  const { default: qrcode } = await import("./qr.js");
-  const qr = qrcode(0, "M");
-  if (cloud.enabled) { qr.addData(cloud.verifyUrl(st.p.certCode)); cloud.registerCertificate(course, st.p); }
-  else qr.addData(`PASTORAL JUVENIL ÁGAPE\nConstancia de Formación y Envío\nCurso: ${course.title}\nDirigente: ${p.name}\nComunidad: ${p.parish}\nCódigo: ${st.p.certCode}\nFecha: ${date}`);
-  qr.make();
-  const svg = qr.createSvgTag({ cellSize: 3, margin: 0, scalable: true });
-
-  return `
-  <nav class="crumbs no-print" style="margin-bottom:14px"><a href="#/itinerario">Formación</a>${icon("right")}<span>Constancia</span></nav>
-  <div class="certificate">
-    <img class="seal-logo" src="icons/logo-320.webp" width="96" height="96" alt="Logo Ágape Joven PJ">
-    <div class="kicker">Pastoral Juvenil Ágape</div>
-    <h2>Constancia de Formación y Envío</h2>
-    <div class="small" style="color:#6f6a7e">Curso de formación de dirigentes «${esc(course.title)}»</div>
-    <div class="to">Otorgada a</div>
-    <div class="who">${esc(p.name)}</div>
-    <div class="small" style="color:#6f6a7e;font-weight:600">${esc(p.parish)}</div>
-    <p class="body">Por haber completado los <b>${course.phases.length} módulos (${sessions} unidades)</b> del curso de formación y sus evaluaciones de discernimiento pastoral, demostrando comprensión del servicio, escucha activa y compromiso evangélico.</p>
-    <div class="meta">
-      <div class="qr">${svg}</div>
-      <div class="code">Código<br><b>${esc(st.p.certCode)}</b><br><br>Fecha<br><b>${esc(date)}</b></div>
-    </div>
-    <div class="signs"><div><b>Equipo de Asesores</b><br>Pastoral Parroquial</div><div><b>Coordinación General</b><br>Pastoral Ágape</div></div>
-  </div>
-  <div class="row-wrap no-print" style="justify-content:center;margin-top:20px">
-    <button class="btn btn-primary" data-action="print">${icon("print")} Imprimir o guardar PDF</button>
-    <button class="btn btn-soft" data-action="shareCompletion">${icon("chat")} Avisar por WhatsApp</button>
-  </div>`;
-}
-actions.shareCompletion = () => {
-  const c = S.activeCourse(), st = S.courseState(c), p = S.getProfile();
-  const msg = `¡Paz y bien! Comunico que he culminado el curso de formación "${c.title}".\n\n👤 Dirigente: ${p.name}\n⛪ Comunidad: ${p.parish}\n🔑 Código: ${st.p.certCode}`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
-};
 
 // ---------------------------------------------------------------------------
 // MATERIALES Y ORACIÓN
@@ -1074,7 +522,9 @@ function cardHTML(c, kind) {
   }
   return `<article class="card">${head}<p class="muted small rich prose-pre" style="margin-top:8px">${rich(c.text)}</p></article>`;
 }
-function viewMaterials() {
+function viewMaterials(abrir) {
+  // Desde Recursos se puede llegar con un fichero abierto (#/materiales?f=presentaciones)
+  if (abrir) { fiOpen.add(abrir); onAfterRender(() => document.getElementById("fi-" + abrir)?.scrollIntoView({ behavior: "smooth", block: "start" })); }
   const m = S.content().materials;
   const lib = buildLibrary();
   const row = (href, ic, title, sub, ext) => `<a class="fi-row" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>
@@ -1096,7 +546,7 @@ function viewMaterials() {
   const OPEN = ["difusion", "musica", "oracion"];
   const FILES = [
     ["presentaciones", "Presentaciones", "#ef591c", "Para proyectar a pantalla completa.", [
-      row("presentaciones/se-puente.html", "sparkle", "Sé puente", "Para invitar a futuros dirigentes al curso", true),
+      row("presentaciones/se-puente.html", "sparkle", "Sé puente", "Para invitar a futuros dirigentes", true),
       row("presentaciones/el-arte-de-encontrarnos.html", "grid", "El Arte de Encontrarnos", "Para el consejo pastoral, el párroco y las familias", true),
       row("presentaciones/mes-de-maria.html", "flame", "Mes de María", "Con María, puente hacia Jesús · 31 días", true),
       row("presentaciones/orar-con-la-palabra.html", "book", "Orar con la Palabra", "Leer, meditar, hablar con Dios y actuar: 4 pasos para orar con la Biblia", true),
@@ -1117,7 +567,6 @@ function viewMaterials() {
       row("#/dinamicas", "sparkle", "Banco de dinámicas", "Rompehielos, juegos, oración y reflexión, por para qué sirven"), ...guides.map(guide)]],
     ["imprimir", "Para imprimir", "#fde0d2", "Listos para llevar en papel.", [
       row("#/credenciales", "award", "Credenciales", "Tarjetas de solapa con foto, nombre y parroquia para los encuentros"),
-      row("#/imprimir/curso", "print", "La formación de dirigentes", "El curso completo o un módulo, como cuaderno de trabajo"),
       row("#/cancionero", "print", "Cancionero en PDF", "Desde el cancionero: Exportar → PDF"),
       ...prints.map(guide),
     ]],
@@ -1145,7 +594,7 @@ document.addEventListener("toggle", (e) => {
 actions.fiGo = (el) => document.getElementById("fi-" + el.dataset.k)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
 
 // ---------------------------------------------------------------------------
-// BIBLIOTECA DIGITAL: se arma sola con los recursos y documentos citados en los cursos
+// BIBLIOTECA DIGITAL: se arma sola con los recursos y documentos citados en los contenidos de formación
 // ---------------------------------------------------------------------------
 const LIB_GROUPS = [
   ["biblia", "Biblia y Catecismo", "Para leer y orar la Palabra, y consultar la fe de la Iglesia."],
@@ -1224,7 +673,7 @@ function libraryHTML(lib, num = 6) {
   <details id="fi-biblioteca" class="fichero fi-lib" style="--fi:#0b2566" ${fiOpen.has("biblioteca") ? "open" : ""} data-fi="biblioteca">
     <summary class="fi-sum"><span class="fi-tab">Fichero ${String(num).padStart(2, "0")}</span>
       <span class="fi-head"><h2>Biblioteca digital</h2><span class="fi-count">${lib.total}</span><span class="fi-chev" aria-hidden="true">${icon("down")}</span></span></summary>
-    <p class="fi-desc">Los documentos que citan los cursos, cada uno con el enlace a su fuente oficial.</p>
+    <p class="fi-desc">Documentos de la Iglesia y recursos para profundizar, cada uno con el enlace a su fuente oficial.</p>
     <label class="search" style="display:block;margin:12px 0 4px">
       ${icon("search")}<span class="sr-only">Buscar en la biblioteca</span>
       <input id="libSearch" type="search" placeholder="Buscar: Christus vivit, Catecismo, Biblia…" autocomplete="off">
@@ -1238,10 +687,6 @@ function libraryHTML(lib, num = 6) {
     <p class="xs muted lib-empty" id="libEmpty" hidden>Nada coincide con la búsqueda.</p>
   </details>`;
 }
-actions.libOpen = (el) => {
-  S.setActiveCourse(el.dataset.course);
-  location.hash = `#/unidad/${el.dataset.pi}/${encodeURIComponent(el.dataset.id)}`;
-};
 document.addEventListener("input", (e) => {
   if (e.target.id !== "libSearch") return;
   const q = e.target.value.trim().toLowerCase();
@@ -1265,15 +710,15 @@ function viewProfile() {
     ${isNew ? `<section class="hero" style="margin-bottom:18px;text-align:center">
       <img class="welcome-logo" src="icons/logo-320.webp" width="116" height="116" alt="Logo Ágape Joven PJ">
       <span class="eyebrow">Bienvenido a Ágape</span>
-      <h1>Tu camino de <em>formación</em></h1>
-      <p class="lead">Cuéntanos quién eres para acompañar tu avance en el curso y preparar tu constancia al final.</p>
+      <h1>Pasa, estás en <em>casa</em></h1>
+      <p class="lead">Cuéntanos quién eres.</p>
     </section>` : `<header class="page-head"><span class="eyebrow">Mi perfil</span><h1>${esc(p.name)}</h1></header>`}
     <form class="card stack" id="profileForm" style="--gap:14px">
       <div class="field"><label for="pfName">Nombre y apellido</label>
         <input class="input big" id="pfName" name="name" required autocomplete="name" value="${esc(p.name)}" placeholder="Ej: Camila Soto"></div>
       <div class="field"><label for="pfParish">Capilla o parroquia</label>
         <input class="input big" id="pfParish" name="parish" value="${esc(p.parish)}" placeholder="Ej: Parroquia San José"></div>
-      <p class="xs muted">Tus datos y tu avance se guardan en este dispositivo. Tu nombre aparecerá en la constancia.</p>
+      <p class="xs muted">Tus datos se guardan en este dispositivo.</p>
       <button class="btn btn-primary btn-block" type="submit">${isNew ? "Comenzar" : "Guardar cambios"}</button>
     </form>
     ${!isNew ? `${a11y.panelHTML()}<div id="installSlot" style="margin-top:14px"></div>
@@ -1302,13 +747,6 @@ function viewNotFound() {
 // ---------------------------------------------------------------------------
 // CUENTAS (cuando Firebase está configurado)
 // ---------------------------------------------------------------------------
-function viewEnRevision() {
-  return `<div class="card" style="max-width:520px;margin:6vh auto 0;text-align:center;padding:32px">
-    ${illus("apostoles", "")}
-    <h1 class="display" style="font-size:1.6rem;margin-top:10px">La formación está en revisión</h1>
-    <p class="muted" style="margin-top:8px">El equipo está preparando la nueva versión del curso. Tu avance queda guardado.</p>
-    <a class="btn btn-primary" style="margin-top:16px" href="#/formacion">Volver a Formación</a></div>`;
-}
 function viewSoloEquipo() {
   return `<div class="card" style="max-width:520px;margin:6vh auto 0;text-align:center;padding:32px">
     ${illus("camino", "")}
@@ -1316,7 +754,7 @@ function viewSoloEquipo() {
     <p class="muted" style="margin-top:8px">Tu espacio está en la comunidad: el muro, el chat, la agenda, los juegos y la capilla.</p>
     <a class="btn btn-primary" style="margin-top:16px" href="#/red">Ir a Comunidad</a></div>`;
 }
-function viewLogin(kind = "curso") {
+function viewLogin(kind = "cuenta") {
   const st = cloud.state();
   const R = kind === "recursos", MU = kind === "muro";
   const msg = {
@@ -1334,9 +772,9 @@ function viewLogin(kind = "curso") {
   return `<div class="welcome">
     <section class="hero" style="margin-bottom:18px;text-align:center">
       <img class="welcome-logo" src="icons/logo-320.webp" width="116" height="116" alt="Logo Ágape Joven PJ">
-      <span class="eyebrow">${MU ? "Muro y chat" : R ? "Materiales" : "Curso de formación de dirigentes"}</span>
-      <h1>${MU ? `Lo que conversa el <em>grupo</em>` : R ? `Recursos para <em>dirigentes</em>` : `Tu camino de <em>formación</em>`}</h1>
-      <p class="lead">${MU ? "El muro y el chat son del grupo: para cuidar a los jóvenes, solo los ven quienes tienen cuenta. Ingresa con tu cuenta de Google." : R ? "Las presentaciones, las guías y el banco de dinámicas son para quienes tienen cuenta. Ingresa con tu cuenta de Google para verlos." : "Ingresa con tu cuenta de Google para avanzar a tu ritmo, guardar tu cuaderno y recibir tu constancia. Tu avance te sigue en cualquier dispositivo."}</p>
+      <span class="eyebrow">${MU ? "Muro y chat" : R ? "Materiales" : "Tu cuenta"}</span>
+      <h1>${MU ? `Lo que conversa el <em>grupo</em>` : R ? `Recursos para <em>dirigentes</em>` : `Tu casa en <em>Ágape</em>`}</h1>
+      <p class="lead">${MU ? "El muro y el chat son del grupo: para cuidar a los jóvenes, solo los ven quienes tienen cuenta. Ingresa con tu cuenta de Google." : R ? "Las presentaciones, las guías y el banco de dinámicas son para quienes tienen cuenta. Ingresa con tu cuenta de Google para verlos." : "Ingresa con tu cuenta de Google para entrar a los espacios del grupo: el muro, el chat, las intenciones y tu perfil."}</p>
     </section>
     <div class="card" style="text-align:center;padding:28px">
       ${msg || `<button class="btn btn-primary btn-block google-btn" data-action="signIn">${googleIcon()} Continuar con Google</button>
@@ -1357,29 +795,19 @@ function viewAccount() {
   const st = cloud.state();
   if (!st.ready) return viewLogin();
   const a = st.account;
-  // Mi avance: cada curso que esta cuenta puede hacer, con su barra y su botón.
-  const courses = ((S.content() || {}).courses || []);
-  const avance = courses.map((c) => {
-    const cs = S.courseState(c), pct = cs.totalSessions ? Math.round((cs.readSessions / cs.totalSessions) * 100) : 0;
-    return `<button class="pf-course" data-action="goCourse" data-id="${esc(c.id)}">
-      <span class="pf-course-t"><b>${esc(c.title)}</b><span class="mini-bar"><i style="width:${pct}%"></i></span>
-        <small>${cs.complete ? "Completado" : `${cs.readSessions} de ${cs.totalSessions} unidad${cs.totalSessions === 1 ? "" : "es"}`}</small></span>
-      <span class="pf-course-go">${cs.complete ? icon("award") : icon("arrowR")}</span></button>`;
-  }).join("");
   const fila = (href, ic, t, extra = "") => `<a class="pf-row" href="${href}" ${extra}>${icon(ic)}<span>${t}</span>${icon("right")}</a>`;
   return `<div class="welcome pf">
     <header class="pf-head">
       <span class="pf-av">${AV.isValid(a.avatar) ? AV.svg(a.avatar) : `<span class="avatar">${esc(initials(a.name))}</span>`}</span>
       <div><h1>${esc(a.name)}</h1><span class="chip ${cloud.isStaffRole(a.role) ? "warn" : "accent"}">${esc(cloud.roleLabel(a.role))}</span></div>
     </header>
-    ${avance ? `<section class="pf-sec"><h2>Mi avance</h2>${avance}</section>` : ""}
     <section class="pf-sec"><h2>Mi cuenta</h2>
       <details class="pf-det"><summary>${icon("edit")}<span>Mis datos</span>${icon("down")}</summary>
         <form class="stack" id="accountForm" style="--gap:14px;margin-top:12px">
           <p class="small muted">${esc(a.email)}</p>
           <div class="field"><label for="acName">Nombre y apellido</label><input class="input big" id="acName" name="name" required value="${esc(a.name)}"></div>
           <div class="field"><label for="acParish">Capilla o parroquia</label><input class="input big" id="acParish" name="parish" value="${esc(a.parish || "")}"></div>
-          <p class="xs muted">Tu nombre aparecerá en la constancia. Tu avance se guarda en tu cuenta; tu cuaderno es privado y solo tú puedes leerlo.</p>
+          <p class="xs muted">Tu nombre se muestra a la comunidad con la inicial del apellido.</p>
           <button class="btn btn-primary btn-block" type="submit">Guardar cambios</button>
         </form></details>
       <details class="pf-det"><summary>${icon("users")}<span>Mi avatar</span>${icon("down")}</summary><section class="av-card" id="avCard">${avPicker()}</section></details>
@@ -1396,11 +824,6 @@ function viewAccount() {
     <div id="installSlot" style="margin-top:14px"></div>
   </div>`;
 }
-actions.goCourse = (el) => {
-  S.setActiveCourse(el.dataset.id);
-  const c = S.activeCourse(), cs = S.courseState(c);
-  location.hash = resumeLink(c, cs);
-};
 // Mi cumpleaños (Mi cuenta): cada uno elige si lo comparte con la comunidad (solo día y mes).
 let myCum = undefined; // undefined: cargando · null: no compartido · "MM-DD"
 function cumCardHTML() {
@@ -1483,26 +906,6 @@ document.addEventListener("submit", async (e) => {
   catch { toast("No se pudo guardar. Revisa tu conexión.", ""); }
 });
 
-async function viewVerify(code) {
-  const c = cloud.enabled ? await cloud.getCertificate(code) : undefined;
-  const ok = c && c.name;
-  return `<div style="max-width:520px;margin:5vh auto 0">
-    <div class="card" style="text-align:center;padding:32px">
-      <div class="tile-ico" style="margin:0 auto 14px;background:${ok ? "var(--ok-soft)" : "var(--surface-2)"};color:${ok ? "var(--ok)" : "var(--ink-3)"}">${icon(ok ? "award" : "x")}</div>
-      ${ok ? `<span class="eyebrow">Constancia válida</span>
-        <h1 class="display" style="font-size:1.8rem;margin-top:8px">${esc(c.name)}</h1>
-        <p class="muted" style="margin-top:6px">${esc(c.parish || "")}</p>
-        <p style="margin-top:14px">Completó el curso de formación <b>«${esc(c.course)}»</b> de la Pastoral Juvenil Ágape${c.date ? ` el ${esc(new Date(c.date).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" }))}` : ""}.</p>
-        <p class="xs muted" style="margin-top:14px">Código ${esc(code)}</p>`
-      : c === null ? `<h1 class="display" style="font-size:1.6rem">Código no encontrado</h1><p class="muted" style="margin-top:8px">No existe una constancia con el código ${esc(code)}. Revisa que esté bien escrito.</p>`
-      : `<h1 class="display" style="font-size:1.6rem">No pudimos verificar</h1><p class="muted" style="margin-top:8px">La verificación necesita conexión a internet. Inténtalo de nuevo.</p>`}
-      <a class="btn btn-ghost" style="margin-top:18px" href="#/">Ir al inicio de agAPPe</a>
-    </div></div>`;
-}
-
-// ---------------------------------------------------------------------------
-// GESTIÓN (carga diferida)
-// ---------------------------------------------------------------------------
 async function viewAdmin(sub = "") {
   const [m] = await Promise.all([import("./admin.js"), mod.inicioAdmin(), mod.familiasAdmin(), mod.gEq()]);
   return m.renderAdmin(sub || "", { actions, render, onAfterRender, cloud });
@@ -1547,17 +950,6 @@ chat.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 avisos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 agenda.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, tabs: (k) => chat.tabs(k) });
 portada.setup({ actions, render: () => render(), onAfterRender, cloud });
-S.setCourseRule((c) => {
-  if (cloud.enabled ? !!cloud.state().isAdmin : S.isAdmin()) return true;
-  // Visitantes sin cuenta y jóvenes: solo los cursos abiertos a todos (la guía de la app).
-  if (cloud.enabled && (!cloud.state().ready || cloud.state().isJoven)) return !c.hidden && c.abierto === true;
-  // Los cursos ocultos de la comunidad los ven también los formadores, para revisarlos antes de publicarlos.
-  if (c.hidden) return !!(c.comunidad && cloud.enabled && cloud.state().canCourses);
-  const para = S.paraDe(c);
-  if (!para.length || !cloud.enabled) return true;
-  const st = cloud.state();
-  return para.includes(st.role) || (para.includes("asesor") && !!(st.account && st.account.asesor === true));
-});
 solicitud.setup({ actions, render: () => render(), onAfterRender, cloud });
 conocer.setup({ actions, render: () => render(), onAfterRender, cloud });
 ficha.setup({ actions, render: () => render(), onAfterRender, cloud });
@@ -1607,21 +999,6 @@ async function boot() {
       document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") recheck(false); });
     }
     if (cloud.enabled) cloud.onChange(render); // después de cargar el contenido, para no dibujar sin datos
-    // Cursos de la comunidad: se traen al abrir (la copia guardada se muestra mientras tanto).
-    if (cloud.enabled) cloud.getCursos().then((l) => { if (l && S.setExtraCourses(l) && !/^#\/admin/.test(location.hash)) render(); });
-    // Al volver a la app (celular en segundo plano, otra pestaña), se trae el avance hecho en otro dispositivo.
-    // Solo se vuelve a dibujar si algo cambió y la persona no está escribiendo ni en medio de una unidad.
-    if (cloud.enabled) {
-      const volver = async () => {
-        if (document.visibilityState !== "visible") return;
-        const changed = await cloud.refreshProgress().catch(() => false);
-        const a = document.activeElement, typing = a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName);
-        if (changed && !typing && !/^#\/(vivir|admin)/.test(location.hash) && !document.querySelector("dialog[open]")) render();
-      };
-      document.addEventListener("visibilitychange", volver);
-      window.addEventListener("focus", volver);
-      window.addEventListener("online", () => cloud.refreshProgress(true).catch(() => {}));
-    }
     if (cloud.enabled) setTimeout(() => cloud.countVisit(), 5000); // una visita por dispositivo y día (sin datos personales)
   } catch (e) {
     viewEl().innerHTML = `<div class="card" style="text-align:center;padding:40px"><h2 class="display">No se pudo cargar el contenido</h2>
@@ -1643,7 +1020,7 @@ async function boot() {
   }
 }
 boot();
-// Diapositiva del curso: tocar cualquier parte (que no sea un botón o enlace) abre el curso donde quedaste.
+// Diapositiva con enlace: tocar cualquier parte (que no sea un botón o enlace) la abre.
 document.addEventListener("click", (e) => {
   const sl = e.target.closest && e.target.closest(".car-slide[data-go]");
   if (!sl || e.target.closest("a, button, input, select, textarea")) return;

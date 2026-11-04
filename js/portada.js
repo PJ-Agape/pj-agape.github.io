@@ -34,7 +34,6 @@ export const DEFAULTS = [
     text: "Somos jóvenes de la parroquia que caminan juntos para encontrarse con Jesús, formarse y servir. Aquí nadie es espectador: cada uno importa, con su historia y lo que aporta.",
     chips: ["Familiar y comunitario", "Intuitivo", "Activo"],
     b1: { label: "Conoce la comunidad", href: "#/red" }, b2: { label: "Ver la agenda", href: "#/agenda" } },
-  { key: "curso", label: "Curso de dirigentes", order: 20, course: true },
   { key: "familia", label: "Mes de la Familia", theme: "blue", order: 5, from: "2026-10-01", to: "2026-10-31", illus: "sagradafamilia",
     kicker: "Octubre · Mes de la Familia", hand: "la familia, primera comunidad",
     title: "Mes de la *Familia*",
