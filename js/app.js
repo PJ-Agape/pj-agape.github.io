@@ -540,7 +540,7 @@ function viewMaterials(abrir) {
       <span class="fi-txt"><b>${esc(c.title)}</b>${c.tag ? `<small>${esc(c.tag)}</small>` : ""}</span>${icon("down")}</summary>
       <div class="fi-open">${cardHTML(c, "material")}</div></details>`;
   };
-  const guides = (m.cards || []).filter((c) => c.type !== "action"), prints = (m.cards || []).filter((c) => c.type === "action");
+  const guides = (m.cards || []).filter((c) => c.type !== "action"), prints = (m.cards || []).filter((c) => c.type === "action" && /^https?:\/\//.test(c.url || "")); // sin enlace no se muestra (nada de «Próximamente»)
   // Sin cuenta (y los jóvenes): difusión, música, oración y la biblioteca digital. El resto es del equipo.
   const st0 = cloud.enabled ? cloud.state() : { ready: true }, guest = cloud.enabled && !st0.ready;
   const full = !cloud.enabled || (!!st0.ready && !st0.isJoven);
