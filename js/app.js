@@ -93,14 +93,14 @@ const routes = [
   [/^\/comunidad$/, () => { location.replace("presentaciones/guia-de-servicio.html"); return null; }, "comunidad"],
   // La formación (cursos, evaluaciones, cuaderno y constancias) se lleva en una aplicación aparte: los enlaces viejos llevan a Recursos.
   [/^\/(?:itinerario|unidad|encuentro|vivir|cuaderno|constancia|verificar|imprimir\/curso)(?:\/.*)?(?:\?.*)?$/, () => { location.replace("#/recursos"); return null; }, "formacion"],
-  [/^\/materiales(?:\?f=([a-z]+))?$/, (f) => viewMaterials(f), "materiales"],
+  [/^\/materiales(?:\?f=([a-z]+))?$/, (f) => { location.replace(`#/recursos${f ? "?f=" + f : ""}`); return null; }, "formacion"],
   [/^\/oracion$/, () => capilla.view(), "oracion"],
   [/^\/evangelio$/, () => capilla.view({ focus: "gospel" }), "oracion"],
   [/^\/oracion\/([a-z]+)$/, (k) => capilla.view({ focus: k }), "oracion"],
   [/^\/oremus\/libro$/, () => oremus.viewLibro(), "oracion"],
   [/^\/oremus(?:\/([^/?]+))?$/, (t) => capilla.oremusView(t ? decodeURIComponent(t) : ""), "oracion"],
   [/^\/oracion\/velas\/([^/?]+)$/, (id) => capilla.view({ focus: "velas", vela: id }), "oracion"],
-  [/^\/recursos$/, () => inicio.viewRecursos(), "formacion"],
+  [/^\/recursos(?:\?f=([a-z]+))?$/, (f) => viewMaterials(f), "formacion"],
   [/^\/formacion$/, () => { location.replace("#/recursos"); return null; }, "formacion"],
   [/^\/solicitar$/, () => solicitud.view(), "perfil"],
   [/^\/conocer(?:\?(.*))?$/, (q) => conocer.view(q || ""), "perfil"],
@@ -201,7 +201,7 @@ const VISTA_RUTAS = [
   [/^\/$/, "inicio"], [/^\/evangelio/, "evangelio"], [/^\/oracion\/velas/, "intenciones"], [/^\/oracion\/(rosario|maria)/, "rosario"],
   [/^\/oracion\/silencio/, "rato"], [/^\/oracion\/radio/, "radio"], [/^\/oracion/, "capilla"], [/^\/oremus/, "oremus"], [/^\/salmos/, "salmos"],
   [/^\/cancionero/, "cancionero"], [/^\/red$/, "comunidad"], [/^\/muro/, "muro"], [/^\/chat/, "chat"], [/^\/momentos/, "momentos"],
-  [/^\/juegos/, "juegos"], [/^\/podcast/, "podcast"], [/^\/agenda/, "agenda"], [/^\/recursos$/, "formacion"],
+  [/^\/juegos/, "juegos"], [/^\/podcast/, "podcast"], [/^\/agenda/, "agenda"], [/^\/recursos/, "formacion"],
   [/^\/(materiales|imprimir|credenciales)/, "materiales"],
   [/^\/dinamicas/, "dinamicas"], [/^\/difusion/, "difusion"], [/^\/ayuda/, "ayuda"], [/^\/buscar/, "buscar"],
 ];
@@ -523,7 +523,8 @@ function cardHTML(c, kind) {
   return `<article class="card">${head}<p class="muted small rich prose-pre" style="margin-top:8px">${rich(c.text)}</p></article>`;
 }
 function viewMaterials(abrir) {
-  // Desde Recursos se puede llegar con un fichero abierto (#/materiales?f=presentaciones)
+  // Recursos: los ficheros de materiales, la biblioteca y la guía de agAPPe, todo en una página.
+  // Se puede llegar con un fichero abierto (#/recursos?f=presentaciones).
   if (abrir) { fiOpen.add(abrir); onAfterRender(() => document.getElementById("fi-" + abrir)?.scrollIntoView({ behavior: "smooth", block: "start" })); }
   const m = S.content().materials;
   const lib = buildLibrary();
@@ -571,7 +572,7 @@ function viewMaterials(abrir) {
       ...prints.map(guide),
     ]],
   ].map((f) => { f[4] = f[4].filter(Boolean); return f; }).filter((f) => f[4].length && (full || OPEN.includes(f[0])));
-  return `<header class="page-head"><span class="eyebrow">Herramientas de la pastoral</span><h1>${esc(full ? m.title : "Materiales")}</h1><p>${esc(full ? m.desc : "Para invitar a otros, cantar, rezar y conocer más nuestra fe.")}</p></header>
+  return `<header class="page-head hub-head" style="--bc:#1351a4"><span class="eyebrow">para preparar y compartir</span><h1>Recursos</h1><p>${esc(full ? "Presentaciones, difusión, música, oración, guías para el encuentro, lo que se imprime y la biblioteca digital." : "Para invitar a otros, cantar, rezar y conocer más nuestra fe.")}</p></header>
     ${guest ? `<p class="fi-hint">Con tu cuenta se abren también las presentaciones, guías y dinámicas del equipo.</p>` : ""}
     <p class="fi-hint">Toca un fichero para abrirlo.</p>
     <div class="fi-grid">${FILES.map(([k, t, col, d, items, count], i) => `
@@ -582,7 +583,8 @@ function viewMaterials(abrir) {
         <div class="fi-list">${items.join("")}</div>
       </details>`).join("")}
       ${libraryHTML(lib, FILES.length + 1)}
-    </div>`;
+    </div>
+    ${inicio.guiaBanner()}`;
 }
 // Ficheros desplegables: se recuerda cuáles quedaron abiertos (en esta pestaña), así al volver siguen igual.
 const fiOpen = new Set((() => { try { return JSON.parse(sessionStorage.getItem("agape_fi_open") || "[]"); } catch { return []; } })());

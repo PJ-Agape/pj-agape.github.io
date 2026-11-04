@@ -47,11 +47,10 @@ export const BLOCKS = {
 // e: emoji · t: título · d: descripción · kw: palabras para el buscador · ok: quién lo ve
 const ITEMS = [
   { b: "formacion", e: "", t: "Guía de agAPPe", d: "Cómo funciona la app: sus rincones, tu cuenta y dónde pedir ayuda.", href: "#/guia", kw: "guia tutorial bienvenido agappe manual como funciona ayuda usar app", ok: () => true },
-  { b: "formacion", e: "", t: "Presentaciones", d: "Para proyectar en los encuentros, a pantalla completa.", href: "#/materiales?f=presentaciones", kw: "presentaciones diapositivas proyectar charla", ok: (w) => w.equipo || w.asp },
-  { b: "formacion", e: "", t: "Estudio de difusión", d: "Marcos de foto, historias, stickers y fondos para compartir.", href: "#/difusion", kw: "difusion stickers fondos marco foto historias invitacion", ok: (w) => w.cuenta },
-  { b: "formacion", e: "", t: "Credenciales", d: "Tarjetas de solapa con foto, nombre y parroquia para los encuentros.", href: "#/credenciales", kw: "credenciales credencial tarjeta solapa lanyard portacredencial gafete nombre encuentro retiro", ok: (w) => w.equipo || w.asp },
-  { b: "formacion", e: "", t: "Materiales", d: "Presentaciones, guías, banco de dinámicas y todo lo que se imprime.", href: "#/materiales", kw: "materiales recursos documentos biblioteca links imprimir presentaciones guias dinamicas credenciales", ok: (w) => w.equipo || w.asp },
-  { b: "formacion", e: "", t: "Materiales", d: "Difusión, cancionero, oraciones y la biblioteca digital.", href: "#/materiales", kw: "materiales recursos biblioteca difusion cancionero oremus", ok: (w) => !w.equipo && !w.asp },
+  { b: "formacion", e: "", t: "Presentaciones", d: "Para proyectar en los encuentros, a pantalla completa.", href: "#/recursos?f=presentaciones", kw: "presentaciones diapositivas proyectar charla", ok: (w) => w.equipo || w.asp },
+    { b: "formacion", e: "", t: "Credenciales", d: "Tarjetas de solapa con foto, nombre y parroquia para los encuentros.", href: "#/credenciales", kw: "credenciales credencial tarjeta solapa lanyard portacredencial gafete nombre encuentro retiro", ok: (w) => w.equipo || w.asp },
+  { b: "formacion", e: "", t: "Materiales", d: "Presentaciones, guías, banco de dinámicas y todo lo que se imprime.", href: "#/recursos", kw: "materiales recursos documentos biblioteca links imprimir presentaciones guias dinamicas credenciales", ok: (w) => w.equipo || w.asp },
+  { b: "formacion", e: "", t: "Materiales", d: "Difusión, cancionero, oraciones y la biblioteca digital.", href: "#/recursos", kw: "materiales recursos biblioteca difusion cancionero oremus", ok: (w) => !w.equipo && !w.asp },
   { b: "formacion", e: "", t: "Dinámicas", d: "Juegos, rompehielos y dinámicas de oración.", href: "#/dinamicas", kw: "dinamicas juegos rompehielos actividades", ok: (w) => w.equipo },
   { b: "formacion", e: "", t: "¿Quieres ser dirigente?", d: "Presentación «Sé puente».", href: "presentaciones/se-puente.html", ext: true, kw: "dirigente se puente vocacion servir", ok: (w) => w.guest || w.joven },
   { b: "red", e: "", t: "Muro", d: "Avisos, logros y conversaciones del grupo.", href: "#/muro", kw: "muro avisos publicaciones noticias logros encuesta plaza", ok: () => true, hub: false }, // en La Plaza Ágape
@@ -148,34 +147,12 @@ export function blocksHTML() {
 // ---------------------------------------------------------------------------
 // Páginas de bloque
 // ---------------------------------------------------------------------------
-// Materiales, en grande como el curso: lo que trae cada uno según si tiene cuenta.
-function matBanner(w) {
-  const team = w.equipo || w.asp; // los aspirantes también ven los materiales completos
-  return `<section class="hub-cbanner is-mat" aria-labelledby="hubMT">
-    <div class="hub-cb-txt">
-      <span class="eyebrow">${team ? "Herramientas de la pastoral" : "Para todos"}</span>
-      <span class="hub-cb-hand">${team ? "para preparar cada encuentro" : "para invitar, cantar y rezar"}</span>
-      <h2 id="hubMT">Materiales</h2>
-      <p class="hub-cb-meta">${team ? "Presentaciones, difusión, música, oración, guías, para imprimir y la biblioteca digital: todo en sus ficheros." : "Arma invitaciones, canta con el cancionero, reza con «Recemos juntos» y conoce los documentos de la Iglesia."}</p>
-      <div class="hub-cb-btns"><a class="btn btn-gold" href="#/materiales"><span class="hub-btn-l">Abrir Materiales</span> ${icon("arrowR")}</a></div>
-    </div>
-    <div class="hub-cb-art" aria-hidden="true"><i class="hub-cb-sun"></i>${illus("biblia", "hub-cb-il")}</div>
-  </section>`;
-}
 // La guía de agAPPe, en grande: para quien quiere saber cómo funciona la app.
-function guiaBanner() {
+export function guiaBanner() {
   return `<a class="card link hub-guia" href="#/guia">
     <span class="hub-guia-art" aria-hidden="true">${illus("acogida", "")}</span>
     <span class="hub-guia-txt"><span class="eyebrow">Para todos</span><strong>Guía de agAPPe</strong>
       <span class="muted small">Cómo funciona la app: sus rincones, tu cuenta y dónde pedir ayuda.</span></span>${icon("arrowR")}</a>`;
-}
-export function viewRecursos() {
-  const w = who(), b = BLOCKS.formacion;
-  return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">${esc(b.hand)}</span><h1>Recursos</h1><p>${esc(descFor("formacion", w))}</p></header>
-  ${matBanner(w)}
-  <div class="hub-grid">${itemsFor("formacion").filter((x) => inHub(x) && x.href !== "#/materiales" && x.href !== "#/guia").map(itemCard).join("")}</div>
-  ${guiaBanner()}
-`;
 }
 // La Plaza Ágape: nuestra red social. Junta lo que vivimos (Momentos), lo que conversamos (Muro)
 // y lo que nos decimos (Chat). Cada parte sigue funcionando igual; esto es solo la puerta de entrada.
