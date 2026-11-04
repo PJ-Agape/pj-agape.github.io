@@ -1,5 +1,5 @@
-// Botón al grupo (o canal) de WhatsApp de la app: tutoriales, novedades y ánimo para la comunidad.
-// El enlace se guarda en privado/whatsapp: solo lo ven quienes tienen cuenta y lo cambia el equipo.
+// Antes: botón al grupo (o canal) de WhatsApp de la app. Desde noviembre de 2026 la app no muestra
+// botones a WhatsApp; el enlace guardado en privado/whatsapp queda, pero no se usa.
 
 import * as cloud from "./cloud.js";
 import { esc } from "./util.js";
@@ -13,51 +13,11 @@ const card = (g) => `<a class="card link wa-card" id="waCard" href="${esc(g.url)
   <span class="muted small">${esc(g.desc || "Tutoriales, novedades y ánimo para la comunidad Ágape.")}</span></span>
   <span class="btn btn-sm wa-btn">Unirme</span></a>`;
 
-// Quienes no tienen cuenta ven el canal público de WhatsApp de la comunidad (no el grupo).
-export const CANAL_PUBLICO = "https://whatsapp.com/channel/0029VbDj5z6Au3aYVaaLwz1a";
-export const canalCard = () => `<a class="card link wa-card" id="waCanal" href="${CANAL_PUBLICO}" target="_blank" rel="noopener">
-  <span class="wa-ico" aria-hidden="true">${WA_SVG}</span>
-  <span style="flex:1;min-width:0"><strong>Sigue el canal de WhatsApp de Ágape</strong>
-  <span class="muted small">Recibe cada día el Evangelio y las novedades de la comunidad.</span></span>
-  <span class="btn btn-sm wa-btn">Seguir</span></a>`;
-export async function afterRender(section) {
-  if (!["red", "ayuda"].includes(section)) return;
-  const s = cloud.state();
-  if (!s.ready) { // visitantes: el canal público
-    if (document.getElementById("waCanal")) return;
-    const v = document.getElementById("view"); if (!v) return;
-    const wrap = document.createElement("div"); wrap.className = "wa-wrap"; wrap.innerHTML = canalCard();
-    AP.reaplicar("wa_canal", wrap.querySelector("#waCanal"));
-    const slot = document.getElementById("waSlot"), head = v.querySelector(".page-head");
-    if (section === "red" && slot) slot.appendChild(wrap); else if (head) head.after(wrap); else v.prepend(wrap);
-    return;
-  }
-  if (!cloud.enabled) return;
-  const g = await cloud.getGrupoWA();
-  if (!g || !valid(g.url) || document.getElementById("waCard")) return;
-  const v = document.getElementById("view"); if (!v) return;
-  const head = v.querySelector(".page-head");
-  const wrap = document.createElement("div"); wrap.className = "wa-wrap"; wrap.innerHTML = card(g);
-  const slot = document.getElementById("waSlot");
-  AP.reaplicar("wa_grupo", wrap.querySelector("#waCard")); // textos, formato y colores de Gestión → Apariencia
-  if (section === "red" && slot) { slot.appendChild(wrap); return; }
-  if (section === "ayuda" && head) head.after(wrap);
-  else { const hero = v.firstElementChild; hero ? hero.after(wrap) : v.prepend(wrap); }
-}
+// Desde noviembre de 2026 la app ya no muestra botones al grupo ni al canal de WhatsApp.
+export async function afterRender() {}
 
 // Editor para Gestión (equipo)
-export async function adminHTML() {
-  const g = (await cloud.getGrupoWA(true)) || {};
-  return `<section class="card" id="waAdmin"><h3>💬 Grupo de WhatsApp de la app</h3>
-    <p class="muted small" style="margin-top:4px">Aparece como botón en Comunidad y en Ayuda, solo para quienes tienen cuenta. Pega el enlace de invitación del grupo (chat.whatsapp.com/…) o de un canal (whatsapp.com/channel/…).</p>
-    <div class="stack" style="--gap:10px;margin-top:12px">
-      <div class="field"><label>Enlace</label><input class="input" id="waUrl" value="${esc(g.url || "")}" placeholder="https://chat.whatsapp.com/…"></div>
-      <div class="field"><label>Título del botón</label><input class="input" id="waTitle" maxlength="60" value="${esc(g.title || "")}" placeholder="Únete al grupo de WhatsApp de la app"></div>
-      <div class="field"><label>Descripción</label><input class="input" id="waDesc" maxlength="100" value="${esc(g.desc || "")}" placeholder="Tutoriales, novedades y ánimo para la comunidad Ágape."></div>
-      <p class="xs muted">💡 En un <b>grupo</b>, todos ven el número de teléfono de los demás. Si se suman jóvenes, conviene un <b>canal</b> de WhatsApp o un grupo «solo administradores pueden enviar», así nadie expone su número.</p>
-      <div class="row-wrap" style="gap:8px"><button class="btn btn-primary btn-sm" data-wa-save>Guardar</button>${g.url ? `<button class="btn btn-ghost btn-sm" data-wa-clear>Quitar el botón</button>` : ""}</div>
-    </div></section>`;
-}
+export async function adminHTML() { return ""; }
 document.addEventListener("click", async (e) => {
   const save = e.target.closest("[data-wa-save]"), clear = e.target.closest("[data-wa-clear]");
   if (!save && !clear) return;

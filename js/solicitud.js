@@ -6,7 +6,6 @@ import { esc, icon, toast } from "./util.js";
 import { illus } from "./ilustraciones.js";
 import { CAMPOS, edad as edadDe } from "./ficha.js";
 import { SELLO } from "./agape-digital.js";
-import { CANAL_PUBLICO } from "./grupo.js";
 // Datos de la ficha privada que se piden en la solicitud (el nombre y el correo ya están arriba).
 const FICHA = CAMPOS.filter(([k]) => !["nombre", "email", "nacimiento"].includes(k));
 
@@ -24,8 +23,8 @@ export function homeCard() {
     <div class="hub-cb-txt">
       <span class="hub-cb-hand">estés donde estés</span>
       <h2 id="solHT">Súmate a la comunidad <em>agAPPe</em></h2>
-      <p class="hub-cb-meta">Somos el Ágape digital: una red de internautas que rezan, unida a los jóvenes de la Pastoral Juvenil Ágape de la Parroquia San Miguel de Yungay. Recibe cada día el Evangelio, reza en la Capilla y deja tus intenciones: las llevamos a la misa.</p>
-      <div class="hub-cb-btns"><a class="btn btn-gold" href="${CANAL_PUBLICO}" target="_blank" rel="noopener"><span class="adb-b1">Seguir el canal de WhatsApp</span> ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/oracion"><span class="adb-b2">Entrar a la Capilla</span></a></div>
+      <p class="hub-cb-meta">Somos el Ágape digital: una red de internautas que rezan, unida a los jóvenes de la Pastoral Juvenil Ágape de la Parroquia San Miguel de Yungay. Lee cada día el Evangelio, reza en la Capilla y deja tus intenciones: las llevamos a la misa.</p>
+      <div class="hub-cb-btns"><a class="btn btn-gold" href="#/oracion"><span class="adb-b2">Entrar a la Capilla</span> ${icon("arrowR")}</a></div>
       <p class="xs sol-local"><span class="adb-q">¿Participas en la PJ Ágape de Yungay?</span> <a href="#/solicitar">Solicita tu cuenta</a></p>
     </div>
     <div class="hub-cb-art ad-banner-art" aria-hidden="true">${SELLO("ad-banner-sello")}</div>
