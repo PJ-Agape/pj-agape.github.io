@@ -35,7 +35,8 @@ async function loadMisaVivo() {
 // La Misa de hoy con su vista previa (el video se carga solo al tocarlo, como el Evangelio).
 function misaHTML() {
   const ok = misaHoy && /^[\w-]{6,20}$/.test(misaHoy.id);
-  if (!ok) return `<a class="btn cap-oremus" href="${esc(misaVivo)}" target="_blank" rel="noopener">${icon("eye")} Misa en vivo <small>en YouTube</small></a>`;
+  if (!ok) return `<a class="btn cap-oremus" href="${esc(misaVivo)}" target="_blank" rel="noopener">${icon("eye")} Misa en vivo <small>en YouTube</small></a>
+    ${misaAdmin ? "" : `<p class="cap-ev-note">La Misa de hoy aparece aquí apenas Magnificat TV la publica, normalmente temprano en la mañana.</p>`}`;
   // «Santa Misa de Hoy | Viernes, XXIX Semana del Tiempo Ordinario (23-10-2026) | P. …» → la parte del medio.
   const sub = (misaHoy.title.split("|")[1] || "").replace(/\(\d{1,2}[-./]\d{1,2}[-./]\d{4}\)/, "").trim();
   return `<button type="button" class="ev-video" data-action="evPlay" data-id="${misaHoy.id}" data-t="La Misa de hoy" aria-label="Ver la Misa de hoy">

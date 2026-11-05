@@ -1,0 +1,30 @@
+# Busca la Misa de hoy de Magnificat TV (data/misa-vivo.json) con frecuencia en la franja en que el
+# canal suele publicarla (06:00–11:00 UTC, 03:00–08:00 en Chile). La acción del Evangelio también la
+# busca, pero GitHub ejecuta su horario cada hora solo cada varias horas.
+name: Misa de hoy
+on:
+  schedule:
+    - cron: "*/10 6-11 * * *"
+    - cron: "41 12-23 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: evangelio, cancel-in-progress: false }
+jobs:
+  misa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/misa-vivo.mjs data/misa-vivo.json || echo 'misa-vivo sin cambios por un error de la fuente'
+      - name: Publicar si cambió
+        run: |
+          if [ -n "$(git status --porcelain data/misa-vivo.json)" ]; then
+            git config user.name "evangelio-bot"
+            git config user.email "evangelio-bot@users.noreply.github.com"
+            git add data/misa-vivo.json
+            git commit -m "Capilla: Misa de hoy"
+            git pull --rebase -q origin main
+            git push
+          fi
