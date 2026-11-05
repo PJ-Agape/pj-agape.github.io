@@ -3,7 +3,7 @@
 // Las fichas son nuestras. El texto completo de cada salmo se carga desde Gestión cuando la
 // editorial lo autorice (content/salmos); mientras tanto, «Leer el salmo» abre una Biblia católica en línea.
 
-import { esc, icon, toast, fetchJSON } from "./util.js";
+import { esc, icon, toast, fetchJSON, invitaMiRuta } from "./util.js";
 import { createBook, splitByHeight } from "./libro.js";
 import { illus } from "./ilustraciones.js";
 import * as E from "./entrada.js";
@@ -357,6 +357,7 @@ export function viewList() {
     side: { hand: "¿Cómo llegas hoy?", text: "Elige lo que sientes y te regalamos un salmo para rezar.", chips: SIENTO.map(([k, l]) => [l, `href="#/salmos/${pick(k).n}?e=${k}"`]) },
     guide: { ill: "biblia", hand: "para leer con calma", title: "El librito de los *Salmos*", text: "Los 150 salmos, uno por página, para hojear despacio como un libro de oración.", btn: ["#/salmos/libro", "Abrir el librito"] } })}
   <div id="salCargar"></div>
+  ${invitaMiRuta("lectores-y-salmistas", "Lectores y salmistas")}
   ${E.foot(["Todo lo que respira alabe al Señor", "Sal 150,6"])}
   ${E.volver(undefined, "is-end")}`;
 }

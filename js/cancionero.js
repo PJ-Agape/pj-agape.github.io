@@ -2,7 +2,7 @@
 // notación americana o latina, modo proyección y repertorios para cada celebración.
 // Las canciones originales de Ágape vienen incluidas; el equipo agrega las que canta la comunidad.
 
-import { esc, icon, toast } from "./util.js";
+import { esc, icon, toast, invitaMiRuta } from "./util.js";
 import * as E from "./entrada.js";
 import { toInline, splitSongs, findDuplicate } from "./acordes-import.js";
 
@@ -189,6 +189,7 @@ export function viewList() {
   <div class="cl-wrap"><div class="cl-stage" id="canLibro" style="--can-size:${prefs.size}" aria-roledescription="libro"></div></div>
   <p class="xs muted cl-help">Desliza la página o toca sus bordes para avanzar. En el computador, usa las flechas del teclado.</p>` : tab === "clasificar" && staff ? clsView() : `<div id="canMisas" class="can-misas"></div>`}
   </section>
+  ${invitaMiRuta("musica-liturgica", "Música y animación litúrgica")}
   ${E.volver(undefined, "is-end")}`;
 }
 function paintList() {

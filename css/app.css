@@ -5154,3 +5154,7 @@ html.papel .ds-rec-ill svg.z-illus, html.papel .tp-ill svg.z-illus, html.papel .
 .guia-fin { margin-top: 16px; font-weight: 600; color: var(--cn, #0b2566); }
 .card.link.hub-guia { display: flex; flex-direction: row; align-items: center; }
 .hub-guia-art img.z-sticker { width: 100%; max-width: 100%; margin: 0; position: static; }
+
+/* Invitación discreta a Mi Ruta */
+.mi-ruta-invita { margin: 22px auto 6px; max-width: 46rem; text-align: center; font-size: .82rem; color: var(--ink-2); }
+.mi-ruta-invita a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }

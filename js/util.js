@@ -122,3 +122,8 @@ const P = {
 export function icon(name, cls = "") {
   return `<svg class="${cls}" width="1.15em" height="1.15em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[name] || ""}</svg>`;
 }
+
+// Invitación discreta a profundizar en Mi Ruta, el aula virtual de formación.
+export function invitaMiRuta(curso, titulo) {
+  return `<p class="mi-ruta-invita">¿Quieres profundizar? El equipo agAPPe te invita a la formación <a href="https://pj-agape.github.io/Mi_ruta/#/curso/${curso}" target="_blank" rel="noopener">${titulo}</a> en Mi Ruta.</p>`;
+}

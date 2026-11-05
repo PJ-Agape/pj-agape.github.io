@@ -2,7 +2,7 @@
 // los encuentros. Cada una dice para qué sirve (etiquetas), cuánto dura, para cuántas
 // personas, dónde y qué materiales necesita. Los guías las agregan y editan.
 
-import { esc, icon, toast } from "./util.js";
+import { esc, icon, toast, invitaMiRuta } from "./util.js";
 import { BANCO } from "./dinamicas-banco.js";
 
 let ctx = null; // { actions, render, onAfterRender, onLeave, cloud }
@@ -98,7 +98,8 @@ export function viewList() {
   </div>
   <div class="row-wrap" style="margin:6px 0 10px"><span class="small muted" id="dinCount"></span><span class="spacer"></span>
     <button class="btn btn-sm btn-ghost" data-action="dinRandom">🎲 Una al azar</button></div>
-  <div id="dinList" class="din-list"></div>`;
+  <div id="dinList" class="din-list"></div>
+  ${invitaMiRuta("dinamicas-y-juegos", "Dinámicas y juegos")}`;
 }
 function paintList() {
   const box = $("#dinList"); if (!box) return;
