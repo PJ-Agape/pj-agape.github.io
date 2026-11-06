@@ -649,6 +649,91 @@ service cloud.firestore {
         || resource.data.at < request.time - duration.value(12, 'h'));
     }
 
+    // ======================================================================
+    // App de coordinación (/coordinacion): la ven el equipo y los dirigentes.
+    // El equipo (administración y coordinación) crea y edita; cada dirigente
+    // actualiza el estado y el avance de lo que tiene asignado.
+    // ======================================================================
+    function txt(campo, max) {
+      return !(campo in request.resource.data) || (request.resource.data[campo] is string && request.resource.data[campo].size() <= max);
+    }
+    function fechaOVacia(campo) {
+      return !(campo in request.resource.data) || request.resource.data[campo] == ''
+        || (request.resource.data[campo] is string && request.resource.data[campo].matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$'));
+    }
+
+    match /coord_tareas/{id} {
+      allow read: if isGuide();
+      allow create, update: if isStaff()
+        && request.resource.data.keys().hasOnly(['titulo', 'detalle', 'respUid', 'respNombre', 'plazo', 'area', 'estado', 'prioridad', 'reunion', 'nota', 'creado', 'actualizado', 'por', 'borrado'])
+        && request.resource.data.titulo is string && request.resource.data.titulo.size() > 0 && request.resource.data.titulo.size() <= 140
+        && txt('detalle', 1000) && txt('respNombre', 80) && txt('area', 40) && txt('nota', 500) && txt('por', 80) && fechaOVacia('plazo')
+        && request.resource.data.estado in ['pend', 'curso', 'hecha'];
+      // Un dirigente mueve sus propias tareas y anota su avance.
+      allow update: if isGuide() && resource.data.respUid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['estado', 'nota', 'actualizado', 'por'])
+        && request.resource.data.estado in ['pend', 'curso', 'hecha'] && txt('nota', 500) && txt('por', 80);
+      allow delete: if isAdmin();
+    }
+
+    match /coord_reuniones/{id} {
+      allow read: if isGuide();
+      allow create, update: if isStaff()
+        && request.resource.data.keys().hasOnly(['titulo', 'fecha', 'hora', 'tipo', 'lugar', 'enlace', 'objetivo', 'tabla', 'estado', 'asistentes', 'desarrollo', 'acuerdos', 'creado', 'actualizado', 'por', 'borrado'])
+        && request.resource.data.titulo is string && request.resource.data.titulo.size() > 0 && request.resource.data.titulo.size() <= 120
+        && request.resource.data.fecha is string && request.resource.data.fecha.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && txt('lugar', 120) && txt('enlace', 300) && txt('objetivo', 300) && txt('asistentes', 500) && txt('desarrollo', 8000) && txt('por', 80)
+        && (!('tabla' in request.resource.data) || (request.resource.data.tabla is list && request.resource.data.tabla.size() <= 20))
+        && (!('acuerdos' in request.resource.data) || (request.resource.data.acuerdos is list && request.resource.data.acuerdos.size() <= 30));
+      allow delete: if isAdmin();
+    }
+
+    match /coord_actividades/{id} {
+      allow read: if isGuide();
+      allow create, update: if isStaff()
+        && request.resource.data.keys().hasOnly(['titulo', 'fecha', 'estado', 'notas', 'respUid', 'respNombre', 'area', 'agendaId', 'creado', 'actualizado', 'por', 'borrado'])
+        && request.resource.data.titulo is string && request.resource.data.titulo.size() > 0 && request.resource.data.titulo.size() <= 140
+        && request.resource.data.fecha is string && request.resource.data.fecha.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && txt('notas', 1000) && txt('respNombre', 80) && txt('area', 40) && txt('agendaId', 60) && txt('por', 80)
+        && request.resource.data.estado in ['idea', 'preparando', 'lista', 'realizada', 'cancelada'];
+      // El dirigente responsable actualiza el estado, la fecha y las notas de su actividad.
+      allow update: if isGuide() && resource.data.respUid == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['titulo', 'fecha', 'estado', 'notas', 'actualizado', 'por'])
+        && request.resource.data.titulo is string && request.resource.data.titulo.size() > 0 && request.resource.data.titulo.size() <= 140
+        && request.resource.data.fecha is string && request.resource.data.fecha.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && txt('notas', 1000) && txt('por', 80)
+        && request.resource.data.estado in ['idea', 'preparando', 'lista', 'realizada', 'cancelada'];
+      allow delete: if isAdmin();
+    }
+
+    match /coord_docs/{id} {
+      allow read: if isGuide();
+      allow create, update: if isStaff()
+        && request.resource.data.keys().hasOnly(['titulo', 'url', 'categoria', 'desc', 'actualizado', 'por', 'borrado'])
+        && request.resource.data.titulo is string && request.resource.data.titulo.size() > 0 && request.resource.data.titulo.size() <= 120
+        && request.resource.data.url is string && request.resource.data.url.size() <= 500 && request.resource.data.url.matches('^https://.+')
+        && txt('categoria', 40) && txt('desc', 200) && txt('por', 80);
+      allow delete: if isAdmin();
+    }
+
+    // Buzón «Escríbenos»: cualquiera puede escribir (sin cuenta); solo el equipo lee y gestiona.
+    match /buzon/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['nombre', 'tema', 'mensaje', 'via', 'contacto', 'estado', 'creado'])
+        && request.resource.data.nombre is string && request.resource.data.nombre.size() >= 2 && request.resource.data.nombre.size() <= 80
+        && request.resource.data.tema in ['consulta', 'inscripcion', 'familia', 'sugerencia', 'oracion', 'otro']
+        && request.resource.data.mensaje is string && request.resource.data.mensaje.size() >= 2 && request.resource.data.mensaje.size() <= 2000
+        && request.resource.data.via in ['whatsapp', 'correo', 'ninguno']
+        && request.resource.data.contacto is string && request.resource.data.contacto.size() <= 120
+        && request.resource.data.estado == 'nuevo'
+        && request.resource.data.creado == request.time;
+      allow read: if isStaff();
+      allow update: if isStaff()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['estado', 'asignadoUid', 'asignadoNombre', 'nota', 'actualizado', 'por'])
+        && request.resource.data.estado in ['nuevo', 'leido', 'respondido', 'archivado']
+        && txt('asignadoNombre', 80) && txt('nota', 500) && txt('por', 80);
+      allow delete: if isAdmin();
+    }
+
     // Moderación: los administradores revisan todas las respuestas del muro.
     match /{path=**}/replies/{replyId} {
       allow read: if isStaff();
