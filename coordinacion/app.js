@@ -615,7 +615,7 @@ function formDoc(d = {}) {
 }
 
 let formacion = null;
-const RECOMENDADOS = ["llamados", "dirigente-juvenil", "herramientas-digitales", "buen-trato-y-prevencion", "diplomado"];
+const RECOMENDADOS = ["llamados", "dirigente-juvenil", "gestion-del-tiempo", "herramientas-digitales", "buen-trato-y-prevencion", "diplomado"];
 function vistaFormacion() {
   const f = formacion;
   const tarjetas = (xs) => xs.map((c) => `<a class="enlace" href="${MI_RUTA}#/curso/${esc(c.id)}"><b>${esc(c.titulo)}</b><span>${esc(c.subtitulo || c.duracion || "")}</span></a>`).join("");
