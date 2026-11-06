@@ -1,19 +1,23 @@
 {
  "handle": "@magnificat.tv-fm",
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
- "via": "streams (rss 404)",
+ "via": "rss",
  "vistos": [
-  "El Papa pide reciprocidad a los musulmanes | Comentario Semanal | P. Santiago Martín FM | Magnificat",
+  "Santa Misa de Hoy | Memoria, Mártires del Siglo XX en España (06-11-2026) |Pbro. Santiago Martín, FM",
+  "\"Mártires Españoles, Ejemplo de Amor y de Perdón\" | Homilía, San Pedro Poveda | P. Santiago M",
   "La Santa Misa de Hoy | Jueves, XXXI Semana del Tiempo Ordinario (05-11-2026) | P. Javier Martín, FM",
   "\"Todos Somos la Oveja Perdida\" | Homilía, Jueves XXXI Semana del T.O | P. Santiago M",
   "Homilía│ Martes, XXXI semana del Tiempo Ordinario 03.11.2026│ Pbro. Javier Martín FM│",
   "Santa Misa de Hoy | Memoria, San Carlos Borromeo, Obispo (04-11-2026) | Pbro. Santiago Martín, FM",
   "\"¿Sabes que tu Cruz Puede ser una Bendición?\" | Homilía, San Carlos Borromeo, Obispo | P. Santiago M",
-  "Homilía│ Conmemoración de todos los fieles difuntos 02.11.2026│ Pbro. Javier Martín FM│",
-  "La Santa Misa de Hoy | Martes, XXXI Semana del Tiempo Ordinario (03-11-2026) | P. Javier Martín, FM"
+  "Homilía│ Conmemoración de todos los fieles difuntos 02.11.2026│ Pbro. Javier Martín FM│"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-11-06": {
+   "id": "SpRf9sC_kgc",
+   "title": "Santa Misa de Hoy | Memoria, Mártires del Siglo XX en España (06-11-2026) |Pbro. Santiago Martín, FM"
+  },
   "2026-11-05": {
    "id": "_jMH911Yow8",
    "title": "La Santa Misa de Hoy | Jueves, XXXI Semana del Tiempo Ordinario (05-11-2026) | P. Javier Martín, FM"
@@ -53,10 +57,6 @@
   "2026-10-27": {
    "id": "I0gJYqlxI58",
    "title": "La Santa Misa de Hoy | Martes, XXX Semana del Tiempo Ordinario (27-10-2026) | P. Javier Martín, FM"
-  },
-  "2026-10-26": {
-   "id": "kwn3PtlnDBU",
-   "title": "La Santa Misa de Hoy | Lunes, XXX Semana del Tiempo Ordinario (26-10-2026) | P. Javier Martín, FM"
   }
  }
 }
