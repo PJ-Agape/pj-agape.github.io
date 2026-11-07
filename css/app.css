@@ -5158,3 +5158,10 @@ html.papel .ds-rec-ill svg.z-illus, html.papel .tp-ill svg.z-illus, html.papel .
 /* Invitación discreta a Mi Ruta */
 .mi-ruta-invita { margin: 22px auto 6px; max-width: 46rem; text-align: center; font-size: .82rem; color: var(--ink-2); }
 .mi-ruta-invita a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+/* Tarjeta para compartir la vela recién encendida */
+.vt-panel { margin: 12px 0; padding: 14px; border-radius: 18px; background: #fff6e5; border: 2px solid #0b2566; text-align: left; }
+.vt-h strong { display: block; color: #0b2566; font-size: 1.02rem; }
+.vt-h span { font-size: .9rem; color: #3b4a6b; }
+.vt-img { display: block; width: 100%; max-width: 360px; height: auto; aspect-ratio: 1; margin: 10px auto; border-radius: 14px; box-shadow: 0 4px 0 #0b2566; }
+.vt-btns { gap: 8px; justify-content: center; margin: 6px 0 8px; }

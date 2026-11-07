@@ -4,6 +4,7 @@
 
 import { esc, icon, toast } from "./util.js";
 import * as cloud from "./cloud.js";
+import * as VT from "./vela-tarjeta.js";
 
 // El sello: la cruz al centro y las ondas de la red que salen de ella.
 export const SELLO = (cls = "") => `<svg class="ad-sello ${cls}" viewBox="0 0 80 80" aria-hidden="true">
@@ -16,7 +17,7 @@ export const SELLO = (cls = "") => `<svg class="ad-sello ${cls}" viewBox="0 0 80
 </svg>`;
 
 let ctx = null; // { actions, render }
-export function setup(c) { ctx = c; registerActions(); }
+export function setup(c) { ctx = c; registerActions(); VT.setup(c.actions); }
 
 const CERRADA = "agape_red_cerrada";
 const LLEGA = "agape_red_llega";
@@ -58,8 +59,8 @@ export function formHTML(id = "adForm") {
     <button class="btn btn-primary" type="submit">${icon("send")} Enviar mi intención</button>
   </form>`;
 }
-const gracias = () => `<div class="ad-ok">${SELLO("ad-sello-s")}<div><strong>¡Gracias! Tu vela ya está encendida.</strong>
-  <span>La comunidad Ágape reza por ella esta semana y va a la misa del grupo. Ahora eres parte del Ágape digital: reenvía el mensaje de hoy para que la red siga creciendo.</span></div></div>`;
+const gracias = (t) => `<div class="ad-ok">${SELLO("ad-sello-s")}<div><strong>¡Gracias! Tu vela ya está encendida.</strong>
+  <span>La comunidad Ágape reza por ella esta semana y va a la misa del grupo. Ahora eres parte del Ágape digital.</span></div></div>${VT.panelHTML(t)}`;
 
 // Para el equipo y los dirigentes: las intenciones de la semana, para llevarlas a la misa
 function semana(d) { const t = d && d.toDate ? d.toDate() : d ? new Date(d) : null; return t && Date.now() - t.getTime() <= 7 * 86400000; }
@@ -130,7 +131,7 @@ function registerActions() {
     const t = f.t.value.trim(), n = f.n.value.trim();
     if (t.length < 3) { toast("Escribe tu intención", ""); f.t.focus(); return; }
     const b = f.querySelector("button[type=submit]"); if (b) b.disabled = true;
-    try { await cloud.saveIntencionRed({ t: t.slice(0, 500), n: n.slice(0, 40) }); f.outerHTML = gracias(); }
+    try { await cloud.saveIntencionRed({ t: t.slice(0, 500), n: n.slice(0, 40) }); f.outerHTML = gracias(t); VT.pintar(); }
     catch (err) { console.warn(err); toast("No se pudo enviar. Revisa tu conexión e intenta de nuevo.", "", 5000); if (b) b.disabled = false; }
   });
 }

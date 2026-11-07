@@ -12,6 +12,7 @@ import * as F from "./fiestas.js";
 import * as DS from "./descubre.js";
 import * as TP from "./temporadas.js";
 import { avatar } from "./avatares.js";
+import * as VT from "./vela-tarjeta.js";
 
 // Misa en vivo: la de hoy del canal de Magnificat TV (data/misa-vivo.json, la busca cada hora la
 // acción del Evangelio). Si hoy no hay, el enlace que dejó el administrador (content/misaVivo) o la
@@ -45,7 +46,7 @@ function misaHTML() {
     <p class="cap-ev-note">${sub ? `${esc(sub)} · ` : ""}Magnificat TV · <a href="${esc(misaVivo)}" target="_blank" rel="noopener">abrir en YouTube ↗</a></p>`;
 }
 let ctx = null; // { actions, render, onAfterRender, onLeave, cloud, content }
-export function setup(c) { ctx = c; registerActions(); }
+export function setup(c) { ctx = c; registerActions(); VT.setup(c.actions); }
 const $ = (s, r = document) => r.querySelector(s);
 const st = () => ctx.cloud.state();
 
@@ -1216,7 +1217,10 @@ function registerActions() {
     const ta = $("#velaText"), btn = e.target.querySelector("[type=submit]");
     btn.disabled = true;
     try {
-      await ctx.cloud.lightVela(ta.value.trim());
+      const intencion = ta.value.trim();
+      await ctx.cloud.lightVela(intencion);
+      $("#vtPanel")?.remove();
+      e.target.insertAdjacentHTML("afterend", VT.panelHTML(intencion)); VT.pintar();
       ta.value = ""; toast("Tu vela ya está encendida. La comunidad reza contigo.");
       e.target.querySelector(".cap-candle")?.classList.add("lit");
       const n = $("#velaN"); if (n) n.textContent = "0/1500";
