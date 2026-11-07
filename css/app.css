@@ -5165,3 +5165,5 @@ html.papel .ds-rec-ill svg.z-illus, html.papel .tp-ill svg.z-illus, html.papel .
 .vt-h span { font-size: .9rem; color: #3b4a6b; }
 .vt-img { display: block; width: 100%; max-width: 360px; height: auto; aspect-ratio: 1; margin: 10px auto; border-radius: 14px; box-shadow: 0 4px 0 #0b2566; }
 .vt-btns { gap: 8px; justify-content: center; margin: 6px 0 8px; }
+.cap-vela-env { display: inline-flex; align-items: center; gap: 4px; color: #1351a4; margin-right: 14px; }
+.cap-vela-env svg { width: 14px; height: 14px; }

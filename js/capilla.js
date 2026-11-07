@@ -621,6 +621,7 @@ function paintVelas(err) {
           <button class="cap-pray${mine ? " on" : ""}" data-action="capPray" data-id="${esc(v.id)}" data-on="${mine ? 0 : 1}" aria-pressed="${mine}">${icon("flame")} ${mine ? "Estás rezando" : "Rezo contigo"}</button>
           ${n ? `<span class="cap-pray-who"><span class="cap-stack" aria-hidden="true">${ps.slice(0, 5).map((p) => avatar(p.a, p.me ? "Tú" : p.n || "Alguien", "cap-av")).join("")}</span><span>${esc(whoText(ps))}</span></span>` : ""}
         </div>
+        ${staff && !v.fiesta && v.text ? `<button class="cap-vela-del cap-vela-env" data-action="capVelaEnv" data-id="${esc(v.id)}">${icon("send")} Enviar por WhatsApp</button>` : ""}
         ${!v.fiesta && (v.authorUid === me || staff) ? `<button class="cap-vela-del" data-action="capVelaDel" data-id="${esc(v.id)}">Retirar ${v.authorUid === me ? "mi" : "esta"} vela</button>` : ""}
       </div>
     </article>`;
@@ -1206,6 +1207,10 @@ function registerActions() {
     else if (gd && e.key === "ArrowRight") { e.preventDefault(); gd.i === gd.steps.length - 1 ? stopSilence(true) : guideMove(1); }
     else if (gd && e.key === "ArrowLeft") { e.preventDefault(); guideMove(-1); }
   });
+  A.capVelaEnv = (el) => {
+    const id = el.dataset.id, v = id.startsWith("red:") ? (velasRed || []).find((r) => "red:" + r.id === id) : (velas || []).find((x) => x.id === id);
+    if (v) VT.abrir(id.startsWith("red:") ? v.t : v.text);
+  };
   document.addEventListener("input", (e) => {
     if (e.target.id !== "velaText") return;
     const n = $("#velaN"); if (n) n.textContent = `${e.target.value.length}/1500`;
