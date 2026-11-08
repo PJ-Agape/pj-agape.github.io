@@ -1,9 +1,9 @@
 {
  "handle": "@magnificat.tv-fm",
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
- "via": "streams (rss 404)",
+ "via": "rss",
  "vistos": [
-  "El Papa pide reciprocidad a los musulmanes | Comentario Semanal | P. Santiago Martín FM | Magnificat",
+  "La Santa Misa de Hoy | Domingo XXXII del Tiempo Ordinario (08-11-2026) | Pbro. Javier Martín, FM",
   "\"Estate Preparado. No Sabes el Día ni la Hora\" | Homilía, XXXII Domingo del T.O | P. Santiago M",
   "\"La Limosna es Obligatoria y la Prudencia También\" | Homilía, Sábado, XXXI del T.O | P. Santiago M",
   "Santa Misa de Hoy | Sábado, XXXI Semana del Tiempo Ordinario (07-11-2026) | Pbro. Santiago Martín FM",
@@ -14,6 +14,10 @@
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-11-08": {
+   "id": "fOFQbmrSBIM",
+   "title": "La Santa Misa de Hoy | Domingo XXXII del Tiempo Ordinario (08-11-2026) | Pbro. Javier Martín, FM"
+  },
   "2026-11-07": {
    "id": "c3Sq4UrL6oE",
    "title": "Santa Misa de Hoy | Sábado, XXXI Semana del Tiempo Ordinario (07-11-2026) | Pbro. Santiago Martín FM"
