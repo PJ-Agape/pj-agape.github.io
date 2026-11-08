@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-06": {
-   "titulo": "Viernes de la 31.ª semana del Tiempo Ordinario",
-   "cita": "Lc 16,1-8",
-   "frase": "Los hijos de este mundo son más astutos que los hijos de la luz.",
-   "video": "7VXBCxhS17I",
-   "reflexion": "gbclF_cacS4"
-  },
   "2026-11-07": {
    "titulo": "Sábado de la 31.ª semana del Tiempo Ordinario",
    "cita": "Lc 16,9-15",
@@ -60,6 +53,11 @@
    "titulo": "Lunes de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 18,35-43",
    "frase": "¿Qué quieres que haga por ti? —Señor, que yo vea."
+  },
+  "2026-11-17": {
+   "titulo": "Martes de la 33.ª semana del Tiempo Ordinario",
+   "cita": "Lc 19,1-10",
+   "frase": "Zaqueo, baja pronto, porque hoy tengo que alojarme en tu casa."
   }
  }
 }
