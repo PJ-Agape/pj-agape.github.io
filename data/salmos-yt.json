@@ -1,8 +1,8 @@
 {
  "canal": "@CantalosSalmos",
  "fuente": "Cántalos Salmos (YouTube)",
- "total": 71,
- "conNumero": 27,
+ "total": 72,
+ "conNumero": 28,
  "salmos": {
   "1": [
    {
@@ -472,6 +472,13 @@
     "t": "SALMOS CANTADOS | Salmo 133 y 144 | Para que ABUNDE tu Casa y Negocios 💰",
     "solo": false
    }
+  ],
+  "145": [
+   {
+    "id": "0KZd7vF2P7U",
+    "t": "SALMO 145: La Última Canción que David Escribió para Dios 🪉📜",
+    "solo": true
+   }
   ]
  },
  "sinNumero": [
@@ -479,5 +486,5 @@
   "SOLO GRACIAS, SEÑOR 😍 | La Canción Más Hermosa de GRATITUD a Dios 🤍🙏",
   "HOSANNA | La Canción MÁS HERMOSA para Empezar tu Día con Dios🤍🌅"
  ],
- "revisado": "2026-10-29"
+ "revisado": "2026-11-09"
 }
