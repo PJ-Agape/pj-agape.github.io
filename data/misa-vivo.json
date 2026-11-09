@@ -3,17 +3,21 @@
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
  "via": "rss",
  "vistos": [
+  "La Santa Misa de Hoy | Nuestra Señora de la Almudena (09-11-2026) | Pbro. Javier Martín, FM",
+  "La Escritura y la Tradición Guían la Iglesia | Homilía, Dedicación Basílica de Letrán | P. Santiago",
   "La Santa Misa de Hoy | Domingo XXXII del Tiempo Ordinario (08-11-2026) | Pbro. Javier Martín, FM",
   "\"Estate Preparado. No Sabes el Día ni la Hora\" | Homilía, XXXII Domingo del T.O | P. Santiago M",
   "\"La Limosna es Obligatoria y la Prudencia También\" | Homilía, Sábado, XXXI del T.O | P. Santiago M",
   "Santa Misa de Hoy | Sábado, XXXI Semana del Tiempo Ordinario (07-11-2026) | Pbro. Santiago Martín FM",
   "Homilía│ Jueves, XXXI semana del Tiempo Ordinario 05.11.2026│ Pbro. Javier Martín FM│",
-  "Obispo alemán chantajea al Papa León | P. Santiago Martín FM | Comentario Semanal",
-  "Santa Misa de Hoy | Memoria, Mártires del Siglo XX en España (06-11-2026) |Pbro. Santiago Martín, FM",
-  "\"Mártires Españoles, Ejemplo de Amor y de Perdón\" | Homilía, San Pedro Poveda | P. Santiago M"
+  "Obispo alemán chantajea al Papa León | P. Santiago Martín FM | Comentario Semanal"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-11-09": {
+   "id": "JHYDhRRC-QU",
+   "title": "La Santa Misa de Hoy | Nuestra Señora de la Almudena (09-11-2026) | Pbro. Javier Martín, FM"
+  },
   "2026-11-08": {
    "id": "fOFQbmrSBIM",
    "title": "La Santa Misa de Hoy | Domingo XXXII del Tiempo Ordinario (08-11-2026) | Pbro. Javier Martín, FM"
@@ -53,10 +57,6 @@
   "2026-10-30": {
    "id": "OrGBTJxA5qQ",
    "title": "Santa Misa de Hoy | Viernes, XXX Semana del Tiempo Ordinario (30-10-2026) |Pbro. Santiago Martín, FM"
-  },
-  "2026-10-29": {
-   "id": "ko2fV05ZkDw",
-   "title": "La Santa Misa de Hoy | Jueves, XXX Semana del Tiempo Ordinario (29-10-2026) | P. Javier Martín, FM"
   }
  }
 }
