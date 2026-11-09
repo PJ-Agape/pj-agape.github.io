@@ -1,9 +1,10 @@
 // Importar canciones al cancionero: convierte el formato «acordes arriba de la letra»
 // (como vienen en la mayoría de los cancioneros en PDF o en páginas web) al formato
 // de la app, con cada acorde entre corchetes justo antes de la sílaba: [G]Amor que trans[D]forma.
-// Acepta notación americana (C, Am7, F#m, Bb, D/F#) y latina (Do, Lam, Sol7, Sib, Re/Fa#).
+// Acepta notación americana (C, Am7, F#m, Bb, D/F#) y latina (Do, Lam, Sol7, Sib, Re/Fa#), también en
+// mayúsculas (DO, REm, SIb, FA#).
 
-const ROOT = "(?:[A-G]|Do|Re|Mi|Fa|Sol|La|Si)";
+const ROOT = "(?:[A-G]|Do|Re|Mi|Fa|Sol|La|Si|DO|RE|MI|FA|SOL|LA|SI)";
 const ACC = "(?:#|b|♯|♭)?";
 const QUAL = "(?:m|min|maj|M|dim|aug|sus|add|º|°|\\+|-)?";
 const EXT = "(?:\\d{1,2})?(?:(?:sus|add|maj|M|b|#|\\+|-)\\d{1,2})*(?:\\(\\w+\\))?";
@@ -50,8 +51,9 @@ function merge(chordLine, lyric) {
     if (col >= text.length) text = text + (text && !text.endsWith(" ") ? " " : "") + `[${c}]`;
     else text = text.slice(0, col) + `[${c}]` + text.slice(col);
   }
-  // Si un acorde quedó sobre el comienzo, no deja espacios raros al inicio.
-  return text.replace(/^\s+(\[)/, "$1");
+  // Si un acorde quedó sobre el comienzo, no deja espacios raros al inicio; y une las sílabas
+  // estiradas con guiones para calzar con los acordes («ven--go» → «ven[Sib]go»).
+  return text.replace(/^\s+(\[)/, "$1").replace(/([\p{L}\]])\s*-{2,}\s*(?=[\p{L}\[])/gu, "$1").replace(/ {2,}/g, " ").replace(/ (\[[^\]]+\]) /g, " $1");
 }
 const chordsOnly = (line) => line.trim().split(/\s+/).filter((t) => !FILLER.test(t)).map((t) => `[${t.replace(/[,;]$/, "")}]`).join(" ");
 
@@ -64,6 +66,13 @@ export function toInline(text) {
     // «Intro: Am F C G» → la etiqueta y, debajo, los acordes
     const lc = /^\s*(intro(?:ducci[oó]n)?|final|puente|interludio)\s*:\s*(.+)$/i.exec(line);
     if (lc && isChordLine(lc[2])) { if (out.length && out[out.length - 1] !== "") out.push(""); out.push(label(lc[1] + ":") || lc[1] + ":"); out.push(chordsOnly(lc[2])); continue; }
+    // «Tono:» con el acorde en la misma línea o en la siguiente → «Tono: Fa»
+    const tn = /^\s*tono\s*:?\s*(.*)$/i.exec(line);
+    if (tn) {
+      let k = tn[1].trim(), j = i;
+      if (!k) { j = i + 1; while (j < lines.length && !lines[j].trim()) j++; k = j < lines.length && isChord(lines[j].trim()) ? lines[j].trim() : ""; }
+      if (k && isChord(k)) { out.push(`Tono: ${k}`); out.push(""); i = j; continue; }
+    }
     const lb = label(line);
     if (lb) { if (out.length && out[out.length - 1] !== "") out.push(""); out.push(lb); continue; }
     if (/\[[^\]]+\]/.test(line)) { out.push(line.trim()); continue; } // ya viene con acordes entre corchetes
@@ -73,7 +82,9 @@ export function toInline(text) {
       else out.push(chordsOnly(line)); // intro o pasaje solo instrumental
       continue;
     }
-    out.push(line.replace(/\s+$/, ""));
+    const l = line.replace(/\s+$/, "");
+    if (!l && /:$/.test(out[out.length - 1] || "")) continue; // sin línea en blanco justo después de «Coro:»
+    out.push(l);
   }
   return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
 }
