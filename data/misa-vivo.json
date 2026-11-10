@@ -1,19 +1,23 @@
 {
  "handle": "@magnificat.tv-fm",
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
- "via": "streams (rss 404)",
+ "via": "rss",
  "vistos": [
-  "El Papa pide reciprocidad a los musulmanes | Comentario Semanal | P. Santiago Martín FM | Magnificat",
+  "La Santa Misa de Hoy | Memorial de San León Magno (10-11-2026) | Pbro. Javier Martín, FM",
+  "Nunca harás lo Suficiente para Agradecer a Dios por lo que te ha Dado | San León Magno | P. Santiago",
   "Homilía│Nuestra Señora de la Almudena 09.11.2026 │Pbro. Javier Martín FM│www.magnificat.tv│",
   "Homilía│ Domingo XXXII del Tiempo Ordinario 08.11.2026│ Pbro. Javier Martín FM│ www.magnificat.tv│",
   "5. Belén; Donde lo divino abrazó lo humano y la eternidad se hizo presencia | P. Santiago Martín FM",
   "La Santa Misa de Hoy | Nuestra Señora de la Almudena (09-11-2026) | Pbro. Javier Martín, FM",
   "La Escritura y la Tradición Guían la Iglesia | Homilía, Dedicación Basílica de Letrán | P. Santiago",
-  "La Santa Misa de Hoy | Domingo XXXII del Tiempo Ordinario (08-11-2026) | Pbro. Javier Martín, FM",
-  "\"Estate Preparado. No Sabes el Día ni la Hora\" | Homilía, XXXII Domingo del T.O | P. Santiago M"
+  "La Santa Misa de Hoy | Domingo XXXII del Tiempo Ordinario (08-11-2026) | Pbro. Javier Martín, FM"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-11-10": {
+   "id": "N6aFi-foC0c",
+   "title": "La Santa Misa de Hoy | Memorial de San León Magno (10-11-2026) | Pbro. Javier Martín, FM"
+  },
   "2026-11-09": {
    "id": "JHYDhRRC-QU",
    "title": "La Santa Misa de Hoy | Nuestra Señora de la Almudena (09-11-2026) | Pbro. Javier Martín, FM"
