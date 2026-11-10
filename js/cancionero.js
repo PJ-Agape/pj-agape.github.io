@@ -4,7 +4,7 @@
 
 import { esc, icon, toast, invitaMiRuta } from "./util.js";
 import * as E from "./entrada.js";
-import { toInline, splitSongs, findDuplicate } from "./acordes-import.js";
+import { toInline, splitSongs, findDuplicate, hasLoose } from "./acordes-import.js";
 
 let ctx = null; // { actions, render, onAfterRender, onLeave, cloud }
 export function setup(c) { ctx = c; registerActions(); }
@@ -463,7 +463,7 @@ export function viewSong(id, misaId) {
 }
 function songBody(s, shift, chords = prefs.chords) { return songLines(s, shift, chords).join(""); }
 function songLines(s, shift, chords = prefs.chords) {
-  const lines = String(s.body || "").split("\n");
+  const lines = String((hasLoose(s.body) ? toInline(s.body) : s.body) || "").split("\n"); // canciones guardadas sin acomodar
   return lines.map((ln) => {
     const t = ln.trim();
     if (!t) return `<div class="can-gap"></div>`;
@@ -1202,10 +1202,14 @@ function registerActions() {
   A.canNew = () => songEditor(null);
   A.canImport = () => importDialog();
   A.canImpCheck = () => importPreview();
+  document.addEventListener("paste", (e) => {
+    const ta = e.target && e.target.closest && e.target.closest("#canForm textarea[name=body]"); if (!ta) return;
+    setTimeout(() => { if (hasLoose(ta.value)) { ta.value = toInline(ta.value); toast("Acordes acomodados. Revisa que cada uno quedó en su sílaba."); } }, 0);
+  });
   A.canFix = () => {
     const ta = document.querySelector("#canForm textarea[name=body]"); if (!ta || !ta.value.trim()) { toast("Primero pega la canción en el cuadro de la letra", ""); return; }
     const before = ta.value, after = toInline(before);
-    if (after === before.trim()) { toast("No encontré acordes arriba de la letra para acomodar"); return; }
+    if (!hasLoose(before) || after === before.trim()) { toast("No encontré acordes arriba de la letra para acomodar"); return; }
     ta.value = after; toast("Acordes acomodados. Revisa que cada uno quedó en su sílaba.");
   };
   A.canEdit = (el) => songEditor(byId(el.dataset.id));
@@ -1284,6 +1288,7 @@ function registerActions() {
       const f = new FormData(e.target);
       const data = { title: String(f.get("title") || "").trim(), author: String(f.get("author") || "").trim(), momentos: f.getAll("m").map(String),
         body: String(f.get("body") || "").replace(/\r/g, ""), link: String(f.get("link") || "").trim() };
+      if (hasLoose(data.body)) data.body = toInline(data.body); // acordes arriba de la letra: se acomodan solos al guardar
       if (!data.title) return;
       const dupe = findDuplicate(data, all(), e.target.dataset.id || null);
       if (dupe && !confirm(`Parece que «${dupe.song.title}» ya está en el cancionero (tiene ${dupe.why}). ¿Guardar igual?`)) return;

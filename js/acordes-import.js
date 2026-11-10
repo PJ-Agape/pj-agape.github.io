@@ -45,15 +45,17 @@ function merge(chordLine, lyric) {
   const out = [], re = /\S+/g; let m;
   while ((m = re.exec(chordLine))) out.push({ col: m.index, ch: m[0] });
   let text = lyric.replace(/\s+$/, "");
+  const len = text.length, cola = [];
   for (const { col, ch } of out.reverse()) {
     if (FILLER.test(ch)) continue;
     const c = ch.replace(/[,;]$/, "");
-    if (col >= text.length) text = text + (text && !text.endsWith(" ") ? " " : "") + `[${c}]`;
+    if (col >= len) cola.unshift(`[${c}]`); // después del final de la letra: van al final, en orden
     else text = text.slice(0, col) + `[${c}]` + text.slice(col);
   }
+  if (cola.length) text += (text ? " " : "") + cola.join(" ");
   // Si un acorde quedó sobre el comienzo, no deja espacios raros al inicio; y une las sílabas
   // estiradas con guiones para calzar con los acordes («ven--go» → «ven[Sib]go»).
-  return text.replace(/^\s+(\[)/, "$1").replace(/([\p{L}\]])\s*-{2,}\s*(?=[\p{L}\[])/gu, "$1").replace(/ {2,}/g, " ").replace(/ (\[[^\]]+\]) /g, " $1");
+  return text.replace(/^\s+(\[)/, "$1").replace(/([\p{L}\]])\s*-{2,}\s*(?=[\p{L}\[])/gu, "$1").replace(/ {2,}/g, " ").replace(/ (\[[^\]]+\]) (?!\[)/g, " $1");
 }
 const chordsOnly = (line) => line.trim().split(/\s+/).filter((t) => !FILLER.test(t)).map((t) => `[${t.replace(/[,;]$/, "")}]`).join(" ");
 
@@ -87,6 +89,11 @@ export function toInline(text) {
     out.push(l);
   }
   return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+// ¿Quedan líneas de acordes sueltas (arriba de la letra, sin corchetes)? Entonces hay que acomodarlas.
+export function hasLoose(text) {
+  return String(text || "").replace(/\r/g, "").split("\n").some((l) => !/\[[^\]]+\]/.test(l) && isChordLine(l.replace(/\u00a0/g, " ")));
 }
 
 // Varias canciones pegadas juntas: se separan con una línea «---». La primera línea de cada una es el título.
