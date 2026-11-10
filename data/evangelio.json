@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-08": {
-   "titulo": "32.º domingo del Tiempo Ordinario",
-   "cita": "Mt 25,1-13",
-   "frase": "Estén prevenidos, porque no saben el día ni la hora.",
-   "reflexion": "CobnJBbVdME",
-   "video": "tFL6HEESrvI"
-  },
   "2026-11-09": {
    "titulo": "Dedicación de la Basílica de San Juan de Letrán",
    "cita": "Jn 2,13-22",
@@ -60,6 +53,11 @@
    "titulo": "Miércoles de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 19,11-28",
    "frase": "Al que tiene, se le dará."
+  },
+  "2026-11-19": {
+   "titulo": "Jueves de la 33.ª semana del Tiempo Ordinario",
+   "cita": "Lc 19,41-44",
+   "frase": "Al ver la ciudad, Jesús lloró por ella."
   }
  }
 }
