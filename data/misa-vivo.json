@@ -4,16 +4,20 @@
  "via": "streams (rss 404)",
  "vistos": [
   "Acusan al Papa de no admitir que la Iglesia es sistémicamente abusadora | P. Santiago Martín FM",
+  "Santa Misa de Hoy | Memoria, San Martín de Tours, Obispo (11-11-2026) | Pbro. Santiago Martín, FM",
+  "\"El Agradecimiento nos Salva\" | Homilía, San Martín de Tours, Obispo | P. Santiago M",
   "El Papa reivindica la vida, Alemania busca reconciliarse con Roma y crece la controversia doctrinal",
   "La Santa Misa de Hoy | Memorial de San León Magno (10-11-2026) | Pbro. Javier Martín, FM",
   "Nunca harás lo Suficiente para Agradecer a Dios por lo que te ha Dado | San León Magno | P. Santiago",
   "Homilía│Nuestra Señora de la Almudena 09.11.2026 │Pbro. Javier Martín FM│www.magnificat.tv│",
-  "Homilía│ Domingo XXXII del Tiempo Ordinario 08.11.2026│ Pbro. Javier Martín FM│ www.magnificat.tv│",
-  "5. Belén; Donde lo divino abrazó lo humano y la eternidad se hizo presencia | P. Santiago Martín FM",
-  "La Santa Misa de Hoy | Nuestra Señora de la Almudena (09-11-2026) | Pbro. Javier Martín, FM"
+  "Homilía│ Domingo XXXII del Tiempo Ordinario 08.11.2026│ Pbro. Javier Martín FM│ www.magnificat.tv│"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-11-11": {
+   "id": "3fyyAb1tox8",
+   "title": "Santa Misa de Hoy | Memoria, San Martín de Tours, Obispo (11-11-2026) | Pbro. Santiago Martín, FM"
+  },
   "2026-11-10": {
    "id": "N6aFi-foC0c",
    "title": "La Santa Misa de Hoy | Memorial de San León Magno (10-11-2026) | Pbro. Javier Martín, FM"
@@ -53,10 +57,6 @@
   "2026-11-01": {
    "id": "trd41lzJ3DE",
    "title": "La Santa Misa de Hoy | Solemnidad de Todos los Santos (01-11-2026) | P. Javier Martín, FM"
-  },
-  "2026-10-31": {
-   "id": "5KCrcPVF-2E",
-   "title": "Santa Misa de Hoy | Sábado, XXX Semana del Tiempo Ordinario (31-10-2026) | Pbro. Santiago Martín, FM"
   }
  }
 }

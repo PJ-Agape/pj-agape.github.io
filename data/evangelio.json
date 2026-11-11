@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-09": {
-   "titulo": "Dedicación de la Basílica de San Juan de Letrán",
-   "cita": "Jn 2,13-22",
-   "frase": "Él se refería al templo de su cuerpo.",
-   "video": "WrnpWOAqUXY",
-   "reflexion": "5aMZQ0IMqJc"
-  },
   "2026-11-10": {
    "titulo": "Martes de la 32.ª semana del Tiempo Ordinario",
    "cita": "Lc 17,7-10",
@@ -60,6 +53,11 @@
    "titulo": "Jueves de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 19,41-44",
    "frase": "Al ver la ciudad, Jesús lloró por ella."
+  },
+  "2026-11-20": {
+   "titulo": "Viernes de la 33.ª semana del Tiempo Ordinario",
+   "cita": "Lc 19,45-48",
+   "frase": "Mi casa será casa de oración."
   }
  }
 }
