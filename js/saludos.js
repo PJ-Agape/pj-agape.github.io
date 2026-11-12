@@ -88,7 +88,7 @@ const hoy = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.get
 const wa = (t) => esc(t).replace(/\*([^*\n]+)\*/g, "<b>$1</b>").replace(/(^|\s)_([^_\n]+)_/g, "$1<i>$2</i>").replace(/\n/g, "<br>");
 const img = (k, iso) => `saludos/${k === "noche" ? "noche" : k === "perla" ? "perla" : "manana"}/${iso}.jpg`;
 const NOMBRE = { dia: "☀️ Buenos días", perla: "✨ Perla de sabiduría", noche: "🌙 Buenas noches" };
-const ARCH = { dia: "buenos-dias", perla: "perla-de-sabiduria", noche: "buenas-noches" };
+const ARCH = { dia: "buenos-dias", perla: "perla-de-sabiduria", noche: "buenas-noches", familia: "buenos-dias-familia" };
 
 async function load() {
   if (data) return data;
@@ -113,7 +113,40 @@ async function load() {
 
 // El saludo es el Evangelio: el texto va tal cual, con su único enlace a la Capilla (abre el Evangelio del día).
 // La invitación a otros rincones vive en la app, justo después de leer el Evangelio (ver capilla.js).
-const textoDe = (x, k) => (k === "fuera" ? fuera(x) : x[k] || "");
+const textoDe = (x, k) => (k === "fuera" ? fuera(x) : k === "familia" ? familia(x) : x[k] || "");
+// Versión para la familia: el mismo saludo de buenos días, con el encabezado para la familia y, antes de la
+// despedida, un desafío de cuidado (por defecto, recordar las medicinas). La frase se edita y queda guardada
+// en este dispositivo.
+export const FAM_DEFAULT = "💊 *Desafío de hoy:* cuidémonos. No olvidemos tomar nuestras medicinas.";
+const FAM_KEY = "agape:saludoFamilia";
+let famTxt = null;
+const famLinea = () => {
+  if (famTxt === null) { try { famTxt = localStorage.getItem(FAM_KEY); } catch {} if (famTxt == null) famTxt = FAM_DEFAULT; }
+  return famTxt;
+};
+function famGuardar(v) {
+  famTxt = v;
+  try { if (v === FAM_DEFAULT) localStorage.removeItem(FAM_KEY); else localStorage.setItem(FAM_KEY, v); } catch {}
+}
+function familia(x) {
+  const ps = (x.dia || "").split("\n\n"), l = famLinea().trim();
+  const cab = ps[0].split("\n"); cab[0] = "☀️ *¡Buenos días, familia!*"; ps[0] = cab.join("\n");
+  if (l) ps.splice(Math.max(1, ps.length - 1), 0, l);
+  return ps.join("\n\n");
+}
+const partFamilia = (x) => `<article class="sal-part familia">
+    <h3>Para la familia <small>El saludo de buenos días con un desafío de cuidado</small></h3>
+    <p class="xs muted">El mismo saludo de buenos días, dirigido a la familia, con un recordatorio antes de la despedida. Sirve para acompañar a quien sigue un tratamiento: quien cumple el desafío puede reaccionar al mensaje.</p>
+    <img class="sal-img" src="${img("dia", x.iso)}" alt="Imagen del Evangelio del ${esc(x.fecha)}" loading="lazy">
+    <div class="field"><label for="famLinea">Desafío de cuidado <span class="muted">(se guarda en este dispositivo)</span></label>
+      <input class="input" id="famLinea" maxlength="200" value="${esc(famLinea())}" placeholder="${esc(FAM_DEFAULT)}"></div>
+    <div class="row-wrap" style="gap:8px">
+      <button class="btn btn-gold" data-action="salShare" data-iso="${x.iso}" data-k="familia">📤 Enviar a WhatsApp</button>
+      <button class="btn btn-soft btn-sm" data-action="salCopy" data-iso="${x.iso}" data-k="familia">${icon("copy")} Copiar texto</button>
+      <button class="btn btn-ghost btn-sm" data-action="famReset">↩️ Frase original</button>
+    </div>
+    <div class="sal-wa" id="famPrev" data-iso="${x.iso}">${wa(familia(x))}</div>
+  </article>`;
 // Versión general, para compartir fuera de la comunidad (canal, estados, otros grupos):
 // la fecha, la frase del Evangelio, la cita, el enlace y la invitación a reenviarlo (misioneros digitales).
 function fuera(x) {
@@ -183,26 +216,26 @@ export async function adminView() {
   <div class="sal-days" role="list">${d.dias.map((y) => `<button role="listitem" class="sal-day ${y.iso === sel ? "on" : ""} ${y.iso === t ? "today" : ""} ${y.iso < t ? "past" : ""}" data-action="salPick" data-iso="${y.iso}" title="${esc(y.titulo)}"><small>${esc(y.fecha.split(" ")[0].slice(0, 3))}</small><b>${+y.iso.slice(8)}</b><small>${["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][+y.iso.slice(5, 7) - 1]}</small></button>`).join("")}</div>
   <section class="card sal-card"><div class="sal-top"><h2>${sel === t ? "Hoy · " : ""}${esc(x.fecha)}</h2><span class="muted small">${esc(x.titulo)}</span></div>
     ${fiestas ? `<div class="sal-grid sal-fiestas">${fiestas}</div>` : ""}
-    <div class="sal-grid">${(night ? ["noche", "dia", "perla"] : ["dia", "perla", "noche"]).filter((k) => x[k]).map((k) => part(x, k)).join("")}${partFuera(x)}</div></section>
+    <div class="sal-grid">${(night ? ["noche", "dia", "perla"] : ["dia", "perla", "noche"]).filter((k) => x[k]).map((k) => part(x, k)).join("")}${partFuera(x)}${x.dia ? partFamilia(x) : ""}</div></section>
   ${F.fechasAdminHTML()}
   <p class="xs muted">Los versículos de la noche vienen del salmo de Vísperas de cada día, en traducción sencilla. Para la antífona oficial, revisa la Liturgia de las Horas.</p>`;
 }
 
 // Envío rápido (desde el recordatorio del calendario): el saludo de hoy, listo para enviar en un toque.
-const KINDS = [["dia", "Buenos días"], ["perla", "Perla"], ["noche", "Buenas noches"], ["fuera", "Para compartir fuera"]];
+const KINDS = [["dia", "Buenos días"], ["perla", "Perla"], ["noche", "Buenas noches"], ["fuera", "Para compartir fuera"], ["familia", "Para la familia"]];
 export async function enviarView(k) {
   const d = await load(), t = hoy(), h = new Date().getHours();
   if (!KINDS.some(([x]) => x === k)) k = h < 11 ? "dia" : h < 17 ? "perla" : "noche";
   const x = d && d.dias.find((y) => y.iso === t);
   const head = `<header class="page-head"><span class="eyebrow">Saludos WhatsApp</span><h1>Enviar el saludo de <em>hoy</em></h1></header>`;
   if (!x) return `${head}<div class="note">No hay saludos preparados para hoy (${esc(t)}). Hay que agregar el bloque nuevo: revisa Gestión → Saludos WhatsApp.</div><a class="btn btn-ghost" href="#/admin/saludos">Ir a Saludos WhatsApp</a>`;
-  const imgK = k === "fuera" ? "dia" : k;
+  const imgK = k === "fuera" || k === "familia" ? "dia" : k;
   return `${head}
-    <div class="sal-env-seg" role="tablist" aria-label="Qué saludo">${KINDS.filter(([y]) => y === "fuera" || x[y]).map(([y, l]) => `<a role="tab" class="chip ${y === k ? "accent" : ""}" href="#/admin/enviar/${y}">${l}</a>`).join("")}</div>
+    <div class="sal-env-seg" role="tablist" aria-label="Qué saludo">${KINDS.filter(([y]) => y === "fuera" || (y === "familia" ? x.dia : x[y])).map(([y, l]) => `<a role="tab" class="chip ${y === k ? "accent" : ""}" href="#/admin/enviar/${y}">${l}</a>`).join("")}</div>
     <section class="card sal-env">
       <img class="sal-img" src="${img(imgK, x.iso)}" alt="Imagen del saludo de hoy">
       <button class="btn btn-gold sal-env-btn" data-action="salShare" data-iso="${x.iso}" data-k="${k}">Enviar a WhatsApp</button>
-      <p class="xs muted">${k === "fuera" ? "Para el canal, estados u otros grupos." : "Para la comunidad de internautas agAPPe."} En el celular se abre el menú de compartir con la imagen y el texto: elige WhatsApp y el chat. En el computador, primero se copia la imagen y luego el texto.</p>
+      <p class="xs muted">${k === "fuera" ? "Para el canal, estados u otros grupos." : k === "familia" ? "Para el grupo de la familia, con el desafío de cuidado." : "Para la comunidad de internautas agAPPe."} En el celular se abre el menú de compartir con la imagen y el texto: elige WhatsApp y el chat. En el computador, primero se copia la imagen y luego el texto.</p>
       <div class="row-wrap" style="gap:8px"><button class="btn btn-soft btn-sm" data-action="salCopy" data-iso="${x.iso}" data-k="${k}">${icon("copy")} Copiar texto</button>
         <a class="btn btn-ghost btn-sm" href="${img(imgK, x.iso)}" download="agAPPe-${ARCH[imgK] || "saludo"}-${x.iso}.jpg">${icon("dl")} Guardar imagen</a>
         <a class="btn btn-ghost btn-sm" href="#/admin/saludos">Ver todos los saludos</a></div>
@@ -251,12 +284,17 @@ function bvRefresh(img) {
   const p = document.getElementById("bvPrev"); if (p) p.innerHTML = wa(bienvText());
   if (img) { clearTimeout(bvT); bvT = setTimeout(paintBienv, 250); }
 }
+function famRefresh() {
+  const p = document.getElementById("famPrev"), x = p && data && data.dias.find((y) => y.iso === p.dataset.iso);
+  if (x) p.innerHTML = wa(familia(x));
+}
 let bvWired = false;
 function wireBienv() {
   if (bvWired) return; bvWired = true;
   document.addEventListener("input", (e) => {
     if (e.target.id === "bvNombre") { bv.nombre = e.target.value; bvRefresh(true); }
     if (e.target.id === "bvTpl") { bv.tpl = e.target.value; bvRefresh(false); }
+    if (e.target.id === "famLinea") { famGuardar(e.target.value); famRefresh(); }
   });
   document.addEventListener("change", async (e) => {
     if (e.target.name === "bvG") { bv.g = +e.target.value; bvRefresh(true); }
@@ -283,6 +321,7 @@ export function registerActions(actions, render) {
   };
   actions.bvReset = () => { bv.tpl = bvDef(); const ta = document.getElementById("bvTpl"); if (ta) ta.value = bv.tpl; bvRefresh(false); toast("Volviste al mensaje original. Para dejarlo fijo, guárdalo.", ""); };
   actions.salPick = (el) => { sel = el.dataset.iso; render(); };
+  actions.famReset = () => { famGuardar(FAM_DEFAULT); const i = document.getElementById("famLinea"); if (i) i.value = FAM_DEFAULT; famRefresh(); toast("Volviste a la frase original.", ""); };
   const fp = (k) => F.piezas.get(k);
   actions.fiShare = async (el) => { const p = fp(el.dataset.k); if (!p) return; return esPC() ? pcShare(el, () => F.piezaBlob(el.dataset.k), p.text) : shareImg(await F.piezaBlob(el.dataset.k), p.name + ".png", p.text); };
   actions.fiCopy = async (el) => { const p = fp(el.dataset.k); if (!p) return; try { await navigator.clipboard.writeText(p.text); toast("Texto copiado 📋", "ok"); } catch { toast("No se pudo copiar", ""); } };
