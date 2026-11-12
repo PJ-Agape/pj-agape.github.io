@@ -1,7 +1,7 @@
 {
  "handle": "@magnificat.tv-fm",
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
- "via": "streams (rss 500)",
+ "via": "streams (rss 404)",
  "vistos": [
   "Acusan al Papa de no admitir que la Iglesia es sistémicamente abusadora | P. Santiago Martín FM",
   "Homilía│ Memorial de San León Magno 10.11.2026│ Pbro. Javier Martín FM│ www.magnificat.tv│",
@@ -53,10 +53,6 @@
   "2026-11-02": {
    "id": "5OnDlriiOOo",
    "title": "La Santa Misa de Hoy | Conmemoración de todos los fieles difuntos (02-11-2026)| P. Javier Martín, FM"
-  },
-  "2026-11-01": {
-   "id": "trd41lzJ3DE",
-   "title": "La Santa Misa de Hoy | Solemnidad de Todos los Santos (01-11-2026) | P. Javier Martín, FM"
   }
  }
 }

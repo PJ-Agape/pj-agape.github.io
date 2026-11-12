@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-10": {
-   "titulo": "Martes de la 32.ª semana del Tiempo Ordinario",
-   "cita": "Lc 17,7-10",
-   "frase": "Somos simples servidores, no hemos hecho más que cumplir con nuestro deber.",
-   "reflexion": "YYfbRAJmd1M",
-   "video": "CqPKQUK6mms"
-  },
   "2026-11-11": {
    "titulo": "Miércoles de la 32.ª semana del Tiempo Ordinario",
    "cita": "Lc 17,11-19",
@@ -59,6 +52,11 @@
    "titulo": "Viernes de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 19,45-48",
    "frase": "Mi casa será casa de oración."
+  },
+  "2026-11-21": {
+   "titulo": "Sábado de la 33.ª semana del Tiempo Ordinario",
+   "cita": "Lc 20,27-40",
+   "frase": "Dios no es un Dios de muertos, sino de vivientes."
   }
  }
 }
