@@ -550,6 +550,7 @@ function viewMaterials(abrir) {
   const OPEN = ["difusion", "musica", "oracion"];
   const FILES = [
     ["presentaciones", "Presentaciones", "#ef591c", "Para proyectar a pantalla completa.", [
+      row("presentaciones/hay-un-lugar-para-ti.html", "users", "Hay un lugar para ti", "Para invitar a otros jóvenes a Ágape: compártela por WhatsApp o proyéctala", true),
       row("presentaciones/se-puente.html", "sparkle", "Sé puente", "Para invitar a futuros dirigentes", true),
       row("presentaciones/el-arte-de-encontrarnos.html", "grid", "El Arte de Encontrarnos", "Para el consejo pastoral, el párroco y las familias", true),
       row("presentaciones/mes-de-maria.html", "flame", "Mes de María", "Con María, puente hacia Jesús · 31 días", true),

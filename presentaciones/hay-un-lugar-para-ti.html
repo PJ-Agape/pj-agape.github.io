@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hay un lugar para ti · Ágape</title>
+<meta name="description" content="Una invitación a la Pastoral Juvenil Ágape, Parroquia San Miguel de Yungay. Ven a ver.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pastoral Juvenil Ágape">
+<meta property="og:title" content="Hay un lugar para ti · Ágape">
+<meta property="og:description" content="Una casa donde llegas cansado, te escuchan de verdad y sales más liviano. Ven a ver.">
+<meta property="og:url" content="https://pj-agape.github.io/presentaciones/hay-un-lugar-para-ti.html">
+<meta property="og:image" content="https://pj-agape.github.io/icons/og-lugar.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hay un lugar para ti · Pastoral Juvenil Ágape">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b2566">
+<link rel="icon" href="../icons/favicon-64.png" type="image/png">
+<style>
+/* «Hay un lugar para ti»: invitación para jóvenes que no conocen Ágape.
+   Formato historia: en el teléfono es vertical (se toca para avanzar, como las historias de Instagram);
+   en un proyector o computador se acomoda a lo ancho y se avanza con las flechas o un control. */
+@font-face{font-family:"Bricolage Grotesque";src:url("../fonts/bricolage-grotesque-latin-standard-normal.woff2") format("woff2-variations");font-weight:200 800;font-stretch:75% 100%;font-display:swap}
+@font-face{font-family:"Caveat";src:url("../fonts/caveat-latin-700-normal.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Plus Jakarta Sans";src:url("../fonts/plus-jakarta-sans-latin-wght-normal.woff2") format("woff2-variations");font-weight:200 800;font-display:swap}
+:root {
+  --ink: #0b2566; --ink-2: #1351a4; --sun: #ffba03; --coral: #ef591c; --sky: #8ad2fa; --sky-soft: #cdeafd; --cream: #fff6e5; --peach: #f3dc9f;
+  --ease: cubic-bezier(.2, .8, .1, 1); --pop: cubic-bezier(.34, 1.56, .64, 1);
+  --sh: 0 10px 18px -8px rgba(59, 42, 26, .42), 0 2px 4px rgba(59, 42, 26, .18);
+  --t: "Bricolage Grotesque", system-ui, sans-serif; --b: "Plus Jakarta Sans", system-ui, sans-serif; --h: "Caveat", cursive;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #071a48; color: var(--ink); font-family: var(--b); -webkit-tap-highlight-color: transparent; overflow: hidden; }
+body::after { content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none; opacity: .5; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .23 0 0 0 0 .16 0 0 0 0 .1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* Marco: vertical en el teléfono; centrado como historia, o a lo ancho, en pantallas grandes */
+.stage { position: fixed; inset: 0; display: grid; place-items: center; }
+.story { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--bg, var(--cream)); color: var(--fg, var(--ink));
+  transition: background .6s var(--ease), color .6s var(--ease); user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+@media (min-aspect-ratio: 4/5) and (max-aspect-ratio: 5/4) { .story { width: min(100vw, calc(100dvh * 9 / 16)); border-radius: 0; } }
+
+/* Barras de progreso y cabecera */
+.bars { position: absolute; z-index: 6; top: max(10px, env(safe-area-inset-top)); left: 12px; right: 12px; display: flex; gap: 4px; }
+.bars i { flex: 1; height: 4px; border-radius: 4px; background: color-mix(in srgb, currentColor 22%, transparent); overflow: hidden; }
+.bars i b { display: block; height: 100%; width: 0; background: currentColor; border-radius: inherit; transition: width .45s var(--ease); }
+.bars i.done b { width: 100%; }
+.bars i.on b { width: var(--w, 35%); }
+.top { position: absolute; z-index: 6; top: calc(max(10px, env(safe-area-inset-top)) + 14px); left: 12px; right: 12px; display: flex; align-items: center; gap: 10px; }
+.brand { display: inline-flex; align-items: center; gap: 8px; font: 700 .86rem var(--b); color: inherit; text-decoration: none; }
+.brand img { width: 34px; height: 34px; border-radius: 50%; box-shadow: 0 0 0 2px #fff; }
+.top .sp { flex: 1; }
+.ibtn { width: 40px; height: 40px; border-radius: 50%; border: 0; display: grid; place-items: center; background: color-mix(in srgb, currentColor 12%, transparent); color: inherit; cursor: pointer; }
+.ibtn svg { width: 20px; height: 20px; }
+
+/* Escenas */
+.sc { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 96px 26px 84px;
+  opacity: 0; visibility: hidden; transform: translateX(30px); transition: opacity .45s var(--ease), transform .55s var(--ease), visibility 0s .5s; }
+.sc.on { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.sc.out { transform: translateX(-30px); }
+.k { justify-self: start; font: 700 clamp(1.5rem, 6.4vw, 2.2rem)/1 var(--h); color: var(--acc, var(--coral)); transform: rotate(-2deg); transform-origin: left; }
+h1, h2 { font-family: var(--t); font-weight: 800; letter-spacing: -.03em; line-height: .95; margin: 0; font-stretch: 85%; }
+h1 { font-size: clamp(3rem, 15vw, 5.6rem); }
+h2 { font-size: clamp(2.1rem, 9.6vw, 3.6rem); }
+.mk { background: linear-gradient(transparent 58%, var(--mk, var(--sun)) 58% 92%, transparent 92%); padding: 0 .06em; }
+.p { font-size: clamp(1.08rem, 4.6vw, 1.45rem); line-height: 1.4; margin: 0; max-width: 34ch; }
+.small { font-size: clamp(.92rem, 3.8vw, 1.1rem); line-height: 1.45; opacity: .86; margin: 0; max-width: 38ch; }
+.stk { width: clamp(150px, 46vw, 260px); height: auto; filter: drop-shadow(0 8px 10px rgba(59,42,26,.28)); align-self: center; }
+.stk.sm { width: clamp(110px, 32vw, 180px); }
+.stk.r { transform: rotate(var(--r, -4deg)); }
+/* Revelar por pasos: cada toque muestra lo siguiente antes de pasar de escena */
+[data-step] { opacity: 0; transform: translateY(14px) scale(.98); transition: opacity .5s var(--ease), transform .6s var(--pop); }
+[data-step].in { opacity: 1; transform: none; }
+.hint { position: absolute; bottom: max(22px, env(safe-area-inset-bottom)); left: 0; right: 0; text-align: center; font: 700 1.3rem var(--h); opacity: .75; animation: bob 1.8s ease-in-out infinite; pointer-events: none; }
+@keyframes bob { 50% { transform: translateY(-5px); } }
+.invita { display: inline-flex; align-self: flex-start; justify-self: start; padding: 8px 14px; border-radius: 999px; background: var(--sun); color: var(--ink); font: 700 1rem var(--b); box-shadow: var(--sh); transform: rotate(-2deg); }
+.invita[hidden] { display: none; }
+
+/* Mosaico de lo que vivimos */
+.mos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.mos div { background: #fff; border-radius: 18px; padding: 10px 10px 12px; text-align: center; box-shadow: var(--sh); transform: rotate(var(--r, 0deg)); }
+.mos img { width: 100%; max-width: 120px; aspect-ratio: 1; object-fit: contain; }
+.mos b { display: block; font: 800 clamp(.9rem, 3.8vw, 1.05rem)/1.15 var(--t); }
+.duo { display: grid; gap: 14px; }
+.duo div { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.18); border-radius: 20px; padding: 10px 16px 10px 10px; }
+.duo img { width: 92px; height: 92px; object-fit: contain; flex: none; filter: drop-shadow(0 4px 6px rgba(0,0,0,.2)); }
+.duo p { margin: 0; font: 700 clamp(1.08rem, 4.6vw, 1.35rem)/1.3 var(--b); }
+
+/* Puertas */
+.doors { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.door { position: relative; border: 0; border-radius: 22px 22px 14px 14px; padding: 12px 10px 14px; background: #fff; color: var(--ink); box-shadow: var(--sh); cursor: pointer;
+  font: 800 clamp(.98rem, 4vw, 1.15rem)/1.15 var(--t); text-align: center; display: grid; gap: 6px; justify-items: center; transition: transform .25s var(--pop); }
+.door::before { content: ""; position: absolute; inset: 6px 6px auto 6px; height: 6px; border-radius: 6px; background: var(--dc, var(--sun)); }
+.door img { width: 84%; max-width: 130px; aspect-ratio: 1; object-fit: contain; }
+.door:hover, .door:focus-visible { transform: translateY(-4px) rotate(-1deg); outline: 3px solid var(--dc, var(--sun)); }
+.door small { font: 500 .78rem var(--b); opacity: .7; }
+.kbd { display: none; }
+
+/* Vela: mantener presionado */
+.vela-w { display: grid; justify-items: center; gap: 14px; }
+.vela { position: relative; width: 70px; height: 170px; margin-top: 40px; }
+.vela .cera { position: absolute; bottom: 0; left: 8px; width: 54px; height: 120px; border-radius: 10px 10px 6px 6px; background: linear-gradient(90deg, #fff6e5, #fff 45%, #f3dc9f); box-shadow: inset 0 -10px 0 rgba(0,0,0,.06); }
+.vela .mecha { position: absolute; bottom: 120px; left: 33px; width: 4px; height: 14px; border-radius: 2px; background: #3b2a1a; }
+.vela .llama { position: absolute; bottom: 128px; left: 19px; width: 32px; height: 52px; border-radius: 50% 50% 45% 45% / 62% 62% 38% 38%;
+  background: radial-gradient(ellipse at 50% 72%, #fff 0 18%, #ffe27a 30%, var(--sun) 52%, var(--coral) 82%); transform-origin: 50% 90%; transform: scale(0); opacity: 0;
+  filter: drop-shadow(0 0 18px rgba(255,186,3,.9)); transition: transform .8s var(--pop), opacity .4s; }
+.vela.lit .llama { transform: scale(1); opacity: 1; animation: flick 1.6s ease-in-out infinite alternate .8s; }
+@keyframes flick { 0% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.06, .96) rotate(2deg); } 100% { transform: scale(.97, 1.04) rotate(-1deg); } }
+.vela::after { content: ""; position: absolute; left: 50%; bottom: 150px; width: 260px; height: 260px; margin-left: -130px; border-radius: 50%; background: radial-gradient(circle, rgba(255,186,3,.45), transparent 65%); opacity: 0; transition: opacity 1.2s; pointer-events: none; }
+.vela.lit::after { opacity: 1; }
+.hold { position: relative; border: 0; border-radius: 999px; padding: 14px 26px; font: 800 1.05rem var(--t); background: var(--sun); color: var(--ink); cursor: pointer; overflow: hidden; box-shadow: var(--sh); }
+.hold i { position: absolute; inset: 0; transform-origin: left; transform: scaleX(var(--p, 0)); background: rgba(255,255,255,.55); }
+.hold span { position: relative; }
+.hold[hidden] { display: none; }
+
+/* Final: ven a ver */
+.ven-ev { display: grid; gap: 8px; }
+.ev { display: flex; gap: 12px; align-items: center; background: #fff; color: var(--ink); border-radius: 18px; padding: 10px 14px; box-shadow: var(--sh); }
+.ev .d { flex: none; width: 56px; text-align: center; border-radius: 12px; background: var(--sun); padding: 6px 0; font: 800 1.5rem/1 var(--t); }
+.ev .d small { display: block; font: 700 .7rem var(--b); text-transform: uppercase; letter-spacing: .06em; }
+.ev b { display: block; font: 800 1rem/1.2 var(--t); }
+.ev span { font-size: .85rem; opacity: .75; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 999px; padding: 13px 20px; font: 800 1rem var(--t); text-decoration: none; cursor: pointer; box-shadow: var(--sh); }
+.btn svg { width: 18px; height: 18px; }
+.btn.gold { background: var(--sun); color: var(--ink); }
+.btn.white { background: #fff; color: var(--ink); }
+.btn.ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 2px currentColor; }
+.qr { display: none; }
+
+/* Hoja para compartir */
+.sheet { position: fixed; inset: 0; z-index: 40; display: grid; place-items: end center; background: rgba(7,26,72,.5); opacity: 0; visibility: hidden; transition: opacity .3s, visibility 0s .3s; }
+.sheet.open { opacity: 1; visibility: visible; transition-delay: 0s; }
+.sheet form { width: min(100%, 460px); background: var(--cream); color: var(--ink); border-radius: 26px 26px 0 0; padding: 22px 22px max(22px, env(safe-area-inset-bottom)); display: grid; gap: 12px; transform: translateY(30px); transition: transform .4s var(--ease); }
+.sheet.open form { transform: none; }
+.sheet h3 { margin: 0; font: 800 1.5rem var(--t); }
+.sheet label { display: grid; gap: 4px; font: 700 .85rem var(--b); }
+.sheet input { font: 500 1rem var(--b); padding: 12px 14px; border-radius: 14px; border: 2px solid #e3d6bd; background: #fff; color: var(--ink); }
+.sheet p { margin: 0; font-size: .85rem; opacity: .75; }
+.toast { position: fixed; z-index: 45; left: 50%; bottom: 28px; transform: translate(-50%, 20px); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 999px; font: 700 .9rem var(--b); opacity: 0; transition: .3s; pointer-events: none; }
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+/* Zonas para tocar: izquierda vuelve, el resto avanza */
+.tap { position: absolute; z-index: 3; top: 70px; bottom: 0; background: transparent; border: 0; padding: 0; margin: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
+.tap:focus { outline: none; }
+.tap.prev { left: 0; width: 28%; }
+.tap.next { right: 0; width: 72%; }
+.sc .act, .sc button, .sc a, .sc input { position: relative; z-index: 4; }
+
+/* Pantallas anchas (proyector o computador): composición a lo ancho */
+@media (min-aspect-ratio: 5/4) {
+  .sc { padding: 110px 7vw 90px; display: grid; grid-template-columns: 1.15fr .85fr; align-content: center; column-gap: 5vw; row-gap: 2.2vh; }
+  .sc > * { grid-column: 1; }
+  .sc > .stk, .sc > .side { grid-column: 2; grid-row: 1 / span 8; align-self: center; justify-self: center; width: min(32vw, 52vh); }
+  .sc.wide { grid-template-columns: 1fr; }
+  .sc.wide > * { grid-column: 1; }
+  h1 { font-size: min(10vw, 17vh); }
+  h2 { font-size: min(6.2vw, 10.5vh); }
+  .k { font-size: min(3.4vw, 6vh); }
+  .p { font-size: min(2.2vw, 3.9vh); max-width: 30ch; }
+  .small { font-size: min(1.5vw, 2.7vh); }
+  .mos { grid-template-columns: repeat(6, 1fr); }
+  .mos img { max-width: none; }
+  .doors { grid-template-columns: repeat(4, 1fr); gap: 2vw; }
+  .door { font-size: min(1.7vw, 3vh); padding: 2vh 1vw 2.4vh; }
+  .door img { max-width: none; }
+  .kbd { display: inline-block; font: 800 .8rem var(--b); background: var(--ink); color: #fff; border-radius: 6px; padding: 2px 7px; }
+  .duo { grid-template-columns: 1fr 1fr; }
+  .duo img { width: 13vh; height: 13vh; }
+  .ven-ev { grid-template-columns: 1fr 1fr; max-width: 52vw; }
+  .qr { display: grid; justify-items: center; gap: 8px; background: #fff; color: var(--ink); padding: 18px; border-radius: 24px; box-shadow: var(--sh); font: 800 1rem var(--t); text-align: center; }
+  .qr svg { width: min(22vw, 34vh); height: auto; }
+  .tap.prev { width: 20%; } .tap.next { width: 80%; }
+  .hint { font-size: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition-duration: .01s !important; } }
+</style>
+</head>
+<body>
+<div class="stage">
+  <main class="story" id="story" aria-roledescription="presentación" aria-live="polite">
+    <div class="bars" id="bars" aria-hidden="true"></div>
+    <div class="top">
+      <a class="brand" href="../" target="_blank" rel="noopener"><img src="../icons/logo-160.webp" alt="">Pastoral Juvenil Ágape</a>
+      <span class="sp"></span>
+      <button class="ibtn act" data-a="share" aria-label="Compartir esta invitación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/></svg></button>
+      <button class="ibtn act" data-a="full" aria-label="Pantalla completa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+    </div>
+    <button class="tap prev" data-a="prev" aria-label="Anterior"></button>
+    <button class="tap next" data-a="next" aria-label="Siguiente"></button>
+
+    <!-- 1 · Portada -->
+    <section class="sc" data-bg="#1351a4" data-fg="#fff6e5" data-acc="#ffba03" data-mk="#ef591c" aria-label="Hay un lugar para ti">
+      <span class="invita" id="invita" hidden></span>
+      <span class="k">Una invitación</span>
+      <h1>Hay un lugar <span class="mk" style="--mk:#ef591c">para ti</span></h1>
+      <img class="stk r" src="../img/ilus/s081.webp" alt="Jóvenes saltando de alegría" style="--r:3deg">
+      <span class="hint" id="hint">toca para seguir →</span>
+    </section>
+
+    <!-- 2 · La pregunta -->
+    <section class="sc" data-bg="#fff6e5" data-fg="#0b2566" data-acc="#ef591c" aria-label="Una pregunta">
+      <span class="k">Una pregunta</span>
+      <h2>¿Cuándo fue la última vez que alguien te preguntó <span class="mk">cómo estás</span>…</h2>
+      <p class="p" data-step style="font-size:clamp(1.35rem,6vw,2rem);font-weight:800;font-family:var(--t)">…y esperó de verdad tu respuesta?</p>
+      <img class="stk r" src="../img/ilus/s036.webp" alt="Una joven escribe sola, pensativa" style="--r:-3deg">
+    </section>
+
+    <!-- 3 · Ser feliz no es fácil -->
+    <section class="sc" data-bg="#0b2566" data-fg="#fff6e5" data-acc="#8ad2fa" data-mk="#1351a4" aria-label="Ser feliz">
+      <h2>Te dijeron que ser feliz era <span class="mk">fácil.</span></h2>
+      <h2 data-step style="color:#ffba03">No lo es.</h2>
+      <p class="p" data-step style="font-size:clamp(1.3rem,5.6vw,1.9rem);font-weight:700">Pero no tienes que hacerlo solo.</p>
+      <img class="stk r" data-step src="../img/ilus/s085.webp" alt="Dos amigos se abrazan" style="--r:4deg">
+    </section>
+
+    <!-- 4 · Una casa -->
+    <section class="sc" data-bg="#8ad2fa" data-fg="#0b2566" data-acc="#0b2566" data-mk="#fff6e5" aria-label="Una casa">
+      <span class="k">Imagina una casa</span>
+      <p class="p" style="font-size:clamp(1.25rem,5.4vw,1.8rem);font-weight:700">donde llegas cansado, te sientas, alguien te pregunta cómo estás de verdad… y sales más liviano.</p>
+      <h2 data-step>Eso es <span class="mk">Ágape.</span></h2>
+      <p class="small" data-step>«Ágape» es una palabra griega antigua. Significa un amor que se da sin esperar nada a cambio.</p>
+      <img class="stk r" src="../img/ilus/s023.webp" alt="Amigos conversando sobre el pasto con una guitarra" style="--r:-3deg">
+    </section>
+
+    <!-- 5 · Lo que vivimos -->
+    <section class="sc wide" data-bg="#fff6e5" data-fg="#0b2566" data-acc="#ef591c" aria-label="Lo que vivimos">
+      <span class="k">Lo que vivimos</span>
+      <h2>Más que <span class="mk">reuniones</span></h2>
+      <div class="mos">
+        <div data-step style="--r:-2deg"><img src="../img/ilus/s023.webp" alt=""><b>Conversar de lo que importa</b></div>
+        <div data-step style="--r:2deg"><img src="../img/ilus/s081.webp" alt=""><b>Juegos y risas</b></div>
+        <div data-step style="--r:-1deg"><img src="../img/ilus/s065.webp" alt=""><b>Salidas y retiros</b></div>
+        <div data-step style="--r:2deg"><img src="../img/ilus/s024.webp" alt=""><b>Ayudar a otros</b></div>
+        <div data-step style="--r:-2deg"><img src="../img/ilus/s086.webp" alt=""><b>Rezar, o solo estar en silencio</b></div>
+        <div data-step style="--r:1deg"><img src="../img/ilus/s022.webp" alt=""><b>Amigos que se quedan</b></div>
+      </div>
+    </section>
+
+    <!-- 6 · Hacer y escuchar -->
+    <section class="sc wide" data-bg="#ef591c" data-fg="#fff6e5" data-acc="#ffba03" data-mk="#0b2566" aria-label="Aquí caben todos">
+      <div class="duo">
+        <div><img src="../img/ilus/s024.webp" alt=""><p>Algunos llegan con ganas de hacer cosas.</p></div>
+        <div data-step><img src="../img/ilus/s086.webp" alt=""><p>Otros, con ganas de que alguien los escuche.</p></div>
+      </div>
+      <h2 data-step>Aquí caben <span class="mk">los dos.</span></h2>
+    </section>
+
+    <!-- 7 · Elige tu puerta -->
+    <section class="sc wide" data-bg="#f3dc9f" data-fg="#0b2566" data-acc="#ef591c" aria-label="Elige tu puerta" data-doors>
+      <span class="k">¿Qué te trae por aquí?</span>
+      <h2>Elige tu <span class="mk" style="--mk:#fff6e5">puerta</span></h2>
+      <div class="doors" role="group" aria-label="Elige una puerta">
+        <button class="door act" data-door="1" style="--dc:#ef591c"><img src="../img/ilus/s022.webp" alt="">Busco amigos de verdad<span class="kbd">1</span></button>
+        <button class="door act" data-door="2" style="--dc:#8ad2fa"><img src="../img/ilus/s031.webp" alt="">Busco algo más, aunque no sé bien qué<span class="kbd">2</span></button>
+        <button class="door act" data-door="3" style="--dc:#1351a4"><img src="../img/ilus/s050.webp" alt="">Quiero hacer algo que valga la pena<span class="kbd">3</span></button>
+        <button class="door act" data-door="4" style="--dc:#ffba03"><img src="../img/ilus/s032.webp" alt="">Llego con dudas (muchas)<span class="kbd">4</span></button>
+      </div>
+      <p class="small">Elige la que más se parezca a ti. No hay respuestas malas.</p>
+    </section>
+
+    <!-- 8 · Las cuatro puertas -->
+    <section class="sc" data-bg="#fff6e5" data-fg="#0b2566" data-acc="#ef591c" data-mk="#ffba03" aria-label="Amigos de verdad" data-door-of="1">
+      <span class="k">Tu puerta: amigos de verdad</span>
+      <h2>De esos que <span class="mk">se quedan.</span></h2>
+      <p class="p" data-step>Que se acuerdan de tu cumpleaños, que te esperan si llegas tarde y que no se van cuando las cosas se ponen difíciles.</p>
+      <p class="p" data-step style="font-weight:800">Aquí nadie mira desde afuera: cada uno tiene su lugar.</p>
+      <img class="stk r" src="../img/ilus/s022.webp" alt="Un grupo de amigos abrazados" style="--r:3deg">
+    </section>
+    <section class="sc" data-bg="#cdeafd" data-fg="#0b2566" data-acc="#1351a4" data-mk="#fff6e5" aria-label="Algo más" data-door-of="2">
+      <span class="k">Tu puerta: algo más</span>
+      <h2>No eres raro por <span class="mk">buscarlo.</span></h2>
+      <p class="p" data-step>Esa sensación de que la vida tiene que ser más que esto… muchos la sentimos.</p>
+      <p class="p" data-step style="font-weight:800">Aquí la buscamos juntos, con calma, sin que nadie te apure ni te juzgue.</p>
+      <img class="stk r" src="../img/ilus/s031.webp" alt="Una paloma blanca volando" style="--r:-3deg">
+    </section>
+    <section class="sc" data-bg="#1351a4" data-fg="#fff6e5" data-acc="#ffba03" data-mk="#ef591c" aria-label="Algo que valga la pena" data-door-of="3">
+      <span class="k">Tu puerta: algo que valga la pena</span>
+      <h2>Tu tiempo puede <span class="mk">cambiar</span> un día.</h2>
+      <p class="p" data-step>Visitar a quien está solo, preparar un encuentro, ayudar en una campaña, plantar algo que crece.</p>
+      <p class="p" data-step style="font-weight:800">Cuando das, descubres todo lo que tienes para dar.</p>
+      <img class="stk r" src="../img/ilus/s050.webp" alt="Dos jóvenes plantan un árbol" style="--r:3deg">
+    </section>
+    <section class="sc" data-bg="#ffba03" data-fg="#0b2566" data-acc="#0b2566" data-mk="#fff6e5" aria-label="Dudas" data-door-of="4">
+      <span class="k">Tu puerta: dudas (muchas)</span>
+      <h2>Bien. Las preguntas <span class="mk">no te dejan afuera.</span></h2>
+      <p class="p" data-step>Son una buena forma de empezar. Aquí puedes preguntar lo que quieras.</p>
+      <p class="p" data-step style="font-weight:800">Nadie tiene todas las respuestas. Las buscamos juntos.</p>
+      <img class="stk r" src="../img/ilus/s032.webp" alt="Un letrero con varios caminos" style="--r:-3deg">
+    </section>
+
+    <!-- 9 · Tal como llegas -->
+    <section class="sc" data-bg="#0b2566" data-fg="#fff6e5" data-acc="#ffba03" data-mk="#ef591c" aria-label="Tal como llegas">
+      <h2>Crees mucho, poco <span class="mk">o nada.</span></h2>
+      <p class="p" data-step style="font-weight:700">Llegas con preguntas, con heridas o con ganas.</p>
+      <h2 data-step style="color:#ffba03">Igual hay lugar para ti.</h2>
+      <p class="small" data-step>No necesitas tenerlo todo claro para venir. Ni saber cómo se hace nada.</p>
+      <img class="stk r" data-step src="../img/ilus/s043.webp" alt="Amigos acompañan a un joven en silla de ruedas" style="--r:3deg">
+    </section>
+
+    <!-- 10 · Voces (solo si hay frases reales: ver VOCES en el código) -->
+    <section class="sc" data-bg="#fff6e5" data-fg="#0b2566" data-acc="#ef591c" aria-label="Voces de Ágape" id="voces" data-skip>
+      <span class="k">Voces de Ágape</span>
+      <div id="vocesList" style="display:grid;gap:14px"></div>
+    </section>
+
+    <!-- 11 · Una vela -->
+    <section class="sc" data-bg="#071a48" data-fg="#fff6e5" data-acc="#ffba03" aria-label="Una vela" data-vela>
+      <span class="k">Si quieres</span>
+      <p class="p" style="font-size:clamp(1.3rem,5.6vw,2rem);font-weight:800;font-family:var(--t)">Piensa en lo que traes hoy: una persona, una preocupación, algo que agradeces.</p>
+      <div class="vela-w side">
+        <div class="vela" id="vela"><span class="llama"></span><span class="mecha"></span><span class="cera"></span></div>
+        <button class="hold act" id="hold" aria-label="Mantén presionado para encender la vela"><i></i><span>Mantén presionado para encender</span></button>
+        <p class="p" id="velaOk" data-step style="text-align:center;font-weight:800">Lo que traes, ya no lo cargas solo.</p>
+        <a class="btn ghost act" id="velaCap" data-step href="../#/oracion/velas" target="_blank" rel="noopener" style="font-size:.9rem">Si quieres, déjalo en la Capilla y rezamos por eso</a>
+      </div>
+    </section>
+
+    <!-- 12 · Ven a ver -->
+    <section class="sc" data-bg="#1351a4" data-fg="#fff6e5" data-acc="#ffba03" data-mk="#ef591c" aria-label="Ven a ver" data-final>
+      <span class="k">Tu lugar te espera</span>
+      <h1 style="font-size:clamp(3.4rem,17vw,6.4rem)">Ven a <span class="mk">ver.</span></h1>
+      <p class="p">Sin compromiso. Trae a un amigo si quieres. Solo ven.</p>
+      <div class="ven-ev" id="eventos"></div>
+      <div class="btns">
+        <a class="btn gold act" id="quiero" href="../#/agenda" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Quiero ir</a>
+        <a class="btn white act" href="../" target="_blank" rel="noopener">Conoce agAPPe</a>
+        <button class="btn ghost act" data-a="share">Invitar a alguien</button>
+      </div>
+      <div class="qr side" id="qrBox" aria-hidden="true"><div id="qr"></div>Escanea y lleva la invitación</div>
+    </section>
+  </main>
+</div>
+
+<div class="sheet" id="sheet" aria-hidden="true">
+  <form id="shareForm" onsubmit="return false">
+    <h3>Invita a alguien</h3>
+    <p>Personaliza la invitación (opcional): quien la reciba verá que viene de ti.</p>
+    <label>Tu nombre<input id="shName" maxlength="30" autocomplete="given-name" placeholder="Ej.: Camila"></label>
+    <label>Tu WhatsApp, para que te avise si quiere ir<input id="shWa" inputmode="tel" maxlength="16" placeholder="Ej.: 9 1234 5678"></label>
+    <p>Tu número solo va dentro del enlace que tú envías.</p>
+    <div class="btns"><button class="btn gold" id="shGo" type="button">Enviar por WhatsApp</button><button class="btn white" id="shCopy" type="button">Copiar enlace</button><button class="btn ghost" id="shX" type="button">Cerrar</button></div>
+  </form>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script type="module">
+// Frases reales de jóvenes de Ágape (con su permiso). Mientras esté vacío, la lámina «Voces» no aparece.
+// Ejemplo: { t: "Llegué por una amiga y me quedé porque aquí me escuchan.", n: "Camila, 16" }
+const VOCES = [];
+
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const story = $("#story"), scenes = $$(".sc");
+const qs = new URLSearchParams(location.search);
+const DE = (qs.get("de") || "").replace(/[<>]/g, "").slice(0, 30);
+const WA = (qs.get("wa") || "").replace(/\D/g, "").slice(0, 15);
+const BASE = "https://pj-agape.github.io/presentaciones/hay-un-lugar-para-ti.html";
+const toast = (t) => { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 2600); };
+
+// Voces
+if (VOCES.length) {
+  $("#voces").removeAttribute("data-skip");
+  $("#vocesList").innerHTML = VOCES.map((v) => `<blockquote data-step style="margin:0;background:#fff;border-radius:20px;padding:16px 18px;box-shadow:var(--sh)">
+    <p class="p" style="font-weight:700">«${v.t.replace(/</g, "&lt;")}»</p><cite class="small" style="font-style:normal">${(v.n || "").replace(/</g, "&lt;")}</cite></blockquote>`).join("");
+}
+// Quién invita
+if (DE) { const inv = $("#invita"); inv.textContent = `${DE} te invita`; inv.hidden = false; }
+
+// Orden: las puertas se saltan salvo la elegida; «Voces» se salta si no hay frases
+let door = 0, i = 0, step = 0;
+const visible = () => scenes.filter((s) => !s.hasAttribute("data-skip") && (!s.dataset.doorOf || +s.dataset.doorOf === (door || 1)));
+const bars = $("#bars");
+function paintBars() {
+  const v = visible(), at = v.indexOf(scenes[i]);
+  bars.innerHTML = v.map((_, k) => `<i class="${k < at ? "done" : k === at ? "on" : ""}"><b></b></i>`).join("");
+  const steps = $$("[data-step]", scenes[i]).length;
+  const on = bars.querySelector(".on"); if (on) on.style.setProperty("--w", steps ? `${Math.round(100 * (step + 1) / (steps + 1))}%` : "100%");
+}
+function show(n, dir = 1) {
+  const prev = scenes[i];
+  prev.classList.remove("on"); prev.classList.toggle("out", dir > 0);
+  i = n; step = 0;
+  const s = scenes[i];
+  s.classList.remove("out"); s.classList.add("on");
+  $$("[data-step]", s).forEach((e) => e.classList.remove("in"));
+  story.style.setProperty("--bg", s.dataset.bg); story.style.setProperty("--fg", s.dataset.fg);
+  story.style.setProperty("--acc", s.dataset.acc || ""); story.style.setProperty("--mk", s.dataset.mk || "#ffba03");
+  document.querySelector('meta[name="theme-color"]').content = s.dataset.bg;
+  if (s.hasAttribute("data-vela")) resetVela();
+  paintBars();
+  try { history.replaceState(null, "", "#" + (visible().indexOf(s) + 1)); } catch {}
+}
+function next() {
+  const s = scenes[i], pend = $$("[data-step]:not(.in)", s).filter((e) => !(s.hasAttribute("data-vela")));
+  if (pend.length) { pend[0].classList.add("in"); step++; paintBars(); return; }
+  if (s.hasAttribute("data-doors") && !door) { toast("Elige una puerta para seguir"); return; }
+  if (s.hasAttribute("data-vela") && !velaLit) { velaLit = true; litVela(); return; }
+  const v = visible(), at = v.indexOf(s);
+  if (at < v.length - 1) show(scenes.indexOf(v[at + 1]), 1);
+}
+function prev() {
+  const s = scenes[i], shown = $$("[data-step].in", s);
+  if (shown.length && !s.hasAttribute("data-vela")) { shown.at(-1).classList.remove("in"); step--; paintBars(); return; }
+  const v = visible(), at = v.indexOf(s);
+  if (at > 0) show(scenes.indexOf(v[at - 1]), -1);
+}
+function chooseDoor(d) {
+  door = d;
+  $$(".door").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.door === d)));
+  show(scenes.findIndex((s) => +s.dataset.doorOf === d), 1);
+}
+
+// Vela: mantener presionado ~1,2 s
+let velaLit = false, holdT = null, holdStart = 0, raf = 0;
+const hold = $("#hold"), vela = $("#vela");
+function resetVela() { velaLit = false; vela.classList.remove("lit"); hold.hidden = false; hold.style.setProperty("--p", 0); }
+function litVela() {
+  velaLit = true; vela.classList.add("lit"); hold.hidden = true;
+  $$("[data-step]", scenes[i]).forEach((e, k) => setTimeout(() => e.classList.add("in"), 700 + k * 600));
+  try { navigator.vibrate?.(40); } catch {}
+}
+function holdOn(e) { e.preventDefault(); e.stopPropagation(); if (velaLit) return; holdStart = performance.now();
+  const tick = () => { const p = Math.min(1, (performance.now() - holdStart) / 1200); hold.style.setProperty("--p", p); if (p >= 1) { litVela(); return; } raf = requestAnimationFrame(tick); }; raf = requestAnimationFrame(tick); }
+function holdOff(e) { if (e) e.stopPropagation(); cancelAnimationFrame(raf); if (!velaLit) hold.style.setProperty("--p", 0); }
+hold.addEventListener("pointerdown", holdOn); ["pointerup", "pointerleave", "pointercancel"].forEach((t) => hold.addEventListener(t, holdOff));
+hold.addEventListener("click", (e) => e.stopPropagation());
+hold.addEventListener("contextmenu", (e) => e.preventDefault());
+
+// Compartir
+const sheet = $("#sheet");
+const enlace = () => { const u = new URL(BASE); const n = $("#shName").value.trim(); const w = $("#shWa").value.replace(/\D/g, "");
+  if (n) u.searchParams.set("de", n); if (w) u.searchParams.set("wa", w.length === 9 ? "56" + w : w); return u.href; };
+const mensaje = () => { const n = $("#shName").value.trim(); return `${n ? `Soy ${n}. ` : ""}Te quiero invitar a algo. Míralo, es cortito:\n${enlace()}`; };
+function openShare() { try { $("#shName").value = localStorage.getItem("lugar_de") || DE || ""; } catch {} sheet.classList.add("open"); sheet.setAttribute("aria-hidden", "false"); }
+const closeShare = () => { sheet.classList.remove("open"); sheet.setAttribute("aria-hidden", "true"); };
+$("#shX").onclick = closeShare;
+sheet.addEventListener("click", (e) => { if (e.target === sheet) closeShare(); });
+$("#shGo").onclick = async () => {
+  try { localStorage.setItem("lugar_de", $("#shName").value.trim()); } catch {}
+  const text = mensaje();
+  if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { try { await navigator.share({ text }); closeShare(); return; } catch (e) { if (e && e.name === "AbortError") return; } }
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener"); closeShare();
+};
+$("#shCopy").onclick = async () => { try { await navigator.clipboard.writeText(enlace()); toast("Enlace copiado"); } catch { toast(enlace()); } };
+
+// «Quiero ir»: si la invitación trae el WhatsApp de quien invita, le avisa a esa persona
+if (WA) {
+  const q = $("#quiero");
+  q.href = `https://wa.me/${WA}?text=${encodeURIComponent(`¡Hola${DE ? " " + DE : ""}! Vi la invitación de Ágape y quiero ir. ¿Cuándo es el próximo encuentro?`)}`;
+}
+
+// Próximas actividades abiertas a todos, desde la agenda de Ágape
+async function eventos() {
+  const box = $("#eventos");
+  try {
+    const txt = await (await fetch("../agenda.ics", { cache: "no-cache" })).text();
+    const un = txt.replace(/\r?\n[ \t]/g, "");
+    const now = Date.now(), out = [];
+    for (const b of un.split("BEGIN:VEVENT").slice(1)) {
+      const g = (k) => (b.match(new RegExp("^" + k + "(?:;[^:\\n]*)?:(.*)$", "m")) || [])[1] || "";
+      const cat = g("CATEGORIES"), sum = g("SUMMARY").replace(/\\,/g, ",").replace(/\\;/g, ";"), loc = g("LOCATION").replace(/\\,/g, ",");
+      const desc = g("DESCRIPTION");
+      if (!/Encuentro|Misa|Liturgia|Festividad/i.test(cat)) continue;
+      if (!/Para: *TODOS/i.test(desc)) continue;
+      if (/^(dirigir|preparar|ensayo|inscrip|reuni[oó]n de|coordina)/i.test(sum)) continue; // tareas internas, no invitaciones
+      const m = g("DTSTART").match(/(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2}))?/); if (!m) continue;
+      let d = new Date(+m[1], +m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0));
+      const rr = g("RRULE");
+      if (/FREQ=WEEKLY/.test(rr)) { const until = (rr.match(/UNTIL=(\d{8})/) || [])[1]; while (d.getTime() < now) d = new Date(d.getTime() + 7 * 864e5);
+        if (until && d > new Date(+until.slice(0, 4), +until.slice(4, 6) - 1, +until.slice(6, 8))) continue; }
+      if (d.getTime() < now - 2 * 3600e3) continue;
+      out.push({ d, sum, loc, hora: m[4] ? `${m[4]}:${m[5]}` : "" });
+    }
+    out.sort((a, b) => a.d - b.d);
+    const MES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+    const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    box.innerHTML = out.slice(0, 2).map((e) => `<div class="ev"><span class="d">${e.d.getDate()}<small>${MES[e.d.getMonth()]}</small></span>
+      <div><b>${esc(e.sum)}</b><span>${e.hora ? e.hora + " · " : ""}${esc(e.loc)}</span></div></div>`).join("")
+      || `<p class="small">Escríbenos y te contamos cuándo es el próximo encuentro.</p>`;
+  } catch { box.innerHTML = `<p class="small">Mira la agenda en agAPPe para el próximo encuentro.</p>`; }
+}
+eventos();
+
+// QR para proyectar
+import("../js/qr.js").then(({ default: qrcode }) => {
+  const q = qrcode(0, "M"); q.addData(BASE); q.make();
+  $("#qr").innerHTML = q.createSvgTag({ cellSize: 6, margin: 1, scalable: true });
+}).catch(() => { $("#qrBox").remove(); });
+
+// Controles: tocar, teclado (también un control de presentaciones) y gestos
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("[data-a]"), d = e.target.closest("[data-door]");
+  if (d) { e.stopPropagation(); chooseDoor(+d.dataset.door); return; }
+  if (!a) return;
+  const k = a.dataset.a;
+  if (k === "next") next(); else if (k === "prev") prev();
+  else if (k === "share") openShare();
+  else if (k === "full") { try { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); } catch {} }
+});
+document.addEventListener("keydown", (e) => {
+  if (sheet.classList.contains("open")) { if (e.key === "Escape") closeShare(); return; }
+  if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); if (scenes[i].hasAttribute("data-vela") && !velaLit && e.key === " ") return; next(); }
+  else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); prev(); }
+  else if (/^[1-4]$/.test(e.key) && scenes[i].hasAttribute("data-doors")) chooseDoor(+e.key);
+  else if (e.key === "f" || e.key === "F") { try { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); } catch {} }
+});
+// Barra espaciadora mantenida = encender la vela (para proyectar)
+document.addEventListener("keydown", (e) => { if (e.key === " " && !e.repeat && scenes[i].hasAttribute("data-vela") && !velaLit) holdOn(e); });
+document.addEventListener("keyup", (e) => { if (e.key === " " && scenes[i].hasAttribute("data-vela")) holdOff(e); });
+let x0 = null;
+story.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+story.addEventListener("touchend", (e) => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null;
+  if (Math.abs(dx) > 60) { e.preventDefault(); dx < 0 ? next() : prev(); } });
+
+show(0);
+setTimeout(() => { const h = $("#hint"); if (h) h.style.opacity = ".75"; }, 600);
+</script>
+</body>
+</html>
