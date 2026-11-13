@@ -286,26 +286,32 @@ export function paintBar() {
     </div>
     ${verGente ? `<ul class="rs-people">${ps.map(([k, p]) => `<li class="${vivo(p) ? "" : "off"}"><span>${esc(p.n || "Alguien")}${k === u ? " <small>tú</small>" : ""}${k === room.host ? " <small>creó la sala</small>" : ""}${k === room.guia ? " <small class='g'>guía</small>" : ""}${vivo(p) ? "" : " <small>sin señal</small>"}</span>
         ${(soyGuia || soyHost) && k !== room.guia && k !== u && vivo(p) ? `<button class="rs-b" data-action="rsGive" data-u="${esc(k)}">Ceder la guía</button>` : ""}</li>`).join("")}</ul>
-      <div class="row-wrap" style="gap:6px">${puedeTomar ? `<button class="btn btn-soft btn-sm" data-action="rsTake">${soyHost ? "Retomar la guía" : "Tomar la guía"}</button>` : ""}
+      <div class="row-wrap" style="gap:6px"><button class="rs-b" data-action="rsVela">Encender una vela</button>${puedeTomar ? `<button class="btn btn-soft btn-sm" data-action="rsTake">${soyHost ? "Retomar la guía" : "Tomar la guía"}</button>` : ""}
       ${(soyGuia || soyHost) && room.llamada ? `<button class="rs-b" data-action="rsCall">Cambiar la llamada</button>` : ""}
       ${soyHost ? `<button class="rs-b" data-action="rsPub" aria-pressed="${!!room.pub}">${room.pub ? "Pública: sale en el Inicio" : "Privada: solo con enlace"}</button>
         <button class="rs-b rs-out" data-action="rsCloseRoom">Cerrar la sala para todos</button>` : ""}</div>` : ""}`;
-  // Aviso en los controles de quien sigue
+  // Aviso de la sala: sala de espera, invitación antes de comenzar (para todos, también quien guía)
+  // y, durante el Rosario, quién guía (para quien sigue).
   const ctl = ov?.querySelector(".ros-ctl");
   let f = $("#rosFollow");
-  if (follower() && ctl) {
-    const espera = !(room.people && room.people[room.guia]);
+  const espera = follower() && !(room.people && room.people[room.guia]);
+  const antes = !espera && room.i === 0;
+  const velaBtn = `<button class="btn btn-gold btn-sm" data-action="rsVela">${velaHecha ? "Encender otra vela" : "Encender una vela"}</button>`;
+  const invita = `<span class="rs-esp-int">${espera ? "Mientras esperamos, piensa" : "Antes de comenzar, piensa"} en las intenciones que traes a esta oración: las personas, las alegrías y las preocupaciones que quieres poner en manos de María.
+    Si quieres que la comunidad rece contigo, enciende una vela.</span>`;
+  if (ctl && (espera || antes || follower())) {
     if (!f) { f = document.createElement("div"); f.id = "rosFollow"; f.className = "ros-follow-msg"; }
-    // En la sala de espera el aviso va arriba, a la vista; durante el Rosario, bajo las cuentas
-    const donde = espera ? bar : ctl;
+    // Sala de espera e invitación: arriba, a la vista; durante el Rosario, bajo las cuentas
+    const donde = espera || antes ? bar : ctl;
     if (f.previousElementSibling !== donde) donde.after(f);
-    f.classList.toggle("rs-espera", espera);
+    f.classList.toggle("rs-espera", espera || antes);
     f.innerHTML = espera
       ? `<b>Sala de espera.</b> El Rosario comienza cuando llegue ${esc(hostNombre())} a guiarlo.
-        <span class="rs-esp-int">Mientras esperamos, piensa en las intenciones que traes a esta oración: las personas, las alegrías y las preocupaciones que quieres poner en manos de María.
-        Si quieres que la comunidad rece contigo, enciende una vela.</span>
-        <button class="btn btn-gold btn-sm" data-action="rsVela">${velaHecha ? "Encender otra vela" : "Encender una vela"}</button>
+        ${invita}${velaBtn}
         ${puedeTomar ? `<button class="rs-b" data-action="rsTake">¿No llega? Guiar yo</button>` : ""}`
+      : antes
+      ? `<b>${soyGuia ? "Cuando estén todos, toca la cruz o «Siguiente» para comenzar." : `${esc(nombreDe(room.guia))} guía el Rosario: comenzamos en un momento.`}</b>
+        ${invita}${velaBtn}`
       : `${esc(nombreDe(room.guia))} guía el Rosario: reza a su ritmo, las cuentas avanzan solas.${puedeTomar && !guiaViva() ? ` <button class="rs-b" data-action="rsTake">Tomar la guía</button>` : ""}`;
   } else if (f) f.remove();
 }
