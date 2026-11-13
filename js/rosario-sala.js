@@ -9,6 +9,8 @@
 // La sala funciona como sala de espera: no se borra cuando sale la última persona. Quien llega antes
 // espera a quien guía; quien la creó la encuentra en «Tus salas» para volver o cerrarla. Una sala
 // sin movimiento por 24 horas se puede borrar.
+// Pública o privada (pub): las públicas aparecen en el Inicio mientras alguien guía («Estamos rezando
+// el Rosario, ingresa en silencio y acompáñanos»); las privadas solo con el enlace o el código.
 // Solo quien guía escribe el paso (i) y los misterios (set); cada uno escribe solo su propio nombre.
 
 import { esc, icon, toast } from "./util.js";
@@ -24,6 +26,7 @@ const me = () => ctx.cloud.salaUid();
 const LETTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 const SETS = { gozosos: "Gozosos", luminosos: "Luminosos", dolorosos: "Dolorosos", gloriosos: "Gloriosos" };
 const BY_DAY = ["gloriosos", "gozosos", "dolorosos", "gloriosos", "luminosos", "dolorosos", "gozosos"];
+const SILENCIO = "En silencio";
 const NK = "agape_sala_nombre", MK = "agape_mis_salas";
 const VENCE = 24 * 3600e3;
 const misSalas = () => { try { return JSON.parse(localStorage.getItem(MK) || "[]").filter((x) => x && /^[A-Z]{4}$/.test(x.c) && Date.now() - x.t < VENCE * 3); } catch { return []; } };
@@ -58,7 +61,7 @@ function nombreMio() {
   try { return localStorage.getItem(NK) || ""; } catch { return ""; }
 }
 const guardaNombre = (n) => { try { localStorage.setItem(NK, n); } catch {} };
-const myEntry = (n) => ({ n: short(n) || "Alguien", a: ctx.cloud.rosarioTs(), j: Date.now() });
+const myEntry = (n) => ({ n: n === SILENCIO ? SILENCIO : short(n) || SILENCIO, a: ctx.cloud.rosarioTs(), j: Date.now() });
 
 function errText(e, que) {
   const c = e && e.code;
@@ -74,13 +77,13 @@ function errText(e, que) {
 // ---------------------------------------------------------------------------
 export function view(q = "") {
   const want = (new URLSearchParams(q).get("sala") || "").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 4);
-  ctx.onAfterRender(() => paint(want));
+  ctx.onAfterRender(() => { paint(want); if (!want) vigilarPublicas("rsPubList", false); });
   return `<div id="rsRoot"></div>`;
 }
 function paint(want = "") {
   const root = $("#rsRoot"); if (!root) return;
   const n = nombreMio(), conCuenta = !!(st().account && st().account.name), today = BY_DAY[new Date().getDay()];
-  const nombreIn = (id) => conCuenta ? "" : `<label class="field"><span>Tu nombre</span><input class="input" id="${id}" maxlength="30" autocomplete="given-name" placeholder="Cómo te verán los demás" value="${esc(n)}"></label>`;
+  const nombreIn = (id) => conCuenta ? "" : `<label class="field"><span>Tu nombre <small class="muted">(opcional)</small></span><input class="input" id="${id}" maxlength="30" autocomplete="given-name" placeholder="Si lo dejas en blanco, entras «en silencio»" value="${esc(n)}"></label>`;
   const head = `<a class="imp-back" href="#/oracion/rosario">${icon("left")} Capilla</a>
     <header class="page-head"><span class="eyebrow">Capilla Ágape</span><h1>Rosario en <em>comunidad</em></h1>
     <p>Recen juntos, cada uno desde su teléfono. Una persona guía y todos van en la misma cuenta, como en la capilla.</p></header>`;
@@ -97,7 +100,7 @@ function paint(want = "") {
       <h2 class="cred-h">Te invitaron a rezar el Rosario</h2>
       ${nombreIn("rsNameJ")}
       <button class="btn btn-gold imp-go" data-action="rsJoin" data-code="${esc(want)}" ${busy ? "disabled" : ""}>${icon("right")} Entrar a rezar</button>
-      <p class="xs muted">${conCuenta ? "" : "No necesitas cuenta: solo tu nombre, para que los demás sepan quién reza. "}Puedes salir cuando quieras.</p></section>`;
+      <p class="xs muted">${conCuenta ? "" : "No necesitas cuenta. Tu nombre es opcional: sin él, entras en silencio. "}Puedes salir cuando quieras.</p></section>`;
     if (want !== tried && conCuenta && !busy) { tried = want; join(want); }
     return;
   }
@@ -114,7 +117,12 @@ function paint(want = "") {
       <p class="small muted">Tú guías al comienzo y puedes ceder la guía a quien quieras. Puedes crearla antes e invitar: quien llegue primero espera en la sala hasta que entres.</p>
       ${nombreIn("rsNameC")}
       <label class="field"><span>Misterios</span><select class="input" id="rsSet">${Object.entries(SETS).map(([k, t]) => `<option value="${k}" ${k === today ? "selected" : ""}>${t}${k === today ? " (hoy)" : ""}</option>`).join("")}</select></label>
+      <fieldset class="rs-vis"><legend>¿Quién puede verla?</legend>
+        <label><input type="radio" name="rsPub" value="0" checked> <span><b>Privada</b><small>Solo entra quien tiene el enlace o el código.</small></span></label>
+        <label><input type="radio" name="rsPub" value="1"> <span><b>Pública</b><small>Mientras rezan, aparece en el Inicio: «Estamos rezando el Rosario, ingresa en silencio y acompáñanos».</small></span></label>
+      </fieldset>
       <button class="btn btn-gold imp-go" data-action="rsCreate" ${busy ? "disabled" : ""}>${icon("plus")} Crear sala</button></section>`}
+    <div id="rsPubList"></div>
     <section class="card stack rs-card" style="--gap:10px"><h2 class="cred-h">Entrar a una sala</h2>
       ${nombreIn("rsNameJ")}
       <form id="rsJoinForm" class="row" style="gap:8px" onsubmit="return false"><input class="input ul-code-in" id="rsCodeIn" maxlength="4" autocomplete="off" autocapitalize="characters" placeholder="CÓDIGO" aria-label="Código de la sala">
@@ -122,24 +130,25 @@ function paint(want = "") {
 }
 const repaint = () => { if ($("#rsRoot")) paint(new URLSearchParams((location.hash.split("?")[1]) || "").get("sala") || ""); };
 
+// El nombre es opcional: quien no lo escribe aparece «En silencio»
 function leerNombre(id) {
   if (st().account && st().account.name) return short(st().account.name);
   const v = short(($("#" + id) || {}).value || "");
-  if (!v) { toast("Escribe tu nombre para que los demás sepan quién reza", ""); $("#" + id)?.focus(); return ""; }
-  guardaNombre(v); return v;
+  if (v) guardaNombre(v);
+  return v || SILENCIO;
 }
 
 // ---------------------------------------------------------------------------
 // Sala: crear, entrar, escuchar, salir
 // ---------------------------------------------------------------------------
-async function create(set, i = 0, nombre = nombreMio()) {
+async function create(set, i = 0, nombre = nombreMio(), pub = false) {
   if (busy) return; busy = true; err = ""; repaint();
   try {
     const uid = await ctx.cloud.salaAuth();
     for (let k = 0; k < 6; k++) {
       const c = Array.from({ length: 4 }, () => LETTERS[rnd(LETTERS.length)]).join("");
       if (await ctx.cloud.rosarioExists(c)) continue;
-      await ctx.cloud.rosarioCreate(c, { host: uid, guia: uid, hn: short(nombre) || "Alguien", set: SETS[set] ? set : BY_DAY[new Date().getDay()], i: Math.max(0, i | 0), people: { [uid]: myEntry(nombre) } });
+      await ctx.cloud.rosarioCreate(c, { host: uid, guia: uid, hn: short(nombre) || "Alguien", pub: !!pub, set: SETS[set] ? set : BY_DAY[new Date().getDay()], i: Math.max(0, i | 0), people: { [uid]: myEntry(nombre) } });
       recuerdaSala(c); busy = false; listen(c, true); return;
     }
   } catch (e) { console.warn(e); err = errText(e, "create"); toast(err, "", 7000); }
@@ -218,6 +227,34 @@ async function setGuia(u) {
 }
 
 // ---------------------------------------------------------------------------
+// Salas públicas: aviso en el Inicio y lista en la página de las salas
+// ---------------------------------------------------------------------------
+let pubStop = null;
+const rezandoAhora = (r) => r && r.pub && r.people && r.people[r.guia] && vivo(r.people[r.guia]);
+function avisoHTML(lista, enInicio) {
+  const vivas = lista.filter((r) => rezandoAhora(r) && !(room && code === r.id)).slice(0, enInicio ? 2 : 6);
+  if (!vivas.length) return "";
+  return vivas.map((r) => {
+    const n = Object.values(r.people || {}).filter(vivo).length;
+    return `<a class="rs-aviso" href="#/rosario/sala?sala=${esc(r.id)}">
+      <span class="rs-live" aria-hidden="true"></span>
+      <span class="rs-aviso-t"><b>Estamos rezando el Rosario</b><span>Ingresa en silencio y acompáñanos.</span>
+        <small>Misterios ${esc((SETS[r.set] || "").toLowerCase())} · guía ${esc(r.people[r.guia].n || "")} · ${n} ${n === 1 ? "persona" : "personas"}</small></span>
+      <span class="btn btn-gold btn-sm">Acompañar ${icon("right")}</span></a>`;
+  }).join("");
+}
+function vigilarPublicas(slotId, enInicio) {
+  if (!ctx.cloud.enabled || !ctx.cloud.rosarioPublicasWatch) return;
+  if (pubStop) pubStop();
+  let ultima = [];
+  const pinta = () => { const el = document.getElementById(slotId); if (el) el.innerHTML = avisoHTML(ultima, enInicio); };
+  pubStop = ctx.cloud.rosarioPublicasWatch((l) => { ultima = l; pinta(); }, () => {});
+  const tick = setInterval(pinta, 60e3); // «vivo» depende de la hora: se revisa cada minuto
+  ctx.onLeave(() => { if (pubStop) pubStop(); pubStop = null; clearInterval(tick); });
+}
+export function paintHome() { vigilarPublicas("rosarioVivoSlot", true); }
+
+// ---------------------------------------------------------------------------
 // Barra de la sala, dentro del Rosario
 // ---------------------------------------------------------------------------
 // Para el modo proyección: cómo unirse (se muestra en una esquina)
@@ -247,7 +284,8 @@ export function paintBar() {
         ${(soyGuia || soyHost) && k !== room.guia && k !== u && vivo(p) ? `<button class="rs-b" data-action="rsGive" data-u="${esc(k)}">Ceder la guía</button>` : ""}</li>`).join("")}</ul>
       <div class="row-wrap" style="gap:6px">${puedeTomar ? `<button class="btn btn-soft btn-sm" data-action="rsTake">${soyHost ? "Retomar la guía" : "Tomar la guía"}</button>` : ""}
       ${(soyGuia || soyHost) && room.llamada ? `<button class="rs-b" data-action="rsCall">Cambiar la llamada</button>` : ""}
-      ${soyHost ? `<button class="rs-b rs-out" data-action="rsCloseRoom">Cerrar la sala para todos</button>` : ""}</div>` : ""}`;
+      ${soyHost ? `<button class="rs-b" data-action="rsPub" aria-pressed="${!!room.pub}">${room.pub ? "Pública: sale en el Inicio" : "Privada: solo con enlace"}</button>
+        <button class="rs-b rs-out" data-action="rsCloseRoom">Cerrar la sala para todos</button>` : ""}</div>` : ""}`;
   // Aviso en los controles de quien sigue
   const ctl = ov?.querySelector(".ros-ctl");
   let f = $("#rosFollow");
@@ -304,8 +342,13 @@ async function guardarLlamada(url) {
 // ---------------------------------------------------------------------------
 function registerActions() {
   const A = ctx.actions;
-  A.rsCreate = () => { if (!puedeCrear()) return; const n = leerNombre("rsNameC"); if (!n) return; create(($("#rsSet") || {}).value, 0, n); };
-  A.rsJoin = (el) => { const n = leerNombre("rsNameJ"); if (!n) return; join(el.dataset.code || ($("#rsCodeIn") || {}).value, n); };
+  A.rsCreate = () => { if (!puedeCrear()) return; const n = leerNombre("rsNameC"); create(($("#rsSet") || {}).value, 0, n, ($("input[name=rsPub]:checked") || {}).value === "1"); };
+  A.rsPub = async () => {
+    if (!room || room.host !== me()) return;
+    try { await ctx.cloud.rosarioUpdate(code, { pub: !room.pub }); toast(room.pub ? "La sala ahora es privada" : "La sala ahora es pública: aparece en el Inicio mientras rezan", "ok", 5000); }
+    catch (e) { console.warn(e); toast("No se pudo cambiar", ""); }
+  };
+  A.rsJoin = (el) => { const n = leerNombre("rsNameJ"); join(el.dataset.code || ($("#rsCodeIn") || {}).value, n); };
   A.rsOpen = () => { if (room && rosa) rosa.open(room.set, room.i); };
   // Desde el Rosario abierto: «Rezar con otros» crea la sala con los misterios y la cuenta de ese momento
   A.rosSalaNew = () => {

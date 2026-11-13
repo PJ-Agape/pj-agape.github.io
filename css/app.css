@@ -5218,3 +5218,20 @@ html.papel .ds-rec-ill svg.z-illus, html.papel .tp-ill svg.z-illus, html.papel .
 .rs-code-s b { width: 30px; height: 38px; font-size: 1.1rem; border-radius: 8px; }
 .rs-code-s { gap: 4px; margin-right: 4px; }
 .ros-follow-msg.rs-espera { padding: 10px 14px; border-radius: 14px; background: rgba(255,186,3,.14); border: 1px solid rgba(255,186,3,.5); }
+/* Rosario en comunidad: salas públicas (aviso en el Inicio) y elección pública/privada */
+.rs-aviso { display: flex; align-items: center; gap: 12px; margin: 12px 0; padding: 14px 16px; border-radius: 20px; background: linear-gradient(135deg, #0b2566, #1c3f8f); color: #fff; text-decoration: none; box-shadow: 0 4px 0 #071a48; }
+.rs-aviso:hover { filter: brightness(1.06); }
+.rs-aviso-t { flex: 1; min-width: 0; display: grid; gap: 2px; line-height: 1.25; }
+.rs-aviso-t b { font-size: 1.05rem; color: #ffba03; }
+.rs-aviso-t span { font-size: .95rem; }
+.rs-aviso-t small { font-size: .78rem; opacity: .8; }
+.rs-aviso .btn { flex: none; }
+@media (max-width: 420px) { .rs-aviso { flex-wrap: wrap; } .rs-aviso .btn { margin-left: 22px; } }
+#rsPubList .rs-aviso { margin: 0 0 12px; }
+.rs-vis { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rs-vis legend { font-size: .85rem; font-weight: 700; color: #0b2566; margin-bottom: 4px; }
+.rs-vis label { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 14px; border: 2px solid #e3e8f3; cursor: pointer; }
+.rs-vis label:has(input:checked) { border-color: #0b2566; background: #f3f6ff; }
+.rs-vis input { margin-top: 3px; accent-color: #0b2566; }
+.rs-vis b { display: block; color: #0b2566; }
+.rs-vis small { display: block; font-size: .82rem; color: #4a5878; }

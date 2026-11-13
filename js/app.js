@@ -365,7 +365,7 @@ function heroTitle(t) {
   return `${words.join(" ")} <em>${last}</em>`;
 }
 function viewHome() {
-  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
+  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); rosarioSala.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
   // Lo destacado: las diapositivas de Gestión → Portada (y la intención del Papa). No avanzan solas:
   // se pasan deslizando el dedo o con las flechas.
   const carousel = () => {
@@ -400,6 +400,7 @@ function viewHome() {
   // El resto vive en las pestañas de abajo (Recursos, Orar, Comunidad).
   return `
   ${inicio.greetHTML()}
+  <div id="rosarioVivoSlot"></div>
   <div id="fiestaSlot"></div>
   ${solicitud.homeCard()}
   <div id="desafioHoy"></div>

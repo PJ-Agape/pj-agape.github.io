@@ -603,6 +603,12 @@ export const rosarioUpdate = (code, data) => fb.updateDoc(fb.doc(db, "salas_rosa
 export const rosarioDelete = (code) => fb.deleteDoc(fb.doc(db, "salas_rosario", code));
 export const rosarioDel = () => fb.deleteField();
 export const rosarioTs = () => fb.serverTimestamp();
+// Salas públicas (aparecen en el Inicio mientras rezan): las ve cualquiera, también sin sesión
+export function rosarioPublicasWatch(cb, onErr) {
+  if (!enabled || !db) return () => {};
+  return fb.onSnapshot(fb.query(fb.collection(db, "salas_rosario"), fb.where("pub", "==", true), fb.limit(10)),
+    (qs) => cb(qs.docs.map((d) => ({ id: d.id, ...d.data() }))), (e) => { console.warn("Salas públicas:", e && e.code); onErr && onErr(e); });
+}
 export function rosarioWatch(code, cb, onErr) {
   return fb.onSnapshot(fb.doc(db, "salas_rosario", code), (snap) => cb(snap.exists() ? snap.data() : null), (e) => { console.warn("Rosario:", e); onErr && onErr(e); });
 }

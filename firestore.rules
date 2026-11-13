@@ -630,7 +630,7 @@ service cloud.firestore {
     // puede retomarla o entregarla; si quien guía lleva más de 3 minutos sin señal, otro la puede tomar.
     // Cada uno escribe solo su propio nombre y su señal de presencia (a = hora del servidor).
     match /salas_rosario/{rid} {
-      function rKeys() { return ['host', 'hn', 'guia', 'set', 'i', 'llamada', 'people', 'at', 'createdAt']; }
+      function rKeys() { return ['host', 'hn', 'pub', 'guia', 'set', 'i', 'llamada', 'people', 'at', 'createdAt']; }
       function rSets() { return ['gozosos', 'luminosos', 'dolorosos', 'gloriosos']; }
       function rEntry(p) {
         return p.keys().hasOnly(['n', 'a', 'j']) && p.n is string && p.n.size() >= 1 && p.n.size() <= 40 && p.a == request.time;
@@ -639,6 +639,7 @@ service cloud.firestore {
         let d = request.resource.data;
         return d.keys().hasOnly(rKeys()) && d.set in rSets() && d.i is int && d.i >= 0 && d.i < 100
           && d.people is map && d.people.size() <= 60 && d.guia is string && (d.guia in d.people || d.guia == d.host) && d.at == request.time
+          && d.get('pub', false) is bool
           && (!('llamada' in d) || (d.llamada is string && d.llamada.size() <= 300
               && d.llamada.matches('^https://(call[.]whatsapp[.]com|meet[.]google[.]com|meet[.]jit[.]si|([a-z0-9-]+[.])?zoom[.]us)/[^ ]+$')));
       }
@@ -653,7 +654,8 @@ service cloud.firestore {
         return !(resource.data.guia in resource.data.people)
           || resource.data.people[resource.data.guia].a < request.time - duration.value(3, 'm');
       }
-      allow read: if request.auth != null;
+      // Las públicas las ve cualquiera (para el aviso «Estamos rezando el Rosario» del Inicio)
+      allow read: if request.auth != null || resource.data.pub == true;
       // Abren salas solo dirigentes, coordinadores y administradores; entrar puede cualquiera.
       allow create: if isGuide() && rid.matches('^[A-Z]{4}$')
         && request.resource.data.keys().hasOnly(rKeys())
@@ -661,6 +663,7 @@ service cloud.firestore {
         && request.resource.data.set in rSets() && request.resource.data.i is int && request.resource.data.i >= 0 && request.resource.data.i < 100
         && request.resource.data.people is map && request.resource.data.people.keys().hasOnly([request.auth.uid])
         && rEntry(request.resource.data.people[request.auth.uid])
+        && request.resource.data.get('pub', false) is bool
         && request.resource.data.get('hn', 'x') is string && request.resource.data.get('hn', 'x').size() >= 1 && request.resource.data.get('hn', 'x').size() <= 40
         && request.resource.data.createdAt == request.time && request.resource.data.at == request.time;
       allow update: if request.auth != null && rBase() && rMine()
@@ -669,8 +672,8 @@ service cloud.firestore {
         && (
           // Quien guía: avanza, cambia los misterios, cede la guía, pone la llamada o sale
           (request.auth.uid == resource.data.guia && changed().hasOnly(['i', 'set', 'guia', 'llamada', 'people', 'at']) && rPeopleMine())
-          // Quien creó la sala: retoma o entrega la guía, pone la llamada
-          || (request.auth.uid == resource.data.host && changed().hasOnly(['guia', 'llamada', 'people', 'at']) && rPeopleMine())
+          // Quien creó la sala: retoma o entrega la guía, pone la llamada, la hace pública o privada
+          || (request.auth.uid == resource.data.host && changed().hasOnly(['guia', 'llamada', 'pub', 'people', 'at']) && rPeopleMine())
           // Cualquiera de la sala, o quien entra: su propio nombre y su señal
           || (changed().hasOnly(['people', 'at']) && onlyMyKey('people'))
           // Quien guía se fue o se le cortó: otro de la sala toma la guía
