@@ -77,7 +77,7 @@ function errText(e, que) {
 // ---------------------------------------------------------------------------
 export function view(q = "") {
   const want = (new URLSearchParams(q).get("sala") || "").toUpperCase().replace(/[^A-Z]/g, "").slice(0, 4);
-  ctx.onAfterRender(() => { paint(want); if (!want) vigilarPublicas("rsPubList", false); });
+  ctx.onAfterRender(() => { paint(want); if (!want) { vigilarPublicas("rsPubList", false); verificarMias(); } });
   return `<div id="rsRoot"></div>`;
 }
 function paint(want = "") {
@@ -201,8 +201,28 @@ export async function leave() {
 // Cerrar la sala para todos (solo quien la creó)
 async function cerrar(c) {
   try { await ctx.cloud.rosarioDelete(c); olvidaSala(c); toast("Cerraste la sala"); }
-  catch (e) { console.warn(e); toast("No se pudo cerrar la sala", ""); }
+  catch (e) {
+    console.warn(e);
+    // Si ya no existe (o ya no es tuya), solo se quita de tu lista
+    const r = await ctx.cloud.rosarioGet(c).catch(() => undefined);
+    if (r === null || (r && r.host !== me())) { olvidaSala(c); toast("Esa sala ya estaba cerrada"); }
+    else toast("No se pudo cerrar la sala" + (e && e.code === "permission-denied" ? ": falta publicar las reglas nuevas de Firestore." : ". Revisa tu conexión."), "", 7000);
+  }
   if (room && code === c) salir(false); else repaint();
+}
+// «Tus salas»: quita de la lista las que ya no existen o ya no son tuyas (cerradas en otro teléfono,
+// borradas por antigüedad…)
+let verificando = false;
+async function verificarMias() {
+  if (verificando || !ctx.cloud.rosarioGet) return; verificando = true;
+  let cambio = false;
+  try {
+    for (const x of misSalas()) {
+      const r = await ctx.cloud.rosarioGet(x.c).catch(() => undefined);
+      if (r === null || (r && r.host !== me())) { olvidaSala(x.c); cambio = true; }
+    }
+  } finally { verificando = false; }
+  if (cambio && !room) repaint();
 }
 function salir(quiet) {
   if (stop) stop(); stop = null; clearInterval(hb); hb = null;
@@ -418,7 +438,11 @@ function registerActions() {
   A.rsCallDel = async () => { if (await guardarLlamada("")) A.rsCallX(); };
   A.rsLeave = async () => { const host = room && room.host === me(); await leave(); toast(host ? "Saliste. La sala sigue abierta: vuelve a ella desde «Rosario en comunidad»." : "Saliste de la sala. Puedes seguir rezando solo.", "", 6000); };
   let cierre = "";
-  const confirmaCierre = (c, el) => { if (cierre === c) { cierre = ""; cerrar(c); return; } cierre = c; if (el) el.textContent = "Toca de nuevo para cerrar"; setTimeout(() => { if (cierre === c) { cierre = ""; paintBar(); repaint(); } }, 4000); };
+  const confirmaCierre = (c, el) => {
+    if (cierre === c) { cierre = ""; if (el) { el.disabled = true; el.textContent = "Cerrando…"; } cerrar(c); return; }
+    cierre = c; if (el) { el.textContent = "¿Cerrar? Toca otra vez"; el.classList.add("rs-confirma"); }
+    setTimeout(() => { if (cierre === c) { cierre = ""; paintBar(); repaint(); } }, 5000);
+  };
   A.rsCloseRoom = (el) => { if (room && room.host === me()) confirmaCierre(code, el); };
   A.rsCloseMine = (el) => confirmaCierre(el.dataset.code, el);
   A.rsShareMine = async (el) => { const c = el.dataset.code, text = `Te invito a rezar el Rosario conmigo en la Capilla Ágape, cada uno desde su teléfono. Entra a la sala ${c}:\n${LINK(c)}`;

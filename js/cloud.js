@@ -597,6 +597,7 @@ export async function salaAuth() {
   const r = await fb.signInAnonymously(auth);
   anon = r.user; return anon.uid;
 }
+export const rosarioGet = async (code) => { const snap = await withTimeout(fb.getDoc(fb.doc(db, "salas_rosario", code)), 8000); return snap.exists() ? snap.data() : null; };
 export const rosarioExists = async (code) => { const snap = await withTimeout(fb.getDoc(fb.doc(db, "salas_rosario", code)), 8000); return snap.exists(); };
 export const rosarioCreate = (code, data) => fb.setDoc(fb.doc(db, "salas_rosario", code), { ...data, at: fb.serverTimestamp(), createdAt: fb.serverTimestamp() });
 export const rosarioUpdate = (code, data) => fb.updateDoc(fb.doc(db, "salas_rosario", code), { ...data, at: fb.serverTimestamp() });
