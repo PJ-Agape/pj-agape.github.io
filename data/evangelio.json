@@ -1,18 +1,12 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-11": {
-   "titulo": "Miércoles de la 32.ª semana del Tiempo Ordinario",
-   "cita": "Lc 17,11-19",
-   "frase": "Uno de ellos, al verse curado, volvió atrás alabando a Dios.",
-   "video": "DDhAGHJRSIs"
-  },
   "2026-11-12": {
    "titulo": "Jueves de la 32.ª semana del Tiempo Ordinario",
    "cita": "Lc 17,20-25",
    "frase": "El Reino de Dios está entre ustedes.",
-   "video": "LWU4bNIxtzw",
-   "reflexion": "xCCaxhuA21c"
+   "reflexion": "xCCaxhuA21c",
+   "video": "LWU4bNIxtzw"
   },
   "2026-11-13": {
    "titulo": "Viernes de la 32.ª semana del Tiempo Ordinario",
@@ -59,6 +53,11 @@
    "titulo": "Sábado de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 20,27-40",
    "frase": "Dios no es un Dios de muertos, sino de vivientes."
+  },
+  "2026-11-22": {
+   "titulo": "Cristo Rey",
+   "cita": "Mt 25,31-46",
+   "frase": "Cada vez que lo hicieron con el más pequeño de mis hermanos, lo hicieron conmigo."
   }
  }
 }
