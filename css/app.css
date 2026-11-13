@@ -5237,3 +5237,8 @@ html.papel .ds-rec-ill svg.z-illus, html.papel .tp-ill svg.z-illus, html.papel .
 .rs-vis small { display: block; font-size: .82rem; color: #4a5878; }
 .ros-follow-msg.rs-espera { display: grid; gap: 8px; justify-items: center; }
 .rs-esp-int { display: block; font-size: .9rem; line-height: 1.4; opacity: .95; max-width: 460px; }
+a.rs-aviso-t { color: inherit; text-decoration: none; }
+.rs-aviso-b { flex: none; display: grid; gap: 6px; justify-items: stretch; }
+.rs-aviso-call { background: #25d366; color: #0b2566; border: 0; font-weight: 800; }
+.rs-aviso-call:hover { filter: brightness(1.05); }
+@media (max-width: 420px) { .rs-aviso-b { width: 100%; margin-left: 22px; grid-template-columns: 1fr; } .rs-aviso .btn { margin-left: 0; } }

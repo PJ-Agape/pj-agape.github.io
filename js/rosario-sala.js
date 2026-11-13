@@ -236,11 +236,15 @@ function avisoHTML(lista, enInicio) {
   if (!vivas.length) return "";
   return vivas.map((r) => {
     const n = Object.values(r.people || {}).filter(vivo).length;
-    return `<a class="rs-aviso" href="#/rosario/sala?sala=${esc(r.id)}">
+    const sala = `#/rosario/sala?sala=${esc(r.id)}`;
+    return `<div class="rs-aviso">
       <span class="rs-live" aria-hidden="true"></span>
-      <span class="rs-aviso-t"><b>Estamos rezando el Rosario</b><span>Ingresa en silencio y acompáñanos.</span>
-        <small>Misterios ${esc((SETS[r.set] || "").toLowerCase())} · guía ${esc(r.people[r.guia].n || "")} · ${n} ${n === 1 ? "persona" : "personas"}</small></span>
-      <span class="btn btn-gold btn-sm">Acompañar ${icon("right")}</span></a>`;
+      <a class="rs-aviso-t" href="${sala}"><b>Estamos rezando el Rosario</b><span>Ingresa en silencio y acompáñanos.</span>
+        <small>Misterios ${esc((SETS[r.set] || "").toLowerCase())} · guía ${esc(r.people[r.guia].n || "")} · ${n} ${n === 1 ? "persona" : "personas"}</small></a>
+      <span class="rs-aviso-b">
+        <a class="btn btn-gold btn-sm" href="${sala}">Acompañar ${icon("right")}</a>
+        ${r.llamada && LLAMADA_OK.test(r.llamada) ? `<a class="btn btn-sm rs-aviso-call" href="${esc(r.llamada)}" target="_blank" rel="noopener">${icon("phone")} Unirse a la llamada${/whatsapp/i.test(r.llamada) ? " de WhatsApp" : ""}</a>` : ""}
+      </span></div>`;
   }).join("");
 }
 function vigilarPublicas(slotId, enInicio) {
