@@ -624,8 +624,8 @@ service cloud.firestore {
 
     // Juegos en línea («¡Última!»): una sala por código de 4 letras. La ven quienes tienen cuenta.
     // Quien está en la sala puede escribir la partida; los demás solo pueden sumarse mientras espera.
-    // Rosario en comunidad: una sala por código. Entra cualquiera con sesión (también la anónima,
-    // sin cuenta). Quien guía mueve el paso y los misterios y puede ceder la guía; quien creó la sala
+    // Rosario en comunidad: una sala por código. La abren dirigentes, coordinadores y administradores;
+    // entra cualquiera con sesión (también la anónima, sin cuenta). Quien guía mueve el paso y los misterios y puede ceder la guía; quien creó la sala
     // puede retomarla o entregarla; si quien guía lleva más de 3 minutos sin señal, otro la puede tomar.
     // Cada uno escribe solo su propio nombre y su señal de presencia (a = hora del servidor).
     match /salas_rosario/{rid} {
@@ -653,7 +653,8 @@ service cloud.firestore {
           || resource.data.people[resource.data.guia].a < request.time - duration.value(3, 'm');
       }
       allow read: if request.auth != null;
-      allow create: if request.auth != null && rid.matches('^[A-Z]{4}$')
+      // Abren salas solo dirigentes, coordinadores y administradores; entrar puede cualquiera.
+      allow create: if isGuide() && rid.matches('^[A-Z]{4}$')
         && request.resource.data.keys().hasOnly(rKeys())
         && request.resource.data.host == request.auth.uid && request.resource.data.guia == request.auth.uid
         && request.resource.data.set in rSets() && request.resource.data.i is int && request.resource.data.i >= 0 && request.resource.data.i < 100

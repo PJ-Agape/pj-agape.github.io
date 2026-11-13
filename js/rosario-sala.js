@@ -1,5 +1,5 @@
 // Rosario en comunidad (#/rosario/sala): una sala en línea para rezar el Rosario juntos, cada uno
-// desde su teléfono. Quien crea la sala recibe un código de 4 letras y un enlace para invitar.
+// desde su teléfono. Las salas las abren dirigentes, coordinadores y administradores. Quien crea la sala recibe un código de 4 letras y un enlace para invitar.
 // Una persona guía: avanza las cuentas y todos ven la misma oración al mismo tiempo. La guía se
 // puede ceder a cualquiera de la sala, con o sin cuenta (sin cuenta se entra con una sesión anónima).
 //
@@ -41,6 +41,7 @@ export const active = () => !!room;
 export const isLeader = () => !!room && room.guia === me();
 export const follower = () => !!room && room.guia !== me();
 export const isApplying = () => applying;
+export const puedeCrear = () => !!st().isGuide; // dirigentes, coordinadores y administradores
 
 function nombreMio() {
   const a = st().account;
@@ -91,12 +92,14 @@ function paint(want = "") {
     if (want !== tried && conCuenta && !busy) { tried = want; join(want); }
     return;
   }
+  const crear = puedeCrear();
   root.innerHTML = `${head}${errHTML}
-    <section class="card stack rs-card" style="--gap:10px"><h2 class="cred-h">Crear una sala</h2>
+    ${crear ? "" : `<p class="small muted rs-nota">Las salas las abren los dirigentes y coordinadores. Si te invitaron, abre su enlace o escribe aquí el código de 4 letras.</p>`}
+    ${!crear ? "" : `<section class="card stack rs-card" style="--gap:10px"><h2 class="cred-h">Crear una sala</h2>
       <p class="small muted">Tú guías al comienzo y puedes ceder la guía a quien quieras.</p>
       ${nombreIn("rsNameC")}
       <label class="field"><span>Misterios</span><select class="input" id="rsSet">${Object.entries(SETS).map(([k, t]) => `<option value="${k}" ${k === today ? "selected" : ""}>${t}${k === today ? " (hoy)" : ""}</option>`).join("")}</select></label>
-      <button class="btn btn-gold imp-go" data-action="rsCreate" ${busy ? "disabled" : ""}>${icon("plus")} Crear sala</button></section>
+      <button class="btn btn-gold imp-go" data-action="rsCreate" ${busy ? "disabled" : ""}>${icon("plus")} Crear sala</button></section>`}
     <section class="card stack rs-card" style="--gap:10px"><h2 class="cred-h">Entrar a una sala</h2>
       ${nombreIn("rsNameJ")}
       <form id="rsJoinForm" class="row" style="gap:8px" onsubmit="return false"><input class="input ul-code-in" id="rsCodeIn" maxlength="4" autocomplete="off" autocapitalize="characters" placeholder="CÓDIGO" aria-label="Código de la sala">
@@ -201,7 +204,7 @@ export function paintBar() {
   const bar = $("#rosSala"), ov = $("#rosOverlay");
   ov?.classList.toggle("ros-follow", follower());
   ov?.classList.toggle("ros-en-sala", !!room);
-  const nb = ov?.querySelector("[data-action=rosSalaNew]"); if (nb) nb.hidden = !!room;
+  const nb = ov?.querySelector("[data-action=rosSalaNew]"); if (nb) nb.hidden = !!room || !puedeCrear();
   const pi = $("#rosProyInfo"); if (pi) pi.textContent = proyInfo();
   if (!bar) return;
   if (!room) { bar.hidden = true; bar.innerHTML = ""; const f = $("#rosFollow"); if (f) f.remove(); return; }
@@ -273,11 +276,12 @@ async function guardarLlamada(url) {
 // ---------------------------------------------------------------------------
 function registerActions() {
   const A = ctx.actions;
-  A.rsCreate = () => { const n = leerNombre("rsNameC"); if (!n) return; create(($("#rsSet") || {}).value, 0, n); };
+  A.rsCreate = () => { if (!puedeCrear()) return; const n = leerNombre("rsNameC"); if (!n) return; create(($("#rsSet") || {}).value, 0, n); };
   A.rsJoin = (el) => { const n = leerNombre("rsNameJ"); if (!n) return; join(el.dataset.code || ($("#rsCodeIn") || {}).value, n); };
   A.rsOpen = () => { if (room && rosa) rosa.open(room.set, room.i); };
   // Desde el Rosario abierto: «Rezar con otros» crea la sala con los misterios y la cuenta de ese momento
   A.rosSalaNew = () => {
+    if (!puedeCrear()) return;
     const s = rosa && rosa.state(), n = nombreMio();
     if (!n) { location.hash = "#/rosario/sala"; document.getElementById("rosOverlay") && ctx.actions.rosClose(); toast("Escribe tu nombre y crea la sala", ""); return; }
     create(s ? s.set : "", s ? s.i : 0, n);
