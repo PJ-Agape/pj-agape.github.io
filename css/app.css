@@ -5213,3 +5213,8 @@ html.papel .ds-rec-ill svg.z-illus, html.papel .tp-ill svg.z-illus, html.papel .
 .rs-steps { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
 .rs-call { text-decoration: none; border-color: #3ddc84; color: #b6ffd5; }
 .ros-opt[hidden] { display: none; }
+.rs-mias { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.rs-mias li { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rs-code-s b { width: 30px; height: 38px; font-size: 1.1rem; border-radius: 8px; }
+.rs-code-s { gap: 4px; margin-right: 4px; }
+.ros-follow-msg.rs-espera { padding: 10px 14px; border-radius: 14px; background: rgba(255,186,3,.14); border: 1px solid rgba(255,186,3,.5); }

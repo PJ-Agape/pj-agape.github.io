@@ -13,14 +13,14 @@ const as = (uid) => uid === "ana" ? env.authenticatedContext("ana", { email: "a@
 const E = (n) => ({ n, a: serverTimestamp(), j: Date.now() });
 const R = "ABCD", ref = (uid) => doc(as(uid), "salas_rosario", R);
 const up = (uid, data) => updateDoc(ref(uid), { ...data, at: serverTimestamp() });
-const sala = (uid) => ({ host: uid, guia: uid, set: "gozosos", i: 0, people: { [uid]: E("Ana P.") }, at: serverTimestamp(), createdAt: serverTimestamp() });
+const sala = (uid) => ({ host: uid, hn: "Ana P.", guia: uid, set: "gozosos", i: 0, people: { [uid]: E("Ana P.") }, at: serverTimestamp(), createdAt: serverTimestamp() });
 let n = 0; const t = async (name, p) => { await p; n++; console.log("✓", name); };
 
 await t("sin sesión no se ve", assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), "salas_rosario", R))));
 await t("Ana crea la sala", assertSucceeds(setDoc(ref("ana"), sala("ana"))));
 await t("código inválido", assertFails(setDoc(doc(as("ana"), "salas_rosario", "ab12"), sala("ana"))));
 await t("no crea a nombre de otro", assertFails(setDoc(doc(as("ana"), "salas_rosario", "WXYZ"), sala("v1"))));
-await t("visita anónima crea otra sala", assertSucceeds(setDoc(doc(as("v1"), "salas_rosario", "WXYZ"), { ...sala("v1"), people: { v1: E("Rosa") } })));
+await t("visita anónima no abre salas", assertFails(setDoc(doc(as("v1"), "salas_rosario", "WXYZ"), { ...sala("v1"), people: { v1: E("Rosa") } })));
 await t("visita anónima ve la sala", assertSucceeds(getDoc(ref("v1"))));
 await t("v1 entra", assertSucceeds(up("v1", { "people.v1": E("Rosa") })));
 await t("v2 entra", assertSucceeds(up("v2", { "people.v2": E("Juan") })));
@@ -48,7 +48,9 @@ await t("v1 no saca a otro", assertFails(up("v1", { "people.v2": deleteField() }
 await t("v1 sale", assertSucceeds(up("v1", { "people.v1": deleteField() })));
 await t("v2 (guía) sale y deja la guía a Ana", assertSucceeds(up("v2", { "people.v2": deleteField(), guia: "ana" })));
 await t("la guía no puede quedar en alguien que salió", assertFails(up("ana", { guia: "v2" })));
-await t("v1 (ya fuera) no borra la sala", assertFails(deleteDoc(ref("v1"))));
-await t("Ana, la última, cierra la sala", assertSucceeds(deleteDoc(ref("ana"))));
+await t("Ana sale y la sala queda vacía (sala de espera)", assertSucceeds(up("ana", { "people.ana": deleteField() })));
+await t("v1 llega a la sala de espera", assertSucceeds(up("v1", { "people.v1": E("Rosa") })));
+await t("v1 no borra la sala", assertFails(deleteDoc(ref("v1"))));
+await t("Ana (creó la sala) cierra la sala", assertSucceeds(deleteDoc(ref("ana"))));
 console.log(`\n${n} pruebas OK`);
 await env.cleanup();

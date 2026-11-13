@@ -6,6 +6,9 @@
 // Todo vive en un documento salas_rosario/{CÓDIGO}: { host, guia, set, i, llamada, people: { uid: { n, a } } }.
 // «llamada»: enlace a una llamada de voz para rezar en voz alta (WhatsApp, Meet, Jitsi o Zoom), que
 // pega quien creó la sala o quien guía.
+// La sala funciona como sala de espera: no se borra cuando sale la última persona. Quien llega antes
+// espera a quien guía; quien la creó la encuentra en «Tus salas» para volver o cerrarla. Una sala
+// sin movimiento por 24 horas se puede borrar.
 // Solo quien guía escribe el paso (i) y los misterios (set); cada uno escribe solo su propio nombre.
 
 import { esc, icon, toast } from "./util.js";
@@ -21,7 +24,12 @@ const me = () => ctx.cloud.salaUid();
 const LETTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ";
 const SETS = { gozosos: "Gozosos", luminosos: "Luminosos", dolorosos: "Dolorosos", gloriosos: "Gloriosos" };
 const BY_DAY = ["gloriosos", "gozosos", "dolorosos", "gloriosos", "luminosos", "dolorosos", "gozosos"];
-const NK = "agape_sala_nombre";
+const NK = "agape_sala_nombre", MK = "agape_mis_salas";
+const VENCE = 24 * 3600e3;
+const misSalas = () => { try { return JSON.parse(localStorage.getItem(MK) || "[]").filter((x) => x && /^[A-Z]{4}$/.test(x.c) && Date.now() - x.t < VENCE * 3); } catch { return []; } };
+const guardaMisSalas = (l) => { try { localStorage.setItem(MK, JSON.stringify(l.slice(0, 6))); } catch {} };
+const recuerdaSala = (c) => guardaMisSalas([{ c, t: Date.now() }, ...misSalas().filter((x) => x.c !== c)]);
+const olvidaSala = (c) => guardaMisSalas(misSalas().filter((x) => x.c !== c));
 const LINK = (c) => `https://pj-agape.github.io/rosario/?sala=${c}`;
 const STALE = 3.5 * 60e3;
 const LLAMADA_OK = /^https:\/\/(call\.whatsapp\.com|meet\.google\.com|meet\.jit\.si|([a-z0-9-]+\.)?zoom\.us)\/\S+$/i;
@@ -36,6 +44,7 @@ const vivo = (p) => p && (!p.a || Date.now() - ms(p.a) < STALE); // sin «a» to
 const people = () => Object.entries(room?.people || {}).sort((a, b) => ms(a[1].j) - ms(b[1].j));
 const nombreDe = (u) => (room?.people?.[u]?.n) || "Alguien";
 const guiaViva = () => room && room.people && vivo(room.people[room.guia]);
+const hostNombre = () => room?.people?.[room.host]?.n || room?.hn || "quien creó la sala";
 
 export const active = () => !!room;
 export const isLeader = () => !!room && room.guia === me();
@@ -92,11 +101,17 @@ function paint(want = "") {
     if (want !== tried && conCuenta && !busy) { tried = want; join(want); }
     return;
   }
-  const crear = puedeCrear();
+  const crear = puedeCrear(), mias = crear ? misSalas() : [];
   root.innerHTML = `${head}${errHTML}
+    ${mias.length ? `<section class="card stack rs-card" style="--gap:8px"><h2 class="cred-h">Tus salas abiertas</h2>
+      <p class="small muted">Siguen abiertas aunque no haya nadie: quien llega espera a que entres a guiar.</p>
+      <ul class="rs-mias">${mias.map((x) => `<li><span class="rs-code rs-code-s">${x.c.split("").map((l) => `<b>${l}</b>`).join("")}</span>
+        <button class="btn btn-gold btn-sm" data-action="rsJoin" data-code="${x.c}">Entrar</button>
+        <button class="btn btn-ghost btn-sm" data-action="rsShareMine" data-code="${x.c}">${icon("send")} Invitar</button>
+        <button class="btn btn-ghost btn-sm" data-action="rsCloseMine" data-code="${x.c}">Cerrar</button></li>`).join("")}</ul></section>` : ""}
     ${crear ? "" : `<p class="small muted rs-nota">Las salas las abren los dirigentes y coordinadores. Si te invitaron, abre su enlace o escribe aquí el código de 4 letras.</p>`}
     ${!crear ? "" : `<section class="card stack rs-card" style="--gap:10px"><h2 class="cred-h">Crear una sala</h2>
-      <p class="small muted">Tú guías al comienzo y puedes ceder la guía a quien quieras.</p>
+      <p class="small muted">Tú guías al comienzo y puedes ceder la guía a quien quieras. Puedes crearla antes e invitar: quien llegue primero espera en la sala hasta que entres.</p>
       ${nombreIn("rsNameC")}
       <label class="field"><span>Misterios</span><select class="input" id="rsSet">${Object.entries(SETS).map(([k, t]) => `<option value="${k}" ${k === today ? "selected" : ""}>${t}${k === today ? " (hoy)" : ""}</option>`).join("")}</select></label>
       <button class="btn btn-gold imp-go" data-action="rsCreate" ${busy ? "disabled" : ""}>${icon("plus")} Crear sala</button></section>`}
@@ -124,8 +139,8 @@ async function create(set, i = 0, nombre = nombreMio()) {
     for (let k = 0; k < 6; k++) {
       const c = Array.from({ length: 4 }, () => LETTERS[rnd(LETTERS.length)]).join("");
       if (await ctx.cloud.rosarioExists(c)) continue;
-      await ctx.cloud.rosarioCreate(c, { host: uid, guia: uid, set: SETS[set] ? set : BY_DAY[new Date().getDay()], i: Math.max(0, i | 0), people: { [uid]: myEntry(nombre) } });
-      busy = false; listen(c, true); return;
+      await ctx.cloud.rosarioCreate(c, { host: uid, guia: uid, hn: short(nombre) || "Alguien", set: SETS[set] ? set : BY_DAY[new Date().getDay()], i: Math.max(0, i | 0), people: { [uid]: myEntry(nombre) } });
+      recuerdaSala(c); busy = false; listen(c, true); return;
     }
   } catch (e) { console.warn(e); err = errText(e, "create"); toast(err, "", 7000); }
   busy = false; repaint();
@@ -136,7 +151,7 @@ async function join(c, nombre = nombreMio()) {
   if (busy) return; busy = true; err = ""; repaint();
   try {
     const uid = await ctx.cloud.salaAuth();
-    if (!(await ctx.cloud.rosarioExists(c))) { err = `No encontramos la sala ${c}. Puede que ya haya terminado: revisa el código.`; busy = false; repaint(); return; }
+    if (!(await ctx.cloud.rosarioExists(c))) { olvidaSala(c); err = `No encontramos la sala ${c}. Puede que ya se haya cerrado: revisa el código.`; busy = false; repaint(); return; }
     await ctx.cloud.rosarioUpdate(c, { ["people." + uid]: myEntry(nombre) });
     busy = false; listen(c, true); return;
   } catch (e) { console.warn(e); err = errText(e, "join"); }
@@ -150,6 +165,7 @@ function listen(c, abrir) {
     if (!data || !data.people || !data.people[me()]) { if (room) toast(data ? "Saliste de la sala" : "La sala se cerró. Puedes seguir rezando solo."); salir(false); return; }
     const antes = room, eraGuia = antes && antes.guia === me();
     room = data;
+    if (room.host === me()) recuerdaSala(c);
     if (first) { first = false; if (abrir && rosa) rosa.open(room.set, room.i); }
     if (room.guia !== me()) { applying = true; try { rosa && rosa.apply(room.set, room.i); } finally { applying = false; } }
     else if (!eraGuia && antes) { toast("Ahora guías tú el Rosario"); try { navigator.vibrate?.([60, 80, 60]); } catch {} }
@@ -158,19 +174,26 @@ function listen(c, abrir) {
   clearInterval(hb);
   hb = setInterval(() => { if (room && code) ctx.cloud.rosarioUpdate(code, { ["people." + me() + ".a"]: ctx.cloud.rosarioTs() }).catch(() => {}); paintBar(); }, 90e3);
 }
-// Salir: quien guía deja la guía a quien creó la sala (si sigue) o a la primera persona que queda.
+// Salir: la sala queda abierta. Quien guía deja la guía a quien creó la sala (si sigue), a la primera
+// persona que queda o, si no queda nadie, de vuelta a quien la creó, que la retoma al volver.
 export async function leave() {
   if (!room) return;
   const c = code, r = room, u = me(), otros = people().filter(([k, p]) => k !== u && vivo(p)), todos = people().filter(([k]) => k !== u);
   salir(true);
   try {
-    if (!todos.length) await ctx.cloud.rosarioDelete(c);
-    else {
-      const upd = { ["people." + u]: ctx.cloud.rosarioDel() };
-      if (r.guia === u) upd.guia = (otros.find(([k]) => k === r.host) || otros[0] || todos[0])[0];
-      await ctx.cloud.rosarioUpdate(c, upd);
+    const upd = { ["people." + u]: ctx.cloud.rosarioDel() };
+    if (r.guia === u) {
+      const sig = otros.find(([k]) => k === r.host) || otros[0] || todos[0];
+      if (sig) upd.guia = sig[0]; else if (u !== r.host) upd.guia = r.host;
     }
+    await ctx.cloud.rosarioUpdate(c, upd);
   } catch (e) { console.warn(e); }
+}
+// Cerrar la sala para todos (solo quien la creó)
+async function cerrar(c) {
+  try { await ctx.cloud.rosarioDelete(c); olvidaSala(c); toast("Cerraste la sala"); }
+  catch (e) { console.warn(e); toast("No se pudo cerrar la sala", ""); }
+  if (room && code === c) salir(false); else repaint();
 }
 function salir(quiet) {
   if (stop) stop(); stop = null; clearInterval(hb); hb = null;
@@ -213,7 +236,7 @@ export function paintBar() {
   const puedeTomar = !soyGuia && (soyHost || !guiaViva());
   bar.innerHTML = `<div class="rs-row">
       <span class="rs-live" aria-hidden="true"></span>
-      <span class="rs-info"><b>Sala ${esc(code)}</b> · ${vivos.length} ${vivos.length === 1 ? "rezando" : "rezando juntos"}<small>${soyGuia ? "Tú guías el Rosario" : `Guía: ${esc(nombreDe(room.guia))}${guiaViva() ? "" : " (sin señal)"}`}</small></span>
+      <span class="rs-info"><b>Sala ${esc(code)}</b> · ${vivos.length} ${vivos.length === 1 ? "rezando" : "rezando juntos"}<small>${soyGuia ? "Tú guías el Rosario" : !(room.people && room.people[room.guia]) ? `Sala de espera · guía ${esc(hostNombre())}` : `Guía: ${esc(nombreDe(room.guia))}${guiaViva() ? "" : " (sin señal)"}`}</small></span>
       <button class="rs-b" data-action="rsInvite">${icon("send")} Invitar</button>
       ${room.llamada ? `<a class="rs-b rs-call" href="${esc(room.llamada)}" target="_blank" rel="noopener">${icon("phone")} Llamada</a>`
         : soyGuia || soyHost ? `<button class="rs-b" data-action="rsCall">${icon("phone")} Llamada</button>` : ""}
@@ -223,13 +246,18 @@ export function paintBar() {
     ${verGente ? `<ul class="rs-people">${ps.map(([k, p]) => `<li class="${vivo(p) ? "" : "off"}"><span>${esc(p.n || "Alguien")}${k === u ? " <small>tú</small>" : ""}${k === room.host ? " <small>creó la sala</small>" : ""}${k === room.guia ? " <small class='g'>guía</small>" : ""}${vivo(p) ? "" : " <small>sin señal</small>"}</span>
         ${(soyGuia || soyHost) && k !== room.guia && k !== u && vivo(p) ? `<button class="rs-b" data-action="rsGive" data-u="${esc(k)}">Ceder la guía</button>` : ""}</li>`).join("")}</ul>
       <div class="row-wrap" style="gap:6px">${puedeTomar ? `<button class="btn btn-soft btn-sm" data-action="rsTake">${soyHost ? "Retomar la guía" : "Tomar la guía"}</button>` : ""}
-      ${(soyGuia || soyHost) && room.llamada ? `<button class="rs-b" data-action="rsCall">Cambiar la llamada</button>` : ""}</div>` : ""}`;
+      ${(soyGuia || soyHost) && room.llamada ? `<button class="rs-b" data-action="rsCall">Cambiar la llamada</button>` : ""}
+      ${soyHost ? `<button class="rs-b rs-out" data-action="rsCloseRoom">Cerrar la sala para todos</button>` : ""}</div>` : ""}`;
   // Aviso en los controles de quien sigue
   const ctl = ov?.querySelector(".ros-ctl");
   let f = $("#rosFollow");
   if (follower() && ctl) {
     if (!f) { f = document.createElement("p"); f.id = "rosFollow"; f.className = "ros-follow-msg"; ctl.after(f); }
-    f.innerHTML = `${esc(nombreDe(room.guia))} guía el Rosario: reza a su ritmo, las cuentas avanzan solas.${puedeTomar && !guiaViva() ? ` <button class="rs-b" data-action="rsTake">Tomar la guía</button>` : ""}`;
+    const espera = !(room.people && room.people[room.guia]);
+    f.classList.toggle("rs-espera", espera);
+    f.innerHTML = espera
+      ? `<b>Sala de espera.</b> El Rosario comienza cuando llegue ${esc(hostNombre())} a guiarlo. Mientras, puedes preparar tu intención.${puedeTomar ? ` <button class="rs-b" data-action="rsTake">Guiar yo</button>` : ""}`
+      : `${esc(nombreDe(room.guia))} guía el Rosario: reza a su ritmo, las cuentas avanzan solas.${puedeTomar && !guiaViva() ? ` <button class="rs-b" data-action="rsTake">Tomar la guía</button>` : ""}`;
   } else if (f) f.remove();
 }
 
@@ -294,6 +322,14 @@ function registerActions() {
   A.rsCallX = () => document.getElementById("rsCallDlg")?.close();
   A.rsCallSave = async () => { if (await guardarLlamada(($("#rsCallIn") || {}).value)) A.rsCallX(); };
   A.rsCallDel = async () => { if (await guardarLlamada("")) A.rsCallX(); };
-  A.rsLeave = async () => { await leave(); toast("Saliste de la sala. Puedes seguir rezando solo."); };
+  A.rsLeave = async () => { const host = room && room.host === me(); await leave(); toast(host ? "Saliste. La sala sigue abierta: vuelve a ella desde «Rosario en comunidad»." : "Saliste de la sala. Puedes seguir rezando solo.", "", 6000); };
+  let cierre = "";
+  const confirmaCierre = (c, el) => { if (cierre === c) { cierre = ""; cerrar(c); return; } cierre = c; if (el) el.textContent = "Toca de nuevo para cerrar"; setTimeout(() => { if (cierre === c) { cierre = ""; paintBar(); repaint(); } }, 4000); };
+  A.rsCloseRoom = (el) => { if (room && room.host === me()) confirmaCierre(code, el); };
+  A.rsCloseMine = (el) => confirmaCierre(el.dataset.code, el);
+  A.rsShareMine = async (el) => { const c = el.dataset.code, text = `Te invito a rezar el Rosario conmigo en la Capilla Ágape, cada uno desde su teléfono. Entra a la sala ${c}:\n${LINK(c)}`;
+    try { await navigator.clipboard.writeText(text); } catch {}
+    if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { try { await navigator.share({ text }); return; } catch (e) { if (e && e.name === "AbortError") return; } }
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener"); toast(`Invitación copiada. Código: ${c}`, "ok"); };
   document.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target && e.target.id === "rsCodeIn") { e.preventDefault(); A.rsJoin({ dataset: {} }); } });
 }

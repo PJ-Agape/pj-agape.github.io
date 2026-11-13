@@ -625,11 +625,12 @@ service cloud.firestore {
     // Juegos en línea («¡Última!»): una sala por código de 4 letras. La ven quienes tienen cuenta.
     // Quien está en la sala puede escribir la partida; los demás solo pueden sumarse mientras espera.
     // Rosario en comunidad: una sala por código. La abren dirigentes, coordinadores y administradores;
-    // entra cualquiera con sesión (también la anónima, sin cuenta). Quien guía mueve el paso y los misterios y puede ceder la guía; quien creó la sala
+    // entra cualquiera con sesión (también la anónima, sin cuenta). Puede quedar vacía (sala de espera):
+    // entonces la guía vuelve a quien la creó. Quien guía mueve el paso y los misterios y puede ceder la guía; quien creó la sala
     // puede retomarla o entregarla; si quien guía lleva más de 3 minutos sin señal, otro la puede tomar.
     // Cada uno escribe solo su propio nombre y su señal de presencia (a = hora del servidor).
     match /salas_rosario/{rid} {
-      function rKeys() { return ['host', 'guia', 'set', 'i', 'llamada', 'people', 'at', 'createdAt']; }
+      function rKeys() { return ['host', 'hn', 'guia', 'set', 'i', 'llamada', 'people', 'at', 'createdAt']; }
       function rSets() { return ['gozosos', 'luminosos', 'dolorosos', 'gloriosos']; }
       function rEntry(p) {
         return p.keys().hasOnly(['n', 'a', 'j']) && p.n is string && p.n.size() >= 1 && p.n.size() <= 40 && p.a == request.time;
@@ -637,7 +638,7 @@ service cloud.firestore {
       function rBase() {
         let d = request.resource.data;
         return d.keys().hasOnly(rKeys()) && d.set in rSets() && d.i is int && d.i >= 0 && d.i < 100
-          && d.people is map && d.people.size() <= 60 && d.guia is string && d.guia in d.people && d.at == request.time
+          && d.people is map && d.people.size() <= 60 && d.guia is string && (d.guia in d.people || d.guia == d.host) && d.at == request.time
           && (!('llamada' in d) || (d.llamada is string && d.llamada.size() <= 300
               && d.llamada.matches('^https://(call[.]whatsapp[.]com|meet[.]google[.]com|meet[.]jit[.]si|([a-z0-9-]+[.])?zoom[.]us)/[^ ]+$')));
       }
@@ -660,9 +661,11 @@ service cloud.firestore {
         && request.resource.data.set in rSets() && request.resource.data.i is int && request.resource.data.i >= 0 && request.resource.data.i < 100
         && request.resource.data.people is map && request.resource.data.people.keys().hasOnly([request.auth.uid])
         && rEntry(request.resource.data.people[request.auth.uid])
+        && request.resource.data.get('hn', 'x') is string && request.resource.data.get('hn', 'x').size() >= 1 && request.resource.data.get('hn', 'x').size() <= 40
         && request.resource.data.createdAt == request.time && request.resource.data.at == request.time;
       allow update: if request.auth != null && rBase() && rMine()
         && request.resource.data.host == resource.data.host && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.get('hn', '') == resource.data.get('hn', '')
         && (
           // Quien guía: avanza, cambia los misterios, cede la guía, pone la llamada o sale
           (request.auth.uid == resource.data.guia && changed().hasOnly(['i', 'set', 'guia', 'llamada', 'people', 'at']) && rPeopleMine())
@@ -674,9 +677,10 @@ service cloud.firestore {
           || (changed().hasOnly(['guia', 'people', 'at']) && request.resource.data.guia == request.auth.uid
               && request.auth.uid in resource.data.people && rGuiaSinSenal() && rPeopleMine())
         );
-      allow delete: if request.auth != null && (resource.data.host == request.auth.uid
-        || resource.data.people.keys().hasOnly([request.auth.uid]) || isStaff()
-        || resource.data.at < request.time - duration.value(12, 'h'));
+      // Funciona como sala de espera: queda abierta aunque salga todo el mundo. La cierra quien la creó
+      // (o el equipo); una sala sin movimiento por 24 horas la puede borrar cualquiera.
+      allow delete: if request.auth != null && (resource.data.host == request.auth.uid || isStaff()
+        || resource.data.at < request.time - duration.value(24, 'h'));
     }
 
     match /partidas/{pid} {
