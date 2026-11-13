@@ -290,11 +290,18 @@ export function paintBar() {
   const ctl = ov?.querySelector(".ros-ctl");
   let f = $("#rosFollow");
   if (follower() && ctl) {
-    if (!f) { f = document.createElement("p"); f.id = "rosFollow"; f.className = "ros-follow-msg"; ctl.after(f); }
     const espera = !(room.people && room.people[room.guia]);
+    if (!f) { f = document.createElement("div"); f.id = "rosFollow"; f.className = "ros-follow-msg"; }
+    // En la sala de espera el aviso va arriba, a la vista; durante el Rosario, bajo las cuentas
+    const donde = espera ? bar : ctl;
+    if (f.previousElementSibling !== donde) donde.after(f);
     f.classList.toggle("rs-espera", espera);
     f.innerHTML = espera
-      ? `<b>Sala de espera.</b> El Rosario comienza cuando llegue ${esc(hostNombre())} a guiarlo. Mientras, puedes preparar tu intención.${puedeTomar ? ` <button class="rs-b" data-action="rsTake">Guiar yo</button>` : ""}`
+      ? `<b>Sala de espera.</b> El Rosario comienza cuando llegue ${esc(hostNombre())} a guiarlo.
+        <span class="rs-esp-int">Mientras esperamos, piensa en las intenciones que traes a esta oración: las personas, las alegrías y las preocupaciones que quieres poner en manos de María.
+        Si quieres que la comunidad rece contigo, enciende una vela.</span>
+        <button class="btn btn-gold btn-sm" data-action="rsVela">${velaHecha ? "Encender otra vela" : "Encender una vela"}</button>
+        ${puedeTomar ? `<button class="rs-b" data-action="rsTake">¿No llega? Guiar yo</button>` : ""}`
       : `${esc(nombreDe(room.guia))} guía el Rosario: reza a su ritmo, las cuentas avanzan solas.${puedeTomar && !guiaViva() ? ` <button class="rs-b" data-action="rsTake">Tomar la guía</button>` : ""}`;
   } else if (f) f.remove();
 }
@@ -337,6 +344,37 @@ async function guardarLlamada(url) {
   } catch (e) { console.warn(e); toast("No se pudo guardar la llamada", ""); return false; }
 }
 
+// Vela desde la sala de espera, sin salir de la sala: con cuenta va a las velas de la Capilla; sin
+// cuenta, a las intenciones del Ágape digital (las leen los guías y se llevan a la misa del grupo).
+let velaHecha = false;
+function velaDlg() {
+  let d = document.getElementById("rsVelaDlg");
+  if (!d) { d = document.createElement("dialog"); d.id = "rsVelaDlg"; d.className = "sheet"; document.body.appendChild(d); }
+  const conCuenta = !!st().ready;
+  d.innerHTML = `<form class="sheet-body stack" style="--gap:10px" id="rsVelaForm" onsubmit="return false">
+    <span class="eyebrow">Capilla Ágape</span><h2 style="margin:0">Enciende una vela</h2>
+    <p class="small">Escribe tu intención y la comunidad Ágape rezará contigo${conCuenta ? "" : ". La llevamos a la misa del grupo"}.</p>
+    <textarea class="input" id="rsVelaText" rows="4" maxlength="500" placeholder="Por…"></textarea>
+    <p class="xs muted">${conCuenta ? "La ve solo la comunidad con cuenta, en las velas de la Capilla." : "No se publica fuera de la comunidad: la leen solo los guías."}</p>
+    <div class="row-wrap" style="gap:8px"><button class="btn btn-gold" data-action="rsVelaGo" type="button">Encender</button>
+      <button class="btn btn-ghost btn-sm" data-action="rsVelaX" type="button">Ahora no</button></div>
+  </form>`;
+  d.showModal(); setTimeout(() => $("#rsVelaText")?.focus(), 50);
+}
+async function encenderVela(btn) {
+  const t = String(($("#rsVelaText") || {}).value || "").trim();
+  if (!t) { toast("Escribe tu intención", ""); $("#rsVelaText")?.focus(); return; }
+  if (btn) btn.disabled = true;
+  try {
+    if (st().ready) await ctx.cloud.lightVela(t);
+    else { const n = nombreDe(me()); await ctx.cloud.saveIntencionRed({ t: t.slice(0, 500), n: n === SILENCIO ? "" : n.slice(0, 40) }); }
+    velaHecha = true;
+    document.getElementById("rsVelaDlg")?.close();
+    toast("Tu vela está encendida. La comunidad reza contigo.", "ok", 5000);
+    paintBar();
+  } catch (e) { console.warn(e); toast("No se pudo encender la vela. Revisa tu conexión.", ""); if (btn) btn.disabled = false; }
+}
+
 // ---------------------------------------------------------------------------
 // Acciones
 // ---------------------------------------------------------------------------
@@ -362,6 +400,9 @@ function registerActions() {
   A.rsGive = (el) => setGuia(el.dataset.u);
   A.rsTake = () => setGuia(me());
   A.rsCall = () => llamadaDlg();
+  A.rsVela = () => velaDlg();
+  A.rsVelaX = () => document.getElementById("rsVelaDlg")?.close();
+  A.rsVelaGo = (el) => encenderVela(el);
   A.rsCallX = () => document.getElementById("rsCallDlg")?.close();
   A.rsCallSave = async () => { if (await guardarLlamada(($("#rsCallIn") || {}).value)) A.rsCallX(); };
   A.rsCallDel = async () => { if (await guardarLlamada("")) A.rsCallX(); };

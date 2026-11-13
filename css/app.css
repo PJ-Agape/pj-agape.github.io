@@ -5235,3 +5235,5 @@ html.papel .ds-rec-ill svg.z-illus, html.papel .tp-ill svg.z-illus, html.papel .
 .rs-vis input { margin-top: 3px; accent-color: #0b2566; }
 .rs-vis b { display: block; color: #0b2566; }
 .rs-vis small { display: block; font-size: .82rem; color: #4a5878; }
+.ros-follow-msg.rs-espera { display: grid; gap: 8px; justify-items: center; }
+.rs-esp-int { display: block; font-size: .9rem; line-height: 1.4; opacity: .95; max-width: 460px; }
