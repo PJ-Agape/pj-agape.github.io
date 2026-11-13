@@ -629,7 +629,7 @@ service cloud.firestore {
     // puede retomarla o entregarla; si quien guía lleva más de 3 minutos sin señal, otro la puede tomar.
     // Cada uno escribe solo su propio nombre y su señal de presencia (a = hora del servidor).
     match /salas_rosario/{rid} {
-      function rKeys() { return ['host', 'guia', 'set', 'i', 'people', 'at', 'createdAt']; }
+      function rKeys() { return ['host', 'guia', 'set', 'i', 'llamada', 'people', 'at', 'createdAt']; }
       function rSets() { return ['gozosos', 'luminosos', 'dolorosos', 'gloriosos']; }
       function rEntry(p) {
         return p.keys().hasOnly(['n', 'a', 'j']) && p.n is string && p.n.size() >= 1 && p.n.size() <= 40 && p.a == request.time;
@@ -637,7 +637,9 @@ service cloud.firestore {
       function rBase() {
         let d = request.resource.data;
         return d.keys().hasOnly(rKeys()) && d.set in rSets() && d.i is int && d.i >= 0 && d.i < 100
-          && d.people is map && d.people.size() <= 60 && d.guia is string && d.guia in d.people && d.at == request.time;
+          && d.people is map && d.people.size() <= 60 && d.guia is string && d.guia in d.people && d.at == request.time
+          && (!('llamada' in d) || (d.llamada is string && d.llamada.size() <= 300
+              && d.llamada.matches('^https://(call[.]whatsapp[.]com|meet[.]google[.]com|meet[.]jit[.]si|([a-z0-9-]+[.])?zoom[.]us)/[^ ]+$')));
       }
       function rMine() {
         let p = request.resource.data.people;
@@ -661,10 +663,10 @@ service cloud.firestore {
       allow update: if request.auth != null && rBase() && rMine()
         && request.resource.data.host == resource.data.host && request.resource.data.createdAt == resource.data.createdAt
         && (
-          // Quien guía: avanza, cambia los misterios, cede la guía o sale
-          (request.auth.uid == resource.data.guia && changed().hasOnly(['i', 'set', 'guia', 'people', 'at']) && rPeopleMine())
-          // Quien creó la sala: retoma o entrega la guía
-          || (request.auth.uid == resource.data.host && changed().hasOnly(['guia', 'people', 'at']) && rPeopleMine())
+          // Quien guía: avanza, cambia los misterios, cede la guía, pone la llamada o sale
+          (request.auth.uid == resource.data.guia && changed().hasOnly(['i', 'set', 'guia', 'llamada', 'people', 'at']) && rPeopleMine())
+          // Quien creó la sala: retoma o entrega la guía, pone la llamada
+          || (request.auth.uid == resource.data.host && changed().hasOnly(['guia', 'llamada', 'people', 'at']) && rPeopleMine())
           // Cualquiera de la sala, o quien entra: su propio nombre y su señal
           || (changed().hasOnly(['people', 'at']) && onlyMyKey('people'))
           // Quien guía se fue o se le cortó: otro de la sala toma la guía

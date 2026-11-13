@@ -3,7 +3,9 @@
 // Una persona guía: avanza las cuentas y todos ven la misma oración al mismo tiempo. La guía se
 // puede ceder a cualquiera de la sala, con o sin cuenta (sin cuenta se entra con una sesión anónima).
 //
-// Todo vive en un documento salas_rosario/{CÓDIGO}: { host, guia, set, i, people: { uid: { n, a } } }.
+// Todo vive en un documento salas_rosario/{CÓDIGO}: { host, guia, set, i, llamada, people: { uid: { n, a } } }.
+// «llamada»: enlace a una llamada de voz para rezar en voz alta (WhatsApp, Meet, Jitsi o Zoom), que
+// pega quien creó la sala o quien guía.
 // Solo quien guía escribe el paso (i) y los misterios (set); cada uno escribe solo su propio nombre.
 
 import { esc, icon, toast } from "./util.js";
@@ -21,7 +23,9 @@ const SETS = { gozosos: "Gozosos", luminosos: "Luminosos", dolorosos: "Dolorosos
 const BY_DAY = ["gloriosos", "gozosos", "dolorosos", "gloriosos", "luminosos", "dolorosos", "gozosos"];
 const NK = "agape_sala_nombre";
 const LINK = (c) => `https://pj-agape.github.io/rosario/?sala=${c}`;
-const STALE = 3.5 * 60e3; // sin señal hace más de esto: ya no está (o se le cortó)
+const STALE = 3.5 * 60e3;
+const LLAMADA_OK = /^https:\/\/(call\.whatsapp\.com|meet\.google\.com|meet\.jit\.si|([a-z0-9-]+\.)?zoom\.us)\/\S+$/i;
+const llamadaDe = (u) => /whatsapp/i.test(u) ? "WhatsApp" : /meet\.google/i.test(u) ? "Meet" : /jit\.si/i.test(u) ? "Jitsi" : "Zoom"; // sin señal hace más de esto: ya no está (o se le cortó)
 
 let code = "", room = null, stop = null, hb = null, err = "", busy = false, tried = "", verGente = false, applying = false;
 
@@ -190,12 +194,15 @@ async function setGuia(u) {
 // ---------------------------------------------------------------------------
 // Barra de la sala, dentro del Rosario
 // ---------------------------------------------------------------------------
+// Para el modo proyección: cómo unirse (se muestra en una esquina)
+export const proyInfo = () => (room ? `Únete a rezar: pj-agape.github.io/rosario · sala ${code}` : "");
 export function barHTML() { return `<div class="ros-sala" id="rosSala" ${room ? "" : "hidden"}></div>`; }
 export function paintBar() {
   const bar = $("#rosSala"), ov = $("#rosOverlay");
   ov?.classList.toggle("ros-follow", follower());
   ov?.classList.toggle("ros-en-sala", !!room);
   const nb = ov?.querySelector("[data-action=rosSalaNew]"); if (nb) nb.hidden = !!room;
+  const pi = $("#rosProyInfo"); if (pi) pi.textContent = proyInfo();
   if (!bar) return;
   if (!room) { bar.hidden = true; bar.innerHTML = ""; const f = $("#rosFollow"); if (f) f.remove(); return; }
   bar.hidden = false;
@@ -205,12 +212,15 @@ export function paintBar() {
       <span class="rs-live" aria-hidden="true"></span>
       <span class="rs-info"><b>Sala ${esc(code)}</b> · ${vivos.length} ${vivos.length === 1 ? "rezando" : "rezando juntos"}<small>${soyGuia ? "Tú guías el Rosario" : `Guía: ${esc(nombreDe(room.guia))}${guiaViva() ? "" : " (sin señal)"}`}</small></span>
       <button class="rs-b" data-action="rsInvite">${icon("send")} Invitar</button>
+      ${room.llamada ? `<a class="rs-b rs-call" href="${esc(room.llamada)}" target="_blank" rel="noopener">${icon("phone")} Llamada</a>`
+        : soyGuia || soyHost ? `<button class="rs-b" data-action="rsCall">${icon("phone")} Llamada</button>` : ""}
       <button class="rs-b" data-action="rsPeople" aria-expanded="${verGente}">${icon("users")} ${vivos.length}</button>
       <button class="rs-b rs-out" data-action="rsLeave" aria-label="Salir de la sala">Salir</button>
     </div>
     ${verGente ? `<ul class="rs-people">${ps.map(([k, p]) => `<li class="${vivo(p) ? "" : "off"}"><span>${esc(p.n || "Alguien")}${k === u ? " <small>tú</small>" : ""}${k === room.host ? " <small>creó la sala</small>" : ""}${k === room.guia ? " <small class='g'>guía</small>" : ""}${vivo(p) ? "" : " <small>sin señal</small>"}</span>
         ${(soyGuia || soyHost) && k !== room.guia && k !== u && vivo(p) ? `<button class="rs-b" data-action="rsGive" data-u="${esc(k)}">Ceder la guía</button>` : ""}</li>`).join("")}</ul>
-      ${puedeTomar ? `<button class="btn btn-soft btn-sm" data-action="rsTake">${soyHost ? "Retomar la guía" : "Tomar la guía"}</button>` : ""}` : ""}`;
+      <div class="row-wrap" style="gap:6px">${puedeTomar ? `<button class="btn btn-soft btn-sm" data-action="rsTake">${soyHost ? "Retomar la guía" : "Tomar la guía"}</button>` : ""}
+      ${(soyGuia || soyHost) && room.llamada ? `<button class="rs-b" data-action="rsCall">Cambiar la llamada</button>` : ""}</div>` : ""}`;
   // Aviso en los controles de quien sigue
   const ctl = ov?.querySelector(".ros-ctl");
   let f = $("#rosFollow");
@@ -222,11 +232,40 @@ export function paintBar() {
 
 async function invitar() {
   if (!room) return;
-  const link = LINK(code), text = `Te invito a rezar el Rosario conmigo en la Capilla Ágape, cada uno desde su teléfono. Entra a la sala ${code}:\n${link}`;
+  const link = LINK(code), text = `Te invito a rezar el Rosario conmigo en la Capilla Ágape, cada uno desde su teléfono. Entra a la sala ${code}:\n${link}`
+    + (room.llamada ? `\n\nPara rezar en voz alta, únete también a la llamada:\n${room.llamada}` : "");
   try { await navigator.clipboard.writeText(text); } catch {}
   if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) { try { await navigator.share({ text }); return; } catch (e) { if (e && e.name === "AbortError") return; } }
   window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener");
   toast(`Invitación copiada. El código de la sala es ${code}.`, "ok", 6000);
+}
+
+// Llamada de voz: quien creó la sala o quien guía pega el enlace (WhatsApp → Llamadas → Crear enlace de llamada)
+function llamadaDlg() {
+  let d = document.getElementById("rsCallDlg");
+  if (!d) { d = document.createElement("dialog"); d.id = "rsCallDlg"; d.className = "sheet"; document.body.appendChild(d); }
+  d.innerHTML = `<form class="sheet-body stack" style="--gap:10px" id="rsCallForm" method="dialog">
+    <span class="eyebrow">Sala ${esc(code)}</span><h2 style="margin:0">Llamada para rezar en voz alta</h2>
+    <p class="small">Así quien guía reza la primera parte y todos responden, cada uno desde su teléfono.</p>
+    <ol class="small rs-steps"><li>En WhatsApp, abre la pestaña <b>Llamadas</b> y toca <b>Crear enlace de llamada</b> (de voz, hasta 32 personas).</li>
+      <li>Toca <b>Copiar enlace</b> y pégalo aquí.</li></ol>
+    <p class="xs muted">También sirve un enlace de Google Meet, Jitsi o Zoom.</p>
+    <input class="input" id="rsCallIn" type="url" inputmode="url" placeholder="https://call.whatsapp.com/…" value="${esc(room?.llamada || "")}">
+    <div class="row-wrap" style="gap:8px"><button class="btn btn-gold" data-action="rsCallSave" type="button">Guardar</button>
+      ${room?.llamada ? `<button class="btn btn-ghost btn-sm" data-action="rsCallDel" type="button">Quitar la llamada</button>` : ""}
+      <button class="btn btn-ghost btn-sm" data-action="rsCallX" type="button">Cancelar</button></div>
+  </form>`;
+  d.showModal(); setTimeout(() => $("#rsCallIn")?.focus(), 50);
+}
+async function guardarLlamada(url) {
+  if (!room) return;
+  url = String(url || "").trim();
+  if (url && !LLAMADA_OK.test(url)) { toast("Pega un enlace de llamada de WhatsApp (call.whatsapp.com), Meet, Jitsi o Zoom", "", 6000); return false; }
+  try {
+    await ctx.cloud.rosarioUpdate(code, { llamada: url ? url : ctx.cloud.rosarioDel() });
+    toast(url ? `Llamada de ${llamadaDe(url)} lista: todos ven el botón para unirse` : "Quitaste la llamada", "ok");
+    return true;
+  } catch (e) { console.warn(e); toast("No se pudo guardar la llamada", ""); return false; }
 }
 
 // ---------------------------------------------------------------------------
@@ -247,6 +286,10 @@ function registerActions() {
   A.rsPeople = () => { verGente = !verGente; paintBar(); };
   A.rsGive = (el) => setGuia(el.dataset.u);
   A.rsTake = () => setGuia(me());
+  A.rsCall = () => llamadaDlg();
+  A.rsCallX = () => document.getElementById("rsCallDlg")?.close();
+  A.rsCallSave = async () => { if (await guardarLlamada(($("#rsCallIn") || {}).value)) A.rsCallX(); };
+  A.rsCallDel = async () => { if (await guardarLlamada("")) A.rsCallX(); };
   A.rsLeave = async () => { await leave(); toast("Saliste de la sala. Puedes seguir rezando solo."); };
   document.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target && e.target.id === "rsCodeIn") { e.preventDefault(); A.rsJoin({ dataset: {} }); } });
 }

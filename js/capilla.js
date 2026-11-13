@@ -891,7 +891,10 @@ function openRosary(set, i0) {
       <button class="ros-opt" data-action="rosAuto" aria-pressed="${voz.auto}" ${voz.on ? "" : "disabled"}>Avanzar solo</button>` : ""}
       <button class="ros-opt" data-action="rosRemote" aria-pressed="false">Control remoto</button>
       <button class="ros-opt" data-action="rosSalaNew">Rezar con otros</button>
+      <button class="ros-opt" data-action="rosProy">Proyectar</button>
     </div>
+    <button class="ros-proy-x" data-action="rosProy" aria-label="Salir del modo proyección">${icon("x")} Salir de proyección</button>
+    <p class="ros-proy-info" id="rosProyInfo"></p>
   </div>`;
   document.body.appendChild(el);
   document.body.classList.add("cap-quiet");
@@ -1191,6 +1194,18 @@ function registerActions() {
   document.addEventListener("touchstart", (e) => { if (document.getElementById("capProj")) psx = e.touches[0].clientX; }, { passive: true });
   document.addEventListener("touchend", (e) => { if (psx == null || !document.getElementById("capProj")) return; const dx = e.changedTouches[0].clientX - psx; psx = null; if (Math.abs(dx) > 60) devProjMove(dx < 0 ? 1 : -1); }, { passive: true });
   A.capRosario = (el) => openRosary(el.dataset.set);
+  // Modo proyección: pantalla completa, letra grande y sin botones (para un proyector, un televisor o una
+  // transmisión con OBS). Quien guía puede seguir avanzando con un toque, el teclado o el control remoto.
+  A.rosProy = () => {
+    if (!ros) return;
+    const el = ros.el, on = !el.classList.contains("ros-proy");
+    el.classList.toggle("ros-proy", on);
+    try {
+      if (on && el.requestFullscreen && !document.fullscreenElement) el.requestFullscreen().catch(() => {});
+      if (!on && document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    } catch {}
+    RS.paintBar();
+  };
   A.rosClose = () => { if (RS.active()) RS.leave(); closeRosary(); };
   A.rosNext = () => rosMove(1);
   A.rosPrev = () => rosMove(-1);
@@ -1198,7 +1213,7 @@ function registerActions() {
     ros.el.querySelectorAll(".ros-sets button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.set === ros.set))); rosPaint(); };
   document.addEventListener("keydown", (e) => {
     if (!document.getElementById("rosOverlay")) return;
-    if (e.key === "Escape") { e.preventDefault(); ctx.actions.rosClose(); }
+    if (e.key === "Escape") { e.preventDefault(); if (ros && ros.el.classList.contains("ros-proy")) ctx.actions.rosProy(); else ctx.actions.rosClose(); }
   });
   A.capAltar = (el) => { if (el.closest && el.closest(".cap-altar-body")) return; setAltar(!altarOpen); };
   document.addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("cap-altar-top")) { e.preventDefault(); setAltar(!altarOpen); } });

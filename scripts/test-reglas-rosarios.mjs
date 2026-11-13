@@ -36,6 +36,9 @@ await t("v1 (sin cuenta) guía y avanza", assertSucceeds(up("v1", { i: 6, set: "
 await t("no se cede a alguien que no está", assertFails(up("v1", { guia: "zz" })));
 await t("Ana (creó la sala) retoma la guía", assertSucceeds(up("ana", { guia: "ana" })));
 await t("Ana ya no puede tocar el host", assertFails(up("ana", { host: "v2" })));
+await t("Ana (guía) pone la llamada de WhatsApp", assertSucceeds(up("ana", { llamada: "https://call.whatsapp.com/voice/AbCdEf123" })));
+await t("enlace de llamada de otro sitio no", assertFails(up("ana", { llamada: "https://ejemplo.com/x" })));
+await t("quien no guía ni creó la sala no cambia la llamada", assertFails(up("v1", { llamada: "https://meet.google.com/abc-defg-hij" })));
 await t("v2 avisa que sigue", assertSucceeds(up("v2", { "people.v2.a": serverTimestamp() })));
 // La guía se queda sin señal: otro la toma
 await env.withSecurityRulesDisabled(async (c) => { await updateDoc(doc(c.firestore(), "salas_rosario", R), { "people.ana.a": Timestamp.fromMillis(Date.now() - 10 * 60e3) }); });
