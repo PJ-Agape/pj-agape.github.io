@@ -28,7 +28,7 @@ const PARTES = [
   ] },
   { id: "orar", ill: "oracion", t: "Orar: un lugar para rezar", sub: "La Capilla Ágape y sus formas de rezar", secs: [
     ["La Capilla Ágape", "Siempre abierta, para ti y para tu familia, estés donde estés. Aquí está el Evangelio del día, la Misa de hoy en video y, debajo del Evangelio, una invitación para seguir rezándolo."],
-    ["Formas de rezar", "- <strong>El Rosario</strong>: cuenta a cuenta, con los misterios del día y una voz que te guía.\n- <strong>Un rato con Jesús</strong>: oración personal en tu casa o ante el Santísimo.\n- <strong>Salmos</strong>: elige cómo llegas hoy y reza con el salmo que te acompaña.\n- <strong>Recemos juntos</strong>: nuestras oraciones y las de siempre.\n- <strong>Cancionero</strong>: canciones con acordes para la Misa y los encuentros."],
+    ["Formas de rezar", "- <strong>El Rosario</strong>: cuenta a cuenta, con los misterios del día y una voz que te guía. También en comunidad: crea una sala, invita con un enlace y recen juntos, cada uno desde su teléfono.\n- <strong>Un rato con Jesús</strong>: oración personal en tu casa o ante el Santísimo.\n- <strong>Salmos</strong>: elige cómo llegas hoy y reza con el salmo que te acompaña.\n- <strong>Recemos juntos</strong>: nuestras oraciones y las de siempre.\n- <strong>Cancionero</strong>: canciones con acordes para la Misa y los encuentros."],
     ["Nadie reza solo", "Enciende una vela con tu intención y toca «Rezo contigo» en las de otros. Las intenciones de la semana las llevamos a la misa del grupo."],
   ] },
   { id: "comunidad", ill: "amigos", t: "Comunidad: donde nos encontramos", sub: "Lo que compartimos entre un encuentro y otro", secs: [

@@ -13,6 +13,7 @@ import * as DS from "./descubre.js";
 import * as TP from "./temporadas.js";
 import { avatar } from "./avatares.js";
 import * as VT from "./vela-tarjeta.js";
+import * as RS from "./rosario-sala.js";
 
 // Misa en vivo: la de hoy del canal de Magnificat TV (data/misa-vivo.json, la busca cada hora la
 // acción del Evangelio). Si hoy no hay, el enlace que dejó el administrador (content/misaVivo) o la
@@ -46,7 +47,15 @@ function misaHTML() {
     <p class="cap-ev-note">${sub ? `${esc(sub)} · ` : ""}Magnificat TV · <a href="${esc(misaVivo)}" target="_blank" rel="noopener">abrir en YouTube ↗</a></p>`;
 }
 let ctx = null; // { actions, render, onAfterRender, onLeave, cloud, content }
-export function setup(c) { ctx = c; registerActions(); VT.setup(c.actions); }
+export function setup(c) {
+  ctx = c; registerActions(); VT.setup(c.actions);
+  // Rosario en comunidad: la sala abre este mismo Rosario y lo mueve cuando guía otra persona
+  RS.bind({
+    open: (set, i) => { if (!ros) openRosary(set, i); else rosApply(set, i); },
+    apply: (set, i) => { if (!ros) openRosary(set, i); else rosApply(set, i); },
+    state: () => (ros ? { set: ros.set, i: ros.i } : null),
+  });
+}
 const $ = (s, r = document) => r.querySelector(s);
 const st = () => ctx.cloud.state();
 
@@ -349,7 +358,7 @@ function wheelHTML(mk, my, now) {
   const scrollTo = (id, block = "start") => () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block });
   wheelItems = [
     { k: "evangelio", t: "Evangelio", go: [["Leer", () => { if (vidSel !== "ev") ctx.actions.capVid({ dataset: { v: "ev" } }); scrollTo("capHoy")(); }]] },
-    { k: "rosario", t: "Rosario", go: [["Rezar", () => ctx.actions.capRosario({ dataset: { set: mk } })]] },
+    { k: "rosario", t: "Rosario", go: [["Rezar", () => ctx.actions.capRosario({ dataset: { set: mk } })], ["En comunidad, en línea", "#/rosario/sala"]] },
     { k: "rato", t: "Con Jesús", go: [["En casa o donde estés", () => ctx.actions.capGuide({ dataset: { k: "casa" } })], ["Ante el Santísimo", () => ctx.actions.capGuide({ dataset: { k: "adoracion" } })]] },
     { k: "salmos", t: "Salmos", go: [["Entrar", "#/salmos"]] },
     { k: "oremus", t: "Recemos", go: [["Entrar", "#/oremus"]] },
@@ -848,7 +857,7 @@ function virgenLinea(cls = "") {
   <path d="M256 304 C 266 300, 270 290, 266 282 M248 312 C 258 312, 266 306, 268 298 M150 338 C 156 320, 170 310, 190 308" stroke-width="3.4"/>
 </svg>`;
 }
-function openRosary(set) {
+function openRosary(set, i0) {
   DS.marcar("rosario");
   set = MYST[set] ? set : MYST_BY_DAY[new Date().getDay()];
   closeRosary();
@@ -861,6 +870,7 @@ function openRosary(set) {
       <div><span class="ros-hand">reza con María</span><h2>Santo Rosario</h2></div>
       <button class="ros-x" data-action="rosClose" aria-label="Cerrar el Rosario">${icon("x")}</button>
     </div>
+    ${RS.barHTML()}
     <div class="ros-sets" role="tablist" aria-label="Misterios">${Object.keys(MYST).map((k) =>
       `<button role="tab" data-action="rosSet" data-set="${k}" aria-selected="${k === set}">${esc(MYST[k].name.replace("Misterios ", ""))}${k === today ? " · hoy" : ""}</button>`).join("")}</div>
     <div class="ros-main">
@@ -880,18 +890,34 @@ function openRosary(set) {
       ${"speechSynthesis" in window ? `<button class="ros-opt" data-action="rosVoz" aria-pressed="${voz.on}">Voz que guía</button>
       <button class="ros-opt" data-action="rosAuto" aria-pressed="${voz.auto}" ${voz.on ? "" : "disabled"}>Avanzar solo</button>` : ""}
       <button class="ros-opt" data-action="rosRemote" aria-pressed="false">Control remoto</button>
+      <button class="ros-opt" data-action="rosSalaNew">Rezar con otros</button>
     </div>
   </div>`;
   document.body.appendChild(el);
   document.body.classList.add("cap-quiet");
-  ros = { set, steps: rosSteps(set), i: rosLoad(set), el };
+  ros = { set, steps: rosSteps(set), i: i0 != null ? Math.min(+i0 || 0, rosSteps(set).length - 1) : rosLoad(set), el };
   el.querySelectorAll(".rb").forEach((g) => g.addEventListener("click", (e) => {
     e.stopPropagation();
+    if (RS.follower()) return;
     const id = g.dataset.b, idx = ros.steps.findIndex((s) => s.b === id);
     if (idx >= 0) { ros.i = idx; rosPaint(); }
   }));
   rosPaint();
+  RS.paintBar();
   el.querySelector("#rosNextBtn").focus();
+}
+// En la sala, cuando guía otra persona: el Rosario va a su misterio y a su cuenta
+function rosApply(set, i) {
+  if (!ros) return;
+  if (set !== ros.set && MYST[set]) {
+    ros.set = set; ros.steps = rosSteps(set);
+    ros.el.querySelectorAll(".ros-sets button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.set === ros.set)));
+  }
+  i = Math.max(0, Math.min(ros.steps.length - 1, +i || 0));
+  if (i === ros.i) { RS.paintBar(); return; }
+  const cur = ros.steps[ros.i];
+  if (i === ros.i + 1 && cur && cur.k === "am") rosas(cur.i === cur.of && cur.of === 10 ? 10 : 1);
+  ros.i = i; rosPaint();
 }
 function closeRosary() {
   remoteOff(); vozStop();
@@ -950,7 +976,7 @@ function rosPaint() {
   el.querySelector("[data-action=rosPrev]").disabled = i === 0;
   const nb = el.querySelector("#rosNextBtn");
   nb.innerHTML = s.k === "fin" ? `Otra vez ${icon("undo")}` : `${nextK ? esc(PR[nextK][0]) : "Siguiente"} ${icon("right")}`;
-  rosSave();
+  if (RS.active()) RS.push(ros.set, ros.i); else rosSave();
   if (voz.on) guiar(s, title);
   if (remote) { remoteMeta(); keepAlive(); }
 }
@@ -1000,7 +1026,7 @@ function guiar(s, title) {
   decir((s.k === "fin" ? title + ". " : "") + g, () => next(r ? Math.round(words * 480 + 1200) : 1500));
 }
 function rosMove(n) {
-  if (!ros) return;
+  if (!ros || RS.follower()) return;
   if (remote && navigator.vibrate) { const nx = ros.steps[Math.max(0, Math.min(ros.steps.length - 1, ros.i + n))]; try { navigator.vibrate(nx && (nx.k === "mys" || nx.k === "fin") ? [70, 90, 70] : 35); } catch {} }
   const cur = ros.steps[ros.i];
   if (n > 0 && cur.k === "am") rosas(cur.i === cur.of && cur.of === 10 ? 10 : 1); // una rosa por Ave María; al cerrar la decena, una corona
@@ -1165,14 +1191,14 @@ function registerActions() {
   document.addEventListener("touchstart", (e) => { if (document.getElementById("capProj")) psx = e.touches[0].clientX; }, { passive: true });
   document.addEventListener("touchend", (e) => { if (psx == null || !document.getElementById("capProj")) return; const dx = e.changedTouches[0].clientX - psx; psx = null; if (Math.abs(dx) > 60) devProjMove(dx < 0 ? 1 : -1); }, { passive: true });
   A.capRosario = (el) => openRosary(el.dataset.set);
-  A.rosClose = () => closeRosary();
+  A.rosClose = () => { if (RS.active()) RS.leave(); closeRosary(); };
   A.rosNext = () => rosMove(1);
   A.rosPrev = () => rosMove(-1);
-  A.rosSet = (el) => { if (!ros || el.dataset.set === ros.set) return; ros.set = el.dataset.set; ros.steps = rosSteps(ros.set); ros.i = 0;
+  A.rosSet = (el) => { if (!ros || RS.follower() || el.dataset.set === ros.set) return; ros.set = el.dataset.set; ros.steps = rosSteps(ros.set); ros.i = 0;
     ros.el.querySelectorAll(".ros-sets button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.set === ros.set))); rosPaint(); };
   document.addEventListener("keydown", (e) => {
     if (!document.getElementById("rosOverlay")) return;
-    if (e.key === "Escape") { e.preventDefault(); closeRosary(); }
+    if (e.key === "Escape") { e.preventDefault(); ctx.actions.rosClose(); }
   });
   A.capAltar = (el) => { if (el.closest && el.closest(".cap-altar-body")) return; setAltar(!altarOpen); };
   document.addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("cap-altar-top")) { e.preventDefault(); setAltar(!altarOpen); } });

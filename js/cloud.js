@@ -26,6 +26,7 @@ export const isStaffRole = (r) => STAFF.includes(r);
 export const isProtected = (email) => (CONFIG.bootstrapAdmins || []).map((e) => String(e).toLowerCase()).includes(String(email || "").toLowerCase());
 
 let fb = null, auth = null, db = null;
+let anon = null; // sesión anónima: solo para entrar sin cuenta a una sala del Rosario
 let user = null;      // usuario de Firebase Auth
 let account = null;   // documento users/{uid}
 let status = enabled ? "loading" : "local"; // local | loading | guest | ready | not-invited | inactive | error
@@ -106,6 +107,9 @@ export async function init() {
 }
 
 async function handleUser(u) {
+  // La sesión anónima (Rosario en comunidad sin cuenta) no es una cuenta: la app sigue como visita.
+  if (u && u.isAnonymous) { anon = u; user = null; account = null; status = "guest"; return; }
+  anon = null;
   user = u; account = null; lastError = "";
   if (!u) { status = "guest"; return; }
   try {
@@ -583,6 +587,25 @@ export function toggleMark(path, field, on) {
   return fb.updateDoc(ref, { [`${field}.${user.uid}`]: on ? true : fb.deleteField() });
 }
 export const myUid = () => (user ? user.uid : "");
+
+// Rosario en comunidad (salas_rosario/{CÓDIGO}): un documento por sala que escuchan todos los teléfonos.
+// Quien no tiene cuenta entra con una sesión anónima (sin correo ni datos), solo para la sala.
+export const salaUid = () => (user ? user.uid : anon ? anon.uid : "");
+export async function salaAuth() {
+  if (!enabled || !auth) throw Object.assign(new Error("sin conexión"), { code: "unavailable" });
+  if (salaUid()) return salaUid();
+  const r = await fb.signInAnonymously(auth);
+  anon = r.user; return anon.uid;
+}
+export const rosarioExists = async (code) => { const snap = await withTimeout(fb.getDoc(fb.doc(db, "salas_rosario", code)), 8000); return snap.exists(); };
+export const rosarioCreate = (code, data) => fb.setDoc(fb.doc(db, "salas_rosario", code), { ...data, at: fb.serverTimestamp(), createdAt: fb.serverTimestamp() });
+export const rosarioUpdate = (code, data) => fb.updateDoc(fb.doc(db, "salas_rosario", code), { ...data, at: fb.serverTimestamp() });
+export const rosarioDelete = (code) => fb.deleteDoc(fb.doc(db, "salas_rosario", code));
+export const rosarioDel = () => fb.deleteField();
+export const rosarioTs = () => fb.serverTimestamp();
+export function rosarioWatch(code, cb, onErr) {
+  return fb.onSnapshot(fb.doc(db, "salas_rosario", code), (snap) => cb(snap.exists() ? snap.data() : null), (e) => { console.warn("Rosario:", e); onErr && onErr(e); });
+}
 
 // ---------------------------------------------------------------------------
 // Chat por salas (todas grupales; lo privado queda fuera de la app).
