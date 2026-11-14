@@ -35,7 +35,8 @@ service cloud.firestore {
     // Cuadro de honor y desafío de la semana: los publica el equipo. Cumpleaños: los actualizan los guías.
     match /content/honor { allow write: if isStaff(); }
     match /content/desafio { allow write: if isStaff(); }
-    match /content/cumples { allow write: if isGuide(); }
+    // content/cumples era una copia pública antigua de los cumpleaños: ahora solo se puede borrar.
+    match /content/cumples { allow delete: if isGuide(); }
     // Datos que no deben ser públicos (cumpleaños): solo cuentas activas; los actualizan los guías.
     match /privado/{docId} {
       allow read: if isMember();
@@ -85,17 +86,25 @@ service cloud.firestore {
       allow get: if signedIn() && request.auth.uid == uid;
       // Administradores: todo. Coordinadores: directorio para armar salas (el avance sigue siendo solo de administradores).
       allow read: if isStaff();
+      // Seguridad: al crear la cuenta solo se aceptan estos campos. Así nadie se da a sí mismo permisos
+      // que entrega un administrador (salas del chat, cancionero, formador) ni cambia el consentimiento.
       allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['email', 'name', 'parish', 'role', 'active', 'createdAt', 'lastSeen', 'consent'])
         && request.resource.data.email == myEmail()
         && request.resource.data.active == true
+        && validText(request.resource.data.name, 80)
+        && request.resource.data.get('parish', '') is string && request.resource.data.get('parish', '').size() <= 120
         && (
           (exists(/databases/$(database)/documents/invites/$(myEmail()))
-            && request.resource.data.role == get(/databases/$(database)/documents/invites/$(myEmail())).data.role)
-          || (bootstrapAdmin() && request.resource.data.role == 'admin')
+            && request.resource.data.role == get(/databases/$(database)/documents/invites/$(myEmail())).data.role
+            && request.resource.data.get('consent', null) == get(/databases/$(database)/documents/invites/$(myEmail())).data.get('consent', null))
+          || (bootstrapAdmin() && request.resource.data.role == 'admin' && !('consent' in request.resource.data))
         );
       // Cada uno puede actualizar su nombre, parroquia y última conexión; nunca su rol ni su estado.
       allow update: if (isMember() && request.auth.uid == uid
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'parish', 'lastSeen', 'avatar'])
+          && validText(request.resource.data.name, 80)
+          && request.resource.data.get('parish', '') is string && request.resource.data.get('parish', '').size() <= 120
           && (!('avatar' in request.resource.data) || (request.resource.data.avatar is string && request.resource.data.avatar.size() <= 20)))
         || (isAdmin() && validRole(request.resource.data.role)
             && (!protectedEmail(resource.data.email) || (request.resource.data.role == 'admin' && request.resource.data.active == true)));
@@ -117,7 +126,9 @@ service cloud.firestore {
     match /certificates/{code} {
       allow get: if true;
       allow list: if isAdmin();
-      allow create: if isMember() && request.resource.data.uid == request.auth.uid;
+      // La formación ahora vive en Mi Ruta: aquí ya no se emiten constancias (antes cualquier cuenta
+      // podía crear una a su nombre con cualquier contenido).
+      allow create: if false;
       allow update: if false;
       allow delete: if isAdmin();
     }
@@ -229,8 +240,11 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['text', 'authorUid', 'authorName', 'authorRole', 'authorAvatar', 'reports', 'reactions', 'replyTo', 'kind', 'buzzTo', 'buzzToName', 'createdAt'])
         && (!('authorAvatar' in request.resource.data) || (request.resource.data.authorAvatar is string && request.resource.data.authorAvatar.size() <= 20))
         && (!('reactions' in request.resource.data) || request.resource.data.reactions.size() == 0)
-        && (!('replyTo' in request.resource.data) || (request.resource.data.replyTo is map && request.resource.data.replyTo.keys().hasOnly(['id', 'name', 'text'])))
-        && (!('kind' in request.resource.data) || (request.resource.data.kind == 'buzz' && request.resource.data.buzzTo is string));
+        && (!('replyTo' in request.resource.data) || (request.resource.data.replyTo is map && request.resource.data.replyTo.keys().hasOnly(['id', 'name', 'text'])
+            && request.resource.data.replyTo.get('text', '') is string && request.resource.data.replyTo.get('text', '').size() <= 200
+            && request.resource.data.replyTo.get('name', '') is string && request.resource.data.replyTo.get('name', '').size() <= 60))
+        && (!('kind' in request.resource.data) || (request.resource.data.kind == 'buzz' && request.resource.data.buzzTo is string && request.resource.data.buzzTo.size() <= 128
+            && request.resource.data.get('buzzToName', '') is string && request.resource.data.get('buzzToName', '').size() <= 60));
       // Reportar o reaccionar: cada uno cambia solo su propia marca.
       allow update: if inSala(sala) && (
         (changed().hasOnly(['reports']) && onlyMyKey('reports'))
@@ -399,7 +413,9 @@ service cloud.firestore {
           && (isStaff() || request.resource.data.get('uid', '') == resource.data.get('uid', ''))
           && (isStaff() || !changed().hasAny(['guia', 'guia2', 'guiaNombre', 'guia2Nombre'])))
         || (signedIn() && resource.data.uid == request.auth.uid && changed().hasOnly(['lema', 'portada', 'avatar'])
-          && request.resource.data.get('lema', '') is string && request.resource.data.get('lema', '').size() <= 60);
+          && request.resource.data.get('lema', '') is string && request.resource.data.get('lema', '').size() <= 60
+          && request.resource.data.get('avatar', '') is string && request.resource.data.get('avatar', '').size() <= 20
+          && (request.resource.data.get('portada', 0) is int || request.resource.data.get('portada', 0) is string && request.resource.data.get('portada', '').size() <= 20));
       allow delete: if isStaff();
     }
     // Ficha privada de cada joven (fichas/{id en la lista de jóvenes}): RUT, edad, dirección, contacto de
@@ -633,7 +649,8 @@ service cloud.firestore {
       function rKeys() { return ['host', 'hn', 'pub', 'guia', 'set', 'i', 'llamada', 'people', 'at', 'createdAt']; }
       function rSets() { return ['gozosos', 'luminosos', 'dolorosos', 'gloriosos']; }
       function rEntry(p) {
-        return p.keys().hasOnly(['n', 'a', 'j']) && p.n is string && p.n.size() >= 1 && p.n.size() <= 40 && p.a == request.time;
+        return p.keys().hasOnly(['n', 'a', 'j']) && p.n is string && p.n.size() >= 1 && p.n.size() <= 40 && p.a == request.time
+          && (!('j' in p) || p.j is int);
       }
       function rBase() {
         let d = request.resource.data;
@@ -650,12 +667,20 @@ service cloud.firestore {
           || rEntry(p[request.auth.uid]);
       }
       function rPeopleMine() { return !('people' in changed()) || onlyMyKey('people'); }
+      // Quien creó la sala saca a otros: solo se quitan entradas (y a lo más cambia la suya propia)
+      function rSoloQuita() {
+        let d = request.resource.data.people.diff(resource.data.people);
+        return d.addedKeys().hasOnly([request.auth.uid]) && d.changedKeys().hasOnly([request.auth.uid]);
+      }
       function rGuiaSinSenal() {
         return !(resource.data.guia in resource.data.people)
           || resource.data.people[resource.data.guia].a < request.time - duration.value(3, 'm');
       }
-      // Las públicas las ve cualquiera (para el aviso «Estamos rezando el Rosario» del Inicio)
-      allow read: if request.auth != null || resource.data.pub == true;
+      // Una sala se abre con su código (con sesión, también anónima). Listar solo se puede con las
+      // públicas (aviso «Estamos rezando el Rosario» del Inicio); el equipo las ve todas. Así nadie
+      // recorre las privadas para ver nombres o el enlace de su llamada.
+      allow get: if request.auth != null;
+      allow list: if resource.data.pub == true || isStaff();
       // Abren salas solo dirigentes, coordinadores y administradores; entrar puede cualquiera.
       allow create: if isGuide() && rid.matches('^[A-Z]{4}$')
         && request.resource.data.keys().hasOnly(rKeys())
@@ -672,8 +697,10 @@ service cloud.firestore {
         && (
           // Quien guía: avanza, cambia los misterios, cede la guía, pone la llamada o sale
           (request.auth.uid == resource.data.guia && changed().hasOnly(['i', 'set', 'guia', 'llamada', 'people', 'at']) && rPeopleMine())
-          // Quien creó la sala: retoma o entrega la guía, pone la llamada, la hace pública o privada
-          || (request.auth.uid == resource.data.host && changed().hasOnly(['guia', 'llamada', 'pub', 'people', 'at']) && rPeopleMine())
+          // Quien creó la sala: retoma o entrega la guía, pone la llamada, la hace pública o privada y
+          // puede sacar a alguien de la sala (solo quitar: no puede agregar ni cambiar el nombre de otro)
+          || (request.auth.uid == resource.data.host && changed().hasOnly(['guia', 'llamada', 'pub', 'people', 'at'])
+              && (rPeopleMine() || rSoloQuita()))
           // Cualquiera de la sala, o quien entra: su propio nombre y su señal
           || (changed().hasOnly(['people', 'at']) && onlyMyKey('people'))
           // Quien guía se fue o se le cortó: otro de la sala toma la guía
@@ -744,7 +771,8 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['titulo', 'fecha', 'hora', 'tipo', 'lugar', 'enlace', 'objetivo', 'tabla', 'estado', 'asistentes', 'desarrollo', 'acuerdos', 'creado', 'actualizado', 'por', 'borrado'])
         && request.resource.data.titulo is string && request.resource.data.titulo.size() > 0 && request.resource.data.titulo.size() <= 120
         && request.resource.data.fecha is string && request.resource.data.fecha.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
-        && txt('lugar', 120) && txt('enlace', 300) && txt('objetivo', 300) && txt('asistentes', 500) && txt('desarrollo', 8000) && txt('por', 80)
+        && txt('lugar', 120) && txt('enlace', 300) && (!('enlace' in request.resource.data) || request.resource.data.enlace == '' || request.resource.data.enlace.matches('^https://[^ ]+$'))
+        && txt('objetivo', 300) && txt('asistentes', 500) && txt('desarrollo', 8000) && txt('por', 80)
         && (!('tabla' in request.resource.data) || (request.resource.data.tabla is list && request.resource.data.tabla.size() <= 20))
         && (!('acuerdos' in request.resource.data) || (request.resource.data.acuerdos is list && request.resource.data.acuerdos.size() <= 30));
       allow delete: if isAdmin();

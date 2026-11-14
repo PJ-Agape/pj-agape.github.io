@@ -3,7 +3,7 @@
 //   npx firebase emulators:exec --only firestore --project demo-agape "node scripts/test-reglas-rosarios.mjs"
 import { readFileSync } from "node:fs";
 import { initializeTestEnvironment, assertSucceeds, assertFails } from "@firebase/rules-unit-testing";
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, serverTimestamp, deleteField, Timestamp } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, setDoc, updateDoc, deleteDoc, serverTimestamp, deleteField, Timestamp } from "firebase/firestore";
 
 const env = await initializeTestEnvironment({ projectId: "demo-agape", firestore: { rules: readFileSync("firestore.rules", "utf8") } });
 await env.withSecurityRulesDisabled(async (c) => { await setDoc(doc(c.firestore(), "users", "ana"), { role: "ingreso", active: true, name: "Ana Pérez", email: "a@x.cl" }); });
@@ -39,6 +39,10 @@ await t("Ana ya no puede tocar el host", assertFails(up("ana", { host: "v2" })))
 await t("Ana (guía) pone la llamada de WhatsApp", assertSucceeds(up("ana", { llamada: "https://call.whatsapp.com/voice/AbCdEf123" })));
 await t("enlace de llamada de otro sitio no", assertFails(up("ana", { llamada: "https://ejemplo.com/x" })));
 await t("quien no guía ni creó la sala no cambia la llamada", assertFails(up("v1", { llamada: "https://meet.google.com/abc-defg-hij" })));
+await t("Ana (creó la sala) quita a v2", assertSucceeds(up("ana", { "people.v2": deleteField() })));
+await t("v1 no quita a nadie", assertFails(up("v1", { "people.ana": deleteField() })));
+await t("v2 vuelve a entrar", assertSucceeds(up("v2", { "people.v2": E("Juan") })));
+await t("una visita anónima no lista las salas privadas", assertFails(getDocs(collection(as("v9"), "salas_rosario"))));
 await t("v2 avisa que sigue", assertSucceeds(up("v2", { "people.v2.a": serverTimestamp() })));
 // La guía se queda sin señal: otro la toma
 await env.withSecurityRulesDisabled(async (c) => { await updateDoc(doc(c.firestore(), "salas_rosario", R), { "people.ana.a": Timestamp.fromMillis(Date.now() - 10 * 60e3) }); });

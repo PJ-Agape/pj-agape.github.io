@@ -305,7 +305,8 @@ export function paintBar() {
       <button class="rs-b rs-out" data-action="rsLeave" aria-label="Salir de la sala">Salir</button>
     </div>
     ${verGente ? `<ul class="rs-people">${ps.map(([k, p]) => `<li class="${vivo(p) ? "" : "off"}"><span>${esc(p.n || "Alguien")}${k === u ? " <small>tú</small>" : ""}${k === room.host ? " <small>creó la sala</small>" : ""}${k === room.guia ? " <small class='g'>guía</small>" : ""}${vivo(p) ? "" : " <small>sin señal</small>"}</span>
-        ${(soyGuia || soyHost) && k !== room.guia && k !== u && vivo(p) ? `<button class="rs-b" data-action="rsGive" data-u="${esc(k)}">Ceder la guía</button>` : ""}</li>`).join("")}</ul>
+        <span class="rs-pacts">${(soyGuia || soyHost) && k !== room.guia && k !== u && vivo(p) ? `<button class="rs-b" data-action="rsGive" data-u="${esc(k)}">Ceder la guía</button>` : ""}
+        ${soyHost && k !== u && k !== room.guia ? `<button class="rs-b rs-out" data-action="rsKick" data-u="${esc(k)}" aria-label="Sacar de la sala">Quitar</button>` : ""}</span></li>`).join("")}</ul>
       <div class="row-wrap" style="gap:6px"><button class="rs-b" data-action="rsVela">Encender una vela</button>${puedeTomar ? `<button class="btn btn-soft btn-sm" data-action="rsTake">${soyHost ? "Retomar la guía" : "Tomar la guía"}</button>` : ""}
       ${(soyGuia || soyHost) && room.llamada ? `<button class="rs-b" data-action="rsCall">Cambiar la llamada</button>` : ""}
       ${soyHost ? `<button class="rs-b" data-action="rsPub" aria-pressed="${!!room.pub}">${room.pub ? "Pública: sale en el Inicio" : "Privada: solo con enlace"}</button>
@@ -428,6 +429,13 @@ function registerActions() {
   A.rsInvite = () => invitar();
   A.rsPeople = () => { verGente = !verGente; paintBar(); };
   A.rsGive = (el) => setGuia(el.dataset.u);
+  // Quien creó la sala saca a alguien (por ejemplo, un nombre falso o molesto)
+  A.rsKick = async (el) => {
+    const k = el.dataset.u; if (!room || room.host !== me() || !k || k === me() || k === room.guia) return;
+    if (el.dataset.ok !== "1") { el.dataset.ok = "1"; el.textContent = "¿Quitar? Toca otra vez"; el.classList.add("rs-confirma"); setTimeout(() => paintBar(), 4000); return; }
+    try { await ctx.cloud.rosarioUpdate(code, { ["people." + k]: ctx.cloud.rosarioDel() }); toast("Lo quitaste de la sala"); }
+    catch (e) { console.warn(e); toast("No se pudo quitar", ""); }
+  };
   A.rsTake = () => setGuia(me());
   A.rsCall = () => llamadaDlg();
   A.rsVela = () => velaDlg();

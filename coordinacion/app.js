@@ -366,7 +366,7 @@ function vistaReunion(id, modo) {
     <section class="tarjeta"><h2>Convocatoria</h2>
       ${r.objetivo ? `<p><b>Objetivo:</b> ${esc(r.objetivo)}</p>` : ""}
       ${(r.tabla || []).length ? `<ol class="tabla-reunion">${r.tabla.map((p) => `<li><span>${esc(p.t)}</span>${p.min ? `<span class="min">${p.min} min</span>` : ""}</li>`).join("")}</ol>${total ? `<p class="xs muted">Duración estimada: ${total} minutos.</p>` : ""}` : '<p class="vacio">Sin tabla.</p>'}
-      ${r.enlace ? `<p><a class="boton mini" href="${esc(r.enlace)}" target="_blank" rel="noopener">Abrir enlace de la reunión</a></p>` : ""}
+      ${/^https:\/\/\S+$/.test(r.enlace || "") ? `<p><a class="boton mini" href="${esc(r.enlace)}" target="_blank" rel="noopener">Abrir enlace de la reunión</a></p>` : ""}
     </section>
     <section class="tarjeta"><h2>Acuerdos de la reunión anterior</h2>
       ${previa ? `<p class="xs muted">De <a href="#/reuniones/${esc(previa.id)}">${esc(previa.titulo)}</a> (${fechaCorta(previa.fecha)})</p>

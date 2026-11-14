@@ -27,7 +27,8 @@ jobs:
         run: node scripts/misa-vivo.mjs data/misa-vivo.json || echo 'misa-vivo sin cambios por un error de la fuente'
       - name: Mes completo (solo si se pidió)
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.dias != '' }}
-        run: DIAS=${{ inputs.dias }} TEXTO=1 node scripts/evangelio.mjs data/evangelio-mes.json
+        env: { DIAS: "${{ inputs.dias }}", TEXTO: "1" }
+        run: node scripts/evangelio.mjs data/evangelio-mes.json
       - name: Publicar si cambió
         run: |
           if [ -n "$(git status --porcelain data/evangelio.json data/evangelio-mes.json data/misa-vivo.json)" ]; then

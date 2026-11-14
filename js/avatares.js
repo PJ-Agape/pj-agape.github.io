@@ -57,7 +57,9 @@ export function parse(key) {
 }
 export const keyOf = (v) => ORDER.filter((k) => k !== "r" || v.r).map((k) => k + v[k]).join("");
 export const randomKey = () => keyOf(Object.fromEntries(ORDER.map((k) => [k, Math.floor(Math.random() * OPTS[k].n)])));
-export const kind = (key) => { key = String(key || ""); return key.startsWith("j:") ? (PJ[key.slice(2)] ? "j" : "") : key.startsWith("k:") ? (STK[key.slice(2)] ? "k" : "") : parse(key) ? "m" : ""; };
+// Solo claves propias de PJ y STK (no «constructor», «__proto__»…): una clave así rompía la pantalla de quien la viera.
+const own = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+export const kind = (key) => { key = String(key || "").slice(0, 40); return key.startsWith("j:") ? (own(PJ, key.slice(2)) ? "j" : "") : key.startsWith("k:") ? (own(STK, key.slice(2)) ? "k" : "") : parse(key) ? "m" : ""; };
 export const isValid = (key) => !!kind(key);
 
 const S = `stroke="${NAVY}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"`;
