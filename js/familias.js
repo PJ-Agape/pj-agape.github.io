@@ -19,12 +19,14 @@ const shift = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return
 const today = iso(new Date());
 const BASE = new URL("../", import.meta.url).href; // raíz del sitio
 
-let db = null, fb = null;
+let db = null, fb = null, auth = null;
 async function initDb() {
   if (!CONFIG.firebase || !CONFIG.firebase.apiKey) return;
   try {
     fb = await import(CONFIG.firebaseModule ? new URL(CONFIG.firebaseModule, import.meta.url).href : "./vendor/firebase.mjs");
-    db = fb.initializeFirestore(fb.initializeApp(CONFIG.firebase, "familias"), {});
+    const app = fb.initializeApp(CONFIG.firebase, "familias");
+    db = fb.initializeFirestore(app, {});
+    auth = fb.getAuth(app);
   } catch (e) { console.warn("Familias: sin conexión a la base", e); }
 }
 const timeout = (p, ms = 7000) => Promise.race([p, new Promise((_, r) => setTimeout(() => r(new Error("timeout")), ms))]);
@@ -86,10 +88,15 @@ document.addEventListener("submit", async (ev) => {
   if (joven.length < 2) return;
   const btn = f.querySelector("[type=submit]"); btn.disabled = true; btn.textContent = "Enviando…";
   try {
-    await timeout(fb.addDoc(fb.collection(db, "agenda", f.dataset.ev, "confirmaciones"), { joven: joven.slice(0, 60), personas, fecha: e.date, createdAt: fb.serverTimestamp() }));
+    // Con sesión anónima y marca de hora en limites/{uid}: una confirmación por minuto por persona
+    if (!auth.currentUser) await timeout(fb.signInAnonymously(auth));
+    const b = fb.writeBatch(db);
+    b.set(fb.doc(fb.collection(db, "agenda", f.dataset.ev, "confirmaciones")), { joven: joven.slice(0, 60), personas, fecha: e.date, createdAt: fb.serverTimestamp() });
+    b.set(fb.doc(db, "limites", auth.currentUser.uid), { confirmacion: fb.serverTimestamp() }, { merge: true });
+    await timeout(b.commit());
     try { localStorage.setItem(confKey(e), JSON.stringify({ joven, personas })); } catch {}
     f.outerHTML = confHTML(e, f.dataset.ev);
-  } catch (err) { console.warn(err); btn.disabled = false; btn.textContent = "Confirmamos"; alert("No pudimos enviar la confirmación. Inténtalo de nuevo."); }
+  } catch (err) { console.warn(err); btn.disabled = false; btn.textContent = "Confirmamos"; alert(err && err.code === "permission-denied" ? "Espera un minuto antes de enviar otra confirmación." : "No pudimos enviar la confirmación. Inténtalo de nuevo."); }
 });
 document.addEventListener("click", (ev) => {
   const b = ev.target.closest("[data-conf-again]"); if (!b) return;

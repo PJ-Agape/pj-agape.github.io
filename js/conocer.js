@@ -154,7 +154,7 @@ function registerActions() {
       const box = $("#conoBox"); if (box) { box.innerHTML = thanksHTML(enviado); box.scrollIntoView?.({ behavior: "smooth", block: "start" }); }
     } catch (err) {
       console.warn(err); btn.disabled = false;
-      toast("No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.", "", 4000);
+      toast(err && err.code === "limite" ? err.message : "No se pudo enviar. Revisa tu conexión e inténtalo de nuevo.", "", 5000);
     }
   });
 }

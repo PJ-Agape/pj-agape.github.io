@@ -403,7 +403,7 @@ async function encenderVela(btn) {
     document.getElementById("rsVelaDlg")?.close();
     toast("Tu vela está encendida. La comunidad reza contigo.", "ok", 5000);
     paintBar();
-  } catch (e) { console.warn(e); toast("No se pudo encender la vela. Revisa tu conexión.", ""); if (btn) btn.disabled = false; }
+  } catch (e) { console.warn(e); toast(e && e.code === "limite" ? e.message : "No se pudo encender la vela. Revisa tu conexión.", "", 5000); if (btn) btn.disabled = false; }
 }
 
 // ---------------------------------------------------------------------------

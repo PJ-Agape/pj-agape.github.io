@@ -81,11 +81,14 @@ async function abrirMisa() {
   d.showModal();
   const { velas, red } = await listaMisa();
   const body = document.getElementById("adMisaBody"); if (!body) return;
-  const item = (t, who, f, del) => `<li><p>${esc(t)}</p><small>${who ? esc(who) + " · " : ""}${esc(f)}</small>${del ? `<button class="sal-link ad-del" data-action="adDel" data-id="${esc(del)}">Borrar</button>` : ""}</li>`;
+  const item = (t, who, f, del, pend) => `<li class="${pend ? "ad-pend" : ""}"><p>${esc(t)}</p><small>${who ? esc(who) + " · " : ""}${esc(f)}${pend ? " · <b>Sin revisar: la comunidad todavía no la ve</b>" : ""}</small>
+    ${del ? `<span class="row-wrap" style="gap:6px;margin-top:4px">${pend ? `<button class="btn btn-sm btn-gold" data-action="adOk" data-id="${esc(del)}">Aprobar</button>` : ""}<button class="sal-link ad-del" data-action="adDel" data-id="${esc(del)}">Borrar</button></span>` : ""}</li>`;
+  const pendientes = (red || []).filter((r) => r.ok !== true);
   body.innerHTML = `<p class="small muted">Las de los últimos 7 días: las velas de la comunidad y las que dejó el Ágape digital sin cuenta.</p>
+    ${pendientes.length ? `<p class="note small">Hay <b>${pendientes.length}</b> ${pendientes.length === 1 ? "intención" : "intenciones"} sin revisar. La comunidad las ve como velas solo cuando un guía las aprueba (llegan de personas sin cuenta). Bórrala si no corresponde.</p>` : ""}
     <h3 class="ad-mh">Del Ágape digital <b>${red ? red.length : 0}</b></h3>
     ${red === null ? `<p class="note">No se pudieron leer: falta publicar las reglas nuevas de Firebase (intenciones_red).</p>`
-      : red.length ? `<ol class="ad-ml">${red.map((r) => item(r.t, r.n || "Sin nombre", fechaCorta(r.createdAt), r.id)).join("")}</ol>` : `<p class="muted small">Esta semana no llegaron intenciones de la red.</p>`}
+      : red.length ? `<ol class="ad-ml">${red.map((r) => item(r.t, r.n || "Sin nombre", fechaCorta(r.createdAt), r.id, r.ok !== true)).join("")}</ol>` : `<p class="muted small">Esta semana no llegaron intenciones de la red.</p>`}
     <h3 class="ad-mh">De la comunidad (velas) <b>${velas.length}</b></h3>
     ${velas.length ? `<ol class="ad-ml">${velas.map((v) => item(v.text, v.authorName || "", fechaCorta(v.createdAt))).join("")}</ol>` : `<p class="muted small">Esta semana no hay velas con intención escrita.</p>`}
     <div class="row-wrap" style="margin-top:14px"><span class="spacer"></span><button class="btn btn-primary" data-action="adMisaPrint">${icon("print")} Imprimir para la misa</button></div>`;
@@ -120,6 +123,11 @@ function registerActions() {
   A.adMisa = () => abrirMisa();
   A.adMisaX = () => document.getElementById("adMisaDlg")?.close();
   A.adMisaPrint = () => imprimirMisa();
+  A.adOk = async (el) => {
+    el.disabled = true;
+    try { await cloud.approveIntencionRed(el.dataset.id, true); const li = el.closest("li"); li?.classList.remove("ad-pend"); li?.querySelector("small b")?.remove(); el.remove(); toast("Aprobada: ya aparece como vela", "ok"); }
+    catch (e) { console.warn(e); el.disabled = false; toast("No se pudo aprobar" + (e && e.code === "permission-denied" ? ": falta publicar las reglas nuevas" : ""), ""); }
+  };
   A.adDel = async (el) => {
     if (!confirm("¿Borrar esta intención?")) return;
     try { await cloud.deleteIntencionRed(el.dataset.id); el.closest("li")?.remove(); } catch { toast("No se pudo borrar", ""); }
@@ -132,6 +140,6 @@ function registerActions() {
     if (t.length < 3) { toast("Escribe tu intención", ""); f.t.focus(); return; }
     const b = f.querySelector("button[type=submit]"); if (b) b.disabled = true;
     try { await cloud.saveIntencionRed({ t: t.slice(0, 500), n: n.slice(0, 40) }); f.outerHTML = gracias(t); VT.pintar(); }
-    catch (err) { console.warn(err); toast("No se pudo enviar. Revisa tu conexión e intenta de nuevo.", "", 5000); if (b) b.disabled = false; }
+    catch (err) { console.warn(err); toast(err && err.code === "limite" ? err.message : "No se pudo enviar. Revisa tu conexión e intenta de nuevo.", "", 5000); if (b) b.disabled = false; }
   });
 }

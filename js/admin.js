@@ -543,7 +543,7 @@ function peopleCards(list) {
     }
     return `<a class="card link pc-card ${paused ? "paused" : ""}" href="#/admin/dirigentes/${esc(u.uid)}" style="--gc:${g.c}">
       <span class="pc-head"><b>${esc(u.name || u.email)}</b>${u.cantor ? ` <span class="chip">Cancionero</span>` : ""}${paused ? ` <span class="chip">En pausa</span>` : ""}</span>
-      ${u.parish ? `<span class="xs muted">${esc(u.parish)}</span>` : ""}${body}</a>`;
+      ${u.googleName && u.googleName !== u.name ? `<span class="xs muted">Google: ${esc(u.googleName)}</span>` : ""}${u.parish ? `<span class="xs muted">${esc(u.parish)}</span>` : ""}${body}</a>`;
   };
   const html = GROUPS.map((g) => {
     const xs = list.filter(({ u }) => g.roles.includes(u.role || "dirigente"));
@@ -653,6 +653,7 @@ async function personView(uid) {
     <div style="flex:1;min-width:220px">
       <h1 class="display" style="font-size:1.8rem">${esc(u.name)}</h1>
       <p class="muted small" style="margin-top:4px">${esc(u.email)}${u.parish ? " · " + esc(u.parish) : ""}</p>
+      ${u.googleName && u.googleName !== u.name ? `<p class="small" style="margin-top:4px">Nombre en su cuenta de Google: <b>${esc(u.googleName)}</b></p>` : ""}
       <div class="row-wrap" style="margin-top:10px"><span class="chip ${api.cloud.isStaffRole(u.role) ? "warn" : "accent"}">${esc(api.cloud.roleLabel(u.role))}</span>${api.cloud.isProtected(u.email) ? ` <span class="chip">${icon("lock")} Cuenta protegida</span>` : ""}${consentChip(u)}
         ${u.active === false ? `<span class="chip">En pausa</span>` : `<span class="chip ok">Activa</span>`}
         <span class="chip">Última actividad: ${ago(u.lastSeen)}</span></div>

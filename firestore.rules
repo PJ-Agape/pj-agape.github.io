@@ -89,7 +89,9 @@ service cloud.firestore {
       // Seguridad: al crear la cuenta solo se aceptan estos campos. Así nadie se da a sí mismo permisos
       // que entrega un administrador (salas del chat, cancionero, formador) ni cambia el consentimiento.
       allow create: if signedIn() && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['email', 'name', 'parish', 'role', 'active', 'createdAt', 'lastSeen', 'consent'])
+        && request.resource.data.keys().hasOnly(['email', 'name', 'googleName', 'parish', 'role', 'active', 'createdAt', 'lastSeen', 'consent'])
+        // googleName: el nombre de la cuenta de Google, tal como viene en la sesión (no lo elige la persona)
+        && request.resource.data.get('googleName', '') == request.auth.token.get('name', '')
         && request.resource.data.email == myEmail()
         && request.resource.data.active == true
         && validText(request.resource.data.name, 80)
@@ -102,7 +104,10 @@ service cloud.firestore {
         );
       // Cada uno puede actualizar su nombre, parroquia y última conexión; nunca su rol ni su estado.
       allow update: if (isMember() && request.auth.uid == uid
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'parish', 'lastSeen', 'avatar'])
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'parish', 'lastSeen', 'avatar', 'googleName'])
+          // El nombre de Google se guarda una sola vez (cuentas antiguas) y siempre igual al de la sesión
+          && (!('googleName' in request.resource.data.diff(resource.data).affectedKeys())
+              || (!('googleName' in resource.data) && request.resource.data.googleName == request.auth.token.get('name', '')))
           && validText(request.resource.data.name, 80)
           && request.resource.data.get('parish', '') is string && request.resource.data.get('parish', '').size() <= 120
           && (!('avatar' in request.resource.data) || (request.resource.data.avatar is string && request.resource.data.avatar.size() <= 20)))
@@ -150,6 +155,28 @@ service cloud.firestore {
         && d.hidden == false && d.likes.size() == 0 && d.reports.size() == 0 && d.createdAt == request.time;
     }
     function validText(t, max) { return t is string && t.size() > 0 && t.size() <= max; }
+
+    // Formularios públicos (Escríbenos, Quiero conocer Ágape, intenciones sin cuenta, confirmaciones de
+    // familias): quien envía tiene una sesión (al menos anónima) y en la misma escritura marca la hora en
+    // limites/{uid}. Así cada persona puede enviar uno cada pocos minutos y no se puede inundar la base.
+    function limite(k, mins) {
+      return request.auth != null
+        && getAfter(/databases/$(database)/documents/limites/$(request.auth.uid)).data.get(k, null) == request.time
+        && (!exists(/databases/$(database)/documents/limites/$(request.auth.uid))
+            || get(/databases/$(database)/documents/limites/$(request.auth.uid)).data.get(k, timestamp.value(0)) < request.time - duration.value(mins, 'm'));
+    }
+    function marcaOk(k) {
+      return request.resource.data.get(k, null) == resource.data.get(k, null) || request.resource.data.get(k, null) == request.time;
+    }
+    match /limites/{uid} {
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['buzon', 'interesados', 'intencion', 'confirmacion'])
+        && request.resource.data.get('buzon', request.time) == request.time && request.resource.data.get('interesados', request.time) == request.time
+        && request.resource.data.get('intencion', request.time) == request.time && request.resource.data.get('confirmacion', request.time) == request.time;
+      allow update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['buzon', 'interesados', 'intencion', 'confirmacion'])
+        && marcaOk('buzon') && marcaOk('interesados') && marcaOk('intencion') && marcaOk('confirmacion');
+    }
 
     // El muro lo leen solo quienes tienen cuenta (los jóvenes escriben ahí).
     match /wall/{postId} {
@@ -515,7 +542,7 @@ service cloud.firestore {
     // «Quiero conocer Ágape» (#/conocer): cualquiera, sin cuenta, deja un contacto para que lo inviten.
     // Nadie de afuera puede leer la lista: solo el equipo. Los menores de 18 dejan el contacto de un adulto.
     match /interesados/{id} {
-      allow create: if request.resource.data.keys().hasOnly(['quien', 'nombre', 'hijo', 'edad', 'telefono', 'adultoNombre', 'adultoTel', 'adultoSabe', 'origen', 'campana', 'mensaje', 'consiente', 'estado', 'createdAt'])
+      allow create: if limite('interesados', 2) && request.resource.data.keys().hasOnly(['quien', 'nombre', 'hijo', 'edad', 'telefono', 'adultoNombre', 'adultoTel', 'adultoSabe', 'origen', 'campana', 'mensaje', 'consiente', 'estado', 'createdAt'])
         && request.resource.data.quien in ['joven', 'familia']
         && validText(request.resource.data.nombre, 80)
         && request.resource.data.get('hijo', '') is string && request.resource.data.get('hijo', '').size() <= 80
@@ -595,14 +622,18 @@ service cloud.firestore {
 
     // Ágape digital: cualquiera (sin cuenta) deja una intención; solo los guías la leen y la borran.
     match /intenciones_red/{iid} {
-      allow create: if request.resource.data.keys().hasOnly(['t', 'n', 'createdAt'])
+      allow create: if limite('intencion', 1)
+        && request.resource.data.keys().hasOnly(['t', 'n', 'createdAt'])
         && request.resource.data.t is string && request.resource.data.t.size() >= 3 && request.resource.data.t.size() <= 500
         && request.resource.data.get('n', '') is string && request.resource.data.get('n', '').size() <= 40
         && request.resource.data.createdAt == request.time;
-      // La comunidad la ve como una vela (sin el nombre) y puede rezar por ella; solo los guías la borran.
-      allow read: if isMember();
-      allow update: if isMember() && changed().hasOnly(['prays']) && request.resource.data.prays is map
-        && ('prays' in resource.data ? onlyMyKey('prays') : request.resource.data.prays.keys().hasOnly([request.auth.uid]));
+      // Llega sin revisar: los guías la ven y la aprueban; recién entonces la comunidad la ve como una
+      // vela (sin el nombre) y puede rezar por ella. Solo los guías la borran.
+      allow read: if isGuide() || (isMember() && resource.data.get('ok', false) == true);
+      allow update: if (isGuide() && changed().hasOnly(['ok', 'okBy', 'okAt']) && request.resource.data.ok is bool
+          && request.resource.data.okAt == request.time && request.resource.data.okBy == request.auth.uid)
+        || (isMember() && resource.data.get('ok', false) == true && changed().hasOnly(['prays']) && request.resource.data.prays is map
+          && ('prays' in resource.data ? onlyMyKey('prays') : request.resource.data.prays.keys().hasOnly([request.auth.uid])));
       allow delete: if isGuide();
     }
 
@@ -628,7 +659,7 @@ service cloud.firestore {
       // actividades con «Invitar a las familias». Las ven los guías y las borra el equipo.
       match /confirmaciones/{cid} {
         allow read: if isGuide();
-        allow create: if get(/databases/$(database)/documents/agenda/$(eventId)).data.get('invFam', false) == true
+        allow create: if limite('confirmacion', 1) && get(/databases/$(database)/documents/agenda/$(eventId)).data.get('invFam', false) == true
           && request.resource.data.keys().hasOnly(['joven', 'personas', 'fecha', 'createdAt'])
           && request.resource.data.joven is string && request.resource.data.joven.size() >= 2 && request.resource.data.joven.size() <= 60
           && request.resource.data.personas is int && request.resource.data.personas >= 1 && request.resource.data.personas <= 5
@@ -808,7 +839,7 @@ service cloud.firestore {
 
     // Buzón «Escríbenos»: cualquiera puede escribir (sin cuenta); solo el equipo lee y gestiona.
     match /buzon/{id} {
-      allow create: if request.resource.data.keys().hasOnly(['nombre', 'tema', 'mensaje', 'via', 'contacto', 'estado', 'creado'])
+      allow create: if limite('buzon', 2) && request.resource.data.keys().hasOnly(['nombre', 'tema', 'mensaje', 'via', 'contacto', 'estado', 'creado'])
         && request.resource.data.nombre is string && request.resource.data.nombre.size() >= 2 && request.resource.data.nombre.size() <= 80
         && request.resource.data.tema in ['consulta', 'inscripcion', 'familia', 'sugerencia', 'oracion', 'otro']
         && request.resource.data.mensaje is string && request.resource.data.mensaje.size() >= 2 && request.resource.data.mensaje.size() <= 2000

@@ -61,6 +61,8 @@ async function iniciar() {
     try { await fb.getRedirectResult(auth); } catch (e) { console.warn(e); }
     fb.onAuthStateChanged(auth, async (u) => {
       E.escuchas.forEach((f) => f()); E.escuchas = [];
+      // Una sesión anónima (Rosario en comunidad o formularios públicos) no es una cuenta del equipo
+      if (u && u.isAnonymous) u = null;
       E.usuario = u; E.cuenta = null;
       if (u) {
         try {
@@ -579,11 +581,15 @@ async function enviarBuzon(form) {
   if (f.via !== "ninguno" && !String(f.contacto || "").trim()) { aviso("Escribe tu WhatsApp o correo para poder responderte."); return; }
   const btn = $('button[type="submit"]', form); btn.disabled = true;
   try {
-    const ref = fb.doc(fb.collection(db, "buzon"));
-    await fb.setDoc(ref, { nombre: f.nombre.trim().slice(0, 80), tema: f.tema, mensaje: f.mensaje.trim().slice(0, 2000), via: f.via,
+    // Con sesión (anónima si no hay cuenta) y marca de hora en limites/{uid}: un mensaje cada 2 minutos por persona
+    if (!auth.currentUser) await fb.signInAnonymously(auth);
+    const ref = fb.doc(fb.collection(db, "buzon")), b = fb.writeBatch(db);
+    b.set(ref, { nombre: f.nombre.trim().slice(0, 80), tema: f.tema, mensaje: f.mensaje.trim().slice(0, 2000), via: f.via,
       contacto: f.via === "ninguno" ? "" : String(f.contacto).trim().slice(0, 120), estado: "nuevo", creado: fb.serverTimestamp() });
+    b.set(fb.doc(db, "limites", auth.currentUser.uid), { buzon: fb.serverTimestamp() }, { merge: true });
+    await b.commit();
     form.outerHTML = `<div class="tarjeta"><h2>¡Gracias! Recibimos tu mensaje</h2><p>${f.via === "ninguno" ? "Lo leeremos con cariño." : "Alguien del equipo te responderá pronto."}</p><a class="boton" href="${AGAPPE}">Volver a agAPPe</a></div>`;
-  } catch (e) { console.warn(e); aviso("No se pudo enviar. Revisa tu conexión e intenta de nuevo."); btn.disabled = false; }
+  } catch (e) { console.warn(e); aviso(e && e.code === "permission-denied" ? "Espera un par de minutos antes de volver a enviar." : "No se pudo enviar. Revisa tu conexión e intenta de nuevo."); btn.disabled = false; }
 }
 
 // ---------------------------------------------------------------------------

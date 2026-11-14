@@ -5244,3 +5244,4 @@ a.rs-aviso-t { color: inherit; text-decoration: none; }
 @media (max-width: 420px) { .rs-aviso-b { width: 100%; margin-left: 22px; grid-template-columns: 1fr; } .rs-aviso .btn { margin-left: 0; } }
 .rs-confirma { background: #c0392b !important; color: #fff !important; border-color: #c0392b !important; }
 .rs-pacts { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.ad-pend { border-left: 4px solid #ffba03; padding-left: 10px; }

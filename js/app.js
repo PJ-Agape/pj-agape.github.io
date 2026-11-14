@@ -810,10 +810,10 @@ function viewAccount() {
     <section class="pf-sec"><h2>Mi cuenta</h2>
       <details class="pf-det"><summary>${icon("edit")}<span>Mis datos</span>${icon("down")}</summary>
         <form class="stack" id="accountForm" style="--gap:14px;margin-top:12px">
-          <p class="small muted">${esc(a.email)}</p>
-          <div class="field"><label for="acName">Nombre y apellido</label><input class="input big" id="acName" name="name" required value="${esc(a.name)}"></div>
+          <p class="small muted">${esc(a.email)}${a.googleName ? ` · Cuenta de Google: <b>${esc(a.googleName)}</b>` : ""}</p>
+          <div class="field"><label for="acName">Cómo quieres que te vean</label><input class="input big" id="acName" name="name" required maxlength="80" value="${esc(a.name)}"></div>
           <div class="field"><label for="acParish">Capilla o parroquia</label><input class="input big" id="acParish" name="parish" value="${esc(a.parish || "")}"></div>
-          <p class="xs muted">Tu nombre se muestra a la comunidad con la inicial del apellido.</p>
+          <p class="xs muted">Tu nombre se muestra a la comunidad con la inicial del apellido. El nombre de tu cuenta de Google queda guardado aparte y solo lo ve el equipo.</p>
           <button class="btn btn-primary btn-block" type="submit">Guardar cambios</button>
         </form></details>
       <details class="pf-det"><summary>${icon("users")}<span>Mi avatar</span>${icon("down")}</summary><section class="av-card" id="avCard">${avPicker()}</section></details>
@@ -906,9 +906,9 @@ document.addEventListener("submit", async (e) => {
   if (e.target.id !== "accountForm") return;
   e.preventDefault();
   const f = new FormData(e.target);
-  const name = String(f.get("name") || "").trim();
+  const name = String(f.get("name") || "").trim().slice(0, 80);
   if (!name) return;
-  try { await cloud.updateMyProfile({ name, parish: String(f.get("parish") || "").trim() }); toast("Perfil actualizado"); render(); }
+  try { await cloud.updateMyProfile({ name, parish: String(f.get("parish") || "").trim().slice(0, 120) }); toast("Perfil actualizado"); render(); }
   catch { toast("No se pudo guardar. Revisa tu conexión.", ""); }
 });
 

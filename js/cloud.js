@@ -115,6 +115,10 @@ async function handleUser(u) {
   try {
     const email = lower(u.email);
     const uref = fb.doc(db, "users", u.uid);
+    // Nombre de la cuenta de Google tal como viene en la sesión: se guarda aparte (googleName) y no se
+    // puede cambiar; el nombre que se muestra (name) parte igual y cada persona lo puede ajustar.
+    const tok = await u.getIdTokenResult().catch(() => null);
+    const gName = String((tok && tok.claims && tok.claims.name) || "");
     let snap = await withTimeout(fb.getDoc(uref));
     if (!snap.exists()) {
       const bootstrap = (CONFIG.bootstrapAdmins || []).map(lower).includes(email);
@@ -122,13 +126,15 @@ async function handleUser(u) {
       try { const is = await withTimeout(fb.getDoc(fb.doc(db, "invites", email))); if (is.exists()) invite = is.data(); } catch {}
       if (!invite && !bootstrap) { status = "not-invited"; return; }
       await withTimeout(fb.setDoc(uref, {
-        email, name: (invite && invite.name) || u.displayName || email, parish: (invite && invite.parish) || "",
+        email, name: (gName || (invite && invite.name) || u.displayName || email).slice(0, 80), parish: ((invite && invite.parish) || "").slice(0, 120),
+        ...(gName ? { googleName: gName } : {}),
         role: invite ? invite.role : "admin", active: true, createdAt: fb.serverTimestamp(), lastSeen: fb.serverTimestamp(),
         ...(invite && invite.consent ? { consent: invite.consent } : {}),
       }));
       snap = await withTimeout(fb.getDoc(uref));
     }
     account = { uid: u.uid, ...snap.data() };
+    if (!account.googleName && gName) { fb.updateDoc(uref, { googleName: gName }).then(() => { account.googleName = gName; }).catch(() => {}); }
     if (account.active === false) { status = "inactive"; return; }
     S.saveProfile({ name: account.name, parish: account.parish });
     // Un error al traer el avance no debe dejar la cuenta sin su rol: la sesión queda lista igual.
@@ -476,7 +482,7 @@ export const deleteSolicitud = (uid) => fb.deleteDoc(fb.doc(db, "solicitudes", u
 // Solo el equipo (administradores y coordinadores) lee la lista; nadie más la ve.
 export async function saveInteresado(d) {
   if (!enabled || !db) throw new Error("sin conexión a la nube");
-  await withTimeout(fb.addDoc(fb.collection(db, "interesados"), { ...d, estado: "nuevo", createdAt: fb.serverTimestamp() }), 10000);
+  await conLimite("interesados", fb.doc(fb.collection(db, "interesados")), { ...d, estado: "nuevo", createdAt: fb.serverTimestamp() });
 }
 export async function listInteresados() {
   if (!enabled || !db || !state().isStaff) return [];
@@ -900,11 +906,23 @@ export async function lightVela(text) {
 }
 export const prayVela = (id, on) => fb.updateDoc(fb.doc(db, "velas", id), { [`prays.${user.uid}`]: on ? prayMark() : fb.deleteField() });
 export const deleteVela = (id) => fb.deleteDoc(fb.doc(db, "velas", id));
-// Ágape digital: intenciones que deja, sin cuenta, quien llega por el saludo del día. Solo las leen los guías.
-export async function saveIntencionRed({ t, n }) {
+// Formularios públicos: se envían con una sesión (anónima si no hay cuenta) y, en la misma escritura,
+// se marca la hora en limites/{uid}. Las reglas permiten un envío cada pocos minutos por persona.
+export async function conLimite(tipo, ref, data) {
   if (!enabled || !db) throw new Error("sin conexión a la nube");
-  await withTimeout(fb.addDoc(fb.collection(db, "intenciones_red"), { t, n: n || "", createdAt: fb.serverTimestamp() }), 10000);
+  const uid = await salaAuth();
+  const b = fb.writeBatch(db);
+  b.set(ref, data);
+  b.set(fb.doc(db, "limites", uid), { [tipo]: fb.serverTimestamp() }, { merge: true });
+  try { await withTimeout(b.commit(), 10000); }
+  catch (e) { if (e && e.code === "permission-denied") throw Object.assign(new Error("Espera un par de minutos antes de volver a enviar."), { code: "limite" }); throw e; }
 }
+// Ágape digital: intenciones que deja, sin cuenta, quien llega por el saludo del día. Llegan sin revisar:
+// las leen los guías y, cuando las aprueban, la comunidad las ve como velas.
+export async function saveIntencionRed({ t, n }) {
+  await conLimite("intencion", fb.doc(fb.collection(db, "intenciones_red")), { t, n: n || "", createdAt: fb.serverTimestamp() });
+}
+export const approveIntencionRed = (id, ok = true) => fb.updateDoc(fb.doc(db, "intenciones_red", id), { ok, okBy: user.uid, okAt: fb.serverTimestamp() });
 export async function listIntencionesRed() {
   if (!enabled || !db) return [];
   try { return snapRows(await withTimeout(fb.getDocs(fb.query(fb.collection(db, "intenciones_red"), fb.orderBy("createdAt", "desc"), fb.limit(120))), 6000)); }
@@ -914,8 +932,10 @@ export const deleteIntencionRed = (id) => fb.deleteDoc(fb.doc(db, "intenciones_r
 // La comunidad las ve como velas en «Nuestras intenciones» (sin el nombre de quien la dejó) y puede rezar por ellas.
 export function watchIntencionesRed(cb, onErr) {
   if (!enabled || !db) { onErr && onErr(new Error("offline")); return () => {}; }
-  const q = fb.query(fb.collection(db, "intenciones_red"), fb.orderBy("createdAt", "desc"), fb.limit(60));
-  return fb.onSnapshot(q, (qs) => cb(snapRows(qs)), (e) => { console.warn("Intenciones red:", e); onErr && onErr(e); });
+  // Solo las aprobadas por un guía (sin orden en la consulta: se ordenan aquí, sin índice compuesto)
+  const q = fb.query(fb.collection(db, "intenciones_red"), fb.where("ok", "==", true), fb.limit(150));
+  const ms = (t) => (t && t.toMillis ? t.toMillis() : 0);
+  return fb.onSnapshot(q, (qs) => cb(snapRows(qs).sort((a, b) => ms(b.createdAt) - ms(a.createdAt)).slice(0, 60)), (e) => { console.warn("Intenciones red:", e); onErr && onErr(e); });
 }
 export const prayIntencionRed = (id, on) => fb.updateDoc(fb.doc(db, "intenciones_red", id), { [`prays.${user.uid}`]: on ? prayMark() : fb.deleteField() });
 
