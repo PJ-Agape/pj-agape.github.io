@@ -4,16 +4,20 @@
  "via": "streams (rss 404)",
  "vistos": [
   "Acusan al Papa de no admitir que la Iglesia es sistémicamente abusadora | P. Santiago Martín FM",
+  "\"Dios es Misericordioso pero También es Juez\" | Homilía, Sábado XXXII Semana del T.O | P. Santiago M",
+  "Santa Misa de Hoy | Sábado, XXXII Semana del Tiempo Ordinario (14-11-2026) |Pbro. Santiago Martín FM",
   "Cristo o ideología: el desafío que León XIV plantea a obispos y sacerdotes | P.  Santiago Martin FM",
   "\"El que Pierda su Vida por Cristo la Salvará\" | Homilía, Viernes, XXXII Semana del T.O | P. Santiago",
   "Santa Misa de Hoy |Viernes, XXXII Semana del Tiempo Ordinario (13-11-2026) |Pbro. Santiago Martín FM",
   "La Santa Misa de Hoy | Memorial de San Josafat, obispo y mártir (12-11-2026) | P. Javier Martín, FM",
-  "\"Cristo, el Rey, te Espera en el Sagrario\" | Homilía, San Josafat, Obispo y Mártir | P. Santiago M",
-  "Homilía│ Memorial de San León Magno 10.11.2026│ Pbro. Javier Martín FM│ www.magnificat.tv│",
-  "El Papa reivindica la vida, Alemania busca reconciliarse con Roma y crece la controversia doctrinal"
+  "\"Cristo, el Rey, te Espera en el Sagrario\" | Homilía, San Josafat, Obispo y Mártir | P. Santiago M"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-11-14": {
+   "id": "EGzcy_5ho-I",
+   "title": "Santa Misa de Hoy | Sábado, XXXII Semana del Tiempo Ordinario (14-11-2026) |Pbro. Santiago Martín FM"
+  },
   "2026-11-13": {
    "id": "IDBpjwCzl3o",
    "title": "Santa Misa de Hoy |Viernes, XXXII Semana del Tiempo Ordinario (13-11-2026) |Pbro. Santiago Martín FM"
@@ -53,10 +57,6 @@
   "2026-11-04": {
    "id": "3GJFTwz7DOw",
    "title": "Santa Misa de Hoy | Memoria, San Carlos Borromeo, Obispo (04-11-2026) | Pbro. Santiago Martín, FM"
-  },
-  "2026-11-03": {
-   "id": "OzNavObWG0M",
-   "title": "La Santa Misa de Hoy | Martes, XXXI Semana del Tiempo Ordinario (03-11-2026) | P. Javier Martín, FM"
   }
  }
 }

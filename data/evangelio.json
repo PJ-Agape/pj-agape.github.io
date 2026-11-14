@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-12": {
-   "titulo": "Jueves de la 32.ª semana del Tiempo Ordinario",
-   "cita": "Lc 17,20-25",
-   "frase": "El Reino de Dios está entre ustedes.",
-   "video": "LWU4bNIxtzw",
-   "reflexion": "xCCaxhuA21c"
-  },
   "2026-11-13": {
    "titulo": "Viernes de la 32.ª semana del Tiempo Ordinario",
    "cita": "Lc 17,26-37",
@@ -59,6 +52,11 @@
    "titulo": "Cristo Rey",
    "cita": "Mt 25,31-46",
    "frase": "Cada vez que lo hicieron con el más pequeño de mis hermanos, lo hicieron conmigo."
+  },
+  "2026-11-23": {
+   "titulo": "Lunes de la 34.ª semana del Tiempo Ordinario",
+   "cita": "Lc 21,1-4",
+   "frase": "Esta viuda pobre ha dado más que nadie."
   }
  }
 }
