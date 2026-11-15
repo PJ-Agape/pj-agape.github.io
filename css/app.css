@@ -2836,12 +2836,12 @@ html.a11y-contraste :focus-visible { outline: 4px solid var(--co) !important; ou
 /* Inicio: cita del Evangelio bajo el saludo */
 .home-gospel { position: relative; overflow: hidden; isolation: isolate; display: grid; gap: 8px; margin-top: 14px; padding: clamp(18px, 3.5vw, 26px) clamp(18px, 4vw, 30px) clamp(16px, 3vw, 22px);
   border-radius: 24px; background: var(--cn); border: 3px solid var(--pp-bd, var(--cn)); box-shadow: var(--pp-sh-m, 5px 5px 0 var(--co)); color: #fff; text-decoration: none; transition: transform .15s, box-shadow .15s; }
-.home-gospel::before { content: ""; position: absolute; z-index: -1; right: -46px; top: -46px; width: 150px; height: 150px; border-radius: 50%; background: var(--cy); }
+.home-gospel::before { content: ""; position: absolute; z-index: -1; right: -40px; top: -40px; width: 106px; height: 106px; border-radius: 50%; background: var(--cy); }
 .home-gospel::after { content: ""; position: absolute; z-index: -1; left: -40px; bottom: -60px; width: 150px; height: 150px; border-radius: 50%; background: var(--cb); opacity: .55; }
 .home-gospel:hover { transform: translate(-2px, -2px); box-shadow: var(--pp-sh-l, 7px 7px 0 var(--co)); }
 .home-gospel:focus-visible { outline: 3px solid var(--cy); outline-offset: 4px; }
-.home-gospel .hg-mark { position: absolute; z-index: -1; right: 18px; top: -6px; font-family: Georgia, "Times New Roman", serif; font-style: normal; font-weight: 700; font-size: 6.2rem; line-height: 1; color: var(--cn); pointer-events: none; }
-.home-gospel .hg-k { padding-right: 90px; display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: .74rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--cs); }
+.home-gospel .hg-mark { position: absolute; z-index: -1; right: 12px; top: -4px; font-family: Georgia, "Times New Roman", serif; font-style: normal; font-weight: 700; font-size: 4.2rem; line-height: 1; color: var(--cn); pointer-events: none; }
+.home-gospel .hg-k { padding-right: 64px; min-height: 46px; align-content: flex-start; display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: .74rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--cs); }
 .home-gospel .hg-k svg { width: 16px; height: 16px; }
 .home-gospel .hg-k b { letter-spacing: .06em; color: var(--cn); background: var(--cs); border-radius: 999px; padding: 2px 10px; }
 .home-gospel .hg-f { font-family: var(--font-hand); font-weight: 700; font-size: clamp(1.75rem, 4.6vw, 2.5rem); line-height: 1.12; color: var(--cy); max-width: 34ch; text-wrap: balance; padding-right: clamp(0px, 6vw, 70px); }

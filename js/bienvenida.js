@@ -1,9 +1,10 @@
 // Inicio: la bienvenida. Una pantalla tranquila, hecha desde el Preámbulo de la Pastoral Juvenil Ágape:
 // el saludo, el Evangelio de hoy, una frase de lo que somos y tres puertas. Lo del día a día vive en «Hoy».
 import { esc, icon } from "./util.js";
+import { cfg } from "./inicio-config.js";
 
 // Frases del Preámbulo, una por día
-const FRASES = [
+export const FRASES = [
   "Queremos que quien pase por Ágape se vaya distinto de como llegó, porque alguien lo miró, lo escuchó y lo tomó en serio.",
   "Recibimos a cada uno como es, también a quien llega con dudas o vuelve después de un tiempo lejos.",
   "Aquí nadie se queda mirando desde afuera: cada uno es protagonista de su camino.",
@@ -15,7 +16,9 @@ const FRASES = [
   "Somos jóvenes y somos Iglesia hoy, no mañana: el ahora de Dios.",
   "Si ellos pudieron, la santidad también es posible para nosotros, aquí y ahora.",
 ];
-const deHoy = () => { const d = new Date(); return FRASES[(Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5)) % FRASES.length]; };
+// El equipo puede cambiarlas en Gestión → Inicio y enlaces (una por línea)
+const lista = () => { const l = String(cfg().frases || "").split("\n").map((x) => x.trim()).filter(Boolean); return l.length ? l : FRASES; };
+const deHoy = () => { const d = new Date(), l = lista(); return l[Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5) % l.length]; };
 
 export function inicioHTML({ greet, guest, extra = "" }) {
   const puerta = (id, href, ic, hand, t, d, c) => `<a class="bv-door" id="${id}" href="${href}" style="--c:${c}"><i aria-hidden="true">${icon(ic)}</i><span><em>${esc(hand)}</em><strong>${esc(t)}</strong><small>${esc(d)}</small></span>${icon("right")}</a>`;

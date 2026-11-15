@@ -1,5 +1,6 @@
 // Gestión → Inicio y enlaces: el saludo, La Plaza Ágape, las radios católicas y los enlaces de interés.
 // Lo editan administradores y coordinadores; los cambios se ven al instante, sin «Publicar».
+import { FRASES } from "./bienvenida.js";
 import { esc, icon, toast } from "./util.js";
 import { DEFAULTS, DOOR_NAMES, REDES, cfg, savedRaw, adopt } from "./inicio-config.js";
 
@@ -37,6 +38,10 @@ export function adminView() {
     <section class="card ia-sec"><h2>Saludo</h2>
       <p class="muted small">La frase manuscrita sobre «Buenas tardes, …».</p>
       <div class="ag-form-row">${f("saludo.cuenta", "Con cuenta", c.saludo.cuenta, DEFAULTS.saludo.cuenta, 40)}${f("saludo.visita", "Visitantes", c.saludo.visita, DEFAULTS.saludo.visita, 40)}</div></section>
+
+    <section class="card ia-sec"><h2>Frases de Inicio</h2>
+      <p class="muted small">La frase que aparece bajo «amor que transforma». Cada día se muestra una, en orden. Escribe una por línea; si lo dejas vacío, vuelven las del Preámbulo.</p>
+      <div class="field"><label>Frases (una por línea)</label><textarea class="textarea" name="frases" rows="12" maxlength="4000">${esc(c.frases || FRASES.join("\n"))}</textarea></div></section>
 
     <section class="card ia-sec"><h2>La Plaza Ágape</h2><p class="muted small">Sus accesos. El título, la frase, el fondo y el sticker se cambian en <a href="#/admin/apariencia">Apariencia</a>.</p><div class="ia-doors">${doors("plaza")}</div></section>
 
@@ -114,6 +119,7 @@ function registerActions() {
       : typeof b === "string" ? val(`${path}${k}`) : read(b, `${path}${k}.`)]));
     const { radios: _r, enlaces: _e, ...textBase } = DEFAULTS;
     const v = read(textBase, "");
+    if (v.frases.replace(/\r/g, "") === FRASES.join("\n")) v.frases = ""; // sin cambios: siguen las del Preámbulo
     const badUrl = ["playlist.url", ...Object.keys(REDES).map((k) => `redes.${k}`)].find((k) => val(k) && !okUrl(val(k)));
     if (badUrl) { toast("Revisa los enlaces de la playlist y las redes: deben empezar con https://", ""); return; }
     const bad = radios.find((r) => (r.name || r.url) && (!r.name || !okUrl(r.url)));
