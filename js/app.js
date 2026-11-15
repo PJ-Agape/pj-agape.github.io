@@ -36,6 +36,7 @@ import * as cuenta from "./cuenta.js";
 import * as a11y from "./accesible.js";
 import * as grupo from "./grupo.js";
 import * as inicio from "./inicio.js";
+import * as bienvenida from "./bienvenida.js";
 import * as novedades from "./novedades.js";
 import * as papa from "./papa.js";
 import * as guia from "./guia.js";
@@ -83,7 +84,9 @@ document.addEventListener("click", (e) => {
 // Enrutador por hash (#/recursos, #/oracion, #/red, #/admin/...)
 // ---------------------------------------------------------------------------
 const routes = [
-  [/^\/$/, viewHome, "inicio"],
+  [/^\/$/, viewInicio, "inicio"],
+  [/^\/hoy$/, viewHome, "hoy"],
+  [/^\/preambulo$/, () => bienvenida.viewPreambulo(), "inicio"],
   [/^\/muro$/, () => wall.viewWall(), "muro"],
   [/^\/agenda$/, () => agenda.viewAgenda(), "agenda"],
   [/^\/agenda\/(\d{4}-\d{2}-\d{2})$/, (d) => agenda.viewAgenda(d), "agenda"],
@@ -126,7 +129,7 @@ const routes = [
   [/^\/menu$/, () => inicio.viewMenu(), "menu"],
   [/^\/ayuda(?:\?t=([a-z]+))?$/, (t) => ayuda.view(t), "ayuda"],
   [/^\/difusion$/, () => mod.difusion().then((m) => m.view()), "difusion"],
-  [/^\/sellos$/, () => descubre.view(), "inicio"],
+  [/^\/sellos$/, () => descubre.view(), "hoy"],
   [/^\/mesdemaria$/, () => temporadas.viewMaria(), "oracion"],
   [/^\/adviento$/, () => temporadas.viewAdviento(), "oracion"],
   [/^\/accesibilidad$/, () => a11y.viewPage(), "perfil"],
@@ -233,11 +236,11 @@ const VOLVER = [
   [/^\/cancionero\/.+/, "#/cancionero", "Volver al Cancionero"],
 ];
 // En cualquier pantalla que no sea una de las pestañas, arriba hay un «volver» a su zona: así nadie se pierde.
-const RAICES = /^\/(?:|recursos(?:\?.*)?|oracion|red|menu|perfil|solicitar|conocer.*|admin.*)$/;
+const RAICES = /^\/(?:|hoy|preambulo|recursos(?:\?.*)?|oracion|red|menu|perfil|solicitar|conocer.*|admin.*)$/;
 function volverZona(v, path, section) {
   if (RAICES.test(path) || v.querySelector(".crumbs, .ent-backs")) return;
   const tab = TAB_OF[section] || section, n = NAV.find(([k]) => k === tab) || NAV[0];
-  v.insertAdjacentHTML("afterbegin", `<nav class="ent-backs no-print is-top" aria-label="Volver"><a class="ent-back" href="${n[1]}">${icon("left")} ${esc(n[2] === "Hoy" ? "Inicio" : n[2])}</a></nav>`);
+  v.insertAdjacentHTML("afterbegin", `<nav class="ent-backs no-print is-top" aria-label="Volver"><a class="ent-back" href="${n[1]}">${icon("left")} ${esc(n[2])}</a></nav>`);
 }
 function volverBotones(v, path) {
   const r = VOLVER.find(([re]) => re.test(path)); if (!r) return;
@@ -253,6 +256,7 @@ function volverBotones(v, path) {
 // Stickers (ilustraciones propias de la PJ) en el encabezado de las secciones principales.
 const STICKERS = {
   "/": [[".home-hi", "amigos"]],
+  "/hoy": [[".page-head", "amigos"]],
   "/formacion": [[".page-head", "biblia"]],
   "/red": [[".page-head", "comunidad"]],
   "/oracion": [[".cap-a-hero", "oracion"]], // fuera del arco: el arco recorta lo que sale de su curva
@@ -293,8 +297,9 @@ function applyTheme() {
 // ---------------------------------------------------------------------------
 // Navegación: Hoy · Recursos · Orar · Comunidad (la Agenda vive dentro de Comunidad)
 const NAV = [
-  ["inicio", "#/", "Hoy", "home"],
-  ["formacion", "#/recursos", "Recursos", "book"],
+  ["inicio", "#/", "Inicio", "home"],
+  ["hoy", "#/hoy", "Hoy", "cal"],
+  ["formacion", "#/recursos", "Recursos", "book", "top"], // en el teléfono, Recursos se abre desde el Menú
   ["oracion", "#/oracion", "Orar", "flame"],
   ["red", "#/red", "Comunidad", "users"],
   ["menu", "#/menu", "Menú", "grid"],
@@ -381,8 +386,14 @@ function heroTitle(t) {
   const last = words.pop();
   return `${words.join(" ")} <em>${last}</em>`;
 }
+// Inicio: la bienvenida (saludo, Evangelio de hoy, una frase de lo que somos y tres puertas).
+function viewInicio() {
+  onAfterRender(() => { inicio.paintGospel(); rosarioSala.paintHome(); descubre.tour(); });
+  return bienvenida.inicioHTML({ greet: inicio.greetHTML(), guest: cloud.enabled && !cloud.state().ready,
+    extra: `<div id="rosarioVivoSlot"></div>${solicitud.homeCard()}` });
+}
 function viewHome() {
-  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); rosarioSala.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
+  onAfterRender(() => { novedades.refresh(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); rosarioSala.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
   // Lo destacado: las diapositivas de Gestión → Portada (y la intención del Papa). No avanzan solas:
   // se pasan deslizando el dedo o con las flechas.
   const carousel = () => {
@@ -416,10 +427,8 @@ function viewHome() {
   // Hoy: el saludo con el Evangelio, Continuar, lo destacado y las próximas fechas.
   // El resto vive en las pestañas de abajo (Recursos, Orar, Comunidad).
   return `
-  ${inicio.greetHTML()}
-  <div id="rosarioVivoSlot"></div>
+  <header class="page-head"><span class="eyebrow">para estar al día</span><h1>Lo de <em>hoy</em></h1></header>
   <div id="fiestaSlot"></div>
-  ${solicitud.homeCard()}
   <div id="desafioHoy"></div>
   <div id="temporadaSlot"></div>
   <div id="descubreSlot"></div>
@@ -432,14 +441,13 @@ function viewHome() {
     <span class="tile-ico tile-brand" style="margin:0">${icon("sparkle")}</span>
     <span style="flex:1"><span class="eyebrow">¿Quieres ser dirigente?</span><strong>Sé puente</strong>
     <span class="muted small">Una presentación corta sobre qué es ser dirigente en Ágape.</span></span>${icon("right")}</a>` : ""}
-  <div id="installSlot"></div>
   `;
 }
 // Radios católicas, podcast, playlist y enlaces de interés: una franja liviana al final de Hoy (se abren en la página de cada una).
 const RADIO_ICO = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M7 8 17 3.5"/><circle cx="15.5" cy="14" r="2.6"/><path d="M6.5 12.5h4M6.5 15.5h4"/></svg>`;
 function radiosHTML() {
   const rs = inicioCfg().radios, pl = inicioCfg().playlist || {};
-  onAfterRender(() => inicio.refreshInicioCfg(() => { if (location.hash === "" || location.hash === "#/") render(); }));
+  onAfterRender(() => inicio.refreshInicioCfg(() => { if (["", "#/", "#/hoy"].includes(location.hash)) render(); }));
   onAfterRender(() => podcast.refreshQuiet(() => { if (podcast.hasEpisodes()) document.querySelector(".hr-pod small")?.remove(); }));
   return `<nav class="home-radios" aria-label="Radios católicas en vivo">
     ${rs.length ? `<span class="hr-lbl">${RADIO_ICO} Radios católicas</span>` : ""}

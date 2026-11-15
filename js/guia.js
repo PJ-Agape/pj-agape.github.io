@@ -59,7 +59,7 @@ export function view() {
       <div class="guia-body">${p.secs.map(([h, x]) => `<section><h3>${esc(h)}</h3>${prosa(x)}</section>`).join("")}</div>
     </details>`).join("")}</div>
     <p class="guia-fin">Ya conoces la casa. Lo más importante: el encuentro verdadero es con Jesús, en la Eucaristía y en la comunidad. Te esperamos en el próximo encuentro.</p>
-    <div class="row-wrap" style="gap:8px;margin-top:10px"><a class="btn btn-gold" href="#/">Ir a Hoy ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/ayuda">Ayuda</a></div>`;
+    <div class="row-wrap" style="gap:8px;margin-top:10px"><a class="btn btn-gold" href="#/">Ir al inicio ${icon("arrowR")}</a><a class="btn btn-ghost" href="#/ayuda">Ayuda</a></div>`;
 }
 
 // El índice abre la parte elegida
