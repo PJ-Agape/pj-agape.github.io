@@ -11,10 +11,10 @@ const $ = (s, r = document) => r.querySelector(s);
 const st = () => ctx.cloud.state();
 
 export const TAGS = [
-  ["rompehielos", "Rompehielos", "#8ad2fa"], ["conocernos", "Conocernos", "#9be3b0"], ["confianza", "Confianza", "#fde0d2"],
-  ["equipo", "Trabajo en equipo", "#ffba03"], ["comunicacion", "Comunicación", "#8ad2fa"], ["liderazgo", "Liderazgo", "#1351a4"],
-  ["energizante", "Energizante", "#ef591c"], ["oracion", "Oración", "#fff1cc"], ["reflexion", "Reflexión", "#e1edfb"],
-  ["acogida", "Acogida", "#9be3b0"], ["cierre", "Cierre", "#fde0d2"], ["servicio", "Servicio", "#ffba03"],
+  ["rompehielos", "Rompehielos", "#9fd8ff"], ["conocernos", "Conocernos", "#9be3b0"], ["confianza", "Confianza", "#ffe3da"],
+  ["equipo", "Trabajo en equipo", "#ffc93c"], ["comunicacion", "Comunicación", "#9fd8ff"], ["liderazgo", "Liderazgo", "#3d6bf0"],
+  ["energizante", "Energizante", "#f4562a"], ["oracion", "Oración", "#fff2cc"], ["reflexion", "Reflexión", "#e8eeff"],
+  ["acogida", "Acogida", "#9be3b0"], ["cierre", "Cierre", "#ffe3da"], ["servicio", "Servicio", "#ffc93c"],
 ];
 const TAG = Object.fromEntries(TAGS.map(([k, l, c]) => [k, { l, c }]));
 const LUGAR = { interior: "Bajo techo", exterior: "Al aire libre", ambos: "Bajo techo o al aire libre" };
@@ -77,7 +77,7 @@ function watch() {
   const stop = ctx.cloud.watchDinamicas((r) => { items = r; repaint(); }, () => { items = items || []; repaint(); });
   ctx.onLeave(stop);
 }
-const chips = (d) => (d.tags || []).map((t) => `<span class="chip din-tag" style="--tc:${(TAG[t] || {}).c || "#e1edfb"}">${esc((TAG[t] || {}).l || t)}</span>`).join("");
+const chips = (d) => (d.tags || []).map((t) => `<span class="chip din-tag" style="--tc:${(TAG[t] || {}).c || "#e8eeff"}">${esc((TAG[t] || {}).l || t)}</span>`).join("");
 const meta = (d) => [d.duracion ? `⏱ ${d.duracion} min` : "", d.personas ? `👥 ${esc(d.personas)}` : "", d.lugar ? `📍 ${esc(LUGAR[d.lugar] || d.lugar)}` : ""].filter(Boolean).join(" · ");
 
 export function viewList() {

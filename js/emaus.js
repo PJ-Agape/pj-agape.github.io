@@ -19,8 +19,8 @@ const $ = (s, r = document) => r.querySelector(s);
 const APP = "https://pj-agape.github.io/";
 const KEY = "agape_emaus2";
 
-const K = { navy: "#0b2566", blue: "#1351a4", sky: "#8ad2fa", orange: "#ef591c", yellow: "#ffba03", cream: "#fff6e5", white: "#ffffff", wood: "#b5793f", wood2: "#8a5a2c" };
-const OL = "#0b2566";
+const K = { navy: "#1e1f3b", blue: "#3d6bf0", sky: "#9fd8ff", orange: "#f4562a", yellow: "#ffc93c", cream: "#fbf8f3", white: "#ffffff", wood: "#b5793f", wood2: "#8a5a2c" };
+const OL = "#1e1f3b";
 const T = 32;
 const hash = (x, y, s = 0) => { let h = (x * 374761393 + y * 668265263 + s * 1442695041) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967296; };
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -156,7 +156,7 @@ function teja(g, x, y, w, h, c1 = "#c65a32", c2 = "#9f4128") {
 function glass(g, x, y, w, h, arch) {
   g.save(); g.beginPath();
   if (arch) { g.moveTo(x, y + h); g.lineTo(x, y + w / 2); g.arc(x + w / 2, y + w / 2, w / 2, Math.PI, 0); g.lineTo(x + w, y + h); g.closePath(); } else g.rect(x, y, w, h);
-  const gr = g.createLinearGradient(x, y, x + w, y + h); gr.addColorStop(0, "#d6f0ff"); gr.addColorStop(.5, "#8ad2fa"); gr.addColorStop(1, "#5fb3e6");
+  const gr = g.createLinearGradient(x, y, x + w, y + h); gr.addColorStop(0, "#d6f0ff"); gr.addColorStop(.5, "#9fd8ff"); gr.addColorStop(1, "#5fb3e6");
   g.fillStyle = gr; g.fill(); g.clip();
   g.fillStyle = "rgba(255,255,255,.45)"; g.beginPath(); g.moveTo(x + w * .15, y + h); g.lineTo(x + w * .45, y); g.lineTo(x + w * .6, y); g.lineTo(x + w * .3, y + h); g.fill();
   g.restore();
@@ -165,7 +165,7 @@ function glass(g, x, y, w, h, arch) {
   g.stroke(); g.lineWidth = 1.2; g.beginPath(); g.moveTo(x + w / 2, y + (arch ? 2 : 0)); g.lineTo(x + w / 2, y + h); g.moveTo(x, y + h * .55); g.lineTo(x + w, y + h * .55); g.stroke();
 }
 function stainedGlass(g, x, y, w, h, seed) {
-  const cols = ["#1351a4", "#ffba03", "#ef591c", "#3aa57a", "#8ad2fa", "#c0397a"];
+  const cols = ["#3d6bf0", "#ffc93c", "#f4562a", "#3aa57a", "#9fd8ff", "#c0397a"];
   g.save(); g.beginPath(); g.moveTo(x, y + h); g.lineTo(x, y + w / 2); g.arc(x + w / 2, y + w / 2, w / 2, Math.PI, 0); g.lineTo(x + w, y + h); g.closePath(); g.clip();
   const s = 8;
   for (let j = 0; j * s < h + s; j++) for (let i = 0; i * s < w + s; i++) { g.fillStyle = cols[Math.floor(hash(i, j, seed) * cols.length)]; g.globalAlpha = .85; g.beginPath(); g.moveTo(x + i * s, y + j * s - s / 2); g.lineTo(x + i * s + s / 2, y + j * s); g.lineTo(x + i * s, y + j * s + s / 2); g.lineTo(x + i * s - s / 2, y + j * s); g.closePath(); g.fill(); }
@@ -240,7 +240,7 @@ function groundIn(g, x, y) {
   const c = base[y][x], X = x * T, Y = y * T, sc = SC();
   switch (c) {
     case "o": for (let j = 0; j < 2; j++) for (let i = 0; i < 2; i++) { g.fillStyle = (x * 2 + i + y * 2 + j) % 2 ? "#c9876a" : "#f1e7d5"; g.fillRect(X + i * 16, Y + j * 16, 16, 16); } g.fillStyle = "rgba(255,255,255,.06)"; g.fillRect(X, Y, T, 2); break;
-    case "a": g.fillStyle = "#9c2f3a"; g.fillRect(X, Y, T, T); g.fillStyle = "#d9a520"; g.fillRect(X + 3, Y, 2, T); g.fillRect(X + T - 5, Y, 2, T); g.fillStyle = "rgba(0,0,0,.08)"; for (let i = 0; i < T; i += 4) g.fillRect(X + 6, Y + i, T - 12, 1); break;
+    case "a": g.fillStyle = "#9c2f3a"; g.fillRect(X, Y, T, T); g.fillStyle = "#e0a800"; g.fillRect(X + 3, Y, 2, T); g.fillRect(X + T - 5, Y, 2, T); g.fillStyle = "rgba(0,0,0,.08)"; for (let i = 0; i < T; i += 4) g.fillRect(X + 6, Y + i, T - 12, 1); break;
     case "P": { g.fillStyle = hash(x, y, 5) < .5 ? "#f4eee3" : "#efe7da"; g.fillRect(X, Y, T, T); g.strokeStyle = "rgba(150,130,110,.12)"; g.lineWidth = 1; g.beginPath(); g.moveTo(X + hash(x, y, 6) * T, Y); g.quadraticCurveTo(X + 16, Y + 16, X + hash(x, y, 7) * T, Y + T); g.stroke(); g.strokeStyle = "rgba(11,37,102,.08)"; g.strokeRect(X + .5, Y + .5, T - 1, T - 1); break; }
     case "_": { const wood = S.scene === "casa" ? ["#c99566", "#c28d5e"] : ["#d8ad7e", "#d2a574"]; for (let j = 0; j < 4; j++) { g.fillStyle = wood[(j + y) % 2]; g.fillRect(X, Y + j * 8, T, 8); g.fillStyle = "rgba(90,50,20,.25)"; g.fillRect(X, Y + j * 8 + 7, T, 1); const cut = Math.floor(hash(x, y * 4 + j, 8) * T); g.fillRect(X + cut, Y + j * 8, 1, 8); } break; }
     case "=": for (let j = 0; j < 4; j++) for (let i = 0; i < 4; i++) { g.fillStyle = (i + j) % 2 ? "#b98656" : "#c99a6a"; if ((i + j) % 2) g.fillRect(X + i * 8, Y + j * 8, 8, 8); else { g.fillRect(X + i * 8, Y + j * 8, 8, 8); g.fillStyle = "rgba(90,50,20,.2)"; g.fillRect(X + i * 8, Y + j * 8 + 3, 8, 1); } } break;
@@ -250,7 +250,7 @@ function groundIn(g, x, y) {
       if (y < sc.back) { g.fillStyle = sc.wall; g.fillRect(X, Y, T, T); if (y === 0) { g.fillStyle = "rgba(11,37,102,.12)"; g.fillRect(X, Y, T, 6); } if (y === sc.back - 1) { g.fillStyle = sc.wain; g.fillRect(X, Y + T - 12, T, 12); g.fillStyle = "rgba(0,0,0,.15)"; g.fillRect(X, Y + T - 12, T, 2); } break; }
       g.fillStyle = sc.wallTop; g.fillRect(X, Y, T, T);
       g.fillStyle = "rgba(11,37,102,.18)"; if (x === 0) g.fillRect(X + T - 3, Y, 3, T); if (x === W - 1) g.fillRect(X, Y, 3, T); if (y === H - 1) g.fillRect(X, Y, T, 3);
-      if (c === "V") { const cols = ["#1351a4", "#ffba03", "#ef591c", "#3aa57a"]; for (let i = 0; i < 4; i++) { g.fillStyle = cols[(i + y) % 4]; g.fillRect(X + 12, Y + 2 + i * 7, 8, 7); } g.strokeStyle = OL; g.lineWidth = 1.5; g.strokeRect(X + 12, Y + 2, 8, 28); }
+      if (c === "V") { const cols = ["#3d6bf0", "#ffc93c", "#f4562a", "#3aa57a"]; for (let i = 0; i < 4; i++) { g.fillStyle = cols[(i + y) % 4]; g.fillRect(X + 12, Y + 2 + i * 7, 8, 7); } g.strokeStyle = OL; g.lineWidth = 1.5; g.strokeRect(X + 12, Y + 2, 8, 28); }
       break;
     }
     default: g.fillStyle = "#ddd"; g.fillRect(X, Y, T, T);
@@ -262,12 +262,12 @@ function decorCapilla(g) {
   g.fillStyle = "#7a4d2a"; rr(g, cx - 62, 6, 124, 90, 10); g.fill(); g.strokeStyle = OL; g.lineWidth = 2; g.stroke();
   g.fillStyle = "#9c2f3a"; g.beginPath(); g.moveTo(cx - 50, 92); g.lineTo(cx - 50, 30); g.arc(cx, 30, 50, Math.PI, 0); g.lineTo(cx + 50, 92); g.closePath(); g.fill();
   g.strokeStyle = "rgba(0,0,0,.18)"; g.lineWidth = 1.5; for (let i = -40; i <= 40; i += 10) { g.beginPath(); g.moveTo(cx + i, 30 - Math.sqrt(Math.max(0, 2500 - i * i)) + 20); g.lineTo(cx + i, 92); g.stroke(); }
-  g.strokeStyle = "#d9a520"; g.lineWidth = 2; g.beginPath(); g.moveTo(cx - 50, 92); g.lineTo(cx - 50, 30); g.arc(cx, 30, 50, Math.PI, 0); g.lineTo(cx + 50, 92); g.stroke();
+  g.strokeStyle = "#e0a800"; g.lineWidth = 2; g.beginPath(); g.moveTo(cx - 50, 92); g.lineTo(cx - 50, 30); g.arc(cx, 30, 50, Math.PI, 0); g.lineTo(cx + 50, 92); g.stroke();
   // cruz y Cristo
   g.fillStyle = "#5a3820"; g.strokeStyle = OL; g.lineWidth = 1.5; g.fillRect(cx - 3, 12, 6, 58); g.strokeRect(cx - 3, 12, 6, 58); g.fillRect(cx - 22, 24, 44, 6); g.strokeRect(cx - 22, 24, 44, 6);
   g.strokeStyle = "#e9c29b"; g.lineWidth = 3; g.beginPath(); g.moveTo(cx - 19, 27); g.lineTo(cx, 32); g.lineTo(cx + 19, 27); g.moveTo(cx, 30); g.lineTo(cx, 50); g.lineTo(cx - 1, 60); g.moveTo(cx, 50); g.lineTo(cx + 1, 60); g.stroke();
   g.fillStyle = "#f3efe6"; g.fillRect(cx - 4, 44, 8, 6);
-  g.fillStyle = "#e9c29b"; g.beginPath(); g.arc(cx, 23, 4, 0, 7); g.fill(); g.strokeStyle = "#d9a520"; g.lineWidth = 1.2; g.beginPath(); g.arc(cx, 23, 6.5, 0, 7); g.stroke();
+  g.fillStyle = "#e9c29b"; g.beginPath(); g.arc(cx, 23, 4, 0, 7); g.fill(); g.strokeStyle = "#e0a800"; g.lineWidth = 1.2; g.beginPath(); g.arc(cx, 23, 6.5, 0, 7); g.stroke();
   g.fillStyle = "#fff"; g.fillRect(cx - 5, 9, 10, 4);
   // vitrales del fondo
   stainedGlass(g, 1.6 * T, 10, 38, 66, 1); stainedGlass(g, 10.2 * T, 10, 38, 66, 2);
@@ -276,7 +276,7 @@ function decorCapilla(g) {
   g.fillStyle = "#cfc6b6"; g.fillRect(sx - 14, sy + 14, 28, 18); g.strokeStyle = OL; g.lineWidth = 1.5; g.strokeRect(sx - 14, sy + 14, 28, 18);
   const gg = g.createLinearGradient(sx - 12, 0, sx + 12, 0); gg.addColorStop(0, "#b9861a"); gg.addColorStop(.5, "#ffd76a"); gg.addColorStop(1, "#b9861a");
   g.fillStyle = gg; g.beginPath(); g.moveTo(sx - 12, sy + 15); g.lineTo(sx - 12, sy - 2); g.lineTo(sx, sy - 10); g.lineTo(sx + 12, sy - 2); g.lineTo(sx + 12, sy + 15); g.closePath(); g.fill(); g.stroke();
-  g.strokeStyle = "#7a5a10"; g.strokeRect(sx - 7, sy, 14, 13); g.fillStyle = "#fff6e5"; g.fillRect(sx - 1, sy + 2, 2, 9); g.fillRect(sx - 4, sy + 5, 8, 2);
+  g.strokeStyle = "#7a5a10"; g.strokeRect(sx - 7, sy, 14, 13); g.fillStyle = "#fbf8f3"; g.fillRect(sx - 1, sy + 2, 2, 9); g.fillRect(sx - 4, sy + 5, 8, 2);
   // vía crucis en los muros laterales
   for (const y of [4, 7, 11, 15, 19]) for (const x of [0, 12]) { const X = x * T + (x ? 8 : 16), Y = y * T + 8; g.fillStyle = "#6b4423"; g.fillRect(X + 3, Y, 2.5, 14); g.fillRect(X, Y + 4, 8.5, 2.5); }
   // luz de colores de los vitrales sobre el suelo
@@ -288,7 +288,7 @@ function decorCapilla(g) {
   // grada del presbiterio
   g.fillStyle = "rgba(11,37,102,.22)"; g.fillRect(T, 7 * T - 5, 11 * T, 5); g.fillStyle = "rgba(255,255,255,.6)"; g.fillRect(T, 7 * T - 6, 11 * T, 1.5);
   // alfombra del pasillo sube al presbiterio
-  g.fillStyle = "#9c2f3a"; g.fillRect(6 * T, 5 * T + 4, T, 2 * T - 4); g.fillStyle = "#d9a520"; g.fillRect(6 * T + 3, 5 * T + 4, 2, 2 * T - 4); g.fillRect(7 * T - 5, 5 * T + 4, 2, 2 * T - 4);
+  g.fillStyle = "#9c2f3a"; g.fillRect(6 * T, 5 * T + 4, T, 2 * T - 4); g.fillStyle = "#e0a800"; g.fillRect(6 * T + 3, 5 * T + 4, 2, 2 * T - 4); g.fillRect(7 * T - 5, 5 * T + 4, 2, 2 * T - 4);
 }
 function winCurtain(g, x, y, w, h) {
   glass(g, x, y, w, h);
@@ -314,7 +314,7 @@ function decorSalon(g) {
   // paño del centro con la Biblia y la cruz
   g.fillStyle = K.orange; g.strokeStyle = OL; g.lineWidth = 1.5; rr(g, 6 * T + 2, 5 * T + 4, 2 * T - 4, T - 8, 6); g.fill(); g.stroke();
   g.fillStyle = K.yellow; g.beginPath(); g.moveTo(6 * T + 8, 5 * T + 8); g.lineTo(8 * T - 8, 6 * T - 8); g.lineTo(8 * T - 8, 5 * T + 8); g.lineTo(6 * T + 8, 6 * T - 8); g.closePath(); g.fill();
-  g.fillStyle = "#6b2b1a"; g.fillRect(6 * T + 10, 5 * T + 10, 14, 11); g.strokeRect(6 * T + 10, 5 * T + 10, 14, 11); g.fillStyle = "#d9a520"; g.fillRect(6 * T + 16, 5 * T + 12, 2, 7); g.fillRect(6 * T + 14, 5 * T + 14, 6, 2);
+  g.fillStyle = "#6b2b1a"; g.fillRect(6 * T + 10, 5 * T + 10, 14, 11); g.strokeRect(6 * T + 10, 5 * T + 10, 14, 11); g.fillStyle = "#e0a800"; g.fillRect(6 * T + 16, 5 * T + 12, 2, 7); g.fillRect(6 * T + 14, 5 * T + 14, 6, 2);
   g.fillStyle = "#fff"; g.fillRect(7 * T + 10, 5 * T + 10, 6, 12); g.strokeRect(7 * T + 10, 5 * T + 10, 6, 12);
 }
 function decorBiblio(g) {
@@ -408,7 +408,7 @@ function paintCapilla(g) { // 320×204, en (17T, 0)
   g.fillStyle = "#e4d8c3"; g.fillRect(118, 28, 84, 6); g.strokeRect(118, 28, 84, 6);
   g.save(); g.beginPath(); g.moveTo(116, 30); g.lineTo(160, 4); g.lineTo(204, 30); g.closePath(); g.clip(); teja(g, 116, 2, 88, 30); g.restore();
   g.beginPath(); g.moveTo(116, 30); g.lineTo(160, 4); g.lineTo(204, 30); g.closePath(); g.strokeStyle = OL; g.stroke();
-  g.fillStyle = "#d9a520"; g.fillRect(158.5, -2, 3, 9); g.fillRect(155, 1, 10, 2.5);
+  g.fillStyle = "#e0a800"; g.fillRect(158.5, -2, 3, 9); g.fillRect(155, 1, 10, 2.5);
   g.fillStyle = "#24304f"; g.beginPath(); g.moveTo(141, 76); g.lineTo(141, 54); g.arc(160, 54, 19, Math.PI, 0); g.lineTo(179, 76); g.closePath(); g.fill(); g.stroke();
   g.fillStyle = "#e4d8c3"; g.fillRect(137, 76, 46, 5); g.strokeRect(137, 76, 46, 5);
   g.fillStyle = K.sky; g.beginPath(); g.arc(160, 100, 9, 0, 7); g.fill(); g.stroke(); g.lineWidth = 1; g.beginPath(); g.moveTo(151, 100); g.lineTo(169, 100); g.moveTo(160, 91); g.lineTo(160, 109); g.stroke();
@@ -418,7 +418,7 @@ function paintCapilla(g) { // 320×204, en (17T, 0)
   g.fillStyle = "#7a4a26"; g.beginPath(); g.moveTo(138, 196); g.lineTo(138, 154); g.arc(160, 154, 22, Math.PI, 0); g.lineTo(182, 196); g.closePath(); g.fill(); g.stroke();
   g.strokeStyle = "rgba(0,0,0,.25)"; g.lineWidth = 1; for (let x = 144; x < 182; x += 6) { g.beginPath(); g.moveTo(x, 196); g.lineTo(x, 140); g.stroke(); }
   g.strokeStyle = OL; g.lineWidth = 1.5; g.beginPath(); g.moveTo(160, 196); g.lineTo(160, 132); g.stroke();
-  g.fillStyle = "#d9a520"; [[155, 172], [165, 172]].forEach(([a, b]) => { g.beginPath(); g.arc(a, b, 1.8, 0, 7); g.fill(); });
+  g.fillStyle = "#e0a800"; [[155, 172], [165, 172]].forEach(([a, b]) => { g.beginPath(); g.arc(a, b, 1.8, 0, 7); g.fill(); });
   g.fillStyle = "#d9d4cc"; g.strokeStyle = "rgba(11,37,102,.5)"; g.fillRect(124, 196, 72, 4); g.strokeRect(124, 196, 72, 4); g.fillRect(118, 200, 84, 4); g.strokeRect(118, 200, 84, 4);
 }
 const HOUSE_COL = [["#e9f1f7", K.blue], ["#f6e3c4", "#7a4a26"], ["#f2d6b3", "#3aa57a"], ["#f4ead8", "#9c2f3a"]];
@@ -434,7 +434,7 @@ function paintHouse(g, i) { // 136×108, en (xT-4, yT-12)
   if (i === 0) { g.fillStyle = "#cfc6b6"; g.strokeStyle = OL; g.lineWidth = 1.6; g.fillRect(98, 0, 12, 22); g.strokeRect(98, 0, 12, 22); g.fillStyle = "#3a3a44"; g.fillRect(97, -2, 14, 4); }
   g.fillStyle = door; g.strokeStyle = OL; g.lineWidth = 2; g.fillRect(40, 66, 24, 40); g.strokeRect(40, 66, 24, 40);
   g.strokeStyle = "rgba(0,0,0,.2)"; g.lineWidth = 1; g.strokeRect(44, 70, 16, 14); g.strokeRect(44, 88, 16, 14);
-  g.fillStyle = "#d9a520"; g.beginPath(); g.arc(59, 88, 1.8, 0, 7); g.fill();
+  g.fillStyle = "#e0a800"; g.beginPath(); g.arc(59, 88, 1.8, 0, 7); g.fill();
   g.fillStyle = door; g.strokeStyle = OL; g.lineWidth = 1.4; g.fillRect(80, 64, 8, 26); g.strokeRect(80, 64, 8, 26); g.fillRect(116, 64, 8, 26); g.strokeRect(116, 64, 8, 26);
   glass(g, 88, 64, 28, 26); g.fillStyle = "#e4d8c3"; g.fillRect(84, 90, 36, 4); g.strokeRect(84, 90, 36, 4);
   for (const [px, col] of [[28, K.orange], [72, "#e66b9a"]]) { g.fillStyle = "#b8653a"; g.strokeStyle = OL; g.lineWidth = 1.2; g.fillRect(px - 5, 98, 10, 8); g.strokeRect(px - 5, 98, 10, 8); g.fillStyle = "#4e9a5c"; g.beginPath(); g.arc(px, 95, 6, 0, 7); g.fill(); g.fillStyle = col; g.beginPath(); g.arc(px - 2, 93, 2, 0, 7); g.arc(px + 3, 95, 2, 0, 7); g.fill(); }
@@ -444,7 +444,7 @@ function paintSalon(g) { // 192×112, en (9T, 1.5T)
   g.fillStyle = "#b9c4d0"; g.fillRect(2, 2, 188, 42);
   for (let x = 4; x < 190; x += 6) { g.fillStyle = "rgba(255,255,255,.35)"; g.fillRect(x, 2, 2, 42); g.fillStyle = "rgba(11,37,102,.1)"; g.fillRect(x + 3, 2, 1.5, 42); }
   g.strokeStyle = OL; g.lineWidth = 2; g.strokeRect(2, 2, 188, 42); g.fillStyle = "#8e9aa8"; g.fillRect(0, 40, 192, 5); g.strokeRect(0, 40, 192, 5);
-  g.fillStyle = "#fff6e5"; g.fillRect(4, 45, 184, 66); g.strokeRect(4, 45, 184, 66);
+  g.fillStyle = "#fbf8f3"; g.fillRect(4, 45, 184, 66); g.strokeRect(4, 45, 184, 66);
   g.fillStyle = K.yellow; g.fillRect(5, 46, 182, 6);
   g.fillStyle = "rgba(11,37,102,.08)"; g.fillRect(5, 101, 182, 9);
   glass(g, 14, 62, 40, 28); glass(g, 138, 62, 40, 28);
@@ -494,15 +494,15 @@ function paintAltar(g) { // 96×46, en (5T, 4T-14)
   g.fillStyle = "rgba(11,37,102,.18)"; g.fillRect(4, 42, 90, 4);
   g.fillStyle = "#e7e1d6"; g.strokeStyle = OL; g.lineWidth = 2; g.fillRect(2, 8, 92, 36); g.strokeRect(2, 8, 92, 36);
   g.fillStyle = "#fff"; g.fillRect(0, 4, 96, 12); g.strokeRect(0, 4, 96, 12);
-  g.fillStyle = "#fbfaf6"; g.fillRect(6, 16, 84, 22); g.strokeStyle = "#d9a520"; g.lineWidth = 2; g.strokeRect(9, 18, 78, 18);
-  g.fillStyle = "#d9a520"; g.fillRect(46, 20, 4, 14); g.fillRect(41, 24, 14, 4);
-  for (const x of [12, 84]) { g.fillStyle = "#d9a520"; g.strokeStyle = OL; g.lineWidth = 1.2; g.fillRect(x - 4, 6, 8, 3); g.fillRect(x - 1.5, -6, 3, 12); g.fillStyle = "#fffdf6"; g.fillRect(x - 2.5, -16, 5, 11); g.strokeRect(x - 2.5, -16, 5, 11); }
+  g.fillStyle = "#fbfaf6"; g.fillRect(6, 16, 84, 22); g.strokeStyle = "#e0a800"; g.lineWidth = 2; g.strokeRect(9, 18, 78, 18);
+  g.fillStyle = "#e0a800"; g.fillRect(46, 20, 4, 14); g.fillRect(41, 24, 14, 4);
+  for (const x of [12, 84]) { g.fillStyle = "#e0a800"; g.strokeStyle = OL; g.lineWidth = 1.2; g.fillRect(x - 4, 6, 8, 3); g.fillRect(x - 1.5, -6, 3, 12); g.fillStyle = "#fffdf6"; g.fillRect(x - 2.5, -16, 5, 11); g.strokeRect(x - 2.5, -16, 5, 11); }
 }
 function paintAmbon(g) { // 32×46
   g.fillStyle = "rgba(11,37,102,.18)"; g.beginPath(); g.ellipse(16, 44, 12, 3, 0, 0, 7); g.fill();
   g.strokeStyle = OL; g.lineWidth = 1.6; g.fillStyle = K.wood; g.fillRect(9, 16, 14, 28); g.strokeRect(9, 16, 14, 28); g.fillRect(5, 40, 22, 5); g.strokeRect(5, 40, 22, 5);
   g.fillStyle = "#c98e58"; g.beginPath(); g.moveTo(2, 18); g.lineTo(30, 18); g.lineTo(27, 6); g.lineTo(5, 6); g.closePath(); g.fill(); g.stroke();
-  g.fillStyle = "#d9a520"; g.fillRect(14, 24, 4, 12); g.fillRect(11, 28, 10, 3);
+  g.fillStyle = "#e0a800"; g.fillRect(14, 24, 4, 12); g.fillRect(11, 28, 10, 3);
 }
 function paintSede(g) { // 32×36
   g.strokeStyle = OL; g.lineWidth = 1.5; g.fillStyle = "#8f5c32"; g.fillRect(6, 0, 20, 18); g.strokeRect(6, 0, 20, 18); g.fillStyle = "#9c2f3a"; g.fillRect(9, 3, 14, 12);
@@ -520,7 +520,7 @@ function paintVirgen(g) { // 32×60, base (16,58)
   g.fillStyle = "#fbfaf6"; g.beginPath(); g.moveTo(10, 44); g.lineTo(12, 18); g.lineTo(20, 18); g.lineTo(22, 44); g.closePath(); g.fill(); g.stroke();
   g.fillStyle = K.blue; g.beginPath(); g.moveTo(16, 6); g.quadraticCurveTo(4, 14, 7, 44); g.lineTo(11, 44); g.quadraticCurveTo(10, 24, 16, 14); g.quadraticCurveTo(22, 24, 21, 44); g.lineTo(25, 44); g.quadraticCurveTo(28, 14, 16, 6); g.fill(); g.stroke();
   g.fillStyle = "#f2d2b3"; g.beginPath(); g.arc(16, 13, 4.5, 0, 7); g.fill(); g.stroke(); g.fillRect(14, 24, 4, 5);
-  g.strokeStyle = "#d9a520"; g.lineWidth = 1.5; g.beginPath(); g.arc(16, 12, 8, Math.PI * 1.1, Math.PI * 1.9); g.stroke();
+  g.strokeStyle = "#e0a800"; g.lineWidth = 1.5; g.beginPath(); g.arc(16, 12, 8, Math.PI * 1.1, Math.PI * 1.9); g.stroke();
 }
 function paintMiguel(g) { // 32×60
   g.strokeStyle = OL; g.lineWidth = 1.5; g.fillStyle = "#cfc6b6"; g.fillRect(4, 44, 24, 14); g.strokeRect(4, 44, 24, 14);
@@ -566,14 +566,14 @@ function paintPapelografo(g) { // 32×58
 }
 function paintShelf(g, i) { // 64×42
   g.strokeStyle = OL; g.lineWidth = 1.6; g.fillStyle = "#7a4d2a"; g.fillRect(1, 0, 62, 40); g.strokeRect(1, 0, 62, 40);
-  const cols = ["#1351a4", "#ef591c", "#ffba03", "#3aa57a", "#9c2f3a", "#8ad2fa", "#f3efe6", "#555b6e"];
+  const cols = ["#3d6bf0", "#f4562a", "#ffc93c", "#3aa57a", "#9c2f3a", "#9fd8ff", "#f3efe6", "#555b6e"];
   for (let r = 0; r < 3; r++) { g.fillStyle = "#5a3820"; g.fillRect(4, 3 + r * 12, 56, 11); let x = 5; while (x < 58) { const w = 3 + Math.floor(hash(i, x, r) * 4), h = 7 + Math.floor(hash(x, i, r) * 4); g.fillStyle = cols[Math.floor(hash(x, r, i + 3) * cols.length)]; g.fillRect(x, 14 + r * 12 - h, w, h); x += w + 1; } }
   g.fillStyle = "#e9dcc2"; g.fillRect(16, 34, 32, 6); g.strokeRect(16, 34, 32, 6);
 }
 function paintTablaLectura(g) { // 128×64
   g.fillStyle = "rgba(11,37,102,.15)"; g.fillRect(8, 58, 112, 5);
   g.strokeStyle = OL; g.lineWidth = 1.6; g.fillStyle = "#9a6a3e"; g.fillRect(4, 8, 120, 46); g.strokeRect(4, 8, 120, 46); g.fillStyle = "rgba(255,255,255,.12)"; g.fillRect(6, 10, 116, 4);
-  for (const x of [28, 100]) { g.fillStyle = "#d9a520"; g.fillRect(x - 1, 14, 2, 10); g.fillStyle = "#2f7a55"; g.beginPath(); g.moveTo(x - 9, 16); g.lineTo(x + 9, 16); g.lineTo(x + 5, 8); g.lineTo(x - 5, 8); g.closePath(); g.fill(); g.stroke(); }
+  for (const x of [28, 100]) { g.fillStyle = "#e0a800"; g.fillRect(x - 1, 14, 2, 10); g.fillStyle = "#2f7a55"; g.beginPath(); g.moveTo(x - 9, 16); g.lineTo(x + 9, 16); g.lineTo(x + 5, 8); g.lineTo(x - 5, 8); g.closePath(); g.fill(); g.stroke(); }
   g.fillStyle = "#fff"; g.fillRect(52, 26, 24, 16); g.strokeRect(52, 26, 24, 16); g.beginPath(); g.moveTo(64, 26); g.lineTo(64, 42); g.stroke();
   g.fillStyle = K.blue; g.fillRect(14, 34, 16, 10); g.strokeRect(14, 34, 16, 10); g.fillStyle = K.orange; g.fillRect(94, 32, 14, 12); g.strokeRect(94, 32, 14, 12);
 }
@@ -581,7 +581,7 @@ function paintCocina(g) { // 64×44
   g.strokeStyle = OL; g.lineWidth = 1.6; g.fillStyle = "#2e3038"; g.fillRect(2, 8, 60, 34); g.strokeRect(2, 8, 60, 34);
   g.fillStyle = "#4a4d58"; g.fillRect(0, 4, 64, 8); g.strokeRect(0, 4, 64, 8); g.fillStyle = "rgba(255,255,255,.18)"; g.fillRect(2, 5, 60, 2);
   g.fillStyle = "#555"; g.fillRect(6, 18, 22, 16); g.strokeRect(6, 18, 22, 16);
-  g.fillStyle = "#d9a520"; g.fillRect(40, 20, 16, 3); g.fillRect(40, 30, 16, 3);
+  g.fillStyle = "#e0a800"; g.fillRect(40, 20, 16, 3); g.fillRect(40, 30, 16, 3);
   g.fillStyle = "#3a3a44"; g.fillRect(20, -4, 8, 10);
   g.fillStyle = "#6b6f7a"; g.beginPath(); g.ellipse(46, 2, 9, 6, 0, 0, 7); g.fill(); g.stroke(); g.beginPath(); g.moveTo(54, 2); g.lineTo(60, -2); g.stroke();
 }
@@ -597,7 +597,7 @@ function paintMesaCasa(g) { // 64×64
 function paintAparador(g) { // 32×46
   g.strokeStyle = OL; g.lineWidth = 1.6; g.fillStyle = K.wood2; g.fillRect(2, 14, 28, 30); g.strokeRect(2, 14, 28, 30);
   g.strokeRect(5, 20, 10, 20); g.strokeRect(17, 20, 10, 20);
-  g.fillStyle = "#d9a520"; g.fillRect(6, 0, 14, 16); g.fillStyle = "#efe1c6"; g.fillRect(8, 2, 10, 12); g.fillStyle = "#c9a27e"; g.beginPath(); g.arc(11, 8, 2.5, 0, 7); g.arc(15, 8, 2.5, 0, 7); g.fill();
+  g.fillStyle = "#e0a800"; g.fillRect(6, 0, 14, 16); g.fillStyle = "#efe1c6"; g.fillRect(8, 2, 10, 12); g.fillStyle = "#c9a27e"; g.beginPath(); g.arc(11, 8, 2.5, 0, 7); g.arc(15, 8, 2.5, 0, 7); g.fill();
   g.fillStyle = "#4e9a5c"; g.beginPath(); g.arc(25, 8, 5, 0, 7); g.fill(); g.fillStyle = "#b8653a"; g.fillRect(22, 10, 6, 5);
 }
 function paintSofa(g) { // 32×64
@@ -615,8 +615,8 @@ function paintSillon(g) { // 32×32 (mimbre, mirando a la derecha)
 function flame(x, y, t, s = 1) {
   const f = Math.sin(t * 9 + x) * .8;
   g2.fillStyle = "rgba(255,200,80,.35)"; g2.beginPath(); g2.arc(x, y - 2 * s, 6 * s, 0, 7); g2.fill();
-  g2.fillStyle = "#ffba03"; g2.beginPath(); g2.moveTo(x - 2.4 * s, y); g2.quadraticCurveTo(x + f, y - 9 * s, x + 2.4 * s, y); g2.closePath(); g2.fill();
-  g2.fillStyle = "#fff6e5"; g2.beginPath(); g2.ellipse(x, y - 1.5 * s, 1 * s, 2.2 * s, 0, 0, 7); g2.fill();
+  g2.fillStyle = "#ffc93c"; g2.beginPath(); g2.moveTo(x - 2.4 * s, y); g2.quadraticCurveTo(x + f, y - 9 * s, x + 2.4 * s, y); g2.closePath(); g2.fill();
+  g2.fillStyle = "#fbf8f3"; g2.beginPath(); g2.ellipse(x, y - 1.5 * s, 1 * s, 2.2 * s, 0, 0, 7); g2.fill();
 }
 function smoke(x, y, t) { for (let i = 0; i < 4; i++) { const p = ((t * .35 + i / 4) % 1); g2.fillStyle = `rgba(230,230,235,${.55 * (1 - p)})`; g2.beginPath(); g2.arc(x + Math.sin(p * 6 + i) * 5 + p * 10, y - p * 40, 4 + p * 8, 0, 7); g2.fill(); } }
 function fountain(t) {
@@ -746,7 +746,7 @@ function person(x, y, look, o = {}) {
   if (o.robe || o.alb) {
     g.fillStyle = o.alb ? "#fbfaf6" : look.shirt; g.strokeStyle = OL; g.lineWidth = 1.6;
     g.beginPath(); g.moveTo(-7, -4); g.lineTo(7, -4); g.lineTo(10, o.sit ? 8 : 13); g.lineTo(-10, o.sit ? 8 : 13); g.closePath(); g.fill(); g.stroke();
-    if (o.alb) { g.fillStyle = "#fffdf4"; g.beginPath(); g.moveTo(-10, -3); g.lineTo(10, -3); g.lineTo(9, 9); g.quadraticCurveTo(0, 12, -9, 9); g.closePath(); g.fill(); g.stroke(); g.strokeStyle = "#d9a520"; g.lineWidth = 2.2; g.beginPath(); g.moveTo(0, -2); g.lineTo(0, 10); g.moveTo(-5, 2); g.lineTo(5, 2); g.stroke(); }
+    if (o.alb) { g.fillStyle = "#fffdf4"; g.beginPath(); g.moveTo(-10, -3); g.lineTo(10, -3); g.lineTo(9, 9); g.quadraticCurveTo(0, 12, -9, 9); g.closePath(); g.fill(); g.stroke(); g.strokeStyle = "#e0a800"; g.lineWidth = 2.2; g.beginPath(); g.moveTo(0, -2); g.lineTo(0, 10); g.moveTo(-5, 2); g.lineTo(5, 2); g.stroke(); }
     else { g.strokeStyle = "#c98e63"; g.lineWidth = 2; g.beginPath(); g.moveTo(-7, 3); g.lineTo(7, 3); g.stroke(); }
     if (moving) { g.fillStyle = "#6b4423"; g.fillRect(-5 + sw, 12, 4, 2); g.fillRect(1 - sw, 12, 4, 2); }
     const ax = side ? [0] : [-7, 7];
@@ -1466,7 +1466,7 @@ function underlay(t, v) {
   } else if (S.scene === "capilla") { // lámpara del Santísimo
     const x = 7.5 * T + 2, y = 2 * T + 2, f = Math.sin(t * 7) * .6;
     g2.strokeStyle = "#8a6510"; g2.lineWidth = 1.5; g2.beginPath(); g2.moveTo(x, y - 30); g2.lineTo(x, y - 10); g2.stroke();
-    g2.fillStyle = "#d9a520"; g2.fillRect(x - 5, y - 10, 10, 3);
+    g2.fillStyle = "#e0a800"; g2.fillRect(x - 5, y - 10, 10, 3);
     g2.fillStyle = "#c0242e"; g2.strokeStyle = OL; g2.lineWidth = 1.2; g2.beginPath(); g2.moveTo(x - 5, y - 7); g2.lineTo(x + 5, y - 7); g2.lineTo(x + 3, y + 5); g2.lineTo(x - 3, y + 5); g2.closePath(); g2.fill(); g2.stroke();
     g2.fillStyle = "#ffd76a"; g2.beginPath(); g2.ellipse(x + f * .4, y - 2, 1.4, 2.6, 0, 0, 7); g2.fill();
   } else if (S.scene === "salon") flame(7 * T + 13, 5 * T + 11, t, .8);
@@ -1690,7 +1690,7 @@ function paintDlg() {
       ${dlg.miss ? `<p class="em-hint">${esc(l.hint || "Inténtalo otra vez.")}</p>` : ""}</div></div>`;
     return;
   }
-  d.innerHTML = `${w && w.big ? `<img class="em-scene" src="${stickerSrc(w.st, "#ffba03")}" alt="">` : ""}
+  d.innerHTML = `${w && w.big ? `<img class="em-scene" src="${stickerSrc(w.st, "#ffc93c")}" alt="">` : ""}
     <div class="em-box">${portrait(w)}<div class="em-txt">${w && w.n ? `<b>${esc(w.n)}</b>` : ""}<p>${esc(l.t)}</p>
     ${l.ch ? `<div class="em-ch">${l.ch.map((c, i) => `<button data-action="emChoose" data-i="${i}">${esc(c[0])}</button>`).join("")}</div>` : `<span class="em-more">Toca para seguir</span>`}</div></div>`;
 }
@@ -1706,7 +1706,7 @@ function pickOrder(i) {
 const hideCards = () => { const el = $("#emStart"); if (el) el.innerHTML = ""; };
 function startScreen() {
   $("#emStart").innerHTML = `<div class="em-start"><div class="em-card">
-    <img src="${stickerSrc("emaus", "#ffba03")}" alt="" class="em-hero">
+    <img src="${stickerSrc("emaus", "#ffc93c")}" alt="" class="em-hero">
     <h1>Emaús</h1><p class="em-k">El arte de encontrarnos · 6 capítulos</p>
     <p class="em-sub">Llegas a un pueblo donde no conoces a nadie. Sábado a sábado encuentras amigos, aprendes a acoger, a escuchar y a cuidar… y un Caminante te acompaña en cada encuentro.</p>
     ${S.invited ? `<p class="em-inv">Te invitó ${esc(S.invited)}: empiezas con un compañero de camino que te muestra hacia dónde ir.</p>` : ""}
@@ -1723,7 +1723,7 @@ function chaptersScreen() {
     <ol class="em-list">${CHAPTERS.map((c) => {
       const done = S.cd.includes(c.n), open = done || c.n <= nextN;
       return `<li><button data-action="emChap" data-n="${c.n}" ${open ? "" : "disabled"} class="${done ? "done" : ""} ${c.n === nextN && !done ? "next" : ""}">
-        <img src="${stickerSrc(c.st, done ? "#ffba03" : "#8ad2fa")}" alt=""><span><small>Capítulo ${c.n}${done ? " · completado" : open ? "" : " · bloqueado"}</small><b>${esc(c.title)}</b><em>${esc(c.mod)}</em></span></button></li>`;
+        <img src="${stickerSrc(c.st, done ? "#ffc93c" : "#9fd8ff")}" alt=""><span><small>Capítulo ${c.n}${done ? " · completado" : open ? "" : " · bloqueado"}</small><b>${esc(c.title)}</b><em>${esc(c.mod)}</em></span></button></li>`;
     }).join("")}</ol>
     <button class="btn btn-gold btn-sm" data-action="emInvite">Invitar a alguien a jugar</button>
     <a class="em-back" href="#/juegos">Volver a los juegos</a></div></div>`;
@@ -1731,7 +1731,7 @@ function chaptersScreen() {
 function chapterCard(c) {
   const nxt = CHAPTERS[c.n];
   $("#emStart").innerHTML = `<div class="em-start"><div class="em-card">
-    <img src="${stickerSrc(c.st, "#ffba03")}" alt="" class="em-hero">
+    <img src="${stickerSrc(c.st, "#ffc93c")}" alt="" class="em-hero">
     <p class="em-k">Capítulo ${c.n} completado · ${esc(c.badge)}</p>
     <h1 class="em-h2">${esc(c.title)}</h1>
     <p class="em-sub">${esc(c.end.idea)}</p>
@@ -1742,7 +1742,7 @@ function chapterCard(c) {
 }
 function endScreen() {
   $("#emStart").innerHTML = `<div class="em-start em-end"><div class="em-card">
-    <img src="${stickerSrc("eucaristia", "#ffba03")}" alt="" class="em-hero">
+    <img src="${stickerSrc("eucaristia", "#ffc93c")}" alt="" class="em-hero">
     <h1 class="em-h2">Lo reconocieron al partir el pan</h1>
     <p class="em-sub">Jesús camina contigo aunque no siempre lo reconozcas. Lo encuentras en la misa, en su Palabra y en una comunidad que no deja a nadie solo. Y desde ahí, te envía.</p>
     <p class="small">Inspirado en Lucas 24,13-35 y en el curso «El Arte de Encontrarnos».</p>

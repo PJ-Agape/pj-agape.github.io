@@ -25,7 +25,7 @@ export async function adminView() {
     <section class="card ap-card">
       <h3>Toda la app</h3>
       <div class="ap-row"><label class="ap-lbl" for="apPaper">Color de fondo de la app</label>
-        <input type="color" id="apPaper" value="${esc(g.paper || "#fff6e5")}">
+        <input type="color" id="apPaper" value="${esc(g.paper || "#fbf8f3")}">
         <button type="button" class="btn btn-sm btn-ghost" data-action="apPaperReset">Como viene</button>
         <button type="button" class="btn btn-sm btn-primary" data-action="apPaperSave">Guardar</button></div>
     </section>
@@ -190,7 +190,7 @@ function prevHTML(z) {
   const d = draft[z.id], f = d.fondo || {}, c = d.colores || {};
   const img = f.tipo === "galeria" ? A.fondoUrl(f.k) : f.tipo === "foto" ? (d._foto || "") : !f.tipo && z.fondoDef ? A.fondoUrl(z.fondoDef) : "";
   const velo = f.velo != null ? f.velo : 40;
-  const bg = c.bg || (z.plaza ? "#fde6d4" : "#fff6e5");
+  const bg = c.bg || (z.plaza ? "#fde6d4" : "#fbf8f3");
   const stk = d.sticker === "ninguno" ? "" : d.sticker || z.stk;
   const txt = (s) => { const t = (z.t || []).find((x) => x[0] === s); return t ? ((d.textos || {})[s] || t[2]) : ""; };
   const hand = (z.t || []).find((x) => /hand|eyebrow/.test(x[0]));
@@ -258,7 +258,7 @@ function textosHTML(z) {
     ${z.t.map(([s, l, def], i) => {
       const long = def.length > 60, id = `apT-${z.id}-${i}`, f = F[s] || {};
       const fmt = `<div class="ap-fmt" role="group" aria-label="Formato de «${esc(l)}»">
-        <label class="ap-fmt-c" title="Color de este texto"><input type="color" value="${esc(f.c || "#0b2566")}" data-ap="fc" data-z="${z.id}" data-s="${esc(s)}"><span>${f.c ? "Color" : "Color: como viene"}</span></label>
+        <label class="ap-fmt-c" title="Color de este texto"><input type="color" value="${esc(f.c || "#1e1f3b")}" data-ap="fc" data-z="${z.id}" data-s="${esc(s)}"><span>${f.c ? "Color" : "Color: como viene"}</span></label>
         ${f.c ? `<button type="button" class="ap-fmt-x" data-action="apFmt" data-k="c" data-z="${z.id}" data-s="${esc(s)}" aria-label="Color como viene">×</button>` : ""}
         <select class="ap-fmt-z" data-ap="fz" data-z="${z.id}" data-s="${esc(s)}" aria-label="Tamaño">${TAMS.map(([v, n]) => `<option value="${v}" ${(f.z || 100) === v ? "selected" : ""}>${n}</option>`).join("")}</select>
         <button type="button" class="ap-fmt-b${f.b ? " on" : ""}" data-action="apFmt" data-k="b" data-z="${z.id}" data-s="${esc(s)}" aria-pressed="${!!f.b}" title="Negrita"><b>N</b></button>
@@ -278,11 +278,11 @@ function coloresHTML(z) {
       <input type="color" id="apC-${z.id}-${k}" value="${esc(c[k] || def)}" data-ap="c" data-k="${k}" data-z="${z.id}">
       ${c[k] ? `<button type="button" class="btn btn-sm btn-ghost" data-action="apCol" data-z="${z.id}" data-k="${k}">Como viene</button>` : `<span class="xs muted">como viene</span>`}</div>`;
   return `<fieldset class="ap-sec"><legend>Colores</legend>
-    ${row("bg", "Fondo de la tarjeta", z.plaza ? "#fde6d4" : "#fff6e5")}
-    ${row("ink", "Color del título", "#0b2566")}
-    ${row("accent", "Color de la frase y lo destacado", "#ef591c")}
-    ${row("btn", "Color de los botones", "#ffba03")}
-    ${row("btnt", "Color del texto de los botones", "#0b2566")}
+    ${row("bg", "Fondo de la tarjeta", z.plaza ? "#fde6d4" : "#fbf8f3")}
+    ${row("ink", "Color del título", "#1e1f3b")}
+    ${row("accent", "Color de la frase y lo destacado", "#f4562a")}
+    ${row("btn", "Color de los botones", "#ffc93c")}
+    ${row("btnt", "Color del texto de los botones", "#1e1f3b")}
   </fieldset>`;
 }
 

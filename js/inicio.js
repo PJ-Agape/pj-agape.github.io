@@ -37,16 +37,16 @@ function who() {
 // Los tres bloques y todo lo que hay dentro
 // ---------------------------------------------------------------------------
 export const BLOCKS = {
-  formacion: { t: "Recursos", hand: "para preparar y compartir", href: "#/recursos", ill: "biblia", c: "#1351a4", soft: "#e1f3fd",
-    d: "Materiales, presentaciones, dinámicas y la guía de agAPPe." },
-  red: { t: "Comunidad", hand: "para encontrarnos", href: "#/red", ill: "amigos", c: "#ef591c", soft: "#fde0d2",
-    d: "El muro, el chat, la agenda y todo lo que compartimos como grupo." },
+  formacion: { t: "Recursos", hand: "para preparar y compartir", href: "#/recursos", ill: "biblia", c: "#3d6bf0", soft: "#e6f4ff",
+    d: "Materiales, dinámicas y la guía de la app." },
+  red: { t: "Comunidad", hand: "para encontrarnos", href: "#/red", ill: "amigos", c: "#f4562a", soft: "#ffe3da",
+    d: "Aquí nos encontramos." },
   espiritu: { t: "Orar", hand: "para rezar", href: "#/oracion", ill: "jesus", c: "#c98a00", soft: "#fff0c2",
-    d: "La Capilla: el Evangelio del día, intenciones, oraciones, cantos y radios católicas." },
+    d: "El Evangelio de hoy, oraciones, velas y cantos." },
 };
 // e: emoji · t: título · d: descripción · kw: palabras para el buscador · ok: quién lo ve
 const ITEMS = [
-  { b: "formacion", e: "", t: "Guía de agAPPe", d: "Cómo funciona la app: sus rincones, tu cuenta y dónde pedir ayuda.", href: "#/guia", kw: "guia tutorial bienvenido agappe manual como funciona ayuda usar app", ok: () => true },
+  { b: "formacion", e: "", t: "Guía de agAPPe", d: "Cómo usar la app, paso a paso.", href: "#/guia", kw: "guia tutorial bienvenido agappe manual como funciona ayuda usar app", ok: () => true },
   { b: "formacion", e: "", t: "Presentaciones", d: "Para proyectar en los encuentros, a pantalla completa.", href: "#/recursos?f=presentaciones", kw: "presentaciones diapositivas proyectar charla", ok: (w) => w.equipo || w.asp },
     { b: "formacion", e: "", t: "Credenciales", d: "Tarjetas de solapa con foto, nombre y parroquia para los encuentros.", href: "#/credenciales", kw: "credenciales credencial tarjeta solapa lanyard portacredencial gafete nombre encuentro retiro", ok: (w) => w.equipo || w.asp },
   { b: "formacion", e: "", t: "Materiales", d: "Presentaciones, guías, banco de dinámicas y todo lo que se imprime.", href: "#/recursos", kw: "materiales recursos documentos biblioteca links imprimir presentaciones guias dinamicas credenciales", ok: (w) => w.equipo || w.asp },
@@ -62,9 +62,9 @@ const ITEMS = [
   // El equipo encuentra la difusión y la guía de servicio en Materiales; los jóvenes (sin Materiales) siguen viendo la difusión aquí.
   { b: "red", e: "", t: "Estudio de difusión", d: "Marco de foto, historias, fondos y stickers.", href: "#/difusion", kw: "difusion stickers fondos de pantalla marco foto historias invitacion afiche", ok: (w) => w.cuenta, hub: (w) => !w.equipo },
   { b: "red", e: "", t: "Guía de servicio", d: "Presentación: identidad, roles, cargos y reuniones.", href: "presentaciones/guia-de-servicio.html", ext: true, kw: "guia servicio pastoral identidad roles cargos reuniones comunidad presentacion", ok: (w) => w.equipo, hub: false },
-  { b: "espiritu", e: "", t: "Nuestra Capilla", d: "Silencio, intenciones, la Palabra y María: un lugar para estar con Jesús.", href: "#/oracion", kw: "capilla oracion rezar velas intenciones espiritualidad", ok: () => true },
+  { b: "espiritu", e: "", t: "Nuestra Capilla", d: "Un lugar para estar con Jesús.", href: "#/oracion", kw: "capilla oracion rezar velas intenciones espiritualidad", ok: () => true },
   { b: "espiritu", e: "", t: "Evangelio del día", d: "La Palabra de hoy.", href: "#/evangelio", kw: "evangelio palabra lectura hoy biblia", ok: () => true },
-  { b: "espiritu", e: "", t: "Recemos juntos", d: "Nuestras oraciones y las de siempre: Padre nuestro, Ave María, Credo y más.", href: "#/oremus", kw: "oraciones devocionario rezar oremus", ok: () => true },
+  { b: "espiritu", e: "", t: "Recemos juntos", d: "Padre nuestro, Ave María y más oraciones.", href: "#/oremus", kw: "oraciones devocionario rezar oremus", ok: () => true },
   { b: "espiritu", e: "", t: "Rezar el Rosario", d: "Paso a paso, cuenta a cuenta, con María.", href: "#/oracion/rosario", kw: "maria virgen rosario misterios", ok: () => true },
   { b: "espiritu", e: "", t: "Nuestras intenciones", d: "Comparte tu intención y reza por las de otros.", href: "#/oracion/velas", kw: "vela intencion rezar por", ok: () => true },
   { b: "espiritu", e: "", t: "Oremos con los salmos", d: "Un salmo para cada momento y cómo rezarlo.", href: "#/salmos", kw: "salmos salmo orar rezar biblia lectio pastor miedo triste gracias perdon", ok: () => true },
@@ -74,7 +74,7 @@ const ITEMS = [
 ];
 const descFor = (k, w) => k !== "formacion" ? BLOCKS[k].d
   : w.equipo ? BLOCKS.formacion.d
-  : "Materiales para invitar, cantar y rezar, y la guía de agAPPe.";
+  : "Para invitar, cantar y rezar.";
 export const itemsFor = (b) => { const w = who(); return ITEMS.filter((x) => x.b === b && x.ok(w)); };
 const inHub = (x) => { const h = x.hub; return h === undefined ? true : typeof h === "function" ? h(who()) : h; };
 const itemCard = (x) => x.links ? `<div class="card hub-item hub-multi">
@@ -182,7 +182,7 @@ export function refreshInicioCfg(repaint) {
 }
 export function viewRed() {
   const b = BLOCKS.red;
-  return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">Bloque 2 · ${esc(b.hand)}</span><h1>Comunidad</h1><p>${esc(b.d)}</p></header>
+  return `<header class="page-head hub-head" style="--bc:${b.c}"><span class="eyebrow">${esc(b.hand)}</span><h1>Comunidad</h1><p>${esc(b.d)}</p></header>
   <div id="desafioSlot" class="red-desafio"></div>
   <div class="ag-panel-slot" data-ag-panel="todas"></div>
   <a class="card link red-cal" href="#/agenda">
@@ -242,10 +242,30 @@ async function loadAgenda() {
   if (agendaCache) return;
   try { agendaCache = (await cloud.listAgenda()).filter((e) => e.title); } catch { agendaCache = []; }
 }
+// Menú: todo lo que hay en la app, en una sola lista corta por zona.
+export function viewMenu() {
+  const w = who(), visto = new Set();
+  const fila = (x) => { if (visto.has(x.href)) return ""; visto.add(x.href);
+    return `<a class="menu-row" href="${esc(x.href)}" ${x.ext ? 'target="_blank" rel="noopener"' : ""}><b>${esc(x.t)}</b><span>${esc(x.d)}</span>${icon("right")}</a>`; };
+  const zona = (k, ic, extra = []) => { const b = BLOCKS[k];
+    return `<section class="menu-zona" style="--c:${b.c};--s:${b.soft}"><a class="menu-h" href="${b.href}"><i>${icon(ic)}</i><h2>${esc(b.t)}</h2><span>${esc(b.hand)}</span></a>
+      ${[...extra, ...ITEMS.filter((x) => x.b === k && x.ok(w))].map(fila).join("")}</section>`; };
+  return `<header class="page-head"><span class="eyebrow">Menú</span><h1>Todo en <em>un lugar</em></h1><p>¿Buscas algo? Está aquí.</p></header>
+    <a class="menu-buscar" href="#/buscar">${icon("search")} Buscar por nombre</a>
+    <div class="menu-grid">
+      ${zona("espiritu", "flame")}
+      ${zona("red", "users", [{ t: "Momentos", d: "Las fotos del grupo.", href: "#/momentos" }])}
+      ${zona("formacion", "book")}
+      <section class="menu-zona" style="--c:var(--cn);--s:var(--cb-s)"><span class="menu-h"><i>${icon("gear")}</i><h2>Tu espacio</h2><span>para ti</span></span>
+        ${[{ t: w.guest ? "Ingresar" : "Mi cuenta", d: "Tus datos, tu avatar y los colores de la app.", href: "#/perfil" },
+          { t: "Pasaporte Ágape", d: "Los sellos que juntas cada mes.", href: "#/sellos" },
+          { t: "Ayuda", d: "Preguntas frecuentes.", href: "#/ayuda" }].map(fila).join("")}</section>
+    </div>`;
+}
 export function viewBuscar(q = "") {
   ctx.onAfterRender(() => { const i = document.getElementById("pageQ"); if (i) { i.focus(); paint("pageQ", true); } });
   return `<header class="page-head"><span class="eyebrow">Buscar</span><h1>¿Qué estás <em>buscando</em>?</h1>
-    <p>Secciones, canciones, oraciones, salmos, dinámicas, actividades y ayuda.</p></header>
+    <p>Escribe una palabra: una canción, una oración, una sección…</p></header>
     <div class="search-page">${searchBox("pageQ", q)}</div>`;
 }
 function paint(id, full) {

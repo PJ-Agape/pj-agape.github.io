@@ -8,12 +8,12 @@ import * as VT from "./vela-tarjeta.js";
 
 // El sello: la cruz al centro y las ondas de la red que salen de ella.
 export const SELLO = (cls = "") => `<svg class="ad-sello ${cls}" viewBox="0 0 80 80" aria-hidden="true">
-  <circle cx="40" cy="40" r="37" fill="#0b2566"/>
-  <circle cx="40" cy="40" r="31" fill="#fff6e5"/>
-  <g fill="none" stroke="#ef591c" stroke-width="3.4" stroke-linecap="round">
+  <circle cx="40" cy="40" r="37" fill="#1e1f3b"/>
+  <circle cx="40" cy="40" r="31" fill="#fbf8f3"/>
+  <g fill="none" stroke="#f4562a" stroke-width="3.4" stroke-linecap="round">
     <path d="M24 30a22 22 0 0 1 32 0"/><path d="M18 24a30 30 0 0 1 44 0" opacity=".55"/></g>
-  <path d="M40 32v26M31 41h18" stroke="#ffba03" stroke-width="6" stroke-linecap="round"/>
-  <path d="M40 32v26M31 41h18" stroke="#0b2566" stroke-width="2" stroke-linecap="round" opacity=".25"/>
+  <path d="M40 32v26M31 41h18" stroke="#ffc93c" stroke-width="6" stroke-linecap="round"/>
+  <path d="M40 32v26M31 41h18" stroke="#1e1f3b" stroke-width="2" stroke-linecap="round" opacity=".25"/>
 </svg>`;
 
 let ctx = null; // { actions, render }

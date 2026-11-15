@@ -10,7 +10,7 @@ import { illus as illusBase, illusConCara } from "./ilustraciones.js";
 const illus = (k) => {
   if (k !== "torta" && k !== "fiesta") return illusBase(k);
   const s = illusConCara(k).replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" ').replace(/var\(--il-bg,\s*#fff\)/g, "#ffffff")
-    .replace(/var\(--il-pop,\s*#ffba03\)/g, "#ffba03").replace(/currentColor/g, "#0b2566");
+    .replace(/var\(--il-pop,\s*#ffc93c\)/g, "#ffc93c").replace(/currentColor/g, "#1e1f3b");
   return `<img class="fi-ill-img" src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(s)}" alt="">`;
 };
 import { avatar } from "./avatares.js";
@@ -130,7 +130,7 @@ function metaTxt(id, quien) {
   const a = [p ? `${p} ${p === 1 ? "persona rezó" : "personas rezaron"}${quien ? " " + quien : ""}` : "", f ? `${f} ${f === 1 ? "saludo" : "saludos"}` : ""].filter(Boolean);
   return a.join(" · ");
 }
-const confeti = () => `<div class="fi-confeti" aria-hidden="true">${Array.from({ length: 26 }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--d:${(i % 7) * 0.35}s;--c:${["#ffba03", "#ef591c", "#8ad2fa", "#0b2566"][i % 4]};--r:${(i * 47) % 360}deg"></i>`).join("")}</div>`;
+const confeti = () => `<div class="fi-confeti" aria-hidden="true">${Array.from({ length: 26 }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--d:${(i % 7) * 0.35}s;--c:${["#ffc93c", "#f4562a", "#9fd8ff", "#1e1f3b"][i % 4]};--r:${(i * 47) % 360}deg"></i>`).join("")}</div>`;
 const firmaForm = (id, n) => `<form class="fi-form" data-fiform="${esc(id)}" hidden>
     <textarea class="textarea" name="t" rows="2" maxlength="280" placeholder="Escríbele algo bonito a ${esc(n)}…">${esc(miFirma(id))}</textarea>
     <div class="row-wrap" style="gap:8px"><button class="btn btn-primary btn-sm" type="submit">${icon("send")} ${miFirma(id) ? "Guardar mi saludo" : "Dejar mi saludo"}</button>
@@ -142,7 +142,7 @@ function cardYo(c) {
     <div class="fi-ill">${illus("torta")}</div>
     <div class="fi-txt"><span class="fi-hand">¡hoy es tu día!</span>
       <h2 id="fiYoT">¡Feliz cumpleaños, ${esc(c.n)}!</h2>
-      <p>Toda la comunidad Ágape da gracias a Dios por tu vida. Hoy encendimos una vela por ti en la Capilla.</p>
+      <p>Hoy damos gracias a Dios por tu vida. Encendimos una vela por ti.</p>
       ${nPrays(c.id) ? `<p class="fi-meta"><b>${nPrays(c.id)}</b> ${nPrays(c.id) === 1 ? "persona rezó" : "personas rezaron"} por ti hoy.</p>` : ""}
       ${fs.length ? `<div class="fi-firmas"><span class="fi-firmas-h">La comunidad te dejó ${fs.length === 1 ? "un saludo" : `${fs.length} saludos`}</span>
         ${fs.map((x) => `<div class="fi-firma">${avatar(x.a || "", x.n || "Alguien", "cap-av")}<p><b>${esc(x.n || "Alguien")}</b>${esc(x.t)}</p></div>`).join("")}</div>`
@@ -157,7 +157,7 @@ function cardCumple(c, n) {
     <div class="fi-ill">${illus("torta")}</div>
     <div class="fi-txt"><span class="fi-hand">${hoy ? "hoy está de cumpleaños" : `${cuando} está de cumpleaños`}</span>
       <h2>${esc(c.n)}</h2>
-      <p>${hoy ? `Regálale una oración y déjale un saludo: lo verá al entrar a la app.` : `Déjale un saludo desde ya: se lo mostramos el día de su cumpleaños.`}</p>
+      <p>${hoy ? `Regálale una oración y un saludo.` : `Déjale un saludo: lo verá el día de su cumpleaños.`}</p>
       <div class="fi-btns">
         ${hoy ? `<button class="btn btn-sm ${yaRece(c.id) ? "btn-soft" : "btn-gold"}" data-action="fiPray" data-id="${esc(c.id)}" data-on="${yaRece(c.id) ? 0 : 1}">${icon("flame")} ${yaRece(c.id) ? "Ya rezaste" : `Rezo por ${esc(c.n)}`}</button>` : ""}
         <button class="btn btn-sm btn-ghost" data-action="fiFirma" data-id="${esc(c.id)}">${miFirma(c.id) ? "Editar mi saludo" : "Dejarle un saludo"}</button></div>
@@ -169,7 +169,7 @@ function cardFecha(f, n) {
   if (n > 0) return `<section class="card fi-card fi-cuenta">
     <div class="fi-num"><b>${n}</b><span>${n === 1 ? "día" : "días"}</span></div>
     <div class="fi-txt"><span class="fi-hand">${n === 1 ? "mañana celebramos" : "se viene"}</span><h2>${esc(f.t)}</h2>
-      <p>${cap(fechaLarga(proxima(f.md).iso))}. ${f.aniv ? "Prepárate para dar gracias por la historia de Ágape." : "Prepárate para celebrar en comunidad."}</p></div></section>`;
+      <p>${cap(fechaLarga(proxima(f.md).iso))}. ${f.aniv ? "Ven a dar gracias con nosotros." : "Lo celebramos juntos."}</p></div></section>`;
   return `<section class="card fi-card fi-fecha">${confeti()}
     <div class="fi-ill">${f.id === "sanmiguel" ? illus("sanmiguel") : illus("fiesta")}</div>
     <div class="fi-txt"><span class="fi-hand">hoy celebramos</span><h2>${f.aniv ? "¡Feliz aniversario, Ágape!" : esc(f.t)}</h2>

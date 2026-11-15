@@ -17,7 +17,7 @@ const me = () => ctx.cloud.myUid();
 // ---------------------------------------------------------------------------
 // Cartas
 // ---------------------------------------------------------------------------
-export const COLORS = { a: ["Azul", "#1351a4"], n: ["Naranja", "#ef591c"], d: ["Dorado", "#ffba03"], c: ["Celeste", "#8ad2fa"] };
+export const COLORS = { a: ["Azul", "#3d6bf0"], n: ["Naranja", "#f4562a"], d: ["Dorado", "#ffc93c"], c: ["Celeste", "#9fd8ff"] };
 const VAL_NAME = { S: "Salta", R: "Reversa", D: "Roba 2", C: "Cambio de color", 4: "Roba 4" };
 const colorOf = (c) => c[0];
 const valOf = (c) => c.slice(1);
@@ -40,10 +40,10 @@ const cardLabel = (c) => (isWild(c) ? VAL_NAME[valOf(c)] : `${VAL_NAME[valOf(c)]
 const SVG = {
   S: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M6.5 17.5 17.5 6.5"/></svg>',
   R: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h11l-3-3M19 15H8l3 3"/></svg>',
-  wheel: '<svg viewBox="0 0 24 24"><path d="M12 12V3a9 9 0 0 1 9 9Z" fill="#1351a4"/><path d="M12 12h9a9 9 0 0 1-9 9Z" fill="#ef591c"/><path d="M12 12v9a9 9 0 0 1-9-9Z" fill="#ffba03"/><path d="M12 12H3a9 9 0 0 1 9-9Z" fill="#8ad2fa"/><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="1.6"/></svg>',
+  wheel: '<svg viewBox="0 0 24 24"><path d="M12 12V3a9 9 0 0 1 9 9Z" fill="#3d6bf0"/><path d="M12 12h9a9 9 0 0 1-9 9Z" fill="#f4562a"/><path d="M12 12v9a9 9 0 0 1-9-9Z" fill="#ffc93c"/><path d="M12 12H3a9 9 0 0 1 9-9Z" fill="#9fd8ff"/><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="1.6"/></svg>',
 };
 function cardHTML(c, { idx = null, ok = false, small = false, color = null } = {}) {
-  const v = valOf(c), wild = isWild(c), bg = wild ? (color ? COLORS[color][1] : "#0b2566") : COLORS[colorOf(c)][1];
+  const v = valOf(c), wild = isWild(c), bg = wild ? (color ? COLORS[color][1] : "#1e1f3b") : COLORS[colorOf(c)][1];
   const mid = v === "S" || v === "R" ? SVG[v] : v === "C" ? SVG.wheel : v === "4" ? `<span>+4</span>` : v === "D" ? "<span>+2</span>" : `<span>${v}</span>`;
   const corner = v === "S" ? "⊘" : v === "R" ? "⇄" : v === "C" ? "" : v === "D" ? "+2" : v === "4" ? "+4" : v;
   const tag = idx == null ? "div" : "button";

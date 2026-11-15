@@ -3,7 +3,7 @@
 @font-face { font-family: "Jakarta"; src: url("../fonts/plus-jakarta-sans-latin-wght-normal.woff2") format("woff2-variations"); font-weight: 200 800; font-display: swap; }
 
 :root {
-  --noche: #0b2566; --azul: #1351a4; --naranja: #ef591c; --crema: #fff6e5; --papel: #fffbf3;
+  --noche: #1e1f3b; --azul: #3d6bf0; --naranja: #f4562a; --crema: #fbf8f3; --papel: #fffbf3;
   --tinta: #1d2640; --suave: #5b6683; --linea: #eadfca; --ok: #2f7d4f; --alerta: #b4442e;
   --radio: 14px; --sombra: 0 1px 2px rgba(59, 42, 26, .08), 0 4px 14px rgba(59, 42, 26, .06);
 }
@@ -20,7 +20,7 @@ a { color: var(--azul); }
 /* Cabecera */
 .cab { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 16px; background: var(--noche); color: #fff; }
 .marca { display: flex; align-items: center; gap: 10px; color: inherit; text-decoration: none; }
-.marca img { border-radius: 50%; box-shadow: 0 0 0 2px #fff6e5; }
+.marca img { border-radius: 50%; box-shadow: 0 0 0 2px #fbf8f3; }
 .marca small { display: block; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
 .ag-app { display: inline-flex; align-items: center; font-family: "Bricolage", sans-serif; font-weight: 800; font-stretch: 80%; letter-spacing: -.03em; font-size: 1.25rem; line-height: 1; color: #fff; }
 .ag-app b { display: inline-block; background: var(--azul); color: var(--crema); border-radius: .33em; padding: .05em .24em .1em; margin: 0 .05em; transform: rotate(-4deg); box-shadow: 2px 2px 0 var(--naranja); }

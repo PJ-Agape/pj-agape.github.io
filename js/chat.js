@@ -24,9 +24,9 @@ function chatOpen() {
   return a === b ? true : a < b ? n >= a && n < b : n >= a || n < b;
 }
 const SALA_ILLUS = { general: "comunidad", coordinacion: "mesa", dirigentes: "equipo", aspirantes: "camino" };
-const SALA_COLOR = { general: "#8ad2fa", coordinacion: "#ffba03", dirigentes: "#1351a4", aspirantes: "#ef591c" };
-const COLORS = ["#8ad2fa", "#ffba03", "#ef591c", "#1351a4", "#fde0d2", "#9be3b0"];
-const colorOf = (s) => s.color || SALA_COLOR[s.key] || "#8ad2fa";
+const SALA_COLOR = { general: "#9fd8ff", coordinacion: "#ffc93c", dirigentes: "#3d6bf0", aspirantes: "#f4562a" };
+const COLORS = ["#9fd8ff", "#ffc93c", "#f4562a", "#3d6bf0", "#ffe3da", "#9be3b0"];
+const colorOf = (s) => s.color || SALA_COLOR[s.key] || "#9fd8ff";
 const illusOf = (s) => (s.illus && SCENE_KEYS.includes(s.illus) ? s.illus : SALA_ILLUS[s.key] || "amigos");
 const ROLE_NAMES = { admin: "Administradores", coordinador: "Coordinadores", dirigente: "Dirigentes", aspirante: "Aspirantes", ingreso: "Jóvenes de Ingreso", madurez: "Jóvenes de Madurez" };
 function accessText(s) {
@@ -93,7 +93,7 @@ export async function viewRooms() {
     </a>${staff && s.custom ? `<button class="icon-btn chat-room-edit" data-action="salaEdit" data-id="${esc(s.key)}" aria-label="Editar sala">${icon("edit")}</button>` : ""}</div>`;
   return `
   <header class="page-head"><span class="eyebrow">Chat de la comunidad</span><h1>Conversemos <em>juntos</em></h1>
-    <p>Salas de grupo para coordinarnos y compartir. Todo lo que se escribe aquí lo ven los integrantes de la sala; para temas personales o privados, usa otro canal con tu acompañante.</p></header>
+    <p>Salas para conversar en grupo. Lo que escribes lo ven todos en la sala; lo personal, háblalo con tu acompañante.</p></header>
   ${tabs("chat")}
   ${g || `${staff ? `<div class="row-wrap" style="margin:10px 0"><button class="btn btn-gold btn-sm" data-action="salaNew">${icon("plus")} Nueva sala</button>${st().isAdmin ? `<button class="btn btn-ghost btn-sm" data-action="chatCfg">Horario y limpieza</button>` : ""}</div>` : ""}
     <div class="chat-rooms">${active.map(card).join("")}</div>

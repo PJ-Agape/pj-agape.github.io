@@ -122,7 +122,7 @@ export function viewWall() {
   const canTopic = s.ready && s.isStaff;
   return `
   <header class="page-head"><span class="eyebrow">Muro de la comunidad</span><h1>Anuncios y <em>conversación</em></h1>
-    <p>Toca un tema para leerlo y conversar. Escribe con el mismo cariño con que hablarías en la reunión.</p></header>
+    <p>Toca un tema para leerlo y comentar. Escribe con cariño.</p></header>
   ${chatTabs("muro")}
   ${s.ready || !ctx.cloud.enabled ? `<a class="card link wall-fotos" href="#/momentos"><span class="wall-fotos-t"><b>Momentos</b><small>Las fotos de lo que vivimos juntos</small></span>
     <span class="wall-fotos-pics" id="wallPics" aria-hidden="true"></span>${icon("right")}</a>` : ""}

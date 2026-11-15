@@ -6,7 +6,7 @@ let uid = 0;
 const P = (d, extra = "") => `<path d="${d}" ${extra}/>`;
 const C = (cx, cy, r, extra = "") => `<circle cx="${cx}" cy="${cy}" r="${r}" ${extra}/>`;
 const FILL = 'fill="currentColor" stroke="none"';
-const POP = 'fill="var(--il-pop, #ffba03)" stroke="currentColor"';
+const POP = 'fill="var(--il-pop, #ffc93c)" stroke="currentColor"';
 
 // Monito: x = centro, y = pies. arms: down | up | out | pray | give | wave | hold | hug
 // Cuerpo «relleno»: cabeza grande, torso redondeado y brazos y piernas como tubos con contorno.
@@ -44,7 +44,7 @@ function fig(x, y, { arms = "down", legs = "stand", face = "smile", s = 1, flip 
   // cabeza y cara
   out += C(X(0), Y(62), k(15.5), 'fill="var(--il-bg, #fff)"');
   const eyes = C(X(-5), Y(64), k(1.7), FILL) + C(X(5), Y(64), k(1.7), FILL);
-  out += C(X(-8.5), Y(59), k(2.2), 'fill="#ef591c" stroke="none" opacity=".28"') + C(X(8.5), Y(59), k(2.2), 'fill="#ef591c" stroke="none" opacity=".28"');
+  out += C(X(-8.5), Y(59), k(2.2), 'fill="#f4562a" stroke="none" opacity=".28"') + C(X(8.5), Y(59), k(2.2), 'fill="#f4562a" stroke="none" opacity=".28"');
   if (face === "smile") out += eyes + P(`M${X(-5.5)} ${Y(58.5)} Q${X(0)} ${Y(53.5)} ${X(5.5)} ${Y(58.5)}`);
   if (face === "calm") out += P(`M${X(-7.5)} ${Y(64)} q2.5 -2.4 5 0 M${X(2.5)} ${Y(64)} q2.5 -2.4 5 0 M${X(-4.5)} ${Y(57.5)} Q${X(0)} ${Y(54)} ${X(4.5)} ${Y(57.5)}`);
   if (face === "wow") out += eyes + C(X(0), Y(56), k(2.8));
@@ -68,8 +68,8 @@ function jesus(x, y, { arms = "out", face = "smile", s = 1, flip = 1 } = {}) {
     hold: `M${X(-8)} ${Y(41)} L${X(-14)} ${Y(32)} M${X(8)} ${Y(41)} L${X(14)} ${Y(32)}`,
     down: `M${X(-8)} ${Y(41)} L${X(-13)} ${Y(26)} M${X(8)} ${Y(41)} L${X(13)} ${Y(26)}`,
   };
-  let out = C(X(0), Y(63), k(22), 'stroke="var(--il-pop, #ffba03)" stroke-width="' + k(3.2) + '" fill="var(--il-bg, #fff)"');
-  out += P(`M${X(0)} ${Y(85)} L${X(0)} ${Y(80)} M${X(-22)} ${Y(63)} L${X(-18)} ${Y(63)} M${X(22)} ${Y(63)} L${X(18)} ${Y(63)}`, `stroke="var(--il-pop, #ffba03)" stroke-width="${k(2.4)}"`);
+  let out = C(X(0), Y(63), k(22), 'stroke="var(--il-pop, #ffc93c)" stroke-width="' + k(3.2) + '" fill="var(--il-bg, #fff)"');
+  out += P(`M${X(0)} ${Y(85)} L${X(0)} ${Y(80)} M${X(-22)} ${Y(63)} L${X(-18)} ${Y(63)} M${X(22)} ${Y(63)} L${X(18)} ${Y(63)}`, `stroke="var(--il-pop, #ffc93c)" stroke-width="${k(2.4)}"`);
   // cabello largo (detrás)
   out += P(`M${X(-16)} ${Y(66)} Q${X(-18)} ${Y(50)} ${X(-15)} ${Y(42)} L${X(15)} ${Y(42)} Q${X(18)} ${Y(50)} ${X(16)} ${Y(66)} Z`, HAIR);
   out += tube(A[arms] || A.out);
@@ -81,7 +81,7 @@ function jesus(x, y, { arms = "out", face = "smile", s = 1, flip = 1 } = {}) {
   out += C(X(0), Y(62), k(15.5), 'fill="var(--il-bg, #fff)"');
   out += P(`M${X(-15.5)} ${Y(64)} A${k(15.5)} ${k(15.5)} 0 0 ${flip > 0 ? 1 : 0} ${X(15.5)} ${Y(64)} Q${X(9)} ${Y(72)} ${X(1)} ${Y(70)} Q${X(-7)} ${Y(73)} ${X(-15.5)} ${Y(64)} Z`, HAIR);
   out += P(`M${X(-12.5)} ${Y(55)} Q${X(-11)} ${Y(46)} ${X(0)} ${Y(45.5)} Q${X(11)} ${Y(46)} ${X(12.5)} ${Y(55)} Q${X(6)} ${Y(50.5)} ${X(0)} ${Y(51)} Q${X(-6)} ${Y(50.5)} ${X(-12.5)} ${Y(55)} Z`, HAIR);
-  out += C(X(-8.5), Y(59), k(2), 'fill="#ef591c" stroke="none" opacity=".25"') + C(X(8.5), Y(59), k(2), 'fill="#ef591c" stroke="none" opacity=".25"');
+  out += C(X(-8.5), Y(59), k(2), 'fill="#f4562a" stroke="none" opacity=".25"') + C(X(8.5), Y(59), k(2), 'fill="#f4562a" stroke="none" opacity=".25"');
   if (face === "calm") out += P(`M${X(-7.5)} ${Y(63)} q2.5 -2.4 5 0 M${X(2.5)} ${Y(63)} q2.5 -2.4 5 0`);
   else out += C(X(-5), Y(63), k(1.7), FILL) + C(X(5), Y(63), k(1.7), FILL);
   out += P(`M${X(-4)} ${Y(57.5)} Q${X(0)} ${Y(54.5)} ${X(4)} ${Y(57.5)}`);
@@ -115,8 +115,8 @@ function person(x, y, o = {}) {
   const armC = shirt || robe || "var(--il-bg, #fff)";
   let out = "";
   if (halo) {
-    out += C(X(0), Y(63), k(22), `stroke="var(--il-pop, #ffba03)" stroke-width="${k(3.2)}" fill="var(--il-bg, #fff)"`);
-    if (stars) out += [...Array(12)].map((_, i) => { const a = Math.PI * (0.1 + i * 0.8 / 11); return C(+(X(0) - Math.cos(a) * k(22)).toFixed(1), +(Y(63) - Math.sin(a) * k(22)).toFixed(1), k(1.6), 'fill="var(--il-pop, #ffba03)" stroke="currentColor" stroke-width="1"'); }).join("");
+    out += C(X(0), Y(63), k(22), `stroke="var(--il-pop, #ffc93c)" stroke-width="${k(3.2)}" fill="var(--il-bg, #fff)"`);
+    if (stars) out += [...Array(12)].map((_, i) => { const a = Math.PI * (0.1 + i * 0.8 / 11); return C(+(X(0) - Math.cos(a) * k(22)).toFixed(1), +(Y(63) - Math.sin(a) * k(22)).toFixed(1), k(1.6), 'fill="var(--il-pop, #ffc93c)" stroke="currentColor" stroke-width="1"'); }).join("");
   }
   if (cape) out += P(`M${X(-10)} ${Y(46)} L${X(-19)} ${Y(8)} L${X(19)} ${Y(8)} L${X(10)} ${Y(46)} Z`, F(cape));
   if (veil) out += P(`M${X(-14)} ${Y(72)} Q${X(-22)} ${Y(50)} ${X(-20)} ${Y(len ? 30 : 12)} L${X(20)} ${Y(len ? 30 : 12)} Q${X(22)} ${Y(50)} ${X(14)} ${Y(72)} Z`, F(veil));
@@ -143,7 +143,7 @@ function person(x, y, o = {}) {
   else if (hair) out += P(`M${X(-15.5)} ${Y(64)} A${k(15.5)} ${k(15.5)} 0 0 ${sw} ${X(15.5)} ${Y(64)} Q${X(9)} ${Y(72)} ${X(1)} ${Y(70)} Q${X(-7)} ${Y(73)} ${X(-15.5)} ${Y(64)} Z`, F(hair));
   if (cap) out += P(`M${X(-9)} ${Y(74.5)} Q${X(0)} ${Y(82)} ${X(9)} ${Y(74.5)} Z`, F(cap));
   if (beard) out += P(`M${X(-12.5)} ${Y(55)} Q${X(-11)} ${Y(46)} ${X(0)} ${Y(45.5)} Q${X(11)} ${Y(46)} ${X(12.5)} ${Y(55)} Q${X(6)} ${Y(50.5)} ${X(0)} ${Y(51)} Q${X(-6)} ${Y(50.5)} ${X(-12.5)} ${Y(55)} Z`, F(beard));
-  out += C(X(-8.5), Y(59), k(2), 'fill="#ef591c" stroke="none" opacity=".25"') + C(X(8.5), Y(59), k(2), 'fill="#ef591c" stroke="none" opacity=".25"');
+  out += C(X(-8.5), Y(59), k(2), 'fill="#f4562a" stroke="none" opacity=".25"') + C(X(8.5), Y(59), k(2), 'fill="#f4562a" stroke="none" opacity=".25"');
   if (face === "calm") out += P(`M${X(-7.5)} ${Y(63)} q2.5 -2.4 5 0 M${X(2.5)} ${Y(63)} q2.5 -2.4 5 0`);
   else out += C(X(-5), Y(63), k(1.7), FILL) + C(X(5), Y(63), k(1.7), FILL);
   out += P(`M${X(-4.5)} ${Y(57.5)} Q${X(0)} ${Y(54)} ${X(4.5)} ${Y(57.5)}`);
@@ -202,7 +202,7 @@ function doll(x, y, o) {
   let out = "";
   if (halo) {
     out += C(X(0), Y(65), k(19), PAPER("#f3cf6a"));
-    if (stars) out += [...Array(12)].map((_, i) => { const a = Math.PI * (0.1 + i * 0.8 / 11); return C(+(X(0) - Math.cos(a) * k(19)).toFixed(1), +(Y(65) - Math.sin(a) * k(19)).toFixed(1), k(1.6), PAPER("#fff6e5")); }).join("");
+    if (stars) out += [...Array(12)].map((_, i) => { const a = Math.PI * (0.1 + i * 0.8 / 11); return C(+(X(0) - Math.cos(a) * k(19)).toFixed(1), +(Y(65) - Math.sin(a) * k(19)).toFixed(1), k(1.6), PAPER("#fbf8f3")); }).join("");
   }
   if (cape) out += P(`M${X(-10)} ${Y(46)} L${X(-20)} ${Y(8)} L${X(20)} ${Y(8)} L${X(10)} ${Y(46)} Z`, PAPER(fillOf(cape)));
   if (veil) out += P(`M${HX(-15)} ${HY(72)} Q${X(-20)} ${Y(50)} ${X(-19)} ${Y(len ? 30 : 10)} L${X(19)} ${Y(len ? 30 : 10)} Q${X(20)} ${Y(50)} ${HX(15)} ${HY(72)} Z`, PAPER(fillOf(veil)));
@@ -265,7 +265,7 @@ function doll(x, y, o) {
   else out += line(`M${HX(-3.8)} ${HY(57.2)} Q${HX(0)} ${HY(gesto ? 54.2 : 54.8)} ${HX(3.8)} ${HY(57.2 - (gesto ? .6 : 0))}`);
   return `<g class="pp-doll">${out}</g>`;
 }
-const MANTO = "#8ad2fa", CAFE = "#8a5a3c", CANA = "#d9d4cc", ROJO = "#e48a68", NAVY = "#1d2c55";
+const MANTO = "#9fd8ff", CAFE = "#8a5a3c", CANA = "#d9d4cc", ROJO = "#e48a68", NAVY = "#1d2c55";
 const lily = (x, y, h = 46) => P(`M${x} ${y} L${x} ${y - h}`, 'stroke-width="2.4"') + P(`M${x} ${y - h} q-8 -4 -6 -12 q4 4 6 4 q2 0 6 -4 q2 8 -6 12 Z`, 'fill="var(--il-bg,#fff)"') + P(`M${x} ${y - h * .55} q-8 -2 -10 -8 M${x} ${y - h * .4} q8 -2 10 -8`, 'stroke-width="2"');
 const mountains = () => P("M0 168 L50 96 L80 128 L120 70 L160 120 L190 94 L240 168", 'fill="var(--il-bg,#fff)"') + P("M108 86 L120 70 L132 86 Q120 82 108 86 Z M182 104 L190 94 L198 104 Q190 101 182 104 Z", 'fill="var(--il-bg,#fff)" stroke-width="2"');
 const ground = (x1 = 10, x2 = 230, y = 168) => P(`M${x1} ${y} q30 -3 60 0 t60 0 t60 0 t40 0`);
@@ -281,7 +281,7 @@ const fish = (x, y) => P(`M${x - 14} ${y} q14 -12 26 0 q-12 12 -26 0 Z M${x + 12
 const crossHill = (x, y) => P(`M${x - 70} ${y} Q${x} ${y - 50} ${x + 70} ${y}`) + P(`M${x} ${y - 36} L${x} ${y - 96} M${x - 18} ${y - 80} L${x + 18} ${y - 80}`, 'stroke-width="4"');
 const dove = (x, y) => P(`M${x - 30} ${y} q20 -4 30 -18 q6 -8 14 -6 q6 2 4 8 l8 2 l-8 4 q-6 14 -24 16 q-14 2 -24 -6 Z`, 'fill="var(--il-bg,#fff)"') + P(`M${x - 6} ${y - 4} q-4 -22 -22 -30 q12 20 4 30`, 'fill="var(--il-bg,#fff)"') + C(x + 13, y - 18, 1.2, FILL);
 const flame = (x, y, s = 1) => P(`M${x} ${y} q${-10 * s} ${-10 * s} 0 ${-24 * s} q${10 * s} ${14 * s} 0 ${24 * s} Z`, POP);
-const drop = (x, y) => P(`M${x} ${y - 6} q-5 8 0 10 q5 -2 0 -10 Z`, 'fill="#8ad2fa" stroke="currentColor" stroke-width="1.8"');
+const drop = (x, y) => P(`M${x} ${y - 6} q-5 8 0 10 q5 -2 0 -10 Z`, 'fill="#9fd8ff" stroke="currentColor" stroke-width="1.8"');
 const wave = (y) => P(`M0 ${y} q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0`);
 const road = () => P("M20 172 C 70 150, 60 120, 110 110 S 190 90, 220 60", 'stroke-dasharray="3 9" stroke-width="3"');
 
@@ -290,16 +290,16 @@ const SCENES = {
   virgen: () => person(120, 170, { arms: "pray", robe: "var(--il-bg,#fff)", veil: MANTO, stars: true, face: "calm" }) + sparkle(70, 70, 5) + sparkle(186, 60) + P("M150 168 q6 -16 14 -6 q6 -12 12 2 q-4 8 -12 4 q-8 6 -14 0 Z M70 168 q6 -14 12 -4 q6 -10 10 2 q-6 6 -11 3 q-6 4 -11 -1 Z", POP) + ground(),
   jose: () => person(110, 170, { arms: "hold", robe: "#d7c49e", hair: CAFE, beard: CAFE, sash: "#9bbf8a" }) + lily(136, 150) + sparkle(186, 64, 5) + ground(),
   sagradafamilia: () => person(70, 170, { arms: "hug", robe: "#d7c49e", hair: CAFE, beard: CAFE, s0: .9 }) + person(170, 170, { arms: "hug", robe: "var(--il-bg,#fff)", veil: MANTO, flip: -1, s0: .9 }) + person(120, 170, { arms: "up", robe: "var(--il-bg,#fff)", sash: ROJO, hair: CAFE, s0: .55 }) + heart(120, 34, 8) + ground(),
-  apostoles: () => [42, 82, 158, 198].map((x, i) => person(x, 170, { arms: i === 0 ? "hold" : i === 3 ? "wave" : "down", robe: ["#d7c49e", "#cfe6c4", "#f3dc9f", "#fde0d2"][i], beard: i % 2 ? null : CAFE, hair: i === 2 ? "#3b2a20" : CAFE, halo: false, flip: x > 120 ? -1 : 1, s0: .72 })).join("")
-    + jesus(120, 170, { arms: "open", s: .85 }) + P("M50 128 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0 M55 133 l0 14 l4 0 M55 142 l4 0", 'stroke="var(--il-pop,#ffba03)" stroke-width="2.6"') + ground(),
+  apostoles: () => [42, 82, 158, 198].map((x, i) => person(x, 170, { arms: i === 0 ? "hold" : i === 3 ? "wave" : "down", robe: ["#d7c49e", "#cfe6c4", "#f3dc9f", "#ffe3da"][i], beard: i % 2 ? null : CAFE, hair: i === 2 ? "#3b2a20" : CAFE, halo: false, flip: x > 120 ? -1 : 1, s0: .72 })).join("")
+    + jesus(120, 170, { arms: "open", s: .85 }) + P("M50 128 a5 5 0 1 0 10 0 a5 5 0 1 0 -10 0 M55 133 l0 14 l4 0 M55 142 l4 0", 'stroke="var(--il-pop,#ffc93c)" stroke-width="2.6"') + ground(),
   anunciacion: () => P("M62 112 q-30 -18 -40 -50 q22 4 34 20 q-10 -14 -4 -30 q16 16 22 46 Z", 'fill="var(--il-bg,#fff)"')
-    + person(70, 170, { arms: "open", robe: "var(--il-bg,#fff)", hair: "#e0b04a", sash: "var(--il-pop,#ffba03)", s0: .9 }) + lily(98, 150, 44)
+    + person(70, 170, { arms: "open", robe: "var(--il-bg,#fff)", hair: "#e0b04a", sash: "var(--il-pop,#ffc93c)", s0: .9 }) + lily(98, 150, 44)
     + person(166, 170, { arms: "pray", robe: "var(--il-bg,#fff)", veil: MANTO, face: "calm", flip: -1, s0: .9 })
-    + P("M138 54 q-10 -12 -2 -22 q10 -2 14 8 l10 -4 l-6 9 q4 10 -6 12 q-6 0 -10 -3 Z", 'fill="var(--il-bg,#fff)"') + P("M112 70 L132 52", 'stroke="var(--il-pop,#ffba03)" stroke-width="2" stroke-dasharray="2 5"') + sparkle(200, 56, 5) + ground(),
+    + P("M138 54 q-10 -12 -2 -22 q10 -2 14 8 l10 -4 l-6 9 q4 10 -6 12 q-6 0 -10 -3 Z", 'fill="var(--il-bg,#fff)"') + P("M112 70 L132 52", 'stroke="var(--il-pop,#ffc93c)" stroke-width="2" stroke-dasharray="2 5"') + sparkle(200, 56, 5) + ground(),
   // Santos
   sanmiguel: () => P("M100 118 q-44 -20 -60 -56 q30 6 44 24 q-14 -16 -8 -34 q22 18 30 52 Z M140 118 q44 -20 60 -56 q-30 6 -44 24 q14 -16 8 -34 q-22 18 -30 52 Z", 'fill="var(--il-bg,#fff)"')
-    + person(120, 170, { arms: "raise", robe: MANTO, len: 0, hair: "#e0b04a", belt: "var(--il-pop,#ffba03)", cape: ROJO })
-    + P("M136 80 L150 22 M142 84 L132 80 M145 70 l-10 -3", 'stroke-width="3.5"') + P("M150 22 L147 34", 'stroke="#fff" stroke-width="1.6"') + P("M84 120 q12 -6 22 0 l-2 22 q-9 8 -18 0 Z", 'fill="var(--il-pop,#ffba03)" stroke="currentColor"') + P("M95 124 L95 140 M89 130 L101 130", 'stroke-width="2.2"') + ground(),
+    + person(120, 170, { arms: "raise", robe: MANTO, len: 0, hair: "#e0b04a", belt: "var(--il-pop,#ffc93c)", cape: ROJO })
+    + P("M136 80 L150 22 M142 84 L132 80 M145 70 l-10 -3", 'stroke-width="3.5"') + P("M150 22 L147 34", 'stroke="#fff" stroke-width="1.6"') + P("M84 120 q12 -6 22 0 l-2 22 q-9 8 -18 0 Z", 'fill="var(--il-pop,#ffc93c)" stroke="currentColor"') + P("M95 124 L95 140 M89 130 L101 130", 'stroke-width="2.2"') + ground(),
   sansebastian: () => P("M196 168 L196 60 M196 92 l-18 -20 M196 80 l16 -14", 'stroke-width="5"') + person(110, 170, { arms: "hold", robe: "#f3dc9f", len: 20, hair: CAFE, cape: ROJO, belt: CAFE, pants: "var(--il-bg,#fff)" })
     + P("M88 128 q-14 -26 -6 -52 M88 128 q-4 -24 8 -44", 'stroke="#5e9a5a" stroke-width="2.6"') + P("M84 96 l-8 -2 M86 108 l-9 0 M90 100 l8 -6", 'stroke="#5e9a5a" stroke-width="2"')
     + P("M128 136 L150 92 M132 138 L158 98", 'stroke-width="2.2"') + P("M150 92 l-6 2 l4 -7 Z M158 98 l-6 2 l4 -7 Z", 'fill="currentColor"') + ground(),
@@ -337,8 +337,8 @@ const SCENES = {
   frassati: () => mountains() + person(112, 172, { arms: "raise", shirt: "#5e7a5a", pants: "#8a6a4a", hair: "#3b2a20" }) + P("M128 84 L140 168", 'stroke-width="3"') + P("M124 82 l10 -4", 'stroke-width="3"') + sun(206, 36, 9),
   teresita: () => person(104, 170, { arms: "hold", robe: "#8a6a4a", veil: "#2a2a33", collar: "#fff", face: "calm" }) + P("M120 116 L120 146 M112 124 L128 124", 'stroke-width="3"')
     + [[60, 50], [180, 44], [196, 82], [48, 96], [164, 110], [142, 58]].map(([x, y]) => C(x, y, 4.4, 'fill="#e05a6a" stroke="currentColor" stroke-width="1.6"')).join("") + ground(),
-  guadalupe: () => [...Array(18)].map((_, i) => { const a = Math.PI * 2 * i / 18; return P(`M${(120 + Math.cos(a) * 40).toFixed(1)} ${(108 + Math.sin(a) * 64).toFixed(1)} L${(120 + Math.cos(a) * 54).toFixed(1)} ${(108 + Math.sin(a) * 80).toFixed(1)}`, 'stroke="var(--il-pop,#ffba03)" stroke-width="3"'); }).join("")
-    + person(120, 166, { arms: "pray", robe: "#f2b8a8", veil: "#3f8f7f", stars: false, face: "calm" }) + [[104, 112], [136, 112], [102, 130], [138, 130], [106, 148], [134, 148]].map(([x, y]) => C(x, y, 1.8, 'fill="var(--il-pop,#ffba03)" stroke="none"')).join("")
+  guadalupe: () => [...Array(18)].map((_, i) => { const a = Math.PI * 2 * i / 18; return P(`M${(120 + Math.cos(a) * 40).toFixed(1)} ${(108 + Math.sin(a) * 64).toFixed(1)} L${(120 + Math.cos(a) * 54).toFixed(1)} ${(108 + Math.sin(a) * 80).toFixed(1)}`, 'stroke="var(--il-pop,#ffc93c)" stroke-width="3"'); }).join("")
+    + person(120, 166, { arms: "pray", robe: "#f2b8a8", veil: "#3f8f7f", stars: false, face: "calm" }) + [[104, 112], [136, 112], [102, 130], [138, 130], [106, 148], [134, 148]].map(([x, y]) => C(x, y, 1.8, 'fill="var(--il-pop,#ffc93c)" stroke="none"')).join("")
     + P("M98 170 q22 12 44 0 q-22 4 -44 0 Z", 'fill="#2a2a33" stroke="currentColor"'),
   // Jesús
   jesus: () => jesus(120, 170, { arms: "open" }) + sparkle(56, 60) + sparkle(186, 52, 5) + heart(190, 110, 8) + ground(),
@@ -347,7 +347,7 @@ const SCENES = {
   buenpastor: () => jesus(96, 170, { arms: "hold" }) + sheep(104, 144) + sheep(160, 166) + sheep(200, 160) + sparkle(190, 60) + ground(),
   sagradocorazon: () => jesus(120, 170, { arms: "bless" }) + heart(120, 122, 10) + flame(120, 112, .4) + sparkle(60, 70) + sparkle(182, 70, 5) + ground(),
   // llegar, acogida, puerta abierta
-  acogida: () => P("M150 168 L150 70 L205 70 L205 168", 'fill="var(--il-bg,#fff)"') + P("M150 70 L128 82 L128 176 L150 168", 'fill="var(--il-pop,#ffba03)" stroke="currentColor"') + fig(178, 166, { arms: "out" }) + fig(80, 168, { arms: "wave", legs: "walk" }) + heart(115, 60, 10) + ground(10, 130),
+  acogida: () => P("M150 168 L150 70 L205 70 L205 168", 'fill="var(--il-bg,#fff)"') + P("M150 70 L128 82 L128 176 L150 168", 'fill="var(--il-pop,#ffc93c)" stroke="currentColor"') + fig(178, 166, { arms: "out" }) + fig(80, 168, { arms: "wave", legs: "walk" }) + heart(115, 60, 10) + ground(10, 130),
   corazon: () => fig(120, 168, { arms: "hold" }) + heart(120, 128, 22) + sparkle(70, 70) + sparkle(178, 56, 5) + ground(),
   luz: () => fig(96, 168, { arms: "give" }) + P("M128 118 l0 -10 l14 0 l0 10 l-3 18 l-8 0 Z", 'fill="var(--il-bg,#fff)"') + flame(135, 130, .7) + P("M150 110 l20 -8 M152 124 l24 0 M150 138 l20 8 M128 100 l-6 -14 M142 100 l6 -14", 'stroke-width="2"') + ground(),
   trigo: () => P("M120 168 L120 70", 'stroke-width="3"') + [0, 1, 2, 3, 4].map((i) => P(`M120 ${80 + i * 14} q-14 -4 -16 -16 q12 2 16 12 M120 ${80 + i * 14} q14 -4 16 -16 q-12 2 -16 12`, POP)).join("") + P("M60 168 q10 -26 30 -30 M60 168 q-6 -18 -20 -22", 'stroke-width="2.5"') + ground(),
@@ -370,7 +370,7 @@ const SCENES = {
   camino: () => road() + fig(70, 150, { arms: "down", legs: "walk", s: .7 }) + fig(100, 128, { arms: "out", legs: "walk", s: .6 }) + sun(200, 40, 10) + flame(210, 100, .5),
   maria: () => person(158, 170, { arms: "pray", robe: "var(--il-bg,#fff)", veil: MANTO, stars: true, face: "calm", s0: .86 })
     + fig(72, 168, { arms: "give", face: "smile", s: .8 }) + P("M100 132 l8 -18 M104 134 l14 -14 M98 128 l2 -20", 'stroke="#5e9a5a" stroke-width="2.4"')
-    + C(108, 112, 5, 'fill="#e05a6a" stroke="currentColor" stroke-width="1.6"') + C(119, 118, 5, 'fill="var(--il-bg,#fff)" stroke="currentColor" stroke-width="1.6"') + C(100, 106, 5, 'fill="var(--il-pop,#ffba03)" stroke="currentColor" stroke-width="1.6"')
+    + C(108, 112, 5, 'fill="#e05a6a" stroke="currentColor" stroke-width="1.6"') + C(119, 118, 5, 'fill="var(--il-bg,#fff)" stroke="currentColor" stroke-width="1.6"') + C(100, 106, 5, 'fill="var(--il-pop,#ffc93c)" stroke="currentColor" stroke-width="1.6"')
     + heart(118, 60, 8) + sparkle(40, 56, 5) + ground(),
   eleccion: () => fig(120, 168, { arms: "out", face: "wow" }) + P("M40 168 L100 120 M200 168 L140 120", 'stroke-dasharray="3 8"') + heart(56, 80, 10) + P("M180 70 l0 24 M168 82 l24 0", 'stroke-width="3"'),
   corazonlimpio: () => fig(120, 168, { arms: "hold" }) + heart(120, 128, 20) + P("M74 62 q6 -10 12 0 M156 50 q6 -10 12 0 M186 88 q6 -10 12 0", 'stroke-width="2"') + P("M60 100 q20 -30 40 0", 'stroke-dasharray="2 6"'),
@@ -378,28 +378,28 @@ const SCENES = {
   pregunta: () => fig(120, 168, { arms: "down", face: "calm" }) + P("M70 60 q0 -18 14 -18 q14 0 12 14 q-2 8 -10 10 l0 8 M86 82 l0 2", 'stroke-width="3"') + crossHill(180, 168).replace(/stroke-width="4"/, 'stroke-width="3"'),
   equipo: () => [70, 120, 170].map((x, i) => fig(x, 168, { arms: i === 1 ? "up" : "hug", s: .85, flip: i === 2 ? -1 : 1 })).join("") + sparkle(120, 50) + ground(),
   ninos: () => fig(100, 168, { arms: "hug" }) + fig(140, 168, { arms: "up", s: .55 }) + fig(160, 168, { arms: "wave", s: .5 }) + heart(130, 70, 10) + ground(),
-  tesoro: () => fig(80, 168, { arms: "give", face: "calm" }) + P("M140 150 L200 150 L200 168 L140 168 Z", 'fill="var(--il-bg,#fff)"') + P("M140 150 q30 -26 60 0", 'fill="var(--il-pop,#ffba03)" stroke="currentColor"') + sparkle(170, 110) + ground(),
+  tesoro: () => fig(80, 168, { arms: "give", face: "calm" }) + P("M140 150 L200 150 L200 168 L140 168 Z", 'fill="var(--il-bg,#fff)"') + P("M140 150 q30 -26 60 0", 'fill="var(--il-pop,#ffc93c)" stroke="currentColor"') + sparkle(170, 110) + ground(),
   servir: () => fig(80, 168, { arms: "give", legs: "kneel" }) + P("M110 160 q20 14 40 0 L146 150 L114 150 Z", 'fill="var(--il-bg,#fff)"') + fig(170, 168, { arms: "down", legs: "sit", s: .85, flip: -1 }) + P("M118 146 q4 -8 8 0 M128 142 q4 -8 8 0", 'stroke-width="1.5"') + ground(),
-  bartimeo: () => fig(84, 168, { arms: "up", legs: "jump", face: "wow" }) + jesus(170, 170, { arms: "give", flip: -1, s: .9 }) + P("M24 150 q20 -20 40 -6 q-10 16 -40 6 Z", 'fill="var(--il-pop,#ffba03)" stroke="currentColor"') + sparkle(170, 60) + sparkle(70, 70, 5) + ground(),
+  bartimeo: () => fig(84, 168, { arms: "up", legs: "jump", face: "wow" }) + jesus(170, 170, { arms: "give", flip: -1, s: .9 }) + P("M24 150 q20 -20 40 -6 q-10 16 -40 6 Z", 'fill="var(--il-pop,#ffc93c)" stroke="currentColor"') + sparkle(170, 60) + sparkle(70, 70, 5) + ground(),
   amar: () => fig(70, 168, { arms: "up" }) + fig(170, 168, { arms: "up", flip: -1 }) + heart(120, 70, 18) + P("M92 100 l12 -10 M148 100 l-12 -10", 'stroke-width="2"') + ground(),
   moneda: () => P("M100 60 q14 -10 30 0 l-4 14 l-22 0 Z", 'fill="var(--il-bg,#fff)"') + C(108, 100, 7, POP) + C(126, 112, 7, POP) + P("M80 150 L160 150 L152 168 L88 168 Z", 'fill="var(--il-bg,#fff)"') + fig(190, 168, { arms: "give", s: .8, flip: -1, face: "calm" }),
   futuro: () => sun(120, 110, 22) + P("M20 150 q50 -20 100 0 t100 0", 'stroke-width="3"') + fig(60, 150, { arms: "up", s: .6 }) + P("M150 60 q6 -10 12 0 M180 80 q6 -10 12 0", 'stroke-width="2"'),
-  rey: () => P("M98 74 L102 48 L112 61 L120 40 L128 61 L138 48 L142 74 Z", 'fill="var(--il-pop,#ffba03)" stroke="currentColor"') + jesus(120, 178, { arms: "open", face: "calm", s: .85 }) + P("M70 176 L170 176", 'stroke-width="2"') + sparkle(60, 60) + sparkle(185, 56, 5),
+  rey: () => P("M98 74 L102 48 L112 61 L120 40 L128 61 L138 48 L142 74 Z", 'fill="var(--il-pop,#ffc93c)" stroke="currentColor"') + jesus(120, 178, { arms: "open", face: "calm", s: .85 }) + P("M70 176 L170 176", 'stroke-width="2"') + sparkle(60, 60) + sparkle(185, 56, 5),
   oracion: () => fig(110, 168, { arms: "pray", legs: "kneel", face: "calm" }) + candle(170, 168) + sparkle(60, 60, 5) + ground(),
-  santos: () => [60, 100, 140, 180].map((x, i) => fig(x, 168, { arms: i % 2 ? "up" : "out", s: .85, face: i === 1 ? "calm" : "smile" }) + P(`M${x - 11} ${+(168 - 81 * .85 * 1.22).toFixed(1)} a11 4 0 1 0 22 0 a11 4 0 1 0 -22 0`, 'stroke="var(--il-pop, #ffba03)" stroke-width="3"')).join("") + sparkle(30, 50, 6) + sparkle(210, 40, 7) + sparkle(120, 28, 5) + ground(),
+  santos: () => [60, 100, 140, 180].map((x, i) => fig(x, 168, { arms: i % 2 ? "up" : "out", s: .85, face: i === 1 ? "calm" : "smile" }) + P(`M${x - 11} ${+(168 - 81 * .85 * 1.22).toFixed(1)} a11 4 0 1 0 22 0 a11 4 0 1 0 -22 0`, 'stroke="var(--il-pop, #ffc93c)" stroke-width="3"')).join("") + sparkle(30, 50, 6) + sparkle(210, 40, 7) + sparkle(120, 28, 5) + ground(),
   flores: () => fig(90, 168, { arms: "give" }) + [0, 1, 2].map((i) => P(`M${122 + i * 14} 132 l${-4 + i * 4} -30`, 'stroke-width="2.5"') + C(118 + i * 18, 98 - (i % 2) * 8, 7, POP) + C(118 + i * 18, 98 - (i % 2) * 8, 2.5, FILL)).join("") + P("M150 168 L150 80 q0 -16 14 -16 q14 0 14 16 L178 168 Z", 'fill="var(--il-bg,#fff)"') + fig(164, 150, { arms: "pray", s: .55, face: "calm" }) + sparkle(200, 50, 6) + ground(),
   bautismo: () => fig(150, 168, { arms: "pray", legs: "kneel", face: "calm" }) + fig(78, 168, { arms: "wave" }) + P("M96 92 q12 -18 30 -6 q-12 12 -30 6 Z", POP) + [[132, 92], [138, 102], [131, 110]].map(([x, y]) => drop(x, y)).join("") + wave(178).replace(/M0 178/, "M20 178") + sparkle(196, 70) + sparkle(60, 52, 5),
   uncion: () => fig(172, 168, { arms: "down", legs: "sit", face: "calm", flip: -1 }) + P("M140 146 L200 146 L200 168 M140 146 L140 168", 'stroke-width="2.5"') + fig(84, 168, { arms: "give" }) + P("M104 122 l8 0 l2 10 l-12 0 Z", 'fill="var(--il-bg,#fff)"') + drop(122, 112) + heart(170, 56, 8) + sparkle(60, 60, 5) + ground(),
-  matrimonio: () => fig(96, 168, { arms: "hug" }) + fig(144, 168, { arms: "hug", flip: -1 }) + C(112, 58, 11, 'stroke="var(--il-pop, #ffba03)" stroke-width="4.5"') + C(128, 58, 11, 'stroke="currentColor" stroke-width="3"') + sparkle(70, 54, 5) + sparkle(172, 48, 6) + ground(),
+  matrimonio: () => fig(96, 168, { arms: "hug" }) + fig(144, 168, { arms: "hug", flip: -1 }) + C(112, 58, 11, 'stroke="var(--il-pop, #ffc93c)" stroke-width="4.5"') + C(128, 58, 11, 'stroke="currentColor" stroke-width="3"') + sparkle(70, 54, 5) + sparkle(172, 48, 6) + ground(),
   // Celebraciones: cumpleaños (torta con velas y globos) y fiesta de la comunidad (banderines y confeti)
   torta: () => fig(50, 168, { arms: "up", legs: "jump", face: "wow", s: .82 }) + fig(190, 168, { arms: "up", flip: -1, s: .82 })
     + P("M86 168 v-32 h68 v32", 'fill="var(--il-bg,#fff)"') + P("M96 136 v-22 h48 v22", POP) + P("M86 146 q8.5 7 17 0 t17 0 t17 0 t17 0", 'stroke-width="2.2"')
     + P("M108 114 v-14 M120 114 v-16 M132 114 v-14", 'stroke-width="3"') + flame(108, 100, .42) + flame(120, 98, .42) + flame(132, 100, .42)
-    + C(28, 46, 12, POP) + P("M28 58 q-5 14 3 30", 'stroke-width="1.6"') + C(212, 42, 12, 'fill="#8ad2fa" stroke="currentColor"') + P("M212 54 q5 14 -3 30", 'stroke-width="1.6"')
+    + C(28, 46, 12, POP) + P("M28 58 q-5 14 3 30", 'stroke-width="1.6"') + C(212, 42, 12, 'fill="#9fd8ff" stroke="currentColor"') + P("M212 54 q5 14 -3 30", 'stroke-width="1.6"')
     + sparkle(84, 66, 5) + sparkle(158, 60, 5) + ground(),
-  fiesta: () => P("M8 26 Q120 74 232 26", 'stroke-width="1.8"') + [34, 62, 92, 120, 148, 178, 206].map((x, i) => { const t = (x - 8) / 224, y = (1 - t) * (1 - t) * 26 + 2 * (1 - t) * t * 74 + t * t * 26; return P(`M${x - 9} ${y.toFixed(1)} L${x + 9} ${y.toFixed(1)} L${x} ${(y + 18).toFixed(1)} Z`, i % 3 === 0 ? POP : i % 3 === 1 ? 'fill="#8ad2fa" stroke="currentColor"' : 'fill="#ef591c" stroke="currentColor"'); }).join("")
+  fiesta: () => P("M8 26 Q120 74 232 26", 'stroke-width="1.8"') + [34, 62, 92, 120, 148, 178, 206].map((x, i) => { const t = (x - 8) / 224, y = (1 - t) * (1 - t) * 26 + 2 * (1 - t) * t * 74 + t * t * 26; return P(`M${x - 9} ${y.toFixed(1)} L${x + 9} ${y.toFixed(1)} L${x} ${(y + 18).toFixed(1)} Z`, i % 3 === 0 ? POP : i % 3 === 1 ? 'fill="#9fd8ff" stroke="currentColor"' : 'fill="#f4562a" stroke="currentColor"'); }).join("")
     + fig(68, 168, { arms: "up", legs: "jump", face: "wow", s: .8 }) + fig(120, 168, { arms: "up", s: .8 }) + fig(172, 168, { arms: "up", legs: "jump", flip: -1, s: .8 })
-    + [[30, 96], [96, 82], [146, 90], [210, 100], [40, 136], [200, 140]].map(([x, y], i) => P(`M${x} ${y} l6 -3`, `stroke-width="3" stroke="${["#ffba03", "#ef591c", "#8ad2fa"][i % 3]}"`)).join("") + ground(),
+    + [[30, 96], [96, 82], [146, 90], [210, 100], [40, 136], [200, 140]].map(([x, y], i) => P(`M${x} ${y} l6 -3`, `stroke-width="3" stroke="${["#ffc93c", "#f4562a", "#9fd8ff"][i % 3]}"`)).join("") + ground(),
   juego: () => fig(70, 168, { arms: "up", legs: "jump", face: "wow" }) + fig(170, 168, { arms: "up", flip: -1 }) + P("M86 98 Q120 26 154 98", 'stroke-dasharray="3 8"') + C(120, 58, 11, POP) + P("M112 54 q8 6 16 0 M114 64 q6 -6 12 0", 'stroke-width="1.6"') + sparkle(60, 60, 5) + sparkle(190, 64, 5) + ground(),
   celular: () => fig(96, 168, { arms: "hold", legs: "sit", face: "smile" }) + P("M104 118 h20 v30 h-20 Z", 'fill="var(--il-bg,#fff)"') + P("M110 144 h8", 'stroke-width="1.6"') + P("M146 70 h46 q6 0 6 6 v16 q0 6 -6 6 h-34 l-10 9 v-9 q-8 0 -8 -6 v-16 q0 -6 6 -6 Z", 'fill="var(--il-bg,#fff)"') + heart(169, 82, 6) + P("M150 118 h34 q5 0 5 5 v10 q0 5 -5 5 h-24 l-8 7 v-7 q-7 0 -7 -5 v-10 q0 -5 5 -5 Z", POP) + ground(),
   pizarra: () => P("M118 48 h96 v70 h-96 Z", 'fill="var(--il-bg,#fff)"') + P("M166 118 l-14 40 M166 118 l14 40", 'stroke-width="2.2"') + P("M130 64 h40 M130 78 h60 M130 92 h30", 'stroke-width="2"') + C(196, 92, 7, POP) + P("M192 92 l3 3 l6 -7", 'stroke-width="1.8"') + fig(70, 168, { arms: "give" }) + ground(),
@@ -418,7 +418,7 @@ export const SCENE_KEYS = Object.keys(SCENES).filter((k) => !SIN_STICKER.has(k))
 // Escenas para los Salmos (con los mismos trazos)
 // ---------------------------------------------------------------------------
 const tree = (x, y, h = 44, fill = "#9bbf8a") => P(`M${x} ${y} L${x} ${y - h}`, 'stroke-width="5"') + C(x, y - h - 18, 24, `fill="${fill}" stroke="currentColor"`) + C(x - 20, y - h - 4, 15, `fill="${fill}" stroke="currentColor"`) + C(x + 20, y - h - 4, 15, `fill="${fill}" stroke="currentColor"`);
-const stream = (y = 156) => P(`M0 ${y} q30 -8 60 0 t60 0 t60 0 t60 0 L240 182 L0 182 Z`, 'fill="#8ad2fa" stroke="currentColor"') + P(`M30 ${y + 12} q10 -4 20 0 M120 ${y + 14} q10 -4 20 0 M190 ${y + 10} q10 -4 20 0`, 'stroke-width="2"');
+const stream = (y = 156) => P(`M0 ${y} q30 -8 60 0 t60 0 t60 0 t60 0 L240 182 L0 182 Z`, 'fill="#9fd8ff" stroke="currentColor"') + P(`M30 ${y + 12} q10 -4 20 0 M120 ${y + 14} q10 -4 20 0 M190 ${y + 10} q10 -4 20 0`, 'stroke-width="2"');
 const moon = (x, y, r = 16) => P(`M${x} ${y - r} A${r} ${r} 0 1 0 ${x} ${y + r} A${(r * .62).toFixed(1)} ${r} 0 1 1 ${x} ${y - r} Z`, POP);
 const stars = (pts) => pts.map(([x, y, r]) => sparkle(x, y, r || 4)).join("");
 const wingsOver = (x, y) => P(`M${x - 4} ${y} q-46 -6 -70 -58 q30 2 46 20 q-12 -20 -4 -40 q26 18 28 78 Z`, 'fill="var(--il-bg,#fff)"') + P(`M${x + 4} ${y} q46 -6 70 -58 q-30 2 -46 20 q12 -20 4 -40 q-26 18 -28 78 Z`, 'fill="var(--il-bg,#fff)"')
@@ -431,11 +431,11 @@ const lyre = (x, y, s = 1) => { const q = (v) => +(v * s).toFixed(1);
 const note = (x, y) => P(`M${x} ${y} l0 -20 l10 -4`, 'stroke-width="2.4"') + P(`M${x - 6} ${y + 1} a5 4 -20 1 0 10 -2 a5 4 -20 1 0 -10 2 Z`, FILL);
 const temple = (x, y) => P(`M${x - 50} ${y} L${x - 50} ${y - 6} L${x + 50} ${y - 6} L${x + 50} ${y} Z M${x - 44} ${y - 6} L${x - 44} ${y - 52} L${x + 44} ${y - 52} L${x + 44} ${y - 6}`, 'fill="var(--il-bg,#fff)"')
   + P(`M${x - 52} ${y - 52} L${x} ${y - 82} L${x + 52} ${y - 52} Z`, POP) + [-30, -10, 10, 30].map((d) => P(`M${x + d} ${y - 8} L${x + d} ${y - 50}`, 'stroke-width="2.2"')).join("")
-  + P(`M${x - 8} ${y - 6} L${x - 8} ${y - 30} q8 -8 16 0 L${x + 8} ${y - 6}`, 'fill="#fff6e5" stroke="currentColor"');
+  + P(`M${x - 8} ${y - 6} L${x - 8} ${y - 30} q8 -8 16 0 L${x + 8} ${y - 6}`, 'fill="#fbf8f3" stroke="currentColor"');
 const city = (x, y) => P(`M${x - 70} ${y} L${x - 70} ${y - 46} l8 0 l0 6 l8 0 l0 -6 l8 0 l0 6 l8 0 l0 -6 l8 0 L${x - 30} ${y - 70} l10 0 l0 6 l8 0 l0 -6 l10 0 L${x + 2} ${y - 46} l8 0 l0 6 l8 0 l0 -6 l8 0 l0 6 l8 0 l0 -6 l8 0 L${x + 42} ${y - 64} l10 0 l0 6 l8 0 l0 -6 l10 0 L${x + 70} ${y} Z`, 'fill="var(--il-bg,#fff)"')
   + P(`M${x - 10} ${y} L${x - 10} ${y - 22} q10 -12 20 0 L${x + 10} ${y}`, POP) + P(`M${x - 22} ${y - 56} l0 -8 M${x + 52} ${y - 52} l0 -8`, 'stroke-width="2"');
 const rain = (x, y, w = 90) => [0, 1, 2, 3, 4, 5].map((i) => drop(x - w / 2 + i * (w / 5), y + (i % 2) * 10)).join("");
-const sea = () => P("M0 120 q16 -10 30 0 q16 10 30 0 q12 -8 20 0 L80 182 L0 182 Z", 'fill="#8ad2fa" stroke="currentColor"') + P("M240 120 q-16 -10 -30 0 q-16 10 -30 0 q-12 -8 -20 0 L160 182 L240 182 Z", 'fill="#8ad2fa" stroke="currentColor"')
+const sea = () => P("M0 120 q16 -10 30 0 q16 10 30 0 q12 -8 20 0 L80 182 L0 182 Z", 'fill="#9fd8ff" stroke="currentColor"') + P("M240 120 q-16 -10 -30 0 q-16 10 -30 0 q-12 -8 -20 0 L160 182 L240 182 Z", 'fill="#9fd8ff" stroke="currentColor"')
   + P("M84 176 C 100 150, 140 150, 156 120", 'stroke-dasharray="3 9" stroke-width="3"');
 const hills = () => P("M0 168 Q50 128 100 150 T200 140 T240 150 L240 182 L0 182 Z", 'fill="var(--il-bg,#fff)"');
 Object.assign(SCENES, {
@@ -464,7 +464,7 @@ Object.assign(SCENES, {
 });
 // La Plaza Ágape: banderines, la glorieta, árboles, un banco y jóvenes conversando.
 const bunting = (y = 18) => {
-  const cols = ["#ef591c", "#ffba03", "#3f8f8a", "#8ad2fa", "#a8443b", "#7d8f5a"];
+  const cols = ["#f4562a", "#ffc93c", "#3f8f8a", "#9fd8ff", "#a8443b", "#7d8f5a"];
   let o = P(`M-4 ${y} Q120 ${y + 24} 244 ${y}`, 'stroke-width="1.6"');
   for (let i = 0; i < 12; i++) {
     const x = 6 + i * 20, t = (x + 4) / 248, yy = y + 48 * t * (1 - t) - 1;
@@ -474,7 +474,7 @@ const bunting = (y = 18) => {
 };
 const glorieta = (x, y) => P(`M${x - 34} ${y} L${x + 34} ${y} L${x + 30} ${y - 8} L${x - 30} ${y - 8} Z`, 'fill="var(--il-bg,#fff)"')
   + [-24, -8, 8, 24].map((d) => P(`M${x + d} ${y - 8} L${x + d} ${y - 46}`, 'stroke-width="3"')).join("")
-  + P(`M${x - 38} ${y - 46} Q${x} ${y - 82} ${x + 38} ${y - 46} Z`, 'fill="#ef591c" stroke="currentColor"') + P(`M${x} ${y - 66} L${x} ${y - 78}`, 'stroke-width="2.4"') + C(x, y - 80, 3, POP)
+  + P(`M${x - 38} ${y - 46} Q${x} ${y - 82} ${x + 38} ${y - 46} Z`, 'fill="#f4562a" stroke="currentColor"') + P(`M${x} ${y - 66} L${x} ${y - 78}`, 'stroke-width="2.4"') + C(x, y - 80, 3, POP)
   + P(`M${x - 30} ${y - 22} L${x + 30} ${y - 22}`, 'stroke-width="2"');
 const bench = (x, y) => P(`M${x - 18} ${y - 12} L${x + 18} ${y - 12} M${x - 18} ${y - 20} L${x + 18} ${y - 20} M${x - 14} ${y - 12} L${x - 14} ${y} M${x + 14} ${y - 12} L${x + 14} ${y}`, 'stroke-width="3"');
 Object.assign(SCENES, {

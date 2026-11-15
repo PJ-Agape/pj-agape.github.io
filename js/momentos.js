@@ -59,7 +59,7 @@ export function view() {
   ctx.onAfterRender(async () => { if (posts === null) { await load(true); } paint(); });
   return `<nav class="crumbs"><a href="#/muro">Muro</a>${icon("right")}<span>Momentos</span></nav>
     <header class="page-head mom-head"><h1>Momentos <em>Ágape</em></h1>
-      <p>Las fotos de lo que vivimos juntos. Reacciona y deja un comentario con cariño.</p></header>
+      <p>Las fotos de lo que vivimos juntos.</p></header>
     ${s.isStaff ? `<button class="btn btn-gold mom-new" data-action="momNew">${icon("plus")} Subir un momento</button>` : ""}
     <div id="momList" class="mom-list"><p class="muted small">Cargando…</p></div>`;
 }

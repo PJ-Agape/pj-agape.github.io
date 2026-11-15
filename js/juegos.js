@@ -89,7 +89,7 @@ function stopTimer() { if (timer) clearInterval(timer); timer = null; }
 // ---------------------------------------------------------------------------
 export function view() {
   return `<header class="page-head"><span class="eyebrow">La Plaza Ágape</span><h1>Juegos <em>Ágape</em></h1>
-      <p>Para jugar en grupo, en el encuentro, en el bus o donde estemos juntos. Y otros para un rato a solas.</p></header>
+      <p>Para jugar en grupo o en un rato a solas.</p></header>
     <a class="jg-card is-em" href="#/juegos/emaus">
       <span class="jg-card-art" aria-hidden="true">${emSvg()}</span>
       <span class="jg-card-txt"><small>Juego de rol · 6 capítulos</small><b>Emaús</b>
@@ -244,8 +244,8 @@ function runTimer() {
 }
 
 function maskSvg() {
-  return `<svg viewBox="0 0 64 64" width="100%" height="100%"><path d="M8 20c8-4 16-5 24-5s16 1 24 5c0 14-6 26-14 28-4 1-6-4-10-4s-6 5-10 4C14 46 8 34 8 20Z" fill="#0b2566"/>
-    <path d="M17 27c3-2 7-2 10 0-3 4-7 4-10 0Zm20 0c3-2 7-2 10 0-3 4-7 4-10 0Z" fill="#ffba03"/><path d="M26 39c4 2 8 2 12 0" stroke="#ef591c" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+  return `<svg viewBox="0 0 64 64" width="100%" height="100%"><path d="M8 20c8-4 16-5 24-5s16 1 24 5c0 14-6 26-14 28-4 1-6-4-10-4s-6 5-10 4C14 46 8 34 8 20Z" fill="#1e1f3b"/>
+    <path d="M17 27c3-2 7-2 10 0-3 4-7 4-10 0Zm20 0c3-2 7-2 10 0-3 4-7 4-10 0Z" fill="#ffc93c"/><path d="M26 39c4 2 8 2 12 0" stroke="#f4562a" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
 }
 
 // ---------------------------------------------------------------------------

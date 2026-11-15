@@ -42,6 +42,6 @@ export const volver = ([href, label] = ["#/oracion", "Capilla"], cls = "") => `<
 // Íconos del arco (mismo trazo dorado que la lira de los Salmos)
 const G = (d, vb = "0 0 120 100") => `<svg class="sal-lira ent-ico" viewBox="${vb}" aria-hidden="true" fill="none" stroke="#c98a00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 export const ICO = {
-  oremus: G('<path d="M60 10v80M36 34h48"/><path d="M60 10c-6 6-6 12 0 18 6-6 6-12 0-18z" fill="#ffba03" stroke-width="3"/>'),
-  cancion: G('<path d="M44 76V22l46-10v54"/><circle cx="34" cy="76" r="11" fill="#ffba03"/><circle cx="80" cy="66" r="11" fill="#ffba03"/><path d="M44 36l46-10"/>'),
+  oremus: G('<path d="M60 10v80M36 34h48"/><path d="M60 10c-6 6-6 12 0 18 6-6 6-12 0-18z" fill="#ffc93c" stroke-width="3"/>'),
+  cancion: G('<path d="M44 76V22l46-10v54"/><circle cx="34" cy="76" r="11" fill="#ffc93c"/><circle cx="80" cy="66" r="11" fill="#ffc93c"/><path d="M44 36l46-10"/>'),
 };

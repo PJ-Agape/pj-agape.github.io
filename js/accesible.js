@@ -6,10 +6,29 @@ import { esc } from "./util.js";
 
 const K = "agape_a11y_v1";
 const DEF = { size: 0, facil: false, calma: false, contraste: false, voz: false, color: "" };
-// Color de la app (cada persona elige el suyo). «Morado» es la única excepción a la paleta del logo.
-export const COLORES = [["", "Azul Ágape", "#1351a4"], ["celeste", "Celeste", "#0b6fb3"], ["naranja", "Naranja", "#c9460f"], ["morado", "Morado", "#6b3fa0"]];
+// Colores de la app: cada persona elige su paleta. La estándar es la del logo, afinada.
+// [clave, nombre, [muestras], frase]
+export const COLORES = [
+  ["", "Ágape", ["#3d6bf0", "#ffc93c", "#f4562a", "#9fd8ff"], "Los colores de nuestro logo"],
+  ["atardecer", "Atardecer", ["#6d4aff", "#ff5e5b", "#ffd23f", "#b8a9ff"], "Morado y coral, cálido"],
+  ["brisa", "Brisa", ["#0e8f8a", "#d4f53c", "#f0527a", "#8fe3cf"], "Verde agua, tranquilo"],
+  ["clasico", "Clásico", ["#1351a4", "#ffba03", "#ef591c", "#8ad2fa"], "El azul de siempre"],
+];
+// Lo que ya viene con color desde el código (dibujos, tarjetas por área) se pasa a la paleta elegida.
+const TINTE = {
+  atardecer: { "1e1f3b": "231942", "3d6bf0": "6d4aff", "ffc93c": "ffd23f", "f4562a": "ff5e5b", "9fd8ff": "b8a9ff", "fbf8f3": "fff8f1", "ffe3da": "ffe1df", "e6f4ff": "eee9ff", "fff2cc": "fff3c4", "e8eeff": "efeaff" },
+  brisa: { "1e1f3b": "102a2c", "3d6bf0": "0e8f8a", "ffc93c": "d4f53c", "f4562a": "f0527a", "9fd8ff": "8fe3cf", "fbf8f3": "f6f9f6", "ffe3da": "ffe0e8", "e6f4ff": "dff6f0", "fff2cc": "f2fbd0", "e8eeff": "e3f5f1" },
+  clasico: { "1e1f3b": "0b2566", "3d6bf0": "1351a4", "ffc93c": "ffba03", "f4562a": "ef591c", "9fd8ff": "8ad2fa", "fbf8f3": "fff6e5", "ffe3da": "fde0d2", "e6f4ff": "e1f3fd", "fff2cc": "fff1c7", "e8eeff": "e1edfb" },
+};
+const TINTE_RE = /#(1e1f3b|3d6bf0|ffc93c|f4562a|9fd8ff|fbf8f3|ffe3da|e6f4ff|fff2cc|e8eeff)\b/gi;
+export function tint(html) {
+  const m = TINTE[P.color]; if (!m || typeof html !== "string") return html;
+  return html.replace(TINTE_RE, (_, h) => "#" + m[h.toLowerCase()]);
+}
 let P = { ...DEF };
 try { P = { ...DEF, ...JSON.parse(localStorage.getItem(K) || "{}") }; } catch {}
+if (P.color === "morado") P.color = "atardecer"; // paletas anteriores
+if (!COLORES.some(([k]) => k === P.color)) P.color = "";
 const save = () => { try { localStorage.setItem(K, JSON.stringify(P)); } catch {} };
 export const prefs = () => ({ ...P });
 export const easy = () => !!P.facil;
@@ -35,14 +54,18 @@ const OPTS = [
   ["calma", "Menos movimiento", "Sin animaciones ni cosas que se muevan solas."],
   ["contraste", "◐ Más contraste", "Textos más oscuros y bordes más marcados."],
 ];
+// Selector de colores (va en Mi cuenta, a la vista)
+export function coloresHTML() {
+  return `<div class="pal-pick" role="radiogroup" aria-label="Colores de la app">${COLORES.map(([k, l, sw, d]) => `<label class="pal-opt"><input type="radio" name="a11yColor" value="${k}" ${P.color === k ? "checked" : ""} data-a11y="color">
+    <span class="pal-sw" aria-hidden="true">${sw.map((c) => `<i style="background:rgb(${parseInt(c.slice(1, 3), 16)},${parseInt(c.slice(3, 5), 16)},${parseInt(c.slice(5), 16)})"></i>`).join("")}</span><b>${l}</b><span class="xs muted">${d}</span></label>`).join("")}</div>
+  <p class="xs muted" style="margin-top:8px">Se guarda en este teléfono o computador.</p>`;
+}
 export function panelHTML() {
   return `<section class="card a11y-panel" id="a11yPanel" aria-labelledby="a11yTitle">
     <h2 id="a11yTitle">Accesibilidad</h2>
     <p class="muted small">Ajusta la app a tu medida. Se guarda en este teléfono o computador.</p>
     <div class="a11y-row" role="group" aria-label="Tamaño de la letra"><span class="a11y-k">Tamaño de la letra</span>
       <div class="seg">${["Normal", "Grande", "Muy grande"].map((l, i) => `<label><input type="radio" name="a11ySize" value="${i}" ${P.size === i ? "checked" : ""} data-a11y="size"><span style="font-size:${[0.9, 1.05, 1.2][i]}rem">${l}</span></label>`).join("")}</div></div>
-    <div class="a11y-row" role="radiogroup" aria-label="Color de la app"><span class="a11y-k">Color de la app</span>
-      <div class="a11y-colors">${COLORES.map(([k, l, c]) => `<label class="a11y-color"><input type="radio" name="a11yColor" value="${k}" ${P.color === k ? "checked" : ""} data-a11y="color"><i style="--c:${c}"></i><span>${l}</span></label>`).join("")}</div></div>
     ${OPTS.map(([k, l, d]) => (k === "voz" && !hasVoice()) ? "" : `<label class="a11y-opt"><input type="checkbox" data-a11y="${k}" ${P[k] ? "checked" : ""}>
       <span><b>${l}</b><span class="small muted">${esc(d)}</span></span></label>`).join("")}
     ${hasVoice() ? `<button type="button" class="btn btn-ghost btn-sm" data-a11y-test>Probar la voz</button>` : ""}

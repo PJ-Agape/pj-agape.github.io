@@ -513,10 +513,10 @@ function inactiveCard(users) {
 
 // ---------- Cuadros por rol ----------
 const GROUPS = [
-  { k: "equipo", l: "Equipo coordinador", roles: ["admin", "coordinador"], c: "#ffba03" },
-  { k: "dirigente", l: "Dirigentes", roles: ["dirigente"], c: "#1351a4" },
-  { k: "aspirante", l: "Aspirantes (predirigentes)", roles: ["aspirante"], c: "#ef591c" },
-  { k: "joven", l: "Jóvenes", roles: ["ingreso", "madurez"], c: "#8ad2fa" },
+  { k: "equipo", l: "Equipo coordinador", roles: ["admin", "coordinador"], c: "#ffc93c" },
+  { k: "dirigente", l: "Dirigentes", roles: ["dirigente"], c: "#3d6bf0" },
+  { k: "aspirante", l: "Aspirantes (predirigentes)", roles: ["aspirante"], c: "#f4562a" },
+  { k: "joven", l: "Jóvenes", roles: ["ingreso", "madurez"], c: "#9fd8ff" },
 ];
 const ETAPA_L = { ingreso: "Ingreso", madurez: "Madurez", aspirante: "Aspirante", equipo: "Equipo" };
 // Quién acompaña a cada uno (según la lista de Acompañar)
@@ -564,7 +564,7 @@ function eligibleGuides() {
 }
 // Asignar es «pintar»: eliges un dirigente arriba y tocas a los jóvenes que acompañará. Cada toque se guarda solo.
 let asgSel = "", asgMode = "guia", asgFilter = "";
-const ASG_COL = ["#1351a4", "#ef591c", "#0f7a52", "#c98a00", "#8a3fb0", "#0b6fb3", "#b4233c", "#3d6b2a"];
+const ASG_COL = ["#3d6bf0", "#f4562a", "#0f7a52", "#c98a00", "#8a3fb0", "#0b6fb3", "#b4233c", "#3d6b2a"];
 const ini = (n) => String(n || "?").trim().split(/\s+/).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join("");
 const first = (n) => String(n || "").split(" ")[0];
 // Las cuentas de jóvenes y aspirantes entran solas a la lista de Acompañar (vinculadas a su cuenta),

@@ -77,10 +77,10 @@ export function season(now = new Date()) {
   const e = easter(y), ash = addDays(e, -46), pent = addDays(e, 49);
   const ep = new Date(y, 0, 6), bapt = addDays(ep, 7 - ep.getDay() || 7); // domingo después de Epifanía (aprox.)
   if (t >= adv && t < xmas) return { key: "adviento", name: "Adviento", color: "morado", hex: "#7b4fa3", hint: "Preparamos el corazón para recibir a Jesús." };
-  if (t >= xmas || t <= bapt) return { key: "navidad", name: "Navidad", color: "blanco", hex: "#ffba03", hint: "Dios se hizo uno de nosotros." };
+  if (t >= xmas || t <= bapt) return { key: "navidad", name: "Navidad", color: "blanco", hex: "#ffc93c", hint: "Dios se hizo uno de nosotros." };
   if (t >= ash && t < addDays(e, -3)) return { key: "cuaresma", name: "Cuaresma", color: "morado", hex: "#7b4fa3", hint: "Tiempo para volver a Dios con todo el corazón." };
   if (t >= addDays(e, -3) && t < e) return { key: "triduo", name: "Triduo Pascual", color: "rojo", hex: "#c62f2f", hint: "Acompañamos a Jesús en su entrega por amor." };
-  if (t >= e && t <= pent) return { key: "pascua", name: "Pascua", color: "blanco", hex: "#ffba03", hint: "¡Cristo vive! Y nos quiere vivos." };
+  if (t >= e && t <= pent) return { key: "pascua", name: "Pascua", color: "blanco", hex: "#ffc93c", hint: "¡Cristo vive! Y nos quiere vivos." };
   return { key: "ordinario", name: "Tiempo Ordinario", color: "verde", hex: "#3f8f4e", hint: "Jesús camina con nosotros en lo de cada día." };
 }
 
@@ -296,31 +296,31 @@ function devShow(t) {
 // ---------------------------------------------------------------------------
 function roseWindow() {
   const petals = Array.from({ length: 8 }, (_, i) => {
-    const fill = ["#8ad2fa", "#ffba03", "#1351a4", "#ef591c"][i % 4];
+    const fill = ["#9fd8ff", "#ffc93c", "#3d6bf0", "#f4562a"][i % 4];
     return `<path d="M100 100 C 86 72, 86 40, 100 22 C 114 40, 114 72, 100 100 Z" fill="${fill}" transform="rotate(${i * 45} 100 100)"/>`;
   }).join("");
   const dots = Array.from({ length: 16 }, (_, i) => {
     const a = (i * 22.5 + 11.25) * Math.PI / 180;
-    return `<circle cx="${100 + Math.sin(a) * 84}" cy="${100 - Math.cos(a) * 84}" r="6" fill="${i % 2 ? "#fff6e5" : "#8ad2fa"}"/>`;
+    return `<circle cx="${100 + Math.sin(a) * 84}" cy="${100 - Math.cos(a) * 84}" r="6" fill="${i % 2 ? "#fbf8f3" : "#9fd8ff"}"/>`;
   }).join("");
   return `<svg class="cap-rose" viewBox="0 0 200 200" aria-hidden="true">
-    <defs><radialGradient id="capGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff6e5"/><stop offset="1" stop-color="#fde7b0"/></radialGradient></defs>
-    <circle cx="100" cy="100" r="96" fill="url(#capGlow)" stroke="#0b2566" stroke-width="4"/>
-    <circle cx="100" cy="100" r="74" fill="#fff6e5" stroke="#0b2566" stroke-width="3"/>
-    <g stroke="#0b2566" stroke-width="3" stroke-linejoin="round">${petals}</g>
-    <g stroke="#0b2566" stroke-width="2.5">${dots}</g>
-    <circle cx="100" cy="100" r="20" fill="#fff6e5" stroke="#0b2566" stroke-width="3"/>
-    <path d="M100 86 L100 114 M89 96 L111 96" stroke="#0b2566" stroke-width="4" stroke-linecap="round"/>
+    <defs><radialGradient id="capGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fbf8f3"/><stop offset="1" stop-color="#fde7b0"/></radialGradient></defs>
+    <circle cx="100" cy="100" r="96" fill="url(#capGlow)" stroke="#1e1f3b" stroke-width="4"/>
+    <circle cx="100" cy="100" r="74" fill="#fbf8f3" stroke="#1e1f3b" stroke-width="3"/>
+    <g stroke="#1e1f3b" stroke-width="3" stroke-linejoin="round">${petals}</g>
+    <g stroke="#1e1f3b" stroke-width="2.5">${dots}</g>
+    <circle cx="100" cy="100" r="20" fill="#fbf8f3" stroke="#1e1f3b" stroke-width="3"/>
+    <path d="M100 86 L100 114 M89 96 L111 96" stroke="#1e1f3b" stroke-width="4" stroke-linecap="round"/>
   </svg>`;
 }
 const candleSVG = (lit = true, cls = "") => `<svg class="cap-candle ${lit ? "lit" : ""} ${cls}" viewBox="0 0 60 120" aria-hidden="true">
-    <ellipse class="glow" cx="30" cy="30" rx="26" ry="30" fill="#ffba03" opacity=".22"/>
-    <path class="flame" d="M30 8 C 38 22, 40 32, 30 44 C 20 32, 22 22, 30 8 Z" fill="#ffba03" stroke="#ef591c" stroke-width="2.5"/>
-    <path class="flame-in" d="M30 24 C 34 31, 34 36, 30 41 C 26 36, 26 31, 30 24 Z" fill="#fff6e5"/>
-    <path d="M30 44 L30 52" stroke="#0b2566" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="17" y="52" width="26" height="58" rx="5" fill="#fff6e5" stroke="#0b2566" stroke-width="3"/>
-    <path d="M17 64 Q 24 70 26 62" fill="none" stroke="#0b2566" stroke-width="2"/>
-    <rect x="10" y="108" width="40" height="8" rx="4" fill="#1351a4" stroke="#0b2566" stroke-width="3"/>
+    <ellipse class="glow" cx="30" cy="30" rx="26" ry="30" fill="#ffc93c" opacity=".22"/>
+    <path class="flame" d="M30 8 C 38 22, 40 32, 30 44 C 20 32, 22 22, 30 8 Z" fill="#ffc93c" stroke="#f4562a" stroke-width="2.5"/>
+    <path class="flame-in" d="M30 24 C 34 31, 34 36, 30 41 C 26 36, 26 31, 30 24 Z" fill="#fbf8f3"/>
+    <path d="M30 44 L30 52" stroke="#1e1f3b" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="17" y="52" width="26" height="58" rx="5" fill="#fbf8f3" stroke="#1e1f3b" stroke-width="3"/>
+    <path d="M17 64 Q 24 70 26 62" fill="none" stroke="#1e1f3b" stroke-width="2"/>
+    <rect x="10" y="108" width="40" height="8" rx="4" fill="#3d6bf0" stroke="#1e1f3b" stroke-width="3"/>
   </svg>`;
 
 // ---------------------------------------------------------------------------
@@ -462,7 +462,7 @@ export function view(opt = {}) {
     <div class="cap-altar-top" data-action="capAltar" role="button" tabindex="0" aria-expanded="${altarOpen}" aria-controls="capAltarBody">
       <span class="cap-hand">aquí nadie reza solo</span>
       <div class="cap-room-head"><h2>Nuestras <em>intenciones</em></h2></div>
-      <p class="cap-lead">Enciende una vela por quien quieras y acompaña con tu oración las de los demás. Cada vela brilla una semana, y sus intenciones las llevamos a la misa del grupo.</p>
+      <p class="cap-lead">Enciende una vela por quien quieras. Brilla una semana y la llevamos a la misa del grupo.</p>
       ${member ? `<div class="cap-altar-row" id="velaAltar" aria-hidden="true"></div>
       <p class="cap-altar-sum" id="velaSum"></p>` : ""}
       <span class="btn cap-altar-btn">${icon("flame")} <span>${altarOpen ? "Ocultar las intenciones" : "Deja aquí tus intenciones"}</span></span>
@@ -742,7 +742,7 @@ function stopSilence(done) {
   if (done) {
     bell();
     gd = null;
-    if (ov) ov.querySelector(".cap-ov-in").innerHTML = `${candleSVG(true, "big")}<p class="cap-verse">Gracias por este momento.</p><p class="muted" style="color:#fff6e5;opacity:.85">Lleva esta paz a lo que viene.</p><button class="btn btn-gold" data-action="capStop">Volver a la capilla</button>`;
+    if (ov) ov.querySelector(".cap-ov-in").innerHTML = `${candleSVG(true, "big")}<p class="cap-verse">Gracias por este momento.</p><p class="muted" style="color:#fbf8f3;opacity:.85">Lleva esta paz a lo que viene.</p><button class="btn btn-gold" data-action="capStop">Volver a la capilla</button>`;
     return;
   }
   gd = null;
@@ -812,7 +812,7 @@ function rosarySVG() {
       <circle class="dot" cx="${b.x.toFixed(1)}" cy="${b.y.toFixed(1)}" r="${b.big ? 9.5 : 6.4}"/></g>`;
   const cy = my + 150;
   return `<svg class="ros-svg" viewBox="0 0 ${RW} ${RH}" aria-hidden="false">
-    <defs><radialGradient id="rosGlow"><stop offset="0" stop-color="#ffba03" stop-opacity=".55"/><stop offset="1" stop-color="#ffba03" stop-opacity="0"/></radialGradient></defs>
+    <defs><radialGradient id="rosGlow"><stop offset="0" stop-color="#ffc93c" stop-opacity=".55"/><stop offset="1" stop-color="#ffc93c" stop-opacity="0"/></radialGradient></defs>
     <circle class="ros-chain" cx="${RCX}" cy="${RCY}" r="${RR}"/>
     <path class="ros-chain" d="M${RCX} ${my} V${cy}"/>
     ${beads.map(bead).join("")}${pend.map(bead).join("")}

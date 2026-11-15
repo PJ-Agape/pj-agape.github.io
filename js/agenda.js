@@ -17,23 +17,23 @@ const $ = (s, r = document) => r.querySelector(s);
 // Cada tipo pertenece a un área, y cada área tiene su panel: Comunidad, Capilla (al final) y Recursos.
 // Lo que se destaca en Inicio sale además en las diapositivas de Inicio.
 export const AREAS = {
-  comunidad: { t: "Comunidad", c: "#ef591c", hand: "para encontrarnos", href: "#/red" },
+  comunidad: { t: "Comunidad", c: "#f4562a", hand: "para encontrarnos", href: "#/red" },
   capilla: { t: "Capilla", c: "#c98a00", hand: "para celebrar", href: "#/oracion" },
-  formacion: { t: "Recursos", c: "#1351a4", hand: "para preparar", href: "#/recursos" },
+  formacion: { t: "Recursos", c: "#3d6bf0", hand: "para preparar", href: "#/recursos" },
 };
 export const TYPES = {
   cumpleanos: { label: "Cumpleaños", color: "#f6b7a0", area: "comunidad" },
-  encuentro: { label: "Encuentro", color: "#ef591c", area: "comunidad" },
+  encuentro: { label: "Encuentro", color: "#f4562a", area: "comunidad" },
   retiro: { label: "Retiro", color: "#a8443b", area: "comunidad" },
-  misa: { label: "Misa", color: "#ffba03", area: "capilla" },
+  misa: { label: "Misa", color: "#ffc93c", area: "capilla" },
   liturgia: { label: "Liturgia", color: "#d39a1c", area: "capilla" },
   festividad: { label: "Festividad", color: "#f3d27a", area: "capilla" },
-  curso: { label: "Curso", color: "#1351a4", area: "formacion" },
-  taller: { label: "Taller", color: "#8ad2fa", area: "formacion" },
+  curso: { label: "Curso", color: "#3d6bf0", area: "formacion" },
+  taller: { label: "Taller", color: "#9fd8ff", area: "formacion" },
   lectura: { label: "Lectura", color: "#5f7fb8", area: "formacion" },
   // tipos anteriores: se siguen mostrando en las fechas ya guardadas, pero ya no se ofrecen
-  actividad: { label: "Actividad", color: "#ef591c", area: "comunidad", old: true },
-  equipo: { label: "Equipo", color: "#1351a4", area: "formacion", old: true },
+  actividad: { label: "Actividad", color: "#f4562a", area: "comunidad", old: true },
+  equipo: { label: "Equipo", color: "#3d6bf0", area: "formacion", old: true },
   otro: { label: "Otro", color: "#9aa7c2", area: "comunidad", old: true },
 };
 // Cumpleaños (los autorizados en Acompañar → Jóvenes): no son eventos editables, se muestran cada año.
@@ -147,8 +147,8 @@ export function viewAgenda(day) {
   prog.mes = ""; // se vuelve a escuchar al dibujar
   ctx.onLeave(() => { if (prog.stop) prog.stop(); prog.stop = null; prog.mes = ""; });
   return `
-  <header class="page-head"><span class="eyebrow">Ventana oficial del grupo</span><h1>Agenda <em>Ágape</em></h1>
-    <p>Encuentros, celebraciones y actividades de la pastoral, siempre al día. Lo que está aquí es lo oficial.</p></header>
+  <header class="page-head"><span class="eyebrow">Lo que viene</span><h1>Agenda <em>Ágape</em></h1>
+    <p>Encuentros, misas y actividades. Lo que está aquí es lo oficial.</p></header>
   ${ctx.tabs ? ctx.tabs("agenda") : ""}
   <div class="row-wrap" style="margin:14px 0 4px">
     ${admin ? `<button class="btn btn-primary btn-sm" data-action="agNew">${icon("plus")} Nuevo evento</button>` : ""}
@@ -457,7 +457,7 @@ export async function fillPanels() {
   const list = groupRuns([...expand(own.filter((e) => e.date && e.title), t, to), ...cumpleEvents(t, shiftIso(t, 31))]
     .filter((e) => e.date >= t && e.date <= to).sort((x, y) => (x.date + (x.start || "")).localeCompare(y.date + (y.start || ""))));
   document.querySelectorAll("[data-ag-panel]").forEach((el) => {
-    const a = el.dataset.agPanel, A = a === "inicio" ? { t: "Destacados", c: "#ef591c", hand: "no te lo pierdas" } : a === "todas" ? { t: "Próximas fechas", c: "#ef591c", hand: "lo que viene" } : AREAS[a]; if (!A) return;
+    const a = el.dataset.agPanel, A = a === "inicio" ? { t: "Destacados", c: "#f4562a", hand: "no te lo pierdas" } : a === "todas" ? { t: "Próximas fechas", c: "#f4562a", hand: "lo que viene" } : AREAS[a]; if (!A) return;
     // Inicio: lo que se marcó «Destacar en Inicio», de todas las áreas.
     const l = list.filter((e) => (a === "inicio" ? e.feat === true : a === "todas" || areaOf(e) === a)).slice(0, 5);
     if (a === "inicio" && !l.length) { el.innerHTML = ""; return; }

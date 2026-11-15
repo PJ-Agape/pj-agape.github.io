@@ -8,11 +8,11 @@ export const DEFAULTS = {
   saludo: { cuenta: "qué bueno verte", visita: "bienvenido a casa" },
   plaza: {
     hand: "donde nos encontramos", title: "La Plaza *Ágape*",
-    text: "Lo que vivimos, lo que conversamos y lo que nos decimos: todo en un mismo lugar.",
+    text: "Todo lo del grupo, en un solo lugar.",
     doors: {
-      muro: { kicker: "Lo que vivimos y conversamos", title: "Muro", text: "Avisos, temas, encuestas y las fotos del grupo.", on: true },
-      chat: { kicker: "Lo que nos decimos", title: "Chat", text: "Salas para conversar en grupo.", on: true },
-      juegos: { kicker: "Lo que jugamos", title: "Juegos", text: "Cartas, trivia, sopas de letras y más.", on: true },
+      muro: { kicker: "Lo que pasa", title: "Muro", text: "Avisos, fotos y encuestas.", on: true },
+      chat: { kicker: "Conversemos", title: "Chat", text: "Salas del grupo.", on: true },
+      juegos: { kicker: "Un rato libre", title: "Juegos", text: "Trivia, cartas y más.", on: true },
     },
   },
   radios: RADIOS_BASE.map((r) => ({ ...r })),

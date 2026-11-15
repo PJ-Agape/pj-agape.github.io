@@ -122,7 +122,8 @@ const routes = [
   [/^\/juegos\/crucigrama$/, () => mod.crucigrama().then((m) => m.view()), "red"],
   [/^\/podcast$/, () => podcast.view(), "red"],
   [/^\/credenciales$/, () => mod.credenciales().then((m) => m.view()), "materiales"],
-  [/^\/buscar(?:\?q=(.*))?$/, (q) => inicio.viewBuscar(q || ""), "buscar"],
+  [/^\/buscar(?:\?q=(.*))?$/, (q) => inicio.viewBuscar(q || ""), "menu"],
+  [/^\/menu$/, () => inicio.viewMenu(), "menu"],
   [/^\/ayuda(?:\?t=([a-z]+))?$/, (t) => ayuda.view(t), "ayuda"],
   [/^\/difusion$/, () => mod.difusion().then((m) => m.view()), "difusion"],
   [/^\/sellos$/, () => descubre.view(), "inicio"],
@@ -147,7 +148,7 @@ const routes = [
   [/^\/admin(?:\/(.*))?$/, viewAdmin, "admin"],
 ];
 
-let lastPath = null;
+let lastPath = null, enterT = 0;
 // Una vista a la vez: si se pide otra mientras una sección se descarga, se dibuja apenas termine la actual.
 let rendering = null, renderAgain = false;
 export function render() {
@@ -180,11 +181,14 @@ async function renderNow() {
   const html = await fn(...(match ? match.slice(1) : []));
   if (html == null) return;
   const v = viewEl();
-  v.innerHTML = (section !== "admin" && S.isPreview() ? previewBanner() : "") + html;
+  v.innerHTML = a11y.tint((section !== "admin" && S.isPreview() ? previewBanner() : "") + html);
   decorate(v, section);
   volverBotones(v, path);
+  volverZona(v, path, section);
   apariencia.apply(v, path);
-  v.classList.remove("view-enter"); void v.offsetWidth; v.classList.add("view-enter");
+  // La entrada animada es solo al cambiar de pantalla (no cuando la misma pantalla se redibuja).
+  clearTimeout(enterT); v.classList.remove("view-enter");
+  if (path !== lastPath) { void v.offsetWidth; v.classList.add("view-enter"); enterT = setTimeout(() => v.classList.remove("view-enter"), 800); }
   if (path !== lastPath) window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
   if (path !== lastPath && cloud.enabled && !cloud.viewingAs() && window.top === window) { const k = vistaDe(path); if (k) cloud.countView(k); }
   // Descubre Ágape: el sello del pasaporte y «Sigue tu camino» al final de cada herramienta
@@ -228,6 +232,13 @@ const VOLVER = [
   [/^\/oremus\/libro$/, "#/oremus", "Volver a Recemos juntos"],
   [/^\/cancionero\/.+/, "#/cancionero", "Volver al Cancionero"],
 ];
+// En cualquier pantalla que no sea una de las pestañas, arriba hay un «volver» a su zona: así nadie se pierde.
+const RAICES = /^\/(?:|recursos(?:\?.*)?|oracion|red|menu|perfil|solicitar|conocer.*|admin.*)$/;
+function volverZona(v, path, section) {
+  if (RAICES.test(path) || v.querySelector(".crumbs, .ent-backs")) return;
+  const tab = TAB_OF[section] || section, n = NAV.find(([k]) => k === tab) || NAV[0];
+  v.insertAdjacentHTML("afterbegin", `<nav class="ent-backs no-print is-top" aria-label="Volver"><a class="ent-back" href="${n[1]}">${icon("left")} ${esc(n[2] === "Hoy" ? "Inicio" : n[2])}</a></nav>`);
+}
 function volverBotones(v, path) {
   const r = VOLVER.find(([re]) => re.test(path)); if (!r) return;
   const crumbs = v.querySelector(".crumbs");
@@ -264,11 +275,16 @@ const leaveHooks = [];
 const onLeave = (f) => leaveHooks.push(f);
 window.addEventListener("hashchange", render);
 
-document.addEventListener("agape:color", () => { a11y.apply(); applyTheme(); });
+document.addEventListener("agape:color", () => {
+  a11y.apply(); applyTheme();
+  // Se redibuja para que los dibujos y tarjetas tomen la paleta; el selector queda abierto y a la vista.
+  const y = window.scrollY;
+  render().then(() => { const d = $("#palDet"); if (d) d.open = true; window.scrollTo(0, y); });
+});
 function applyTheme() {
   document.documentElement.dataset.theme = "amanecer";
   const pick = a11y.COLORES.find(([k]) => k && k === a11y.prefs().color);
-  const color = pick ? pick[2] : { amanecer: "#1351a4", cenaculo: "#0a2a6e", esperanza: "#0a3a78" }.amanecer;
+  const color = pick ? pick[2][0] : "#3d6bf0";
   $('meta[name="theme-color"]')?.setAttribute("content", color);
 }
 
@@ -281,6 +297,7 @@ const NAV = [
   ["formacion", "#/recursos", "Recursos", "book"],
   ["oracion", "#/oracion", "Orar", "flame"],
   ["red", "#/red", "Comunidad", "users"],
+  ["menu", "#/menu", "Menú", "grid"],
 ];
 // Cada sección se marca en su bloque
 const TAB_OF = { materiales: "formacion", muro: "red", comunidad: "formacion", difusion: "formacion", acompanar: "red", agenda: "red" };
@@ -343,7 +360,7 @@ function renderChrome(section) {
     : `${cloud.enabled && AV.isValid((cloud.state().account || {}).avatar) ? `<span class="chip-av">${AV.svg(cloud.state().account.avatar)}</span>` : `<span class="avatar">${esc(initials(p.name))}</span>`}<span class="name">${esc(p.name || "Mi perfil")}</span>`;
   $("#profileChip").setAttribute("href", inAdmin ? "#/admin" : "#/perfil");
   if (!$("#hdrSearch")) $("#profileChip").insertAdjacentHTML("beforebegin", `<a class="hdr-search" id="hdrSearch" href="#/buscar" aria-label="Buscar en la app" title="Buscar">${icon("search")}</a>`);
-  $("#hdrSearch").toggleAttribute("hidden", section === "buscar");
+  $("#hdrSearch").toggleAttribute("hidden", location.hash.startsWith("#/buscar"));
   novedades.mount();
 }
 
@@ -549,7 +566,7 @@ function viewMaterials(abrir) {
   const full = !cloud.enabled || (!!st0.ready && !st0.isJoven);
   const OPEN = ["difusion", "musica", "oracion"];
   const FILES = [
-    ["presentaciones", "Presentaciones", "#ef591c", "Para proyectar a pantalla completa.", [
+    ["presentaciones", "Presentaciones", "#f4562a", "Para proyectar a pantalla completa.", [
       row("presentaciones/hay-un-lugar-para-ti.html", "users", "Hay un lugar para ti", "Para invitar a otros jóvenes a Ágape: compártela por WhatsApp o proyéctala", true),
       row("presentaciones/se-puente.html", "sparkle", "Sé puente", "Para invitar a futuros dirigentes", true),
       row("presentaciones/el-arte-de-encontrarnos.html", "grid", "El Arte de Encontrarnos", "Para el consejo pastoral, el párroco y las familias", true),
@@ -561,22 +578,22 @@ function viewMaterials(abrir) {
     ["difusion", "Difusión", "#9bbf8a", "Para invitar y compartir en Estados, historias y grupos.", [
       row("#/difusion", "sparkle", "Estudio de difusión", "Marco de foto, historias, invitaciones, fondos de pantalla y stickers"),
     ]],
-    ["musica", "Música", "#ffba03", "Para animar las celebraciones.", [
+    ["musica", "Música", "#ffc93c", "Para animar las celebraciones.", [
       row("#/cancionero", "book", "Cancionero Ágape", guest ? "Las canciones originales de Ágape. Con tu cuenta, el cancionero completo." : "Acordes, cambio de tono, proyección y repertorios"),
     ]],
-    ["oracion", "Oración", "#1351a4", "Para rezar solos o en el encuentro.", [
+    ["oracion", "Oración", "#3d6bf0", "Para rezar solos o en el encuentro.", [
       row("#/oremus", "book", "Recemos juntos", "Nuestras oraciones y las de siempre, en un solo lugar"),
       row("#/salmos", "book", "Oremos con los salmos", "Un salmo para cada momento y cómo rezarlo paso a paso"),
     ]],
-    ["guias", "Guías para el encuentro", "#8ad2fa", "Pautas breves para preparar y acompañar cada reunión.", [
+    ["guias", "Guías para el encuentro", "#9fd8ff", "Pautas breves para preparar y acompañar cada reunión.", [
       row("#/dinamicas", "sparkle", "Banco de dinámicas", "Rompehielos, juegos, oración y reflexión, por para qué sirven"), ...guides.map(guide)]],
-    ["imprimir", "Para imprimir", "#fde0d2", "Listos para llevar en papel.", [
+    ["imprimir", "Para imprimir", "#ffe3da", "Listos para llevar en papel.", [
       row("#/credenciales", "award", "Credenciales", "Tarjetas de solapa con foto, nombre y parroquia para los encuentros"),
       row("#/cancionero", "print", "Cancionero en PDF", "Desde el cancionero: Exportar → PDF"),
       ...prints.map(guide),
     ]],
   ].map((f) => { f[4] = f[4].filter(Boolean); return f; }).filter((f) => f[4].length && (full || OPEN.includes(f[0])));
-  return `<header class="page-head hub-head" style="--bc:#1351a4"><span class="eyebrow">para preparar y compartir</span><h1>Recursos</h1><p>${esc(full ? "Presentaciones, difusión, música, oración, guías para el encuentro, lo que se imprime y la biblioteca digital." : "Para invitar a otros, cantar, rezar y conocer más nuestra fe.")}</p></header>
+  return `<header class="page-head hub-head" style="--bc:#3d6bf0"><span class="eyebrow">para preparar y compartir</span><h1>Recursos</h1><p>${esc(full ? "Presentaciones, difusión, música, oración, guías para el encuentro, lo que se imprime y la biblioteca digital." : "Para invitar, cantar y rezar.")}</p></header>
     ${guest ? `<p class="fi-hint">Con tu cuenta se abren también las presentaciones, guías y dinámicas del equipo.</p>` : ""}
     <p class="fi-hint">Toca un fichero para abrirlo.</p>
     <div class="fi-grid">${FILES.map(([k, t, col, d, items, count], i) => `
@@ -676,7 +693,7 @@ function libraryHTML(lib, num = 6) {
   if (!lib.total) return "";
   const host = (u) => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return ""; } };
   return `
-  <details id="fi-biblioteca" class="fichero fi-lib" style="--fi:#0b2566" ${fiOpen.has("biblioteca") ? "open" : ""} data-fi="biblioteca">
+  <details id="fi-biblioteca" class="fichero fi-lib" style="--fi:#1e1f3b" ${fiOpen.has("biblioteca") ? "open" : ""} data-fi="biblioteca">
     <summary class="fi-sum"><span class="fi-tab">Fichero ${String(num).padStart(2, "0")}</span>
       <span class="fi-head"><h2>Biblioteca digital</h2><span class="fi-count">${lib.total}</span><span class="fi-chev" aria-hidden="true">${icon("down")}</span></span></summary>
     <p class="fi-desc">Documentos de la Iglesia y recursos para profundizar, cada uno con el enlace a su fuente oficial.</p>
@@ -727,7 +744,7 @@ function viewProfile() {
       <p class="xs muted">Tus datos se guardan en este dispositivo.</p>
       <button class="btn btn-primary btn-block" type="submit">${isNew ? "Comenzar" : "Guardar cambios"}</button>
     </form>
-    ${!isNew ? `${a11y.panelHTML()}<div id="installSlot" style="margin-top:14px"></div>
+    ${!isNew ? `<section class="card"><h2>Colores de la app</h2><p class="muted small">Elige los que más te gusten.</p>${a11y.coloresHTML()}</section>${a11y.panelHTML()}<div id="installSlot" style="margin-top:14px"></div>
       <p class="xs muted" style="text-align:center;margin-top:18px">¿Eres del equipo coordinador? <a href="#/admin">Entrar a Gestión</a></p>` : ""}
   </div>`;
 }
@@ -818,6 +835,7 @@ function viewAccount() {
         </form></details>
       <details class="pf-det"><summary>${icon("users")}<span>Mi avatar</span>${icon("down")}</summary><section class="av-card" id="avCard">${avPicker()}</section></details>
       <details class="pf-det" ${myCum === false ? "hidden" : ""} id="cumDet"><summary>${icon("cal")}<span>Mi cumpleaños</span>${icon("down")}</summary><section class="cum-card" id="cumCard">${cumCardHTML()}</section></details>
+      <details class="pf-det" id="palDet"><summary>${icon("sparkle")}<span>Colores de la app</span>${icon("down")}</summary><div style="margin-top:12px">${a11y.coloresHTML()}</div></details>
       <details class="pf-det"><summary>${icon("eye")}<span>Accesibilidad</span>${icon("down")}</summary>${a11y.panelHTML()}</details>
       ${fila("#/ayuda", "book", "Ayuda")}
     </section>

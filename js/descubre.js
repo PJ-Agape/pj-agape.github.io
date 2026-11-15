@@ -101,7 +101,7 @@ export function marcar(k) {
   if (s.n >= s.total && !p.premio) {
     p.premio = true; p.logros = [...new Set([...(p.logros || []), p.m])]; guardar(p);
     setTimeout(() => toast(`¡Completaste tu Pasaporte Ágape de ${MESES[new Date().getMonth()]}! Tienes un marco nuevo en el Estudio de difusión.`, "ok", 7000), 900);
-  } else if (k !== "evangelio") setTimeout(() => toast(`Nuevo sello en tu Pasaporte Ágape: ${tool(k).n} (${s.n} de ${s.total})`, "ok", 3500), 900); // en el Evangelio, nada que distraiga
+  } else if (k !== "evangelio") setTimeout(() => toast(`Nuevo sello: ${tool(k).n} (${s.n} de ${s.total})`, "ok", 3500), 900); // en el Evangelio, nada que distraiga
 }
 
 // --- Cuánta gente pasó por cada herramienta esta semana --------------------------
@@ -169,7 +169,7 @@ export function view() {
   const { p, hs, n, total, lleno } = sellos(), mes = MESES[new Date().getMonth()];
   const fecha = (iso) => { const [, m, d] = iso.split("-").map(Number); return `${d} ${MESES[m - 1].slice(0, 3)}`; };
   return `<header class="page-head"><span class="eyebrow">Descubre Ágape</span><h1>Pasaporte <em>Ágape</em></h1>
-    <p>Cada rincón de la app que visitas este mes te da un sello. Recorre todos y recibe el marco especial «Peregrino Ágape» para tu foto. Se renueva cada mes y queda guardado en este dispositivo.</p></header>
+    <p>Cada rincón que visitas te da un sello. Junta todos este mes y gana el marco «Peregrino Ágape» para tu foto.</p></header>
     <section class="card ds-pas">
       <div class="ds-pas-head"><span class="ds-pas-sello">${SELLO()}</span>
         <div><span class="ds-hand">${lleno ? "¡pasaporte completo!" : `pasaporte de ${mes}`}</span>

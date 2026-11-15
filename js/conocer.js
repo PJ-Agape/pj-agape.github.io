@@ -171,7 +171,7 @@ export function inviteCard() {
   if (!ctx.cloud.enabled || !ctx.cloud.state().ready) return "";
   return `<section class="card cono-invite" aria-labelledby="conoInvT">
     <div class="cono-invite-txt"><h2 id="conoInvT">Invita a alguien a Ágape</h2>
-      <p class="muted small">¿Tienes un amigo o amiga que podría venir? Mándale la invitación por WhatsApp: le llega una página para conocernos y dejar su contacto.</p></div>
+      <p class="muted small">¿Conoces a alguien que podría venir? Mándale la invitación por WhatsApp.</p></div>
     <a class="btn btn-primary" href="${esc(inviteHref())}" target="_blank" rel="noopener">${icon("send")} <span class="cono-inv-l">Invitar</span></a>
   </section>`;
 }
@@ -297,7 +297,7 @@ export function registerAdmin(actions, rerender) {
     const q = qrcode(0, "M"); q.addData(linkFor(canal)); q.make();
     const n = q.getModuleCount(), size = 1200, pad = 80, cell = (size - pad * 2) / n;
     const cv = document.createElement("canvas"); cv.width = cv.height = size;
-    const g = cv.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, size, size); g.fillStyle = "#0b2566";
+    const g = cv.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, size, size); g.fillStyle = "#1e1f3b";
     for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (q.isDark(y, x)) g.fillRect(pad + x * cell, pad + y * cell, Math.ceil(cell), Math.ceil(cell));
     cv.toBlob((b) => { const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `qr-quiero-conocer-agape-${canal}.png`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }, "image/png");
   };

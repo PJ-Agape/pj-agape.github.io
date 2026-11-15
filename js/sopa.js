@@ -10,7 +10,7 @@ const $ = (s, r = document) => r.querySelector(s);
 
 export const LEVELS = { facil: { l: "Fácil", n: 9, words: 6, dirs: [[1, 0], [0, 1]] }, medio: { l: "Medio", n: 11, words: 8, dirs: [[1, 0], [0, 1], [1, 1], [1, -1]] }, dificil: { l: "Difícil", n: 12, words: 10, dirs: [[1, 0], [0, 1], [1, 1], [1, -1], [-1, 0], [0, -1], [-1, -1], [-1, 1]] } };
 const FILL = "AAAAABCCDDEEEEEFGHIIIIJLLLMMNNÑOOOOPPQRRRSSSSTTTUUUVYZ";
-const HL = ["#ffba03", "#8ad2fa", "#ef591c", "#1351a4"];
+const HL = ["#ffc93c", "#9fd8ff", "#f4562a", "#3d6bf0"];
 
 let cfg = { tema: "santos", level: "medio" };
 try { cfg = { ...cfg, ...(JSON.parse(localStorage.getItem("agape_sopa") || "{}") || {}) }; } catch { /* */ }
@@ -82,7 +82,7 @@ function words() {
 const line = (x0, y0, x1, y1, color, cls = "") => `<line class="${cls}" x1="${x0 + 0.5}" y1="${y0 + 0.5}" x2="${x1 + 0.5}" y2="${y1 + 0.5}" stroke="${color}" stroke-width=".78" stroke-linecap="round"/>`;
 function marks(tmp) {
   const s = $("#spMarks"); if (!s) return;
-  s.innerHTML = g.words.map((w, i) => w.found ? line(w.x0, w.y0, w.x0 + w.dx * (w.u.length - 1), w.y0 + w.dy * (w.u.length - 1), HL[i % HL.length], "f") : "").join("") + (tmp ? line(...tmp, "#0b2566", "t") : "");
+  s.innerHTML = g.words.map((w, i) => w.found ? line(w.x0, w.y0, w.x0 + w.dx * (w.u.length - 1), w.y0 + w.dy * (w.u.length - 1), HL[i % HL.length], "f") : "").join("") + (tmp ? line(...tmp, "#1e1f3b", "t") : "");
 }
 // Celda bajo el dedo
 function cellAt(ev) {

@@ -16,7 +16,7 @@ const todayIso = () => iso(new Date());
 const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
 export const ETAPAS = {
-  ingreso: { l: "Ingreso", c: "#8ad2fa" }, madurez: { l: "Madurez", c: "#1351a4" }, aspirante: { l: "Aspirante", c: "#ef591c" }, equipo: { l: "Equipo", c: "#ffba03" },
+  ingreso: { l: "Ingreso", c: "#9fd8ff" }, madurez: { l: "Madurez", c: "#3d6bf0" }, aspirante: { l: "Aspirante", c: "#f4562a" }, equipo: { l: "Equipo", c: "#ffc93c" },
 };
 // ---------------------------------------------------------------------------
 // Datos
@@ -31,8 +31,8 @@ const activos = () => (jovenes || []).filter((j) => j.activo !== false).sort((a,
 const shortName = (n) => ctx.cloud.shortName(n);
 const av = (j, cls = "") => {
   const s = j.avatar && avatarSvg(j.avatar);
-  const bg = (ETAPAS[j.etapa] || {}).c || "#e1edfb", dark = bg === "#1351a4" || bg === "#ef591c";
-  return s ? `<span class="avatar av-ill ${cls}">${s}</span>` : `<span class="avatar ${cls}" style="background:${bg};color:${dark ? "#fff6e5" : "#0b2566"}">${esc(initials(j.nombre || "?"))}</span>`;
+  const bg = (ETAPAS[j.etapa] || {}).c || "#e8eeff", dark = bg === "#3d6bf0" || bg === "#f4562a";
+  return s ? `<span class="avatar av-ill ${cls}">${s}</span>` : `<span class="avatar ${cls}" style="background:${bg};color:${dark ? "#fbf8f3" : "#1e1f3b"}">${esc(initials(j.nombre || "?"))}</span>`;
 };
 
 // Cumpleaños para Inicio (solo con autorización de la familia): nombre corto y día/mes.

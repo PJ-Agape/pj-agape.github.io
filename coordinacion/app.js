@@ -207,7 +207,7 @@ function proximos(dias = 30) {
   E.actividades.filter((x) => x.fecha >= h && x.fecha <= fin && !x.agendaId).forEach((x) => lista.push({ fecha: x.fecha, hora: "", titulo: x.titulo, tipo: "plan", detalle: x.respNombre ? `Responsable: ${x.respNombre}` : "", enlace: "#/calendario" }));
   return lista.sort((a, b) => (a.fecha + a.hora).localeCompare(b.fecha + b.hora));
 }
-const TIPO_EVENTO = { agape: ["Agenda agAPPe", "#ef591c"], reunion: ["Reunión", "#1351a4"], plan: ["Planificación", "#2f7d4f"], tarea: ["Plazo de tarea", "#b4442e"] };
+const TIPO_EVENTO = { agape: ["Agenda agAPPe", "#f4562a"], reunion: ["Reunión", "#3d6bf0"], plan: ["Planificación", "#2f7d4f"], tarea: ["Plazo de tarea", "#b4442e"] };
 
 function filaTarea(t, compacta) {
   const vencida = t.plazo && t.estado !== "hecha" && t.plazo < hoyIso();

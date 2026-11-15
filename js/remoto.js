@@ -73,8 +73,8 @@ export function iniciar(o) {
   if (listo) return; listo = true;
   const st = document.createElement("style");
   st.textContent = `.remoto-btn{display:inline-flex;align-items:center;gap:6px;font:inherit;font-weight:800;font-size:.82rem;cursor:pointer}
-.can-proj-ctrl .remoto-btn{padding:7px 12px;border-radius:999px;border:0;background:#fff6e5;color:#0b2566}
-.remoto-btn.on{background:#ffba03 !important;color:#0b2566 !important}.remoto-btn.warn{background:#ef591c !important;color:#fff !important}
+.can-proj-ctrl .remoto-btn{padding:7px 12px;border-radius:999px;border:0;background:#fbf8f3;color:#1e1f3b}
+.remoto-btn.on{background:#ffc93c !important;color:#1e1f3b !important}.remoto-btn.warn{background:#f4562a !important;color:#fff !important}
 .nav .remoto-btn span{display:none}`;
   document.head.appendChild(st);
   document.addEventListener("click", (e) => {
