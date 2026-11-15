@@ -11,7 +11,7 @@ export const FRASES = [
   "Somos una familia que se cuida: nos acompañamos en lo bueno y en lo no tan bueno.",
   "Ágape lo hacemos entre todos. Lo que tú traes, por pequeño que parezca, suma.",
   "Servir es nuestra forma de amar, y se nota en los gestos pequeños de cada día.",
-  "No nos importa cuántos somos, sino que nadie se sienta solo.",
+  "Más que ser muchos, lo más importante es que nadie se sienta solo.",
   "¿Te equivocaste? Nos pasa a todos. Aquí se pide perdón y se vuelve a empezar.",
   "Eres joven y ya eres Iglesia: Dios cuenta contigo hoy, no mañana.",
   "Los santos también fueron jóvenes y caminaron nuestra tierra. La santidad es para ti, aquí y ahora.",
