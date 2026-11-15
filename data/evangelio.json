@@ -1,24 +1,18 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-13": {
-   "titulo": "Viernes de la 32.ª semana del Tiempo Ordinario",
-   "cita": "Lc 17,26-37",
-   "frase": "El que trate de salvar su vida la perderá; y el que la pierda la conservará.",
-   "video": "DbU7XIp_PjM",
-   "reflexion": "aPJI5w27l8Q"
-  },
   "2026-11-14": {
    "titulo": "Sábado de la 32.ª semana del Tiempo Ordinario",
    "cita": "Lc 18,1-8",
    "frase": "Jesús les enseñó que era necesario orar siempre sin desanimarse.",
-   "video": "xx0SRwZ5A_4",
-   "reflexion": "7R6qEm0iHgg"
+   "reflexion": "7R6qEm0iHgg",
+   "video": "xx0SRwZ5A_4"
   },
   "2026-11-15": {
    "titulo": "33er domingo del Tiempo Ordinario",
    "cita": "Mt 25,14-30",
-   "frase": "Has sido fiel en lo poco; entra a participar del gozo de tu señor."
+   "frase": "Has sido fiel en lo poco; entra a participar del gozo de tu señor.",
+   "video": "AQ1oxitOJL0"
   },
   "2026-11-16": {
    "titulo": "Lunes de la 33.ª semana del Tiempo Ordinario",
@@ -59,6 +53,11 @@
    "titulo": "Lunes de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,1-4",
    "frase": "Esta viuda pobre ha dado más que nadie."
+  },
+  "2026-11-24": {
+   "titulo": "Martes de la 34.ª semana del Tiempo Ordinario",
+   "cita": "Lc 21,5-11",
+   "frase": "Tengan cuidado, no se dejen engañar."
   }
  }
 }
