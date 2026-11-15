@@ -36,6 +36,8 @@ export const ZONAS = [
     t: [[".home-hand", "Frase manuscrita", "qué bueno verte"]] },
   { id: "bv_lema", n: "Inicio · frase de lo que somos", ruta: "#/", re: /^\/$/, sel: ".bv-lema", stk: "",
     t: [[".bv-k", "Frase manuscrita", "amor que transforma"]] },
+  { id: "bv_video", n: "Inicio · video de bienvenida", ruta: "#/", re: /^\/$/, sel: ".bv-video", stk: "",
+    t: [[".bv-k", "Frase manuscrita", "conoce agAPPe"]] },
   { id: "bv_rezar", n: "Inicio · puerta Rezar", ruta: "#/", re: /^\/$/, sel: "#bvRezar", stk: "",
     t: [["em", "Frase manuscrita", "un momento con Dios"], ["strong", "Título", "Rezar"], ["small", "Descripción", "La Capilla está abierta."]] },
   { id: "bv_red", n: "Inicio · puerta Encontrarnos", ruta: "#/", re: /^\/$/, sel: "#bvRed", stk: "",
@@ -114,7 +116,7 @@ export function reaplicar(id, el) { const z = zona(id); if (z && el) applyZona(e
 export const PANTALLAS = [
   { id: "inicio", n: "Inicio", ruta: "#/", re: /^\/$/, wrap: ".bv", p: [
     ["saludo", "Saludo y Evangelio del día", ".home-hi"], ["rosario", "Aviso del Rosario en comunidad", "#rosarioVivoSlot"], ["solicitud", "Solicitud para ser dirigente", ".sol-banner"],
-    ["lema", "Frase de lo que somos", ".bv-lema"], ["puertas", "Las tres puertas", ".bv-doors"]],
+    ["lema", "Frase de lo que somos", ".bv-lema"], ["puertas", "Las tres puertas", ".bv-doors"], ["video", "Video de bienvenida", ".bv-video"]],
     g: [[".bv-doors", "Puertas, una por una"]] },
   { id: "hoy", n: "Hoy", ruta: "#/hoy", re: /^\/hoy$/, p: [
     ["encabezado", "Encabezado", ".page-head"], ["desafio", "Recordatorio del desafío", "#desafioHoy"],

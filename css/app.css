@@ -5351,3 +5351,4 @@ dialog.sheet[open]::backdrop { animation: fadein .25s ease both; }
 :root[data-theme="dark"] .bv-card { background: linear-gradient(135deg, #12275e, #1b2d55); border-color: rgba(138, 210, 250, .2); }
 :root[data-theme="dark"] .bv-txt, :root[data-theme="dark"] .bv-txt p { color: #e6eeff; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bv-card { background: linear-gradient(135deg, #12275e, #1b2d55); border-color: rgba(138, 210, 250, .2); } :root:not([data-theme="light"]) .bv-txt, :root:not([data-theme="light"]) .bv-txt p { color: #e6eeff; } }
+.bv-video video { display: block; width: 100%; max-width: 440px; aspect-ratio: 1; margin: 8px auto 0; border-radius: 22px; border: 2px solid var(--line-2); background: var(--surface-2); box-shadow: var(--shadow-1); }

@@ -22,9 +22,13 @@ const deHoy = () => { const d = new Date(), l = lista(); return l[Math.floor(Dat
 
 export function inicioHTML({ greet, guest, extra = "" }) {
   const puerta = (id, href, ic, hand, t, d, c) => `<a class="bv-door" id="${id}" href="${href}" style="--c:${c}"><i aria-hidden="true">${icon(ic)}</i><span><em>${esc(hand)}</em><strong>${esc(t)}</strong><small>${esc(d)}</small></span>${icon("right")}</a>`;
+  // El video de bienvenida: a quien llega por primera vez se le muestra arriba; a quien ya tiene cuenta, al final.
+  const video = `<section class="bv-video" aria-label="Video de bienvenida"><span class="bv-k">conoce agAPPe</span>
+      <video controls playsinline preload="none" poster="video/bienvenida.jpg" src="video/bienvenida.mp4"></video></section>`;
   return `<div class="bv">
     ${greet}
     ${extra}
+    ${guest ? video : ""}
     <section class="bv-lema" aria-label="Lo que somos">
       <span class="bv-k">amor que transforma</span>
       <blockquote>${esc(deHoy())}</blockquote>
@@ -36,6 +40,7 @@ export function inicioHTML({ greet, guest, extra = "" }) {
       ${puerta("bvHoy", "#/hoy", "cal", "para estar al día", "Lo de hoy", "Fechas, cumpleaños y avisos.", "var(--cs)")}
     </nav>
     ${guest ? `<p class="bv-pie">¿Primera vez por aquí? <a href="presentaciones/hay-un-lugar-para-ti.html" target="_blank" rel="noopener">Hay un lugar para ti</a></p>` : ""}
+    ${guest ? "" : video}
     <div id="installSlot"></div>
   </div>`;
 }
