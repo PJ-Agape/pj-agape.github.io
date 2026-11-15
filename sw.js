@@ -26,6 +26,8 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET" || url.origin !== location.origin) return;
   // Las otras apps del sitio (Coordinación, Mi Ruta) manejan su propia caché.
   if (/\/(coordinacion|Mi_ruta)\//.test(url.pathname)) return;
+  // Videos: directo de la red (se piden por partes y no conviene guardarlos en la caché).
+  if (/\.(mp4|webm)$/.test(url.pathname)) return;
 
   // El contenido cambia cuando el equipo publica: primero red, si no hay, caché.
   if (url.pathname.endsWith("/data/contenido.json")) {
