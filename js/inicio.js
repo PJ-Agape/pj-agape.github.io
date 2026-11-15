@@ -106,7 +106,7 @@ export function greetHTML() {
   const h = new Date().getHours(), saludo = h < 12 ? "Buenos días" : h < 20 ? "Buenas tardes" : "Buenas noches";
   return `<section class="home-hi">
     <span class="home-hand">${esc(w.guest ? inicioCfg().saludo.visita : inicioCfg().saludo.cuenta)}</span>
-    <h1>${esc(saludo)}${first ? `, <em>${esc(first)}</em>` : ""}</h1>
+    <h1>¡${esc(saludo)}${first ? `, <em>${esc(first)}</em>` : ""}!</h1>
     <a class="home-gospel" id="homeGospel" href="#/evangelio" hidden></a>
   </section>`;
 }

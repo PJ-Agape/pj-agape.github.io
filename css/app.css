@@ -5338,17 +5338,4 @@ dialog.sheet[open]::backdrop { animation: fadein .25s ease both; }
 .bv-fin { text-align: center; font-weight: 800; font-style: italic; color: var(--accent-text); padding-top: 14px; border-top: 2px dashed var(--line-2); }
 .bv > :empty { display: none; }
 /* Video de bienvenida en Hoy */
-.bv-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: center; margin: 4px 0 18px; padding: 14px; border-radius: 22px; background: linear-gradient(135deg, #e6f5ff, #fff6dd); border: 1px solid rgba(19, 81, 164, .12); }
-.bv-media video { display: block; width: 100%; aspect-ratio: 1 / 1; border-radius: 16px; background: #0b2566; object-fit: cover; box-shadow: 0 10px 24px rgba(11, 37, 102, .2); }
-.bv-txt { display: grid; gap: 8px; min-width: 0; color: #0b2566; }
-.bv-txt h2 { margin: 0; font-family: var(--font-display, inherit); font-size: clamp(1.25rem, 3.6vw, 1.7rem); line-height: 1.1; text-wrap: balance; }
-.bv-txt h2 em { font-style: normal; color: #ef591c; }
-.bv-txt p { margin: 0; color: #43507a; }
-.bv-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-.bv-hide { justify-self: start; border: 0; background: none; padding: 0; font: inherit; font-size: .8rem; color: #5a6b92; text-decoration: underline; cursor: pointer; }
-@media (min-width: 640px) { .bv-card { grid-template-columns: minmax(240px, 360px) minmax(0, 1fr); gap: 22px; } }
-@media (max-width: 420px) { .bv-card { padding: 12px; } .bv-btns .btn { padding-inline: 10px; } }
-:root[data-theme="dark"] .bv-card { background: linear-gradient(135deg, #12275e, #1b2d55); border-color: rgba(138, 210, 250, .2); }
-:root[data-theme="dark"] .bv-txt, :root[data-theme="dark"] .bv-txt p { color: #e6eeff; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bv-card { background: linear-gradient(135deg, #12275e, #1b2d55); border-color: rgba(138, 210, 250, .2); } :root:not([data-theme="light"]) .bv-txt, :root:not([data-theme="light"]) .bv-txt p { color: #e6eeff; } }
 .bv-video video { display: block; width: 100%; max-width: 440px; aspect-ratio: 1; margin: 8px auto 0; border-radius: 22px; border: 2px solid var(--line-2); background: var(--surface-2); box-shadow: var(--shadow-1); }

@@ -5,7 +5,7 @@
 import { RADIOS as RADIOS_BASE } from "./capilla.js";
 
 export const DEFAULTS = {
-  saludo: { cuenta: "qué bueno verte", visita: "bienvenido a casa" },
+  saludo: { cuenta: "¡qué alegría verte!", visita: "¡pasa, estás en casa!" },
   frases: "", // Frases de Inicio (una por línea). Vacío: las del Preámbulo.
   plaza: {
     hand: "donde nos encontramos", title: "La Plaza *Ágape*",

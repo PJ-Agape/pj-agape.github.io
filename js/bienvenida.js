@@ -5,16 +5,16 @@ import { cfg } from "./inicio-config.js";
 
 // Frases del Preámbulo, una por día
 export const FRASES = [
-  "Queremos que quien pase por Ágape se vaya distinto de como llegó, porque alguien lo miró, lo escuchó y lo tomó en serio.",
-  "Recibimos a cada uno como es, también a quien llega con dudas o vuelve después de un tiempo lejos.",
-  "Aquí nadie se queda mirando desde afuera: cada uno es protagonista de su camino.",
-  "Queremos ser una familia que se cuida.",
-  "Ágape no es de unos pocos. Lo construimos entre todos: cada uno pone lo que tiene.",
-  "Servir es nuestra forma de amar.",
-  "Nos importa más la profundidad que los números.",
-  "Cuando nos equivocamos, pedimos perdón y volvemos a empezar.",
-  "Somos jóvenes y somos Iglesia hoy, no mañana: el ahora de Dios.",
-  "Si ellos pudieron, la santidad también es posible para nosotros, aquí y ahora.",
+  "¡Qué bueno que estés aquí! Ojalá hoy alguien te mire, te escuche y te haga sentir en casa.",
+  "Llegues como llegues, con ganas, con dudas o después de un tiempo lejos, aquí hay un lugar para ti.",
+  "En Ágape tu historia importa. Cada uno pone su color y juntos hacemos camino.",
+  "Somos una familia que se cuida: nos acompañamos en lo bueno y en lo no tan bueno.",
+  "Ágape lo hacemos entre todos. Lo que tú traes, por pequeño que parezca, suma.",
+  "Servir es nuestra forma de amar, y se nota en los gestos pequeños de cada día.",
+  "No nos importa cuántos somos, sino que nadie se sienta solo.",
+  "¿Te equivocaste? Nos pasa a todos. Aquí se pide perdón y se vuelve a empezar.",
+  "Eres joven y ya eres Iglesia: Dios cuenta contigo hoy, no mañana.",
+  "Los santos también fueron jóvenes y caminaron nuestra tierra. La santidad es para ti, aquí y ahora.",
 ];
 // El equipo puede cambiarlas en Gestión → Inicio y enlaces (una por línea)
 const lista = () => { const l = String(cfg().frases || "").split("\n").map((x) => x.trim()).filter(Boolean); return l.length ? l : FRASES; };
@@ -23,7 +23,7 @@ const deHoy = () => { const d = new Date(), l = lista(); return l[Math.floor(Dat
 export function inicioHTML({ greet, guest, extra = "" }) {
   const puerta = (id, href, ic, hand, t, d, c) => `<a class="bv-door" id="${id}" href="${href}" style="--c:${c}"><i aria-hidden="true">${icon(ic)}</i><span><em>${esc(hand)}</em><strong>${esc(t)}</strong><small>${esc(d)}</small></span>${icon("right")}</a>`;
   // El video de bienvenida: a quien llega por primera vez se le muestra arriba; a quien ya tiene cuenta, al final.
-  const video = `<section class="bv-video" aria-label="Video de bienvenida"><span class="bv-k">conoce agAPPe</span>
+  const video = `<section class="bv-video" aria-label="Video de bienvenida"><span class="bv-k">¡dale play y conócenos!</span>
       <video controls playsinline preload="none" poster="video/bienvenida.jpg" src="video/bienvenida.mp4"></video></section>`;
   return `<div class="bv">
     ${greet}
@@ -32,14 +32,14 @@ export function inicioHTML({ greet, guest, extra = "" }) {
     <section class="bv-lema" aria-label="Lo que somos">
       <span class="bv-k">amor que transforma</span>
       <blockquote>${esc(deHoy())}</blockquote>
-      <a class="bv-mas" href="#/preambulo">Lo que somos ${icon("right")}</a>
+      <a class="bv-mas" href="#/preambulo">Conoce quiénes somos ${icon("right")}</a>
     </section>
     <nav class="bv-doors" aria-label="¿A dónde quieres ir?">
-      ${puerta("bvRezar", "#/oracion", "flame", "un momento con Dios", "Rezar", "La Capilla está abierta.", "var(--cy)")}
-      ${puerta("bvRed", "#/red", "users", "no estás solo", "Encontrarnos", "Lo que vivimos como grupo.", "var(--co)")}
-      ${puerta("bvHoy", "#/hoy", "cal", "para estar al día", "Lo de hoy", "Fechas, cumpleaños y avisos.", "var(--cs)")}
+      ${puerta("bvRezar", "#/oracion", "flame", "un ratito con Dios", "Rezar", "La Capilla está siempre abierta para ti.", "var(--cy)")}
+      ${puerta("bvRed", "#/red", "users", "juntos es mejor", "Encontrarnos", "Fotos, mensajes y todo lo que vivimos como grupo.", "var(--co)")}
+      ${puerta("bvHoy", "#/hoy", "cal", "lo que se viene", "Lo de hoy", "Cumpleaños, encuentros y avisos del día.", "var(--cs)")}
     </nav>
-    ${guest ? `<p class="bv-pie">¿Primera vez por aquí? <a href="presentaciones/hay-un-lugar-para-ti.html" target="_blank" rel="noopener">Hay un lugar para ti</a></p>` : ""}
+    ${guest ? `<p class="bv-pie">¿Es tu primera vez? ¡Qué alegría! <a href="presentaciones/hay-un-lugar-para-ti.html" target="_blank" rel="noopener">Hay un lugar para ti</a></p>` : ""}
     ${guest ? "" : video}
     <div id="installSlot"></div>
   </div>`;

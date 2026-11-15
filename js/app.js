@@ -428,7 +428,6 @@ function viewHome() {
   // El resto vive en las pestañas de abajo (Recursos, Orar, Comunidad).
   return `
   <header class="page-head"><span class="eyebrow">para estar al día</span><h1>Lo de <em>hoy</em></h1></header>
-  ${bienvenidaHTML()}
   <div id="fiestaSlot"></div>
   <div id="desafioHoy"></div>
   <div id="temporadaSlot"></div>
@@ -444,24 +443,6 @@ function viewHome() {
     <span class="muted small">Una presentación corta sobre qué es ser dirigente en Ágape.</span></span>${icon("right")}</a>` : ""}
   `;
 }
-// Video de bienvenida (Cami cuenta qué es Ágape): siempre para quien llega sin cuenta;
-// con cuenta, hasta que toque «Ya lo vi» (se recuerda en este dispositivo).
-const BV_KEY = "agape_bienvenida_vista";
-function bienvenidaHTML() {
-  const conCuenta = cloud.enabled && cloud.state().ready;
-  let visto = false; try { visto = localStorage.getItem(BV_KEY) === "1"; } catch {}
-  if (conCuenta && visto) return "";
-  return `<section class="bv-card" id="bvCard" aria-labelledby="bvT">
-    <div class="bv-media"><video id="bvVid" src="img/video/bienvenida.mp4" poster="img/video/bienvenida.jpg" controls playsinline preload="none" aria-label="Video de bienvenida: Cami cuenta qué es Ágape"></video></div>
-    <div class="bv-txt"><span class="hub-cb-hand">bienvenido a casa</span>
-      <h2 id="bvT">Conoce <em>Ágape</em> en un minuto</h2>
-      <p class="muted small">Cami te cuenta quiénes somos y te invita a pasar a la Capilla y a mirar nuestros recursos.</p>
-      <div class="bv-btns"><a class="btn btn-gold btn-sm" href="#/oracion">Entrar a la Capilla ${icon("arrowR")}</a><a class="btn btn-soft btn-sm" href="#/recursos">Ver recursos</a></div>
-      ${conCuenta ? `<button class="bv-hide" data-action="bvHide">Ya lo vi, ocultar</button>` : ""}</div>
-  </section>`;
-}
-actions.bvHide = () => { try { localStorage.setItem(BV_KEY, "1"); } catch {} const c = document.getElementById("bvCard"); if (c) c.remove(); };
-
 // Radios católicas, podcast, playlist y enlaces de interés: una franja liviana al final de Hoy (se abren en la página de cada una).
 const RADIO_ICO = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2.5"/><path d="M7 8 17 3.5"/><circle cx="15.5" cy="14" r="2.6"/><path d="M6.5 12.5h4M6.5 15.5h4"/></svg>`;
 function radiosHTML() {
