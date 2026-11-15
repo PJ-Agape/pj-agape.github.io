@@ -11,7 +11,7 @@ export const enabled = !!(CONFIG.firebase && CONFIG.firebase.apiKey);
 // Roles de la pastoral
 export const ROLES = [
   { key: "admin", label: "Administrador", short: "Admin", desc: "Todo: Gestión completa, cuentas, roles, contenidos y estadísticas." },
-  { key: "coordinador", label: "Coordinador", short: "Coordinación", desc: "Agenda, Portada de Inicio y moderación del muro y del chat. No cambia roles." },
+  { key: "coordinador", label: "Coordinador", short: "Coordinación", desc: "Agenda, destacados de Hoy y moderación del muro y del chat. No cambia roles." },
   { key: "dirigente", label: "Dirigente", short: "Dirigente", desc: "Acompaña a los jóvenes, participa en el muro y en sus salas de chat." },
   { key: "aspirante", label: "Aspirante", short: "Aspirante", desc: "Se prepara para ser dirigente: participa en la sala Aspirantes." },
   { key: "ingreso", label: "Joven · Ingreso", short: "Ingreso", desc: "Joven del grupo: agenda, muro, sala general y capilla." },

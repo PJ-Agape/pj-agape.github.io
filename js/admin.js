@@ -109,7 +109,7 @@ function navGroups() {
     ]],
     ["Comunicación", [
       ["apariencia", "#/admin/apariencia", "Apariencia: fondos, stickers, textos y colores", "eye", cloudOn && C],
-      ["portada", "#/admin/portada", "Portada de Inicio", "sparkle", cloudOn && C],
+      ["portada", "#/admin/portada", "Destacados de Hoy", "sparkle", cloudOn && C],
       ["inicio", "#/admin/inicio", "Inicio y enlaces", "home", cloudOn && C],
       ["agenda", "#/admin/agenda", "Agenda", "grid", C],
       ["saludos", "#/admin/saludos", "Saludos WhatsApp", "send", C],

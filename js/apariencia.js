@@ -32,9 +32,19 @@ export function stkHTML(v, cls = "") {
 // Zonas editables. sel: el elemento en la pantalla · t: sus textos (selector y texto de fábrica)
 // · stk: sticker de fábrica (o "" si no trae) · fondo: si admite fondo · plaza: fondo detrás (::before)
 export const ZONAS = [
-  { id: "hoy", n: "Hoy · saludo", ruta: "#/", re: /^\/$/, sel: ".home-hi", stk: "img/stickers/amigos.webp",
+  { id: "hoy", n: "Inicio · saludo", ruta: "#/", re: /^\/$/, sel: ".home-hi", stk: "img/stickers/amigos.webp",
     t: [[".home-hand", "Frase manuscrita", "qué bueno verte"]] },
-  { id: "ad_banner", n: "Hoy · invitación a la comunidad agAPPe (la ven quienes no tienen cuenta)", ruta: "#/", re: /^\/$/, sel: ".ad-banner", stk: "", stkSel: ".ad-banner-sello",
+  { id: "bv_lema", n: "Inicio · frase de lo que somos", ruta: "#/", re: /^\/$/, sel: ".bv-lema", stk: "",
+    t: [[".bv-k", "Frase manuscrita", "amor que transforma"]] },
+  { id: "bv_rezar", n: "Inicio · puerta Rezar", ruta: "#/", re: /^\/$/, sel: "#bvRezar", stk: "",
+    t: [["em", "Frase manuscrita", "un momento con Dios"], ["strong", "Título", "Rezar"], ["small", "Descripción", "La Capilla está abierta."]] },
+  { id: "bv_red", n: "Inicio · puerta Encontrarnos", ruta: "#/", re: /^\/$/, sel: "#bvRed", stk: "",
+    t: [["em", "Frase manuscrita", "no estás solo"], ["strong", "Título", "Encontrarnos"], ["small", "Descripción", "Lo que vivimos como grupo."]] },
+  { id: "bv_hoy", n: "Inicio · puerta Lo de hoy", ruta: "#/", re: /^\/$/, sel: "#bvHoy", stk: "",
+    t: [["em", "Frase manuscrita", "para estar al día"], ["strong", "Título", "Lo de hoy"], ["small", "Descripción", "Fechas, cumpleaños y avisos."]] },
+  { id: "hoy_head", n: "Hoy · encabezado", ruta: "#/hoy", re: /^\/hoy$/, sel: ".page-head", stk: "img/stickers/amigos.webp",
+    t: [[".eyebrow", "Línea pequeña", "para estar al día"], ["h1", "Título (entre *asteriscos* va el destacado)", "Lo de *hoy*"]] },
+  { id: "ad_banner", n: "Inicio · invitación a la comunidad agAPPe (la ven quienes no tienen cuenta)", ruta: "#/", re: /^\/$/, sel: ".ad-banner", stk: "", stkSel: ".ad-banner-sello",
     t: [[".hub-cb-hand", "Frase manuscrita", "estés donde estés"], ["h2", "Título (entre *asteriscos* va el destacado)", "Súmate a la comunidad *agAPPe*"],
       [".hub-cb-meta", "Descripción", "Somos el Ágape digital: una red de internautas que rezan, unida a los jóvenes de la Pastoral Juvenil Ágape de la Parroquia San Miguel de Yungay. Lee cada día el Evangelio, reza en la Capilla y deja tus intenciones: las llevamos a la misa."],
       [".adb-b2", "Texto del botón amarillo", "Entrar a la Capilla"], [".adb-q", "Línea para pedir cuenta (el enlace «Solicita tu cuenta» queda igual)", "¿Participas en la PJ Ágape de Yungay?"]] },
@@ -102,8 +112,12 @@ export function reaplicar(id, el) { const z = zona(id); if (z && el) applyZona(e
 // Paneles de cada pantalla: el equipo los sube, los baja, los oculta y cambia su tamaño y ancho.
 // p: [clave, nombre, selector (hijo directo de la pantalla)] · wrap: dónde están (si no, la pantalla misma)
 export const PANTALLAS = [
-  { id: "hoy", n: "Hoy", ruta: "#/", re: /^\/$/, p: [
-    ["saludo", "Saludo y Evangelio del día", ".home-hi"], ["solicitud", "Solicitud para ser dirigente", ".sol-banner"], ["desafio", "Recordatorio del desafío", "#desafioHoy"],
+  { id: "inicio", n: "Inicio", ruta: "#/", re: /^\/$/, wrap: ".bv", p: [
+    ["saludo", "Saludo y Evangelio del día", ".home-hi"], ["rosario", "Aviso del Rosario en comunidad", "#rosarioVivoSlot"], ["solicitud", "Solicitud para ser dirigente", ".sol-banner"],
+    ["lema", "Frase de lo que somos", ".bv-lema"], ["puertas", "Las tres puertas", ".bv-doors"]],
+    g: [[".bv-doors", "Puertas, una por una"]] },
+  { id: "hoy", n: "Hoy", ruta: "#/hoy", re: /^\/hoy$/, p: [
+    ["encabezado", "Encabezado", ".page-head"], ["desafio", "Recordatorio del desafío", "#desafioHoy"],
     ["destacados", "Destacados (carrusel)", "#homeCarousel"],
     ["cuenta", "Cuenta regresiva", "#countSlot"], ["agenda", "Próximas fechas", ".ag-panel-slot"],
     ["radios", "Radios, podcast y playlist", ".home-radios:not(.home-links)"], ["enlaces", "Enlaces de interés", ".home-links"],

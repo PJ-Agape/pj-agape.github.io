@@ -18,7 +18,7 @@ const FRASES = [
 const deHoy = () => { const d = new Date(); return FRASES[(Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5)) % FRASES.length]; };
 
 export function inicioHTML({ greet, guest, extra = "" }) {
-  const puerta = (href, ic, hand, t, d, c) => `<a class="bv-door" href="${href}" style="--c:${c}"><i aria-hidden="true">${icon(ic)}</i><span><em>${esc(hand)}</em><strong>${esc(t)}</strong><small>${esc(d)}</small></span>${icon("right")}</a>`;
+  const puerta = (id, href, ic, hand, t, d, c) => `<a class="bv-door" id="${id}" href="${href}" style="--c:${c}"><i aria-hidden="true">${icon(ic)}</i><span><em>${esc(hand)}</em><strong>${esc(t)}</strong><small>${esc(d)}</small></span>${icon("right")}</a>`;
   return `<div class="bv">
     ${greet}
     ${extra}
@@ -28,9 +28,9 @@ export function inicioHTML({ greet, guest, extra = "" }) {
       <a class="bv-mas" href="#/preambulo">Lo que somos ${icon("right")}</a>
     </section>
     <nav class="bv-doors" aria-label="¿A dónde quieres ir?">
-      ${puerta("#/oracion", "flame", "un momento con Dios", "Rezar", "La Capilla está abierta.", "var(--cy)")}
-      ${puerta("#/red", "users", "no estás solo", "Encontrarnos", "Lo que vivimos como grupo.", "var(--co)")}
-      ${puerta("#/hoy", "cal", "para estar al día", "Lo de hoy", "Fechas, cumpleaños y avisos.", "var(--cs)")}
+      ${puerta("bvRezar", "#/oracion", "flame", "un momento con Dios", "Rezar", "La Capilla está abierta.", "var(--cy)")}
+      ${puerta("bvRed", "#/red", "users", "no estás solo", "Encontrarnos", "Lo que vivimos como grupo.", "var(--co)")}
+      ${puerta("bvHoy", "#/hoy", "cal", "para estar al día", "Lo de hoy", "Fechas, cumpleaños y avisos.", "var(--cs)")}
     </nav>
     ${guest ? `<p class="bv-pie">¿Primera vez por aquí? <a href="presentaciones/hay-un-lugar-para-ti.html" target="_blank" rel="noopener">Hay un lugar para ti</a></p>` : ""}
     <div id="installSlot"></div>

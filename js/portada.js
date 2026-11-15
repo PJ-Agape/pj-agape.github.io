@@ -186,7 +186,7 @@ export function adminView() {
   const list = allSlides();
   const t = todayIso();
   return `
-  <header class="page-head"><span class="eyebrow">Gestión</span><h1>Portada de Inicio</h1>
+  <header class="page-head"><span class="eyebrow">Gestión</span><h1>Destacados de Hoy</h1>
     <p>Las diapositivas del carrusel de bienvenida. Cada una se muestra entre sus fechas «desde» y «hasta»; sin fechas, se muestra siempre. Los cambios se ven al instante, sin pasar por «Publicar».</p></header>
   <div class="row-wrap">
     <button class="btn btn-primary" data-action="pNew">${icon("plus")} Nueva diapositiva</button>
