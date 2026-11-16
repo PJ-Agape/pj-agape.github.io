@@ -1,19 +1,23 @@
 {
  "handle": "@magnificat.tv-fm",
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
- "via": "streams (rss 404)",
+ "via": "rss",
  "vistos": [
-  "Acusan al Papa de no admitir que la Iglesia es sistémicamente abusadora | P. Santiago Martín FM",
+  "La Santa Misa de Hoy | Lunes, XXXIII Semana del Tiempo Ordinario (16-11-2026) | P. Javier Martín, FM",
+  "\"Jesús Despierta Nuestra Conciencia\" | Homilía, Lunes, XXXIII Semana del T.O | P. Santiago M",
   "La Santa Misa de Hoy | Domingo XXXIII del Tiempo Ordinario (15-11-2026) | Pbro. Javier Martín, FM",
   "\"Dios Castiga la Pereza y la Soberbia\" | Homilía, XXXIII Domingo del T.O | P. Santiago M",
   "Homilía│ San Josafat, obispo y mártir 12.11.2026│ Pbro. Javier Martín FM│ www.magnificat.tv│",
   "\"Dios es Misericordioso pero También es Juez\" | Homilía, Sábado XXXII Semana del T.O | P. Santiago M",
   "Santa Misa de Hoy | Sábado, XXXII Semana del Tiempo Ordinario (14-11-2026) |Pbro. Santiago Martín FM",
-  "Cristo o ideología: el desafío que León XIV plantea a obispos y sacerdotes | P.  Santiago Martin FM",
-  "\"El que Pierda su Vida por Cristo la Salvará\" | Homilía, Viernes, XXXII Semana del T.O | P. Santiago"
+  "Cristo o ideología: el desafío que León XIV plantea a obispos y sacerdotes | P.  Santiago Martin FM"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-11-16": {
+   "id": "_rxn-Mr_RM0",
+   "title": "La Santa Misa de Hoy | Lunes, XXXIII Semana del Tiempo Ordinario (16-11-2026) | P. Javier Martín, FM"
+  },
   "2026-11-15": {
    "id": "pqhAPjBndP0",
    "title": "La Santa Misa de Hoy | Domingo XXXIII del Tiempo Ordinario (15-11-2026) | Pbro. Javier Martín, FM"

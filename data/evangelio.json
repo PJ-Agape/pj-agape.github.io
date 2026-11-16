@@ -1,24 +1,18 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-14": {
-   "titulo": "Sábado de la 32.ª semana del Tiempo Ordinario",
-   "cita": "Lc 18,1-8",
-   "frase": "Jesús les enseñó que era necesario orar siempre sin desanimarse.",
-   "video": "xx0SRwZ5A_4",
-   "reflexion": "7R6qEm0iHgg"
-  },
   "2026-11-15": {
    "titulo": "33er domingo del Tiempo Ordinario",
    "cita": "Mt 25,14-30",
    "frase": "Has sido fiel en lo poco; entra a participar del gozo de tu señor.",
-   "video": "AQ1oxitOJL0",
-   "reflexion": "Shr894Rbs-c"
+   "reflexion": "Shr894Rbs-c",
+   "video": "AQ1oxitOJL0"
   },
   "2026-11-16": {
    "titulo": "Lunes de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 18,35-43",
    "frase": "¿Qué quieres que haga por ti? —Señor, que yo vea.",
+   "reflexion": "XUADqELPRuI",
    "video": "A2On1t1ewl4"
   },
   "2026-11-17": {
@@ -60,6 +54,11 @@
    "titulo": "Martes de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,5-11",
    "frase": "Tengan cuidado, no se dejen engañar."
+  },
+  "2026-11-25": {
+   "titulo": "Miércoles de la 34.ª semana del Tiempo Ordinario",
+   "cita": "Lc 21,12-19",
+   "frase": "Gracias a la constancia salvarán sus vidas."
   }
  }
 }
