@@ -24,7 +24,7 @@ export function inicioHTML({ greet, guest, extra = "" }) {
   const puerta = (id, href, ic, hand, t, d, c) => `<a class="bv-door" id="${id}" href="${href}" style="--c:${c}"><i aria-hidden="true">${icon(ic)}</i><span><em>${esc(hand)}</em><strong>${esc(t)}</strong><small>${esc(d)}</small></span>${icon("right")}</a>`;
   // El video de bienvenida: a quien llega por primera vez se le muestra arriba; a quien ya tiene cuenta, al final.
   const video = `<section class="bv-video" aria-label="Video de bienvenida"><span class="bv-k">¡dale play y conócenos!</span>
-      <video controls playsinline preload="none" poster="video/bienvenida.jpg" src="video/bienvenida.mp4"></video></section>`;
+      <video controls playsinline preload="none" poster="video/bienvenida.jpg?v=2" src="video/bienvenida.mp4?v=2"></video></section>`;
   return `<div class="bv">
     ${greet}
     ${extra}
