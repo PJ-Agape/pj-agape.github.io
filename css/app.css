@@ -5323,3 +5323,27 @@ dialog.sheet[open]::backdrop { animation: fadein .25s ease both; }
 .bv > :empty { display: none; }
 /* Video de bienvenida en Hoy */
 .bv-video video { display: block; width: 100%; max-width: 440px; aspect-ratio: 1; margin: 8px auto 0; border-radius: 22px; border: 2px solid var(--line-2); background: var(--surface-2); box-shadow: var(--shadow-1); }
+
+/* ---------- Inicio: foto de portada ---------- */
+.bv-cover { position: relative; isolation: isolate; overflow: hidden; display: grid; align-content: end; min-height: clamp(300px, 78vw, 420px); padding: 22px 20px; border-radius: 26px; border: 2px solid var(--cn); box-shadow: 5px 5px 0 var(--cn); color: #fff;
+  background: linear-gradient(160deg, var(--cb) 0%, var(--cn) 78%); }
+.bv-cover.has-photo { background: linear-gradient(to bottom, rgba(10, 12, 30, calc(var(--cv-dim, .45) * .3)) 0%, rgba(10, 12, 30, var(--cv-dim, .45)) 55%, rgba(10, 12, 30, calc(var(--cv-dim, .45) * 1.25 + .1)) 100%), var(--cv-ph) center var(--cv-y, 50%) / cover no-repeat, var(--cn); }
+.cv-blob { position: absolute; z-index: -1; border-radius: 50%; }
+.cv-blob.a { right: -50px; top: -50px; width: 190px; height: 190px; background: var(--cy); }
+.cv-blob.b { left: -60px; top: 36%; width: 150px; height: 150px; background: var(--co); opacity: .85; }
+.bv-cover.has-photo .cv-blob { display: none; }
+.cv-body { display: grid; gap: 6px; justify-items: start; max-width: 34ch; }
+.cv-hand { font-family: var(--font-hand); font-weight: 700; font-size: 1.6rem; line-height: 1; color: var(--cy); transform: rotate(-2deg); transform-origin: left; text-shadow: 0 1px 8px rgba(0, 0, 0, .35); }
+.cv-title { margin: 0; font-family: var(--font-display); font-weight: 800; font-stretch: 80%; letter-spacing: -.03em; font-size: clamp(2rem, 8.4vw, 2.9rem); line-height: 1; color: #fff; text-wrap: balance; text-shadow: 0 2px 14px rgba(0, 0, 0, .35); }
+.cv-title em { font-style: normal; color: var(--cn); background: var(--cy); padding: 0 .12em; border-radius: 6px; text-shadow: none; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.cv-text { margin: 4px 0 0; font-size: 1rem; line-height: 1.4; color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, .45); }
+.cv-btn { margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 999px; background: #fff; color: var(--cn); font-weight: 800; font-size: .95rem; text-decoration: none; box-shadow: 3px 3px 0 var(--co); transition: transform .2s var(--ease); }
+.cv-btn:hover { transform: translate(-1px, -1px); }
+.cv-btn svg { width: 16px; height: 16px; }
+.cv-edit { position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; border: 2px solid var(--cn); background: #fff; color: var(--cn); font: inherit; font-size: .82rem; font-weight: 800; cursor: pointer; }
+.cv-edit svg { width: 15px; height: 15px; }
+/* El editor deja ver la portada detrás, para ir mirando los cambios */
+dialog.cv-dlg::backdrop { background: rgba(15, 12, 28, .18); backdrop-filter: none; }
+@media (min-width: 761px) { dialog.cv-dlg { margin: auto 24px 24px auto; max-width: 440px; } }
+@media (max-width: 760px) { dialog.cv-dlg { max-height: 56vh; } }
+.cv-dlg input[type="range"] { width: 100%; }

@@ -37,6 +37,7 @@ import * as a11y from "./accesible.js";
 import * as grupo from "./grupo.js";
 import * as inicio from "./inicio.js";
 import * as bienvenida from "./bienvenida.js";
+import * as cover from "./cover.js";
 import * as novedades from "./novedades.js";
 import * as papa from "./papa.js";
 import * as guia from "./guia.js";
@@ -384,14 +385,14 @@ function heroTitle(t) {
   const last = words.pop();
   return `${words.join(" ")} <em>${last}</em>`;
 }
-// Inicio: la bienvenida (saludo, Evangelio de hoy, una frase de lo que somos y tres puertas).
+// Inicio: la bienvenida (saludo, foto de portada, una frase de lo que somos y tres puertas).
 function viewInicio() {
-  onAfterRender(() => { inicio.paintGospel(); rosarioSala.paintHome(); descubre.tour(); });
-  return bienvenida.inicioHTML({ greet: inicio.greetHTML(), guest: cloud.enabled && !cloud.state().ready,
+  onAfterRender(() => { cover.refresh(() => { if (["", "#/"].includes(location.hash)) render(); }); rosarioSala.paintHome(); descubre.tour(); });
+  return bienvenida.inicioHTML({ greet: inicio.greetHTML(false), cover: cover.html(), guest: cloud.enabled && !cloud.state().ready,
     extra: `<div id="rosarioVivoSlot"></div>${solicitud.homeCard()}` });
 }
 function viewHome() {
-  onAfterRender(() => { novedades.refresh(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); rosarioSala.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
+  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); rosarioSala.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
   // Lo destacado: las diapositivas de Gestión → Portada (y la intención del Papa). No avanzan solas:
   // se pasan deslizando el dedo o con las flechas.
   const carousel = () => {
@@ -426,6 +427,7 @@ function viewHome() {
   // El resto vive en las pestañas de abajo (Recursos, Orar, Comunidad).
   return `
   <header class="page-head"><span class="eyebrow">para estar al día</span><h1>Lo de <em>hoy</em></h1></header>
+  ${inicio.gospelSlot}
   <div id="fiestaSlot"></div>
   <div id="desafioHoy"></div>
   <div id="temporadaSlot"></div>
@@ -980,6 +982,7 @@ chat.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 avisos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 agenda.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, tabs: (k) => chat.tabs(k) });
 portada.setup({ actions, render: () => render(), onAfterRender, cloud });
+cover.setup({ actions, render: () => render(), cloud });
 solicitud.setup({ actions, render: () => render(), onAfterRender, cloud });
 conocer.setup({ actions, render: () => render(), onAfterRender, cloud });
 ficha.setup({ actions, render: () => render(), onAfterRender, cloud });

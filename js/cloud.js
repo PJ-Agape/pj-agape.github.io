@@ -843,6 +843,17 @@ export async function getPortada() {
 export async function savePortada(data) {
   await fb.setDoc(fb.doc(db, "content", "portada"), { json: JSON.stringify(data), updatedAt: fb.serverTimestamp(), updatedBy: account.email }, { merge: true });
 }
+// Foto de portada de Inicio: mismo documento, campo «cover».
+export async function getCover() {
+  if (!enabled || !db) return null;
+  try {
+    const snap = await withTimeout(fb.getDoc(fb.doc(db, "content", "portada")), 6000);
+    return snap.exists() ? safeJSON(snap.data().cover, {}) : {};
+  } catch { return null; }
+}
+export async function saveCover(data) {
+  await fb.setDoc(fb.doc(db, "content", "portada"), { cover: JSON.stringify(data), updatedAt: fb.serverTimestamp(), updatedBy: account.email }, { merge: true });
+}
 // Textos y enlaces de Inicio (Gestión → Inicio y enlaces): mismo documento, campo «inicio».
 export async function getInicioCfg() {
   if (!enabled || !db) return null;

@@ -115,11 +115,11 @@ export function reaplicar(id, el) { const z = zona(id); if (z && el) applyZona(e
 // p: [clave, nombre, selector (hijo directo de la pantalla)] · wrap: dónde están (si no, la pantalla misma)
 export const PANTALLAS = [
   { id: "inicio", n: "Inicio", ruta: "#/", re: /^\/$/, wrap: ".bv", p: [
-    ["saludo", "Saludo y Evangelio del día", ".home-hi"], ["rosario", "Aviso del Rosario en comunidad", "#rosarioVivoSlot"], ["solicitud", "Solicitud para ser dirigente", ".sol-banner"],
+    ["saludo", "Saludo", ".home-hi"], ["portada", "Foto de portada", ".bv-cover"], ["rosario", "Aviso del Rosario en comunidad", "#rosarioVivoSlot"], ["solicitud", "Solicitud para ser dirigente", ".sol-banner"],
     ["lema", "Frase de lo que somos", ".bv-lema"], ["puertas", "Las tres puertas", ".bv-doors"], ["video", "Video de bienvenida", ".bv-video"]],
     g: [[".bv-doors", "Puertas, una por una"]] },
   { id: "hoy", n: "Hoy", ruta: "#/hoy", re: /^\/hoy$/, p: [
-    ["encabezado", "Encabezado", ".page-head"], ["desafio", "Recordatorio del desafío", "#desafioHoy"],
+    ["encabezado", "Encabezado", ".page-head"], ["evangelio", "Evangelio de hoy", "#homeGospel"], ["desafio", "Recordatorio del desafío", "#desafioHoy"],
     ["destacados", "Destacados (carrusel)", "#homeCarousel"],
     ["cuenta", "Cuenta regresiva", "#countSlot"], ["agenda", "Próximas fechas", ".ag-panel-slot"],
     ["radios", "Radios, podcast y playlist", ".home-radios:not(.home-links)"], ["enlaces", "Enlaces de interés", ".home-links"],

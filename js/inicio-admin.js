@@ -39,6 +39,10 @@ export function adminView() {
       <p class="muted small">La frase manuscrita sobre «Buenas tardes, …».</p>
       <div class="ag-form-row">${f("saludo.cuenta", "Con cuenta", c.saludo.cuenta, DEFAULTS.saludo.cuenta, 40)}${f("saludo.visita", "Visitantes", c.saludo.visita, DEFAULTS.saludo.visita, 40)}</div></section>
 
+    <section class="card ia-sec"><h2>Foto de portada</h2>
+      <p class="muted small">La imagen grande de Inicio, con su frase, título, texto y botón. Se edita ahí mismo: entra a Inicio y toca «Editar portada».</p>
+      <a class="btn btn-soft btn-sm" href="#/">${icon("edit")} Ir a editar la portada</a></section>
+
     <section class="card ia-sec"><h2>Frases de Inicio</h2>
       <p class="muted small">La frase que aparece bajo «amor que transforma». Cada día se muestra una, en orden. Escribe una por línea; si lo dejas vacío, vuelven las del Preámbulo.</p>
       <div class="field"><label>Frases (una por línea)</label><textarea class="textarea" name="frases" rows="12" maxlength="4000">${esc(c.frases || FRASES.join("\n"))}</textarea></div></section>

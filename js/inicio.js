@@ -99,7 +99,8 @@ export async function paintGospel() {
     <span class="hg-go">Leer el Evangelio ${icon("arrowR")}</span>`;
   el.hidden = false;
 }
-export function greetHTML() {
+export const gospelSlot = `<a class="home-gospel" id="homeGospel" href="#/evangelio" hidden></a>`;
+export function greetHTML(gospel = true) {
   const w = who();
   const name = (cloud.enabled ? (w.s.account || {}).name : S.getProfile().name) || "";
   const first = String(name).split(" ")[0];
@@ -107,7 +108,7 @@ export function greetHTML() {
   return `<section class="home-hi">
     <span class="home-hand">${esc(w.guest ? inicioCfg().saludo.visita : inicioCfg().saludo.cuenta)}</span>
     <h1>¡${esc(saludo)}${first ? `, <em>${esc(first)}</em>` : ""}!</h1>
-    <a class="home-gospel" id="homeGospel" href="#/evangelio" hidden></a>
+    ${gospel ? gospelSlot : ""}
   </section>`;
 }
 const searchBox = (id, val = "") => `<form class="home-search" role="search" data-search="${id}" onsubmit="return false">
