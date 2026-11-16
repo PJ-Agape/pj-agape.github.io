@@ -125,8 +125,7 @@ const routes = [
   [/^\/juegos\/crucigrama$/, () => mod.crucigrama().then((m) => m.view()), "red"],
   [/^\/podcast$/, () => podcast.view(), "red"],
   [/^\/credenciales$/, () => mod.credenciales().then((m) => m.view()), "materiales"],
-  [/^\/buscar(?:\?q=(.*))?$/, (q) => inicio.viewBuscar(q || ""), "menu"],
-  [/^\/menu$/, () => inicio.viewMenu(), "menu"],
+  [/^\/buscar(?:\?q=(.*))?$/, (q) => inicio.viewBuscar(q || ""), "inicio"],
   [/^\/ayuda(?:\?t=([a-z]+))?$/, (t) => ayuda.view(t), "ayuda"],
   [/^\/difusion$/, () => mod.difusion().then((m) => m.view()), "difusion"],
   [/^\/sellos$/, () => descubre.view(), "hoy"],
@@ -236,7 +235,7 @@ const VOLVER = [
   [/^\/cancionero\/.+/, "#/cancionero", "Volver al Cancionero"],
 ];
 // En cualquier pantalla que no sea una de las pestañas, arriba hay un «volver» a su zona: así nadie se pierde.
-const RAICES = /^\/(?:|hoy|preambulo|recursos(?:\?.*)?|oracion|red|menu|perfil|solicitar|conocer.*|admin.*)$/;
+const RAICES = /^\/(?:|hoy|preambulo|recursos(?:\?.*)?|oracion|red|perfil|solicitar|conocer.*|admin.*)$/;
 function volverZona(v, path, section) {
   if (RAICES.test(path) || v.querySelector(".crumbs, .ent-backs")) return;
   const tab = TAB_OF[section] || section, n = NAV.find(([k]) => k === tab) || NAV[0];
@@ -299,10 +298,9 @@ function applyTheme() {
 const NAV = [
   ["inicio", "#/", "Inicio", "home"],
   ["hoy", "#/hoy", "Hoy", "cal"],
-  ["formacion", "#/recursos", "Recursos", "book", "top"], // en el teléfono, Recursos se abre desde el Menú
+  ["formacion", "#/recursos", "Recursos", "book"],
   ["oracion", "#/oracion", "Orar", "flame"],
   ["red", "#/red", "Comunidad", "users"],
-  ["menu", "#/menu", "Menú", "grid"],
 ];
 // Cada sección se marca en su bloque
 const TAB_OF = { materiales: "formacion", muro: "red", comunidad: "formacion", difusion: "formacion", acompanar: "red", agenda: "red" };

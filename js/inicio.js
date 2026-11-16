@@ -242,26 +242,6 @@ async function loadAgenda() {
   if (agendaCache) return;
   try { agendaCache = (await cloud.listAgenda()).filter((e) => e.title); } catch { agendaCache = []; }
 }
-// Menú: todo lo que hay en la app, en una sola lista corta por zona.
-export function viewMenu() {
-  const w = who(), visto = new Set();
-  const fila = (x) => { if (visto.has(x.href)) return ""; visto.add(x.href);
-    return `<a class="menu-row" href="${esc(x.href)}" ${x.ext ? 'target="_blank" rel="noopener"' : ""}><b>${esc(x.t)}</b><span>${esc(x.d)}</span>${icon("right")}</a>`; };
-  const zona = (k, ic, extra = []) => { const b = BLOCKS[k];
-    return `<section class="menu-zona" style="--c:${b.c};--s:${b.soft}"><a class="menu-h" href="${b.href}"><i>${icon(ic)}</i><h2>${esc(b.t)}</h2><span>${esc(b.hand)}</span></a>
-      ${[...extra, ...ITEMS.filter((x) => x.b === k && x.ok(w))].map(fila).join("")}</section>`; };
-  return `<header class="page-head"><span class="eyebrow">Menú</span><h1>Todo en <em>un lugar</em></h1><p>¿Buscas algo? Está aquí.</p></header>
-    <a class="menu-buscar" href="#/buscar">${icon("search")} Buscar por nombre</a>
-    <div class="menu-grid">
-      ${zona("espiritu", "flame")}
-      ${zona("red", "users", [{ t: "Momentos", d: "Las fotos del grupo.", href: "#/momentos" }])}
-      ${zona("formacion", "book")}
-      <section class="menu-zona" style="--c:var(--cn);--s:var(--cb-s)"><span class="menu-h"><i>${icon("gear")}</i><h2>Tu espacio</h2><span>para ti</span></span>
-        ${[{ t: w.guest ? "Ingresar" : "Mi cuenta", d: "Tus datos, tu avatar y los colores de la app.", href: "#/perfil" },
-          { t: "Pasaporte Ágape", d: "Los sellos que juntas cada mes.", href: "#/sellos" },
-          { t: "Ayuda", d: "Preguntas frecuentes.", href: "#/ayuda" }].map(fila).join("")}</section>
-    </div>`;
-}
 export function viewBuscar(q = "") {
   ctx.onAfterRender(() => { const i = document.getElementById("pageQ"); if (i) { i.focus(); paint("pageQ", true); } });
   return `<header class="page-head"><span class="eyebrow">Buscar</span><h1>¿Qué estás <em>buscando</em>?</h1>
