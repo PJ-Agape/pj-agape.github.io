@@ -214,14 +214,14 @@ TRANSP:TRANSPARENT
 END:VEVENT
 BEGIN:VEVENT
 UID:jrzWkvhvVNzQHXLE0QF4@pj-agape
-DTSTAMP:20261028T161046Z
+DTSTAMP:20261117T155549Z
 DTSTART;TZID=America/Santiago:20261121T200000
 DTEND;TZID=America/Santiago:20261121T200000
 SUMMARY:Celebración de Cristo Rey
 LOCATION:Templo Parroquial
 DESCRIPTION:Idea: Adoración y Alabanzas antes de misa y terminar con peque
- ña procesión. (Próxima reunión llevar otras ideas)\n\nAgenda Ágape ·
-  pj-agape.github.io/#/agenda
+ ña procesión. (Próxima reunión llevar otras ideas)\n\nPara: Todos\n\nA
+ genda Ágape · pj-agape.github.io/#/agenda
 CATEGORIES:Festividad
 END:VEVENT
 BEGIN:VEVENT
@@ -246,5 +246,16 @@ DESCRIPTION:Apoyo en el tránsito durante la procesión.\n\nPara: Todos\n\n
  Agenda Ágape · pj-agape.github.io/#/agenda
 CATEGORIES:Festividad
 TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:CqgeBMSoKkk76Z0kB22S@pj-agape
+DTSTAMP:20261117T154835Z
+DTSTART;TZID=America/Santiago:20261225T000000
+DTEND;TZID=America/Santiago:20261225T235900
+RRULE:FREQ=YEARLY
+SUMMARY:Navidad
+LOCATION:Templo Parroquial
+DESCRIPTION:Para: Todos\n\nAgenda Ágape · pj-agape.github.io/#/agenda
+CATEGORIES:Festividad
 END:VEVENT
 END:VCALENDAR
