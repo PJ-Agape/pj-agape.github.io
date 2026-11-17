@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-15": {
-   "titulo": "33er domingo del Tiempo Ordinario",
-   "cita": "Mt 25,14-30",
-   "frase": "Has sido fiel en lo poco; entra a participar del gozo de tu señor.",
-   "reflexion": "Shr894Rbs-c",
-   "video": "AQ1oxitOJL0"
-  },
   "2026-11-16": {
    "titulo": "Lunes de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 18,35-43",
@@ -18,7 +11,8 @@
   "2026-11-17": {
    "titulo": "Martes de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 19,1-10",
-   "frase": "Zaqueo, baja pronto, porque hoy tengo que alojarme en tu casa."
+   "frase": "Zaqueo, baja pronto, porque hoy tengo que alojarme en tu casa.",
+   "video": "B5L_c0Lue2U"
   },
   "2026-11-18": {
    "titulo": "Miércoles de la 33.ª semana del Tiempo Ordinario",
@@ -59,6 +53,11 @@
    "titulo": "Miércoles de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,12-19",
    "frase": "Gracias a la constancia salvarán sus vidas."
+  },
+  "2026-11-26": {
+   "titulo": "Jueves de la 34.ª semana del Tiempo Ordinario",
+   "cita": "Lc 21,20-28",
+   "frase": "Tengan ánimo y levanten la cabeza, porque está por llegarles la liberación."
   }
  }
 }
