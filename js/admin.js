@@ -203,6 +203,7 @@ async function summaryView(d) {
   return `
   <header class="page-head"><span class="eyebrow">Gestión</span><h1>Resumen</h1>
     <p>Todo lo que edites queda en un borrador en este dispositivo. Cuando esté listo, lo publicas y todos los dirigentes lo verán.</p></header>
+  ${cloudOn && api.cloud.state().isAdmin ? `<a class="card" href="#/panel" style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px"><span><b>Panel: cómo va Ágape</b><br><span class="muted small">Visitas y cuentas, en una sola página</span></span><span aria-hidden="true">→</span></a>` : ""}
   ${cloudOn ? await visitsCard() : ""}
   ${cloudOn ? await grupo.adminHTML() : ""}
   ${cloudOn ? await novedades.adminHTML() : ""}

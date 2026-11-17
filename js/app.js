@@ -148,6 +148,7 @@ const routes = [
   [/^\/cancionero\/hoja(?:\?misa=([^&]+))?$/, (m) => cancionero.viewHoja(m), "oracion"],
   [/^\/cancionero\/([^/?]+)(?:\?misa=([^&]+))?$/, (id, m) => cancionero.viewSong(id, m), "oracion"],
   [/^\/perfil$/, viewProfile, "perfil"],
+  [/^\/panel$/, () => import("./panel.js").then((m) => m.view()), "admin"], // página aparte solo para administración (no aparece en el menú)
   [/^\/admin(?:\/(.*))?$/, viewAdmin, "admin"],
 ];
 
