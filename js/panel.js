@@ -2,7 +2,7 @@
 // Período elegido vs. período anterior de igual largo, comparación por sección y mapas de calor.
 // Todo es conteo anónimo: no se guarda quién entra ni qué hace cada persona.
 import * as cloud from "./cloud.js";
-import { esc, icon, download } from "./util.js";
+import { esc, icon, download, toast } from "./util.js";
 
 const DSEM = ["lu", "ma", "mi", "ju", "vi", "sá", "do"]; // lunes primero
 const key = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -15,7 +15,7 @@ const sum = (xs, f) => xs.reduce((a, x) => a + (+f(x) || 0), 0);
 const n0 = (n) => Number(n || 0).toLocaleString("es-CL");
 
 // Estado del panel (se conserva mientras la app esté abierta)
-const st = { dias: 30, desde: "", hasta: "", data: null, sec: "" };
+const st = { dias: 30, desde: "", hasta: "", data: null, sec: "", imp: {} };
 
 function rango() {
   const hoy = new Date();
@@ -32,9 +32,10 @@ async function cargar() {
   const { cur, prev, largo } = rango();
   const id = ++cargar.n;
   const keys = [...prev, ...cur];
-  const [stats, vistas, horas, people] = await Promise.all([
+  const wks = Array.from({ length: 10 }, (_, i) => cloud.weekKey(addDays(new Date(), -7 * (9 - i))));
+  const [stats, vistas, horas, people, semanas, cfg] = await Promise.all([
     cloud.dailyRange("stats", keys), cloud.dailyRange("vistas", keys), cloud.dailyRange("horas", cur),
-    cloud.adminData().catch(() => null),
+    cloud.adminData().catch(() => null), cloud.weekStats(wks).catch(() => []), cloud.getPanelCfg().catch(() => null),
   ]);
   if (id !== cargar.n) return; // llegó otra consulta más nueva: se descarta esta
   st.data = {
@@ -42,10 +43,12 @@ async function cargar() {
     sC: stats.slice(largo), sP: stats.slice(0, largo),
     vC: vistas.slice(largo), vP: vistas.slice(0, largo),
     h: horas, hDenied: horas.denied,
+    sem: semanas, semDenied: semanas.denied,
     users: people ? people.users.filter((u) => u.active !== false) : [],
     solicitudes: people ? people.solicitudes.length : 0,
     at: new Date(),
   };
+  st.imp = (cfg && cfg.imp) || st.imp || {};
 }
 
 // ---------- piezas ----------
@@ -85,6 +88,70 @@ const tono = (v, max) => {
   return `color-mix(in srgb, var(--cb) ${p}%, var(--surface))`;
 };
 const leyendaTono = (max) => `<div class="pn-scale"><span>menos</span>${[0.1, 0.3, 0.5, 0.7, 0.95].map((t) => `<i style="background:${tono(t * max, max)}"></i>`).join("")}<span>más</span></div>`;
+
+// ---------- Semáforo: qué mantener, mejorar, simplificar o sacar ----------
+// Cruza tres cosas: cuánto se usa (comparado con las demás), si su uso sube o baja, y qué tan importante es para la pastoral (lo marca el equipo).
+const IMP = { 3: "Esencial", 2: "Importante", 1: "Accesoria" };
+const VERED = {
+  mantener: { l: "Mantener", c: "ok", d: "Se usa y va bien." },
+  cuidar: { l: "Revisar", c: "warn", d: "Se usa, pero viene bajando: conviene preguntar por qué." },
+  impulsar: { l: "Mejorar o dar a conocer", c: "warn", d: "Es importante, pero casi no se usa: quizás no la encuentran o no se entiende." },
+  observar: { l: "Observar", c: "neu", d: "Uso intermedio: sigue mirándola." },
+  simplificar: { l: "Simplificar o sacar", c: "bad", d: "Poco uso y poca importancia: ocupa espacio en la app." },
+};
+function semaforo(D) {
+  const names = cloud.VISTAS || {};
+  const tot = (xs) => { const o = {}; xs.forEach((d) => Object.keys(names).forEach((k) => { o[k] = (o[k] || 0) + (+d[k] || 0); })); return o; };
+  const a = tot(D.vC), b = tot(D.vP);
+  const secs = Object.keys(names).sort((x, y) => a[y] - a[x]);
+  const totalA = secs.reduce((n, k) => n + a[k], 0);
+  if (!totalA) return `<p class="muted small">Todavía no hay uso registrado en este período.</p>`;
+  const tercio = Math.ceil(secs.length / 3);
+  const filas = secs.map((k, i) => {
+    const uso = i < tercio && a[k] ? "alto" : i >= secs.length - tercio || !a[k] ? "bajo" : "medio";
+    const t = b[k] >= 5 ? (a[k] - b[k]) / b[k] : null;
+    const tend = t == null ? "sin base" : t >= 0.15 ? "sube" : t <= -0.15 ? "baja" : "estable";
+    const imp = +(st.imp[k] || 2);
+    const v = uso === "alto" ? (tend === "baja" ? "cuidar" : "mantener")
+      : uso === "bajo" ? (imp === 3 ? "impulsar" : imp === 1 && tend !== "sube" ? "simplificar" : "observar")
+      : (tend === "baja" && imp >= 2 ? "cuidar" : "observar");
+    return { k, a: a[k], b: b[k], uso, tend, imp, v };
+  });
+  const orden = { impulsar: 0, cuidar: 1, simplificar: 2, observar: 3, mantener: 4 };
+  filas.sort((x, y) => orden[x.v] - orden[y.v] || y.a - x.a);
+  const resumen = Object.keys(VERED).map((v) => [v, filas.filter((f) => f.v === v).length]).filter(([, n]) => n);
+  const tendTxt = (f) => f.tend === "sin base" ? `<span class="muted">sin base</span>` : `${f.tend === "sube" ? "▲" : f.tend === "baja" ? "▼" : "＝"} ${f.tend}`;
+  const fila = (f) => `<tr><td><b>${esc(names[f.k])}</b></td>
+    <td><span class="pn-pill ${VERED[f.v].c}" data-tip="${esc(VERED[f.v].d)}"><i aria-hidden="true"></i>${VERED[f.v].l}</span></td>
+    <td class="pn-num" data-tip="${f.a} aperturas ahora · ${f.b} en el período anterior">${f.a} <small class="muted">${f.uso}</small></td>
+    <td class="pn-nw">${tendTxt(f)}</td>
+    <td><select class="input pn-imp" data-pn-imp="${f.k}" aria-label="Importancia pastoral de ${esc(names[f.k])}">${[3, 2, 1].map((n) => `<option value="${n}" ${f.imp === n ? "selected" : ""}>${IMP[n]}</option>`).join("")}</select></td></tr>`;
+  const tabla = (xs) => xs.length ? `<div style="overflow-x:auto"><table class="pn-tab pn-sem"><thead><tr><th>Sección</th><th>Sugerencia</th><th class="pn-num">Uso</th><th>Tendencia</th><th>Importancia pastoral</th></tr></thead><tbody>${xs.map(fila).join("")}</tbody></table></div>`
+    : `<p class="small" style="margin-top:10px">Nada urgente: ninguna sección necesita atención en este período.</p>`;
+  const foco = filas.filter((f) => ["impulsar", "cuidar", "simplificar"].includes(f.v)), resto = filas.filter((f) => !foco.includes(f));
+  return `${totalA < 60 ? `<p class="note" style="margin-top:10px">Con pocos datos (${totalA} aperturas en el período), tómalo como una pista para conversar con el grupo, no como un veredicto.</p>` : ""}
+  <div class="pn-sem-res">${resumen.map(([v, n]) => `<span class="pn-pill ${VERED[v].c}"><i aria-hidden="true"></i>${VERED[v].l}: <b>${n}</b></span>`).join("")}</div>
+  ${tabla(foco)}
+  ${resto.length ? `<details class="pn-more"><summary class="small"><b>Ver las demás secciones (${resto.length})</b>: van bien o hay que seguir mirándolas</summary>${tabla(resto)}</details>` : ""}
+  <details class="pn-how"><summary class="small">Cómo se calcula</summary><p class="small muted">Uso: las secciones se ordenan por aperturas en el período y se dividen en tres grupos (alto, medio, bajo). Tendencia: compara con el período anterior; sube o baja si cambia 15% o más, y necesita al menos 5 aperturas antes para opinar. Importancia: la marcas tú; parte en «Importante». La sugerencia nunca saca nada sola: es para conversar en el equipo.</p></details>`;
+}
+
+// ---------- ¿Vuelven? Retorno semana a semana ----------
+function retorno(D) {
+  const w = D.sem || [];
+  if (D.semDenied) return `<p class="note">Falta publicar en Firebase las reglas nuevas (la parte <b>semanas</b>). Desde que se publiquen, se empieza a medir quién vuelve cada semana.</p>`;
+  if (!w.some((x) => x.a)) return `<p class="note">El retorno se empezó a medir recién. La primera semana solo cuenta quién entra; desde la segunda ya se ve quién vuelve.</p>`;
+  const rows = w.map((x, i) => { const p = i ? w[i - 1].a : 0; return { ...x, prevA: p, pct: p ? Math.round((x.r / p) * 100) : null }; });
+  const lab = (k) => { const [y, n] = k.split("-W"); const d = new Date(+y, 0, 4); const dd = (d.getDay() + 6) % 7; d.setDate(d.getDate() - dd + (+n - 1) * 7); return d.toLocaleDateString("es-CL", { day: "numeric", month: "short" }); };
+  const max = Math.max(1, ...rows.map((x) => x.a));
+  const ult = rows.filter((x) => x.pct != null && x.prevA).slice(-4);
+  const prom = ult.length ? Math.round(ult.reduce((s, x) => s + x.pct, 0) / ult.length) : null;
+  return `${prom != null ? `<p style="margin-top:8px"><b class="pn-big">${prom}%</b> <span class="small">de quienes entraron una semana volvieron la siguiente (promedio de las últimas ${ult.length} semanas).</span></p>` : ""}
+  <div class="pn-wk">${rows.map((x) => `<div class="pn-wkc" data-tip="Semana del ${esc(lab(x.wk))}: ${x.a} activos · ${x.n} nuevos · ${x.r} volvieron de la semana anterior${x.pct != null ? ` (${x.pct}%)` : ""}">
+      <div class="pn-wkb" style="height:${Math.round((x.a / max) * 100)}%"><i style="height:${x.a ? Math.round((x.r / x.a) * 100) : 0}%"></i></div><small>${esc(lab(x.wk))}</small></div>`).join("")}</div>
+  <div class="pn-legend"><span><i class="pn-sq r"></i>volvieron de la semana anterior</span><span><i class="pn-sq o"></i>nuevos u otros que regresan</span></div>
+  <p class="xs muted">Se cuenta por celular o computador, una vez por semana (de lunes a domingo). No se guarda quién es.</p>`;
+}
 
 // Mapa de calor: secciones (filas) × día de la semana (columnas)
 function calorSecciones(D) {
@@ -164,6 +231,18 @@ function cuerpo() {
     ${kpi(n0(g), "Visitas sin cuenta", delta(g, gp))}
     ${kpi(`${dv}<small class="pn-of">/${D.largo}</small>`, "Días con visitas", delta(dv, dvp))}
   </div>
+
+  <section class="card pn-sec">
+    <h2>Qué mantener, mejorar o sacar</h2>
+    <p class="muted small">Cada sección según cuánto se usa, si sube o baja, y cuán importante es para la pastoral. Cambia la importancia y la sugerencia se ajusta. Toca una sugerencia para ver por qué.</p>
+    ${semaforo(D)}
+  </section>
+
+  <section class="card pn-sec">
+    <h2>¿Vuelven?</h2>
+    <p class="muted small">Barra completa: celulares o computadores activos en la semana. Parte de color: los que también vinieron la semana anterior.</p>
+    ${retorno(D)}
+  </section>
 
   <section class="card pn-sec">
     <h2>Visitas por día</h2>
@@ -279,8 +358,34 @@ const STYLE = `<style>
   .pn-todo { list-style: none; padding: 0; margin: 8px 0 0; }
   .pn-todo li { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line); }
   .pn-todo b { font-family: var(--font-display); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+  .pn-pill { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); white-space: nowrap; }
+  .pn-pill i { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .pn-pill.ok i { background: #2f9e6b; } .pn-pill.warn i { background: #e0a800; } .pn-pill.bad i { background: #d6453d; } .pn-pill.neu i { background: var(--ink-3); }
+  .pn-sem-res { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .pn-sem td { vertical-align: middle; } .pn-nw { white-space: nowrap; }
+  .pn-imp { padding: 4px 8px; font-size: .8rem; min-height: 0; width: auto; }
+  .pn-more { margin-top: 12px; } .pn-more summary { cursor: pointer; color: var(--ink-2); }
+  .pn-how { margin-top: 10px; } .pn-how summary { cursor: pointer; color: var(--ink-2); }
+  .pn-big { font-family: var(--font-display); font-size: 1.8rem; }
+  .pn-wk { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; align-items: end; height: 150px; margin-top: 12px; }
+  .pn-wkc { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto; height: 100%; align-items: end; text-align: center; gap: 4px; }
+  .pn-wkc small { font-size: .62rem; color: var(--ink-3); font-weight: 700; white-space: nowrap; }
+  .pn-wkb { background: color-mix(in srgb, var(--cb) 28%, var(--surface)); border-radius: 5px 5px 2px 2px; min-height: 3px; display: flex; align-items: flex-end; overflow: hidden; }
+  .pn-wkb i { display: block; width: 100%; background: var(--cb); }
+  .pn-sq { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .pn-sq.r { background: var(--cb); } .pn-sq.o { background: color-mix(in srgb, var(--cb) 28%, var(--surface)); }
   .pn-tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--surface); font-size: .78rem; padding: 6px 9px; border-radius: 8px; max-width: 240px; box-shadow: 0 4px 14px rgb(0 0 0 / .18); }
   [data-tip] { cursor: default; }
+  @media (max-width: 560px) {
+    .pn-sem thead { display: none; }
+    .pn-sem tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: center; }
+    .pn-sem td { border: 0; padding: 0; }
+    .pn-sem td:nth-child(3) { text-align: right; }
+    .pn-sem td:nth-child(4) { grid-row: 2; grid-column: 2; font-size: .78rem; color: var(--ink-2); text-align: right; }
+    .pn-sem td:nth-child(5) { grid-column: 1 / -1; grid-row: 3; }
+    .pn-sem td:nth-child(2) { grid-row: 2; grid-column: 1; }
+    .pn-wkc:nth-child(even) small { visibility: hidden; }
+  }
   @media (max-width: 560px) { .pn-barcol { display: none; } .pn-tab { font-size: .8rem; } .pn-tab td, .pn-tab th { padding: 6px 4px; } .pn-heat { font-size: .72rem; } .pn-heat i { height: 22px; } }
 </style>`;
 
@@ -314,6 +419,13 @@ function wire() {
   document.addEventListener("pointerover", (e) => { const el = e.target.closest && e.target.closest(".pn-wrap [data-tip]"); if (el) showTip(el, e); else hideTip(); });
   document.addEventListener("scroll", hideTip, { passive: true });
   window.addEventListener("hashchange", hideTip);
+  document.addEventListener("change", async (e) => {
+    const sel = e.target.closest && e.target.closest(".pn-wrap [data-pn-imp]");
+    if (!sel) return;
+    st.imp = { ...st.imp, [sel.dataset.pnImp]: +sel.value };
+    pintar();
+    try { await cloud.savePanelCfg({ imp: st.imp }); } catch { toast("No se pudo guardar la importancia. Revisa la conexión."); }
+  });
   document.addEventListener("click", (e) => {
     const t = e.target.closest && e.target.closest(".pn-wrap [data-pn]");
     if (!t) { const el = e.target.closest && e.target.closest(".pn-wrap [data-tip]"); if (el) showTip(el, e); return; }

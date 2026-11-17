@@ -385,11 +385,13 @@ const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1
 export async function countVisit() {
   if (!enabled || !db) return;
   const k = dayKey(), lk = "agape_visita_dia";
-  try { if (localStorage.getItem(lk) === k) return; } catch { return; }
+  let antes = null;
+  try { antes = localStorage.getItem(lk); if (antes === k) return; } catch { return; }
   const member = !!state().ready;
   try {
     await fb.setDoc(fb.doc(db, "stats", k), { v: fb.increment(1), [member ? "c" : "g"]: fb.increment(1) }, { merge: true });
     try { localStorage.setItem(lk, k); } catch {}
+    countWeek(!!antes);
     // Hora de llegada para el mapa de calor del panel (h00…h23). Si las reglas aún no la permiten, se ignora.
     fb.setDoc(fb.doc(db, "horas", k), { ["h" + String(new Date().getHours()).padStart(2, "0")]: fb.increment(1) }, { merge: true }).catch(() => {});
   } catch {}
@@ -446,6 +448,40 @@ export async function visitStats(days = 30) {
   for (let i = days - 1; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); out.push(dayKey(d)); }
   const rows = await Promise.all(out.map((k) => withTimeout(fb.getDoc(fb.doc(db, "stats", k)), 6000).then((sn) => (sn.exists() ? sn.data() : null)).catch(() => null)));
   return out.map((k, i) => ({ dia: k, v: (rows[i] && rows[i].v) || 0, c: (rows[i] && rows[i].c) || 0, g: (rows[i] && rows[i].g) || 0 }));
+}
+// Semana ISO local («2026-W47»): el lunes abre la semana.
+export function weekKey(d = new Date()) {
+  const x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const day = (x.getDay() + 6) % 7; x.setDate(x.getDate() - day + 3);
+  const y = x.getFullYear(), f = new Date(y, 0, 4);
+  const w = 1 + Math.round(((x - f) / 864e5 - 3 + ((f.getDay() + 6) % 7)) / 7);
+  return `${y}-W${String(w).padStart(2, "0")}`;
+}
+// Retorno semanal anónimo: cada celular o computador suma una vez por semana (a); si es la primera vez, es nuevo (n);
+// si también vino la semana anterior, vuelve (r). Solo se guardan las últimas semanas en este mismo dispositivo.
+async function countWeek(yaVino) {
+  const lk = "agape_semanas", wk = weekKey(), prev = weekKey(new Date(Date.now() - 7 * 864e5));
+  let m;
+  try { m = JSON.parse(localStorage.getItem(lk) || "null"); } catch { return; }
+  // Quien ya usaba la app antes de este contador no cuenta como nuevo.
+  const nuevo = !m && !yaVino; if (!m) m = { s: [] };
+  if (m.s.includes(wk)) return;
+  const data = { a: fb.increment(1) };
+  if (nuevo) data.n = fb.increment(1); else if (m.s.includes(prev)) data.r = fb.increment(1);
+  try {
+    await fb.setDoc(fb.doc(db, "semanas", wk), data, { merge: true });
+    m.s = [...m.s, wk].slice(-12); localStorage.setItem(lk, JSON.stringify(m));
+  } catch {}
+}
+export const getPanelCfg = () => getContent("panel");
+export const savePanelCfg = (d) => setContent("panel", d);
+export async function weekStats(keys) {
+  if (!enabled || !db) return [];
+  let denied = false;
+  const rows = await Promise.all(keys.map((k) => withTimeout(fb.getDoc(fb.doc(db, "semanas", k)), 8000).then((sn) => (sn.exists() ? sn.data() : {})).catch((e) => { if (e && e.code === "permission-denied") denied = true; return {}; })));
+  const res = keys.map((k, i) => ({ wk: k, a: +rows[i].a || 0, n: +rows[i].n || 0, r: +rows[i].r || 0 }));
+  res.denied = denied;
+  return res;
 }
 // Panel: documentos diarios (stats, vistas u horas) para una lista de fechas AAAA-MM-DD. Solo el equipo los puede leer.
 export async function dailyRange(coll, keys) {

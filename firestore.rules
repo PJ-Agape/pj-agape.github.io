@@ -642,6 +642,20 @@ service cloud.firestore {
       allow update: if horaOk(resource.data, request.resource.data);
     }
 
+    // Retorno semanal (sin datos de nadie): a = dispositivos activos en la semana, n = nuevos, r = vuelven desde la semana anterior.
+    match /semanas/{wk} {
+      allow read: if isStaff();
+      allow create: if wk.matches('^[0-9]{4}-W[0-9]{2}$')
+        && request.resource.data.keys().hasOnly(['a', 'n', 'r'])
+        && request.resource.data.get('a', 0) == 1
+        && request.resource.data.get('n', 0) + request.resource.data.get('r', 0) <= 1;
+      allow update: if request.resource.data.keys().hasOnly(['a', 'n', 'r'])
+        && request.resource.data.get('a', 0) == resource.data.get('a', 0) + 1
+        && igualOMas1(resource.data, request.resource.data, 'n')
+        && igualOMas1(resource.data, request.resource.data, 'r')
+        && request.resource.data.get('n', 0) + request.resource.data.get('r', 0) <= resource.data.get('n', 0) + resource.data.get('r', 0) + 1;
+    }
+
     match /stats/{day} {
       allow read: if isStaff();
       allow create: if day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
