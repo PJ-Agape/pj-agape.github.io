@@ -390,6 +390,8 @@ export async function countVisit() {
   try {
     await fb.setDoc(fb.doc(db, "stats", k), { v: fb.increment(1), [member ? "c" : "g"]: fb.increment(1) }, { merge: true });
     try { localStorage.setItem(lk, k); } catch {}
+    // Hora de llegada para el mapa de calor del panel (h00…h23). Si las reglas aún no la permiten, se ignora.
+    fb.setDoc(fb.doc(db, "horas", k), { ["h" + String(new Date().getHours()).padStart(2, "0")]: fb.increment(1) }, { merge: true }).catch(() => {});
   } catch {}
 }
 // Lo más visto: cuántos celulares o computadores abrieron cada sección en el día (vistas/AAAA-MM-DD → {sección: n}).
@@ -444,6 +446,15 @@ export async function visitStats(days = 30) {
   for (let i = days - 1; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); out.push(dayKey(d)); }
   const rows = await Promise.all(out.map((k) => withTimeout(fb.getDoc(fb.doc(db, "stats", k)), 6000).then((sn) => (sn.exists() ? sn.data() : null)).catch(() => null)));
   return out.map((k, i) => ({ dia: k, v: (rows[i] && rows[i].v) || 0, c: (rows[i] && rows[i].c) || 0, g: (rows[i] && rows[i].g) || 0 }));
+}
+// Panel: documentos diarios (stats, vistas u horas) para una lista de fechas AAAA-MM-DD. Solo el equipo los puede leer.
+export async function dailyRange(coll, keys) {
+  if (!enabled || !db || !["stats", "vistas", "horas"].includes(coll)) return [];
+  let denied = false;
+  const rows = await Promise.all(keys.map((k) => withTimeout(fb.getDoc(fb.doc(db, coll, k)), 8000).then((sn) => (sn.exists() ? sn.data() : {})).catch((e) => { if (e && e.code === "permission-denied") denied = true; return {}; })));
+  const res = keys.map((k, i) => ({ dia: k, ...rows[i] }));
+  res.denied = denied;
+  return res;
 }
 export async function adminData() {
   const [users, progress, invites, solicitudes] = await Promise.all([all("users"), all("progress"), all("invites"), all("solicitudes").catch(() => [])]);
