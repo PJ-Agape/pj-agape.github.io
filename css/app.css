@@ -120,7 +120,7 @@ p { margin: 0; }
   border-bottom: 1px solid var(--line);
 }
 .app-header .inner {
-  max-width: 1080px; margin: 0 auto; height: var(--header-h);
+  max-width: max(var(--page-max), 900px); margin: 0 auto; height: var(--header-h);
   padding: 0 16px; display: flex; align-items: center; gap: 16px;
 }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); flex-shrink: 0; }
@@ -174,7 +174,10 @@ p { margin: 0; }
 }
 
 /* ---------- Layout ---------- */
-main#view { flex: 1; width: 100%; max-width: 1080px; margin: 0 auto; padding: 24px 16px 56px; }
+/* Un solo ancho de lectura para toda la app (760 px de contenido); Gestión y el Panel usan más ancho. */
+:root { --page-max: 792px; }
+body.is-admin { --page-max: 1080px; }
+main#view { flex: 1; width: 100%; max-width: var(--page-max); margin: 0 auto; padding: 24px 16px 56px; }
 .stack > * + * { margin-top: var(--gap, 20px); }
 .grid { display: grid; gap: 16px; }
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
@@ -5289,7 +5292,7 @@ dialog.sheet[open]::backdrop { animation: fadein .25s ease both; }
 @media (max-width: 760px) { .bottom-nav a { font-size: .68rem; } }
 
 /* ---------- Inicio: la bienvenida ---------- */
-.bv { display: grid; gap: 22px; max-width: 620px; margin: 0 auto; }
+.bv { display: grid; gap: 22px; margin: 0 auto; }
 .bv > * { margin: 0; }
 .bv-k { display: block; font-family: var(--font-hand); font-weight: 700; font-size: 1.5rem; color: var(--co); transform: rotate(-1.5deg); transform-origin: left; }
 .bv-lema { padding: 6px 4px 0; }
