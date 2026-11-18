@@ -5,12 +5,19 @@
 
 import * as M from "./videos-motor.js";
 import * as cloud from "./cloud.js";
+import * as E from "./estudio.js";
 import { esc, icon, toast, clone, slug } from "./util.js";
 
 const DRAFT = "agape_video_borrador";
 const LOGO_URL = new URL("../icons/logo-320.webp", import.meta.url).href;
 const S = { list: [], id: "", p: null, dirty: false, t: 0, playing: false, root: null, unsub: null, logo: null, ac: null, raf: 0, busy: false, out: null };
 const audios = new Map(); // aid → { dur, env, buffer, name }
+const images = new Map(); // id → imagen propia de una escena (solo en este dispositivo)
+const ext = () => ({ logo: S.logo, sticker: (c, k, x, y, w) => E.ill(c, k, x, y, w), image: (id) => images.get(id) });
+async function stickers() {
+  const keys = [...new Set(S.p.scenes.map((sc) => sc.el && sc.el.type === "sticker" && sc.el.key).filter(Boolean))];
+  if (keys.length) await E.preload(keys.map((k) => [k])).catch(() => {});
+}
 
 const $ = (s) => S.root && S.root.querySelector(s);
 const canDelete = () => cloud.state().isStaff;
@@ -42,6 +49,7 @@ export async function mount(root) {
   if (!root.dataset.wired) { wire(root); root.dataset.wired = "1"; }
   await Promise.all(["800 80px Bricolage", "700 40px Jakarta", "800 40px Jakarta"].map((f) => document.fonts.load(f).catch(() => {})));
   if (!S.logo) S.logo = await new Promise((ok) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = LOGO_URL; });
+  await stickers();
   paint();
 }
 
@@ -83,6 +91,19 @@ function render() {
       <div class="field"><label>Subtítulo <span class="muted">(opcional)</span></label><input class="input" data-f="s.${si}.sub" maxlength="70" value="${esc(sc.sub)}"></div>
       <div class="field"><label>En escena</label><div class="row-wrap">${M.ORDEN.map((c) => `<label class="chip ${(sc.cast || []).includes(c) ? "accent" : ""}" style="cursor:pointer;padding:6px 10px"><input type="checkbox" data-cast="${si}" value="${c}" ${(sc.cast || []).includes(c) ? "checked" : ""}> ${M.ELENCO[c]}</label>`).join("")}</div></div>
       ${(sc.cast || []).includes("firu") ? `<div class="field"><label>Firu</label><select class="input" data-f="s.${si}.firu">${opt(M.FIRU, sc.firu || "sentado")}</select></div>` : ""}
+      ${(sc.cast || []).length ? `<div class="field"><label>Entrada y movimiento</label><div class="vid-anim">${M.ORDEN.filter((c) => (sc.cast || []).includes(c)).map((c) => {
+        const a = (sc.anim || {})[c] || {};
+        return `<span class="vid-anim-n">${M.ELENCO[c]}</span>
+          <select class="input" data-f="s.${si}.anim.${c}.in" aria-label="Entrada de ${M.ELENCO[c]}">${opt(M.ENTRADAS, a.in || (si ? "derecha" : "ninguna"))}</select>
+          <select class="input" data-f="s.${si}.anim.${c}.mov" aria-label="Movimiento de ${M.ELENCO[c]}">${opt(M.MOVIMIENTOS, a.mov || "respira")}</select>`; }).join("")}</div>
+        <p class="xs muted">La entrada se ve solo cuando el personaje no estaba en la escena anterior.</p></div>` : ""}
+      <div class="row-wrap" style="gap:8px">
+        <div class="field" style="flex:1;min-width:140px"><label>Fondo</label><select class="input" data-f="s.${si}.bg">${opt(M.FONDOS, sc.bg || "")}</select></div>
+        <div class="field" style="flex:2;min-width:180px"><label>Elemento al centro</label><select class="input" data-f="s.${si}.el.type">${opt(M.ELEMENTOS, (sc.el && sc.el.type) || "")}</select></div></div>
+      ${sc.el && sc.el.type === "pizarron" ? `<div class="field"><label>Texto del pizarrón <span class="muted">(se escribe con tiza; Enter para otra línea)</span></label><textarea class="input" rows="3" maxlength="140" data-f="s.${si}.el.text">${esc(sc.el.text || "")}</textarea></div>` : ""}
+      ${sc.el && sc.el.type === "sticker" ? `<div class="field"><label>Sticker</label><select class="input" data-f="s.${si}.el.key"><option value="">Elige uno</option>${opt(E.STICKERS.map(([k, t]) => [k, t]), sc.el.key || "")}</select></div>` : ""}
+      ${sc.el && sc.el.type === "imagen" ? `<div class="field"><label class="btn btn-sm btn-soft" style="cursor:pointer;width:max-content">${icon("ul")} ${images.has(sc.el.img) ? "Cambiar imagen" : "Subir imagen"}<input type="file" accept="image/*" data-img="${si}" hidden></label>
+        <p class="xs muted">${images.has(sc.el.img) ? "Imagen cargada. " : ""}La imagen queda solo en este dispositivo, como las voces.</p></div>` : ""}
       ${(sc.lines || []).map((ln, li) => {
         const a = ln.aid && audios.get(ln.aid), x = tByLine.get(`${si}-${li}`);
         const nw = String(ln.text || "").trim().split(/\s+/).filter(Boolean).length;
@@ -91,8 +112,16 @@ function render() {
         <div class="row-wrap" style="gap:6px">
           <select class="input vid-who" data-f="s.${si}.l.${li}.who" aria-label="Quién habla">${opt(M.HABLAN.map((c) => [c, M.ELENCO[c]]), ln.who)}</select>
           <select class="input" data-f="s.${si}.l.${li}.pose" aria-label="Pose">${opt(M.POSES[ln.who] || [], ln.pose || M.BASE[ln.who])}</select>
-          ${ln.who === "beto" ? `<label class="chip" style="cursor:pointer;padding:6px 10px"><input type="checkbox" data-gesto="${si}.${li}" ${ln.gesto === "esceptico" ? "checked" : ""}> Ceja escéptica</label>` : ""}</div>
+</div>
         <textarea class="input" rows="2" maxlength="140" data-f="s.${si}.l.${li}.text" placeholder="Una idea por globo, frases naturales">${esc(ln.text)}</textarea>
+        ${(() => { const ex = ln.expr || (ln.gesto === "esceptico" ? "incredulo" : ""), fi = ln.fin || (ln.gesto === "esceptico" ? "incredulo" : "");
+          const open = ex || fi || ln.alterna || ln.otros;
+          return `<details class="vid-gestos" ${open ? "open" : ""}><summary class="small">Gestos${open ? "" : " (opcional)"}</summary>
+          <div class="vid-gest">
+            <span class="vid-anim-n">Mientras habla</span><select class="input" data-f="s.${si}.l.${li}.expr">${opt(M.EXPRESIONES, ex)}</select>
+            <span class="vid-anim-n">Al terminar</span><select class="input" data-f="s.${si}.l.${li}.fin">${opt([["", "Igual que mientras habla"], ...M.EXPRESIONES.slice(1)], fi)}</select>
+            <span class="vid-anim-n">Los demás</span><select class="input" data-f="s.${si}.l.${li}.otros">${opt([["", "Nada especial"], ["sonrisa", "Sonríen"], ["sorpresa", "Se sorprenden"], ["incredulo", "Quedan incrédulos"]], ln.otros || "")}</select></div>
+          <label class="chip" style="cursor:pointer;padding:6px 10px;margin-top:6px"><input type="checkbox" data-alt="${si}.${li}" ${ln.alterna ? "checked" : ""}> Alternar el gesto con la cara normal</label></details>`; })()}
         <div class="row-wrap vid-tools">
           <label class="btn btn-sm btn-soft" style="cursor:pointer">${icon("ul")} ${a ? "Cambiar voz" : "Voz (mp3 o wav)"}<input type="file" accept="audio/*" data-audio="${si}.${li}" hidden></label>
           ${a ? `<span class="xs">${esc(a.name)} · ${sec(a.dur)}</span><button type="button" class="btn btn-sm btn-ghost" data-v="aDel" data-s="${si}" data-l="${li}">Quitar voz</button>` : x ? `<span class="xs muted">Sin voz · ${sec(x.dur)} en pantalla</span>` : ""}
@@ -131,7 +160,7 @@ function paint() {
   const [W, H] = M.FORMATOS[S.p.fmt] || M.FORMATOS.vertical;
   if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
   const tl = T();
-  M.draw(cv.getContext("2d"), W, H, S.t, S.p, tl, { logo: S.logo });
+  M.draw(cv.getContext("2d"), W, H, S.t, S.p, tl, ext());
   const sk = $("#vidSeek"); if (sk) { sk.max = tl.dur.toFixed(2); if (document.activeElement !== sk) sk.value = S.t.toFixed(2); }
   const tm = $("#vidTime"); if (tm) tm.textContent = `${fmtT(S.t)} / ${fmtT(tl.dur)}`;
 }
@@ -172,8 +201,11 @@ function setField(path, v) {
   else if (k[0] === "c") { if (k[1] === "items") { S.p.cierre.items = S.p.cierre.items || []; S.p.cierre.items[+k[2]] = v; } else S.p.cierre[k[1]] = v; }
   else if (k[0] === "s") {
     const sc = S.p.scenes[+k[1]];
+    if (k[2] === "el") { sc.el = sc.el || {}; sc.el[k[3]] = v; if (k[3] === "type") { if (v === "imagen" && !sc.el.img) sc.el.img = newAid(); return true; } if (k[3] === "key") stickers().then(paint); return false; }
+    if (k[2] === "anim") { sc.anim = sc.anim || {}; sc.anim[k[3]] = sc.anim[k[3]] || {}; sc.anim[k[3]][k[4]] = v; return false; }
     if (k[2] === "l") {
       const ln = sc.lines[+k[3]];
+      if (k[4] === "expr" || k[4] === "fin") { if (ln.gesto === "esceptico") { ln.expr = ln.expr || "incredulo"; ln.fin = ln.fin || "incredulo"; } ln.gesto = ""; }
       ln[k[4]] = v;
       if (k[4] === "who") { ln.pose = M.BASE[v]; if (v !== "beto") ln.gesto = ""; return true; }
     } else sc[k[2]] = v;
@@ -192,7 +224,9 @@ function clean(p) {
   return {
     title: s(p.title, 80).trim() || "Video sin título", fmt: M.FORMATOS[p.fmt] ? p.fmt : "vertical",
     scenes: p.scenes.slice(0, 20).map((sc) => ({ title: s(sc.title, 40), sub: s(sc.sub, 70), cast: (sc.cast || []).filter((c) => M.ORDEN.includes(c)), firu: sc.firu || "sentado",
-      lines: (sc.lines || []).slice(0, 30).map((l) => ({ who: l.who, text: s(l.text, 140), pose: l.pose || "", gesto: l.gesto || "", aid: l.aid || "" })) })),
+      bg: s(sc.bg, 9), el: sc.el && sc.el.type ? { type: s(sc.el.type, 12), text: s(sc.el.text, 140), key: s(sc.el.key, 30), img: s(sc.el.img, 12) } : { type: "" },
+      anim: Object.fromEntries(M.ORDEN.map((c) => [c, { in: s(((sc.anim || {})[c] || {}).in, 12), mov: s(((sc.anim || {})[c] || {}).mov, 12) }])),
+      lines: (sc.lines || []).slice(0, 30).map((l) => ({ who: l.who, text: s(l.text, 140), pose: l.pose || "", gesto: l.gesto || "", expr: l.expr || "", fin: l.fin || "", alterna: !!l.alterna, otros: l.otros || "", aid: l.aid || "" })) })),
     cierre: { on: p.cierre.on !== false, title: s(p.cierre.title, 60), items: (p.cierre.items || []).slice(0, 3).map((x) => s(x, 40)), pie: s(p.cierre.pie, 60), web: s(p.cierre.web, 40) },
   };
 }
@@ -257,7 +291,14 @@ function wire(root) {
       t.checked ? set.add(t.value) : set.delete(t.value); sc.cast = M.ORDEN.filter((c) => set.has(c));
       touched(); render(); return paint();
     }
-    if (t.dataset.gesto) { const [si, li] = t.dataset.gesto.split(".").map(Number); S.p.scenes[si].lines[li].gesto = t.checked ? "esceptico" : ""; touched(); return paint(); }
+    if (t.dataset.alt) { const [si, li] = t.dataset.alt.split(".").map(Number); S.p.scenes[si].lines[li].alterna = t.checked; touched(); return paint(); }
+    if (t.dataset.img != null && t.files[0]) {
+      const sc = S.p.scenes[+t.dataset.img]; sc.el = sc.el || { type: "imagen" }; sc.el.img = sc.el.img || newAid();
+      const url = URL.createObjectURL(t.files[0]), im = new Image();
+      im.onload = () => { images.set(sc.el.img, im); touched(); render(); paint(); };
+      im.onerror = () => toast("No pude abrir esa imagen.", "error");
+      im.src = url; return;
+    }
     if (t.dataset.cierre != null) { S.p.cierre.on = t.checked; touched(); render(); return paint(); }
     if (t.tagName === "SELECT" && t.dataset.f) { const again = setField(t.dataset.f, t.value); touched(); if (again) render(); paint(); }
   });
@@ -294,6 +335,9 @@ async function exportar() {
   const ctx = cv.getContext("2d");
   try {
     progress("Preparando…");
+    await stickers();
+    const faltan = S.p.scenes.filter((sc) => sc.el && sc.el.type === "imagen" && !images.has(sc.el.img)).length;
+    if (faltan) toast(`${faltan === 1 ? "Una escena tiene" : faltan + " escenas tienen"} imagen propia sin cargar en este dispositivo: saldrá sin imagen.`);
     const mix = await mixAudio(tl);
     let blob = null;
     if ("VideoEncoder" in window) blob = await viaWebCodecs(cv, ctx, W, H, tl, mix);
@@ -333,7 +377,7 @@ async function viaWebCodecs(cv, ctx, W, H, tl, mix) {
   const total = Math.ceil(tl.dur * M.FPS);
   for (let i = 0; i < total; i++) {
     if (fail) throw fail;
-    M.draw(ctx, W, H, i / M.FPS, S.p, tl, { logo: S.logo });
+    M.draw(ctx, W, H, i / M.FPS, S.p, tl, ext());
     const fr = new VideoFrame(cv, { timestamp: Math.round((i * 1e6) / M.FPS), duration: Math.round(1e6 / M.FPS) });
     ve.encode(fr, { keyFrame: i % (M.FPS * 2) === 0 }); fr.close();
     while (ve.encodeQueueSize > 6) await sleep(4);
@@ -362,7 +406,7 @@ async function viaWebCodecs(cv, ctx, W, H, tl, mix) {
 async function viaRecorder(cv, ctx, W, H, tl, mix) {
   const mime = ["video/mp4;codecs=avc1.640028,mp4a.40.2", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm"].find((m) => window.MediaRecorder && MediaRecorder.isTypeSupported(m));
   if (!mime) throw new Error("este navegador no puede grabar video. Prueba con Chrome o Edge en un computador.");
-  M.draw(ctx, W, H, 0, S.p, tl, { logo: S.logo });
+  M.draw(ctx, W, H, 0, S.p, tl, ext());
   const stream = cv.captureStream(M.FPS);
   let ac = null, src = null;
   if (mix) { ac = new AudioContext({ sampleRate: mix.sampleRate }); const dst = ac.createMediaStreamDestination(); src = ac.createBufferSource(); src.buffer = mix; src.connect(dst); stream.addTrack(dst.stream.getAudioTracks()[0]); }
@@ -374,7 +418,7 @@ async function viaRecorder(cv, ctx, W, H, tl, mix) {
   await new Promise((ok) => {
     const step = () => {
       const t = (performance.now() - t0) / 1000;
-      M.draw(ctx, W, H, Math.min(t, tl.dur), S.p, tl, { logo: S.logo });
+      M.draw(ctx, W, H, Math.min(t, tl.dur), S.p, tl, ext());
       progress(`Grabando en tiempo real (deja esta pestaña abierta)… ${Math.round((t / tl.dur) * 100)} %`);
       if (t >= tl.dur) return ok();
       requestAnimationFrame(step);

@@ -26,7 +26,12 @@ export const BASE = { cami: "reposo", beto: "reposo", sam: "mate" };
 export const FIRU = [["sentado", "Sentado"], ["curioso", "Curioso (cabeza ladeada)"], ["contento", "Contento (mueve la cola)"]];
 const FIRU_ANG = { sentado: { cabeza: 0, "oreja-izq": 0, "oreja-der": 0 }, curioso: { cabeza: -12, "oreja-izq": -6, "oreja-der": 10 }, contento: { cabeza: 0, "oreja-izq": 4, "oreja-der": -4 } };
 const SALUDAN = new Set(["saludo", "hola"]);
+export const FONDOS = [["", "Automático"], ["#dcecf8", "Celeste"], ["#fbe3d8", "Durazno"], ["#fcf0d2", "Amarillo"], ["#e3f1e4", "Verde"], ["#ebe3f6", "Lila"]];
 const BGS = ["#dcecf8", "#fbe3d8", "#fcf0d2", "#e3f1e4"];
+export const ENTRADAS = [["derecha", "Desde la derecha"], ["izquierda", "Desde la izquierda"], ["abajo", "Desde abajo"], ["aparece", "Aparece de a poco"], ["ninguna", "Ya está ahí"]];
+export const MOVIMIENTOS = [["respira", "Respira (normal)"], ["vaiven", "Vaivén"], ["saltitos", "Saltitos"], ["quieto", "Quieto"]];
+export const EXPRESIONES = [["", "Normal"], ["incredulo", "Incrédulo"], ["sorpresa", "Sorpresa"], ["sonrisa", "Sonrisa"]];
+export const ELEMENTOS = [["", "Nada"], ["pizarron", "Pizarrón con texto"], ["logo", "Logo de Ágape"], ["elenco", "Logo con el elenco girando"], ["sticker", "Sticker de la app"], ["imagen", "Imagen propia"]];
 const NAVY = "#1c2e5e", BLUE = "#1f4e9a", ORANGE = "#f0591c";
 export const FONT_T = "Bricolage", FONT_B = "Jakarta";
 
@@ -48,14 +53,23 @@ export function timeline(p, audioOf = () => null) {
     // Quien habla siempre está en escena, aunque no lo hayan marcado.
     const cast = ORDEN.filter((c) => (sc.cast || []).includes(c) || (sc.lines || []).some((l) => l.who === c && String(l.text || "").trim()));
     const entra = cast.some((c) => !prevCast.includes(c));
-    const s = { t0: t, title: sc.title || "", sub: sc.sub || "", cast, firu: sc.firu || "sentado", bg: BGS[si % BGS.length], prevCast };
+    const anim = {};
+    for (const c of ORDEN) {
+      const a = (sc.anim || {})[c] || {};
+      anim[c] = { in: a.in || (si ? "derecha" : "ninguna"), mov: a.mov || "respira" };
+    }
+    const el = sc.el && sc.el.type ? { type: sc.el.type, text: String(sc.el.text || ""), key: sc.el.key || "", img: sc.el.img || "" } : null;
+    const s = { t0: t, title: sc.title || "", sub: sc.sub || "", cast, firu: sc.firu || "sentado", bg: sc.bg || BGS[si % BGS.length], prevCast, anim, el };
     let lt = t + (entra && si ? 1.2 : 0.8);
     (sc.lines || []).forEach((ln, li) => {
       if (!HABLAN.includes(ln.who) || !String(ln.text || "").trim()) return;
       const a = audioOf(ln) || null;
       const d = lineDur(ln.text, a && a.dur);
       const typeDur = a ? Math.min(ln.text.length / CPS, a.dur) : ln.text.length / CPS;
-      T.lines.push({ t0: lt, dur: d, typeDur, who: ln.who, text: String(ln.text).trim(), pose: ln.pose || BASE[ln.who], gesto: ln.gesto || "", audio: a || null, key: `${si}-${li}`, scene: si });
+      T.lines.push({ t0: lt, dur: d, typeDur, who: ln.who, text: String(ln.text).trim(), pose: ln.pose || BASE[ln.who],
+        // Gestos: «gesto: esceptico» es el formato antiguo de la ceja de Beto
+        expr: ln.expr || (ln.gesto === "esceptico" ? "incredulo" : ""), fin: ln.fin || (ln.gesto === "esceptico" ? "incredulo" : ""),
+        alterna: !!ln.alterna, otros: ln.otros || "", audio: a || null, key: `${si}-${li}`, scene: si });
       lt += d;
     });
     s.t1 = Math.max(lt + 0.4, t + 3);
@@ -136,34 +150,51 @@ const mixAng = (a, b, k) => { const o = {}; for (const key in b) o[key] = (a[key
 function sceneAt(T, t) { let s = T.scenes[0]; for (const x of T.scenes) if (x.t0 <= t) s = x; return s; }
 function lineAt(T, t) { let l = null; for (const x of T.lines) if (x.t0 <= t) l = x; return l; }
 
-function layout(W, H) {
+// Con elemento central (pizarrón, logo, sticker…) los títulos suben y los personajes se achican un poco.
+function layout(W, H, el = false) {
   const v = H > W;
+  if (el) return v
+    ? { W, H, v, el, headerY: 110, headerFs: 34, titleY: 250, titleFs: 78, subY: 310, subFs: 36, box: [90, 360, 900, 440],
+        bubTop: 850, bubX: 60, bubW: W - 120, fs: 52, lh: 70, pad: 44, cap: 1.0 }
+    : { W, H, v, el, headerY: 54, headerFs: 26, titleY: 118, titleFs: 50, subY: 156, subFs: 26, box: [190, 178, 700, 262],
+        bubTop: 462, bubX: 60, bubW: W - 120, fs: 38, lh: 50, pad: 30, cap: 0.72 };
   return {
-    W, H, v,
+    W, H, v, el,
     headerY: v ? 110 : 62, headerFs: v ? 34 : 28,
     titleY: v ? 610 : 168, titleFs: v ? 88 : 66, subY: v ? 676 : 214, subFs: v ? 38 : 30,
     bubTop: v ? 780 : 252, bubX: 60, bubW: W - 120, fs: v ? 54 : 44, lh: v ? 74 : 58, pad: v ? 46 : 40,
     cap: v ? 1.25 : 1.05,
   };
 }
+const layoutOf = (T, sc, W, H) => layout(W, H, !!(sc && sc.el));
 function slots(cast, L) {
   const n = Math.max(1, cast.length), s = Math.min(L.cap, L.W / n / 232), o = {};
   cast.forEach((c, i) => { o[c] = [((i + 0.5) * L.W) / n, s]; });
   return o;
 }
 function charPos(T, name, t, L) {
-  const sc = sceneAt(T, t);
-  const a = slots(sc.prevCast, L), b = slots(sc.cast, L), k = ease((t - sc.t0) / 1.1);
-  const inA = name in a, inB = name in b;
+  const sc = sceneAt(T, t), i = T.scenes.indexOf(sc), prev = i ? T.scenes[i - 1] : null;
+  const Lp = layout(L.W, L.H, !!(prev && prev.el)), Lc = layout(L.W, L.H, !!sc.el);
+  const a = slots(sc.prevCast, Lp), b = slots(sc.cast, Lc), k = ease((t - sc.t0) / 1.1);
+  const inA = name in a, inB = name in b, walk = Math.abs(Math.sin((t - sc.t0) * Math.PI * 3.6)) * 14;
   if (!inA && !inB) return null;
-  if (!inB) { // sale por la derecha
+  if (!inB) { // sale por el lado más cercano
     if (k >= 1) return null;
-    const [x0, s0] = a[name]; return { x: x0 + (L.W + 300 * s0 - x0) * k, s: s0, hop: Math.abs(Math.sin((t - sc.t0) * Math.PI * 3.6)) * 14 };
+    const [x0, s0] = a[name], out = x0 < L.W / 2 ? -300 * s0 : L.W + 300 * s0;
+    return { x: x0 + (out - x0) * k, s: s0, hop: walk, dy: 0, alpha: 1 };
   }
   const [x1, s1] = b[name];
-  const [x0, s0] = inA ? a[name] : [L.W + 280 * s1, s1];
+  if (!inA) { // entra según lo elegido en la escena
+    const how = sc.anim[name].in;
+    if (how === "ninguna") return { x: x1, s: s1, hop: 0, dy: 0, alpha: 1 };
+    if (how === "aparece") { const f = ease((t - sc.t0) / 0.8); return { x: x1, s: s1 * (0.9 + 0.1 * f), hop: 0, dy: 0, alpha: f }; }
+    if (how === "abajo") return { x: x1, s: s1, hop: 0, dy: (1 - k) * 640 * s1, alpha: 1 };
+    const x0 = how === "izquierda" ? -280 * s1 : L.W + 280 * s1;
+    return { x: x0 + (x1 - x0) * k, s: s1, hop: k < 1 ? walk : 0, dy: 0, alpha: 1 };
+  }
+  const [x0, s0] = a[name];
   const moving = k < 1 && Math.abs(x1 - x0) > 1;
-  return { x: x0 + (x1 - x0) * k, s: s0 + (s1 - s0) * k, hop: moving ? Math.abs(Math.sin((t - sc.t0) * Math.PI * 3.6)) * 14 : 0 };
+  return { x: x0 + (x1 - x0) * k, s: s0 + (s1 - s0) * k, hop: moving ? walk : 0, dy: 0, alpha: 1 };
 }
 function fitFont(ctx, text, size, maxW, fam, w = 800) {
   ctx.font = `${w} ${size}px ${fam}`;
@@ -190,20 +221,21 @@ function markedText(ctx, text, x, y, color, mark) {
 // ---------------------------------------------------------------------------
 // Un cuadro del video
 // ---------------------------------------------------------------------------
-export function draw(ctx, W, H, t, p, T, { logo = null } = {}) {
-  const L = layout(W, H);
+// extra: { logo: imagen del logo, sticker(ctx, clave, x, y, ancho), image(id) → imagen propia }
+export function draw(ctx, W, H, t, p, T, { logo = null, sticker = null, image = null } = {}) {
+  const L = layoutOf(T, sceneAt(T, t), W, H);
   ctx.save();
   ctx.textBaseline = "alphabetic";
   background(ctx, L, T, t);
   header(ctx, L);
-  if (L.v && logo) {
+  if (L.v && logo && !L.el) {
     ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.beginPath(); ctx.arc(W / 2, 320, 150, 0, 7); ctx.fill();
     ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(W / 2, 320, 132, 0, 7); ctx.fill();
     ctx.drawImage(logo, W / 2 - 124, 196, 248, 248);
   }
   const end = T.endT != null && t >= T.endT;
-  if (!end || t < T.endT + 0.6) titles(ctx, L, T, t);
-  if (T.endT != null) endcard(ctx, L, T, t, p.cierre || {});
+  if (!end || t < T.endT + 0.6) { titles(ctx, L, T, t); element(ctx, L, T, t, { logo, sticker, image }); }
+  if (T.endT != null) endcard(ctx, layout(W, H), T, t, p.cierre || {});
   const last = T.scenes[T.scenes.length - 1];
   for (const name of ORDEN) {
     const pos = charPos(T, name, t, L);
@@ -281,6 +313,87 @@ function endcard(ctx, L, T, t, c) {
   ctx.globalAlpha = 1;
 }
 
+// ---------------------------------------------------------------------------
+// Elemento central de la escena
+// ---------------------------------------------------------------------------
+function findNode(nodes, id) {
+  for (const n of nodes) { if (n[1].id === id) return n; if (n[2]) { const r = findNode(n[2], id); if (r) return r; } }
+  return null;
+}
+const HEADS = {};
+function drawHead(ctx, name, cx, cy, r) {
+  const head = HEADS[name] || (HEADS[name] = findNode(KITS[name], "cabeza"));
+  if (!head) return;
+  ctx.save();
+  ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fill();
+  ctx.strokeStyle = "#1c3560"; ctx.lineWidth = r * 0.06; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, r * 0.94, 0, 7); ctx.clip();
+  const k = (r * 1.75) / 220, hy = name === "firu" ? 205 : 158;
+  ctx.translate(cx, cy + r * 0.18); ctx.scale(k, k); ctx.translate(-190, -hy);
+  drawNode(ctx, head, { rot: {}, show: {}, tf: {} });
+  ctx.restore();
+}
+function element(ctx, L, T, t, ext) {
+  const sc = sceneAt(T, t), el = sc.el;
+  if (!el || !L.box) return;
+  const i = T.scenes.indexOf(sc), nxt = T.scenes[i + 1] ? T.scenes[i + 1].t0 : T.endT != null ? T.endT + 0.35 : 1e9;
+  const k = ease((t - sc.t0 - 0.25) / 0.5) * (1 - ease((t - (nxt - 0.35)) / 0.35));
+  if (k <= 0) return;
+  const [x, y, w, h] = L.box, cx = x + w / 2, cy = y + h / 2, lt = t - sc.t0;
+  ctx.save();
+  ctx.globalAlpha *= k;
+  ctx.translate(cx, cy); const z = 0.94 + 0.06 * k; ctx.scale(z, z); ctx.translate(-cx, -cy);
+  if (el.type === "pizarron") {
+    const fr = Math.max(16, w * 0.025);
+    ctx.fillStyle = "rgba(28,53,96,.12)"; ctx.beginPath(); ctx.roundRect(x + 8, y + 12, w, h, 22); ctx.fill();
+    ctx.fillStyle = "#8a5a34"; ctx.beginPath(); ctx.roundRect(x, y, w, h, 22); ctx.fill();
+    ctx.fillStyle = "#2f4f3a"; ctx.beginPath(); ctx.roundRect(x + fr, y + fr, w - 2 * fr, h - 2 * fr, 10); ctx.fill();
+    ctx.fillStyle = "rgba(255,255,255,.05)";
+    for (let j = 0; j < 5; j++) { ctx.beginPath(); ctx.ellipse(x + w * (0.2 + j * 0.15), y + h * (0.3 + (j % 2) * 0.35), w * 0.09, h * 0.06, 0.3, 0, 7); ctx.fill(); }
+    ctx.fillStyle = "#6e4426"; ctx.fillRect(x + w * 0.12, y + h - fr - 2, w * 0.76, fr * 0.7);
+    ctx.fillStyle = "#f4f1e8"; ctx.fillRect(x + w * 0.7, y + h - fr - fr * 0.45, w * 0.06, fr * 0.4);
+    // texto escrito con tiza, línea por línea
+    const lines = [], maxW = w - 2 * fr - w * 0.08;
+    let fs = Math.round(h * (L.v ? 0.12 : 0.15));
+    for (; fs > 18; fs -= 2) {
+      ctx.font = `700 ${fs}px ${FONT_B}`; lines.length = 0;
+      for (const para of el.text.split("\n")) lines.push(...wrap(ctx, para, maxW));
+      if (lines.length * fs * 1.3 <= h - 2 * fr - h * 0.12) break;
+    }
+    const shown = Math.floor(Math.max(0, lt - 0.7) * 20);
+    let left = shown, yy = cy - ((lines.length - 1) * fs * 1.3) / 2 + fs * 0.35;
+    ctx.fillStyle = "#f4f1e8"; ctx.textAlign = "center";
+    for (const l of lines) { const part = l.slice(0, Math.max(0, left)); left -= l.length; if (part) ctx.fillText(part, cx, yy); yy += fs * 1.3; }
+  } else if (el.type === "logo" || el.type === "elenco") {
+    const r = Math.min(w, h) * (el.type === "elenco" ? 0.3 : 0.42), pulse = 1 + Math.sin(lt * 2) * 0.015;
+    ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.beginPath(); ctx.arc(cx, cy, r * 1.13 * pulse, 0, 7); ctx.fill();
+    ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(cx, cy, r * pulse, 0, 7); ctx.fill();
+    if (ext.logo) ctx.drawImage(ext.logo, cx - r * 0.94, cy - r * 0.94, r * 1.88, r * 1.88);
+    if (el.type === "elenco") {
+      const R = Math.min(w * 0.42, h * 0.62), hr = Math.min(w, h) * 0.16;
+      ORDEN.forEach((n, j) => {
+        const a = lt * 0.45 + (j * Math.PI * 2) / ORDEN.length;
+        drawHead(ctx, n, cx + Math.cos(a) * R, cy + Math.sin(a) * R * 0.62, hr);
+      });
+    }
+  } else if (el.type === "sticker" && ext.sticker && el.key) {
+    const sw = Math.min(w, (h * 4) / 3) * 0.95, rot = Math.sin(lt * 1.6) * 3;
+    ctx.translate(cx, cy + Math.sin(lt * 2) * 6); ctx.rotate((rot * Math.PI) / 180); ctx.translate(-cx, -cy);
+    ext.sticker(ctx, el.key, cx - sw / 2, cy - (sw * 0.75) / 2, sw);
+  } else if (el.type === "imagen" && ext.image) {
+    const im = ext.image(el.img);
+    if (im) {
+      const iw = im.naturalWidth || im.width, ih = im.naturalHeight || im.height, sc2 = Math.min((w * 0.92) / iw, (h * 0.92) / ih);
+      const dw = iw * sc2, dh = ih * sc2, rot = Math.sin(lt * 1.4) * 2;
+      ctx.translate(cx, cy + Math.sin(lt * 2) * 5); ctx.rotate((rot * Math.PI) / 180); ctx.translate(-cx, -cy);
+      ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.roundRect(cx - dw / 2 - 12, cy - dh / 2 - 12, dw + 24, dh + 24, 24); ctx.fill();
+      ctx.save(); ctx.beginPath(); ctx.roundRect(cx - dw / 2, cy - dh / 2, dw, dh, 16); ctx.clip();
+      ctx.drawImage(im, cx - dw / 2, cy - dh / 2, dw, dh); ctx.restore();
+    }
+  }
+  ctx.restore();
+}
+
 function speakingNow(T, who, t) {
   for (const ln of T.lines) if (ln.who === who && ln.t0 <= t && t < ln.t0 + (ln.audio ? ln.audio.dur : ln.typeDur)) return ln;
   return null;
@@ -295,6 +408,8 @@ function drawChar(ctx, name, t, pos, L, T, lastScene) {
     const sc = sceneAt(T, t), i = T.scenes.indexOf(sc), prev = i ? T.scenes[i - 1].firu : sc.firu;
     const mode = end ? "contento" : sc.firu;
     Object.assign(ov.rot, mixAng(FIRU_ANG[prev] || FIRU_ANG.sentado, FIRU_ANG[mode] || FIRU_ANG.sentado, ease((t - sc.t0) / 0.6)));
+    const lnF = end ? null : lineAt(T, t);
+    if (lnF && lnF.otros === "sorpresa" && t - lnF.t0 > 0.4 && t - lnF.t0 < lnF.dur) { ov.rot["oreja-izq"] -= 12; ov.rot["oreja-der"] += 12; ov.rot.cabeza += 6; }
     const happy = mode === "contento";
     ov.rot.cola = Math.sin(t * 9) * (happy ? 16 : 6);
     const jadeo = happy && (t * 2.4) % 1 < 0.5;
@@ -306,28 +421,42 @@ function drawChar(ctx, name, t, pos, L, T, lastScene) {
     if (kp.cur === "hola" && kp.since > 0.3) ang["antebrazo-izq"] -= Math.sin((kp.since - 0.3) * 7) * 18 * ease((kp.since - 0.3) / 0.4);
     const talk = speakingNow(T, name, t);
     ang.cabeza = talk ? Math.sin(t * 2.2 + ph) * 2.2 : 0;
+    // Expresión: mientras habla, al terminar, alternada con la normal, o como reacción de quien escucha.
+    const ln = end ? null : lineAt(T, t);
+    let expr = "";
+    if (ln && ln.who === name) {
+      expr = talk ? ln.expr : ln.fin || ln.expr;
+      if (ln.alterna && expr && Math.floor((t - ln.t0) / 1.1) % 2 === 1) expr = "";
+    } else if (ln && t - ln.t0 > 0.4 && t - ln.t0 < ln.dur + 0.2) expr = ln.otros;
+    if (expr === "incredulo") ang.cabeza += name === "beto" ? -4 : 3;
     Object.assign(ov.rot, ang);
-    let mouth = "sonrisa";
+    let mouth = expr === "sorpresa" ? "abierta" : expr === "incredulo" ? (name === "beto" ? "mmm" : "cerrada") : "sonrisa";
     if (talk) {
       if (talk.audio && talk.audio.env) { const f = Math.floor((t - talk.t0) * FPS); mouth = (talk.audio.env[f] || 0) > 0.5 ? "abierta" : "cerrada"; }
       else mouth = (t * 6) % 1 < 0.5 ? "abierta" : "cerrada";
     }
-    const ln = lineAt(T, t);
-    const esceptico = name === "beto" && !end && ln && ln.who === "beto" && ln.gesto === "esceptico";
-    if (esceptico && !talk) mouth = "mmm";
     for (const m of ["sonrisa", "abierta", "cerrada", "mmm"]) ov.show["boca-" + m] = m === mouth;
+    if (name !== "beto") ov.tf.cejas = expr === "sorpresa" ? "translate(0 -10)" : expr === "incredulo" ? "rotate(-7 190 140) translate(0 -3)" : "translate(0 0)";
     if (name === "beto") {
-      ov.tf["ceja-der"] = esceptico ? "translate(0 -8) rotate(-16 221 143)" : "translate(0 0)";
+      ov.tf["ceja-der"] = expr === "incredulo" ? "translate(0 -8) rotate(-16 221 143)" : expr === "sorpresa" ? "translate(0 -10)" : "translate(0 0)";
+      ov.tf["ceja-izq"] = expr === "sorpresa" ? "translate(0 -10)" : "translate(0 0)";
       ov.show.celular = kp.cur === "celular" ? kp.since > 0.25 : kp.prev === "celular" && kp.since < 0.2;
     }
     if (name === "sam") ov.show.mate = kp.cur === "mate" ? kp.since > 0.3 || kp.prev === "mate" : kp.prev === "mate" && kp.since < 0.15;
   }
   const s = pos.s, w = 400 * s, h = 560 * s;
-  const bob = Math.sin(t * 2.1 + ph) * 3 - pos.hop;
+  const sc = sceneAt(T, t), mov = end ? "respira" : (sc.anim[name] || {}).mov || "respira";
+  let bob = Math.sin(t * 2.1 + ph) * 3, sway = 0, dx = 0;
+  if (mov === "quieto") bob = 0;
+  if (mov === "vaiven") { sway = Math.sin(t * 2.4 + ph) * 3.2; dx = Math.sin(t * 2.4 + ph) * 8; }
+  if (mov === "saltitos") bob = -Math.abs(Math.sin(t * 4.6 + ph)) * 16;
+  bob -= pos.hop;
   ctx.save();
-  ctx.translate(pos.x - w / 2, L.H - h + 14 * s);
+  if (pos.alpha < 1) ctx.globalAlpha *= pos.alpha;
+  ctx.translate(pos.x - w / 2, L.H - h + 14 * s + (pos.dy || 0));
   ctx.scale(s, s); ctx.translate(10, 40);
-  ctx.translate(190, 500); ctx.scale(1.1, 1.1); ctx.translate(-190, -500); ctx.translate(0, bob);
+  ctx.translate(190, 500); ctx.scale(1.1, 1.1); ctx.translate(-190, -500); ctx.translate(dx, bob);
+  if (sway) { ctx.translate(190, 500); ctx.rotate((sway * Math.PI) / 180); ctx.translate(-190, -500); }
   for (const n of KITS[name]) drawNode(ctx, n, ov);
   ctx.restore();
 }
@@ -382,17 +511,19 @@ export function envelope(buffer) {
 export const EJEMPLO = {
   title: "Comunicar también es cuidar", fmt: "vertical",
   scenes: [
-    { title: "Antes de publicar", sub: "Mi Ruta · Módulo 6 · Comunicación", cast: ["beto", "firu"], firu: "curioso", lines: [
+    { title: "Antes de publicar", sub: "Mi Ruta · Módulo 6 · Comunicación", cast: ["beto", "firu"], firu: "curioso", anim: { beto: { in: "izquierda" }, firu: { in: "abajo" } }, lines: [
       { who: "beto", text: "Hice un video del grupo.", pose: "celular" }, { who: "beto", text: "¿Lo subo así no más?", pose: "celular" }] },
     { title: "¿Para qué comunicar?", sub: "", cast: ["beto", "firu", "cami"], firu: "sentado", lines: [
       { who: "cami", text: "Espera, míralo primero.", pose: "hola" }, { who: "cami", text: "Publicar sirve para invitar y para acompañar a quien no pudo venir.", pose: "senala" }] },
     { title: "Lo que no se sube", sub: "Permiso de cada persona. Y de los padres, si es menor.", cast: ["beto", "firu", "cami"], firu: "curioso", lines: [
-      { who: "cami", text: "Pero hay cosas que no se suben.", pose: "reposo" }, { who: "cami", text: "Caras, nombres o datos de menores sin permiso.", pose: "senala" },
-      { who: "beto", text: "Mmm… ¿y si alguien no quiere salir?", pose: "encogido", gesto: "esceptico" }, { who: "cami", text: "Entonces no sale. Se pide permiso, siempre.", pose: "reposo" }] },
-    { title: "Inteligencia artificial", sub: "y mensajes privados", cast: ["beto", "firu", "cami", "sam"], firu: "sentado", lines: [
+      { who: "cami", text: "Pero hay cosas que no se suben.", pose: "reposo" }, { who: "cami", text: "Caras, nombres o datos de menores sin permiso.", pose: "senala", otros: "sorpresa" },
+      { who: "beto", text: "Mmm… ¿y si alguien no quiere salir?", pose: "encogido", expr: "incredulo", fin: "incredulo", alterna: true }, { who: "cami", text: "Entonces no sale. Se pide permiso, siempre.", pose: "reposo" }] },
+    { title: "Inteligencia artificial", sub: "y mensajes privados", cast: ["beto", "firu", "cami", "sam"], firu: "sentado",
+      el: { type: "pizarron", text: "Voz o imagen con IA: se dice\nMensajes privados: una persona real" }, lines: [
       { who: "sam", text: "Y algo más.", pose: "mate" }, { who: "sam", text: "Si la voz o la imagen se hizo con inteligencia artificial, se dice.", pose: "mate" },
       { who: "sam", text: "Cada red tiene su etiqueta.", pose: "mate" }, { who: "sam", text: "Y los mensajes privados los responde siempre una persona real.", pose: "mate" }] },
-    { title: "El tono", sub: "", cast: ["beto", "firu", "cami", "sam"], firu: "contento", lines: [
+    { title: "El tono", sub: "", cast: ["beto", "firu", "cami", "sam"], firu: "contento",
+      anim: { cami: { mov: "vaiven" }, beto: { mov: "vaiven" }, sam: { mov: "vaiven" } }, el: { type: "elenco" }, lines: [
       { who: "cami", text: "Sin apuro. Una idea por mensaje.", pose: "senala" }, { who: "beto", text: "Y que suene a nosotros.", pose: "reposo" },
       { who: "cami", text: "Comunicar también es cuidar.", pose: "hola" }] },
   ],

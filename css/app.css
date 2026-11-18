@@ -5364,3 +5364,11 @@ dialog.cv-dlg::backdrop { background: rgba(15, 12, 28, .18); backdrop-filter: no
 .vid-tools { gap: 6px; align-items: center; }
 .vid-tools .spacer { flex: 1; }
 .vid-export h3 { margin: 0 0 6px; }
+.vid-anim { display: grid; grid-template-columns: auto 1fr 1fr; gap: 6px 8px; align-items: center; }
+.vid-anim .input { width: 100%; min-width: 0; }
+.vid-anim-n { font-weight: 700; font-size: 13px; }
+.vid-gestos summary { cursor: pointer; font-weight: 700; color: var(--muted, #5b6478); }
+.vid-gestos[open] summary { margin-bottom: 6px; }
+.vid-gest { display: grid; grid-template-columns: auto 1fr; gap: 6px 8px; align-items: center; }
+.vid-gest .input { width: 100%; min-width: 0; }
+@media (max-width: 520px) { .vid-anim { grid-template-columns: 1fr 1fr; } .vid-anim .vid-anim-n { grid-column: 1 / -1; } }
