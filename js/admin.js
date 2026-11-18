@@ -451,7 +451,7 @@ async function peopleView() {
       <tbody>
       ${list.length ? list.map(({ u, r }) => `<tr class="${u.active === false ? "paused" : ""}">
         <td><a href="#/admin/dirigentes/${esc(u.uid)}"><b>${esc(u.name || u.email)}</b></a>
-          <span class="sub">${esc(u.parish || "")}${u.role && u.role !== "dirigente" ? ` · <span class="chip ${api.cloud.isStaffRole(u.role) ? "warn" : "accent"}">${esc(api.cloud.roleLabel(u.role))}</span>` : ""}${u.asesor ? ` · <span class="chip">Asesor</span>` : ""}${u.cantor ? ` · <span class="chip" title="Apostolado del cancionero">Cancionero</span>` : ""}${u.active === false ? ` · <span class="chip">En pausa</span>` : ""}</span></td>
+          <span class="sub">${esc(u.parish || "")}${u.role && u.role !== "dirigente" ? ` · <span class="chip ${api.cloud.isStaffRole(u.role) ? "warn" : "accent"}">${esc(api.cloud.roleLabel(u.role))}</span>` : ""}${u.asesor ? ` · <span class="chip">Asesor</span>` : ""}${u.cantor ? ` · <span class="chip" title="Apostolado del cancionero">Cancionero</span>` : ""}${u.difusor ? ` · <span class="chip" title="Arma videos con personajes">Videos</span>` : ""}${u.active === false ? ` · <span class="chip">En pausa</span>` : ""}</span></td>
         <td class="xs">${esc(u.email || "")}</td>
         <td>${ago(r.last)}</td>
       </tr>`).join("") : `<tr><td colspan="3" class="muted" style="text-align:center;padding:24px">${data.users.length ? "Nadie coincide con la búsqueda." : "Aún no hay personas con cuenta. Invita a la primera."}</td></tr>`}
@@ -543,7 +543,7 @@ function peopleCards(list) {
         <p class="xs muted">Última actividad: ${ago(r.last)}</p>`;
     }
     return `<a class="card link pc-card ${paused ? "paused" : ""}" href="#/admin/dirigentes/${esc(u.uid)}" style="--gc:${g.c}">
-      <span class="pc-head"><b>${esc(u.name || u.email)}</b>${u.cantor ? ` <span class="chip">Cancionero</span>` : ""}${paused ? ` <span class="chip">En pausa</span>` : ""}</span>
+      <span class="pc-head"><b>${esc(u.name || u.email)}</b>${u.cantor ? ` <span class="chip">Cancionero</span>` : ""}${u.difusor ? ` <span class="chip">Videos</span>` : ""}${paused ? ` <span class="chip">En pausa</span>` : ""}</span>
       ${u.googleName && u.googleName !== u.name ? `<span class="xs muted">Google: ${esc(u.googleName)}</span>` : ""}${u.parish ? `<span class="xs muted">${esc(u.parish)}</span>` : ""}${body}</a>`;
   };
   const html = GROUPS.map((g) => {
@@ -686,6 +686,12 @@ async function personView(uid) {
       : `<p class="muted small" style="margin-top:4px">Puede agregar y editar canciones y armar los repertorios de las misas. Borrar sigue siendo del equipo.</p>
       <label class="chip ${u.cantor ? "accent" : ""}" style="cursor:pointer;padding:8px 12px;margin-top:12px">
         <input type="checkbox" data-action="aUserCantor" data-uid="${esc(u.uid)}" ${u.cantor ? "checked" : ""}> Ayuda a construir el cancionero</label>`}
+  </div>
+  <div class="card"><h3>Videos con personajes</h3>
+    ${api.cloud.isStaffRole(u.role) ? `<p class="muted small" style="margin-top:4px">Como ${esc(api.cloud.roleLabel(u.role).toLowerCase())}, ya puede armar videos en el Estudio de difusión.</p>`
+      : `<p class="muted small" style="margin-top:4px">Puede armar y editar guiones de videos con Cami, Beto, el Padre Sam y Firu en el Estudio de difusión, y exportarlos. Borrar guiones sigue siendo del equipo.</p>
+      <label class="chip ${u.difusor ? "accent" : ""}" style="cursor:pointer;padding:8px 12px;margin-top:12px">
+        <input type="checkbox" data-action="aUserDifusor" data-uid="${esc(u.uid)}" ${u.difusor ? "checked" : ""}> Arma videos de difusión</label>`}
   </div>
   ${(() => {
     const salas = Array.isArray(u.salas) ? u.salas : api.cloud.defaultSalas(u.role);
@@ -1141,6 +1147,14 @@ Te recomendamos partir por la «Guía de agAPPe», en Recursos: cuenta en pocos 
     if (!u) return;
     const on = !u.cantor; el.checked = on;
     try { await api.cloud.updateUser(u.uid, { cantor: on }); await loadPeople(true); api.render(); toast(on ? "Ya puede editar el cancionero" : "Ya no edita el cancionero"); }
+    catch (e) { el.checked = !on; toast("No se pudo cambiar: " + (e.code || e.message), ""); }
+  };
+  A.aUserDifusor = async (el) => {
+    const data = await loadPeople();
+    const u = data.users.find((x) => x.uid === el.dataset.uid);
+    if (!u) return;
+    const on = !u.difusor; el.checked = on;
+    try { await api.cloud.updateUser(u.uid, { difusor: on }); await loadPeople(true); api.render(); toast(on ? "Ya puede armar videos" : "Ya no arma videos"); }
     catch (e) { el.checked = !on; toast("No se pudo cambiar: " + (e.code || e.message), ""); }
   };
   A.aUserDelete = async (el) => {

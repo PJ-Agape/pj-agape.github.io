@@ -52,7 +52,7 @@ export function setViewAs(r) {
 export const realRole = () => (account ? account.role : "");
 export function state() {
   const va = viewingAs();
-  if (va === "visitante") return { enabled, status: "guest", user: null, account: null, error: "", isAdmin: false, isStaff: false, isGuide: false, canSongs: false, role: "", isJoven: false, ready: false, viewAs: va };
+  if (va === "visitante") return { enabled, status: "guest", user: null, account: null, error: "", isAdmin: false, isStaff: false, isGuide: false, canSongs: false, canVideos: false, role: "", isJoven: false, ready: false, viewAs: va };
   const real = account;
   const account2 = va ? { ...real, role: va } : real;
   return realState(account2, va);
@@ -70,6 +70,8 @@ function realState(account, va) {
     isJoven: !!(account && account.active !== false && ["ingreso", "madurez"].includes(account.role)),
     // Apostolado del cancionero: además del equipo, quienes un administrador habilita.
     canSongs: !!(account && account.active !== false && (STAFF.includes(account.role) || account.cantor === true)),
+    // Videos con personajes (Estudio de difusión): además del equipo, quienes un administrador habilita.
+    canVideos: !!(account && account.active !== false && (STAFF.includes(account.role) || account.difusor === true)),
     ready: status === "ready",
   };
 }
@@ -1015,6 +1017,10 @@ export const deleteCancion = (id) => fb.deleteDoc(fb.doc(db, "canciones", id));
 export const watchRepertorios = watchCol("repertorios");
 export const saveRepertorio = saveIn("repertorios");
 export const deleteRepertorio = (id) => fb.deleteDoc(fb.doc(db, "repertorios", id));
+// Guiones de los videos con personajes (los ven y editan el equipo y quienes tienen users.difusor).
+export const watchVideos = watchCol("videos");
+export const saveVideo = saveIn("videos");
+export const deleteVideo = (id) => fb.deleteDoc(fb.doc(db, "videos", id));
 
 
 // ---------------------------------------------------------------------------
