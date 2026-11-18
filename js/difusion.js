@@ -28,6 +28,7 @@ const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "o
 const DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
 let ctx = null;
+let VID = null; // módulo de videos, si ya se abrió
 const st = { tab: "piezas", tpl: "frase", fmt: "historia", style: "cielo", qr: "app", ill: "corazon", title: "", hand: "", sub: "", kicker: "", ev: "", para: "", frame: "soy", centro: "", centroImg: null, fx: { text: "", ring: "", ink: "", ins: "" }, fondo: "bomba", fsize: "celular", zoom: 1, dx: 0, dy: 0, photo: null, phrase: 0, flogo: "sin", ffrase: "" };
 let events = [];
 
@@ -52,11 +53,15 @@ export async function view() {
   return `<header class="page-head"><span class="eyebrow">Difusión</span><h1>Estudio de <em>difusión</em></h1>
     <p>Arma piezas con la identidad de Ágape para tus Estados, historias y grupos. Se hacen en tu teléfono y las descargas o compartes al instante.</p></header>
     <div class="dif-tabs seg" role="tablist" aria-label="Qué quieres hacer">
-      ${[["piezas", "Historias y posts"], ["marco", "Marco de foto"], ["stickers", "Stickers"], ["fondos", "Fondos de pantalla"]].map(([k, l]) => `<label><input type="radio" name="difTab" value="${k}" ${st.tab === k ? "checked" : ""}><span>${l}</span></label>`).join("")}
+      ${[["piezas", "Historias y posts"], ["marco", "Marco de foto"], ["stickers", "Stickers"], ["fondos", "Fondos de pantalla"], ...(cloud.state().canVideos ? [["videos", "Videos con personajes"]] : [])].map(([k, l]) => `<label><input type="radio" name="difTab" value="${k}" ${st.tab === k ? "checked" : ""}><span>${l}</span></label>`).join("")}
     </div>
     <div id="difBody" style="margin-top:16px">${body()}</div>`;
 }
-function body() { return st.tab === "marco" ? marcoHTML() : st.tab === "stickers" ? stickersHTML() : st.tab === "fondos" ? fondosHTML() : piezasHTML(); }
+function body() {
+  if (st.tab === "videos" && !cloud.state().canVideos) st.tab = "piezas";
+  return st.tab === "videos" ? `<div class="vid-root"></div>` : bodyPiezas();
+}
+function bodyPiezas() { return st.tab === "marco" ? marcoHTML() : st.tab === "stickers" ? stickersHTML() : st.tab === "fondos" ? fondosHTML() : piezasHTML(); }
 
 // --- Historias, posts e invitaciones ---------------------------------------
 const TPLS = [["frase", "Frase de Ágape"], ["evento", "Actividad de la agenda"], ["cuenta", "Cuenta regresiva"], ["invita", "Invitación personal"], ["cumple", "Saludo de cumpleaños"], ["aniversario", "Aniversario de Ágape"]];
@@ -186,6 +191,9 @@ function fondosHTML() {
 let painting = 0;
 async function paint() {
   const id = ++painting;
+  // Videos con personajes: su propio módulo (se carga solo para quienes tienen permiso)
+  if (st.tab === "videos") { const root = document.querySelector("#difBody .vid-root"); if (root) { VID = import("./videos.js"); (await VID).mount(root); } return; }
+  if (VID) VID.then((m) => m.leave()).catch(() => {});
   if (st.tab === "stickers") {
     await E.preload(E.STICKERS.flatMap(([k, , c]) => E.stickerIlls(k, c)));
     for (const [i, [k, t, c, sinFrase]] of E.STICKERS.entries()) {

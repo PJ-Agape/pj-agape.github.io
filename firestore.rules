@@ -87,7 +87,7 @@ service cloud.firestore {
       // Administradores: todo. Coordinadores: directorio para armar salas (el avance sigue siendo solo de administradores).
       allow read: if isStaff();
       // Seguridad: al crear la cuenta solo se aceptan estos campos. Así nadie se da a sí mismo permisos
-      // que entrega un administrador (salas del chat, cancionero, formador) ni cambia el consentimiento.
+      // que entrega un administrador (salas del chat, cancionero, videos, formador) ni cambia el consentimiento.
       allow create: if signedIn() && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['email', 'name', 'googleName', 'parish', 'role', 'active', 'createdAt', 'lastSeen', 'consent'])
         // googleName: el nombre de la cuenta de Google, tal como viene en la sesión (no lo elige la persona)
@@ -408,6 +408,17 @@ service cloud.firestore {
     match /repertorios/{repId} {
       allow read: if isMember();
       allow create, update: if canSongs() && validText(request.resource.data.name, 120);
+      allow delete: if isStaff();
+    }
+
+    // Videos con personajes (Estudio de difusión): guiones por escenas. Los ven y editan el equipo y
+    // quienes un administrador habilita (users.difusor); borrar es solo del equipo. Los audios no se suben.
+    function canVideos() { return isStaff() || (isMember() && me().get('difusor', false) == true); }
+    match /videos/{videoId} {
+      allow read: if canVideos();
+      allow create, update: if canVideos() && validText(request.resource.data.title, 120)
+        && request.resource.data.scenes is list && request.resource.data.scenes.size() <= 20
+        && request.resource.data.keys().hasOnly(['title', 'fmt', 'scenes', 'cierre', 'updatedBy', 'updatedAt']);
       allow delete: if isStaff();
     }
 
