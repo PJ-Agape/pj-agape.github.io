@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-16": {
-   "titulo": "Lunes de la 33.ª semana del Tiempo Ordinario",
-   "cita": "Lc 18,35-43",
-   "frase": "¿Qué quieres que haga por ti? —Señor, que yo vea.",
-   "reflexion": "XUADqELPRuI",
-   "video": "A2On1t1ewl4"
-  },
   "2026-11-17": {
    "titulo": "Martes de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 19,1-10",
@@ -60,6 +53,11 @@
    "titulo": "Jueves de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,20-28",
    "frase": "Tengan ánimo y levanten la cabeza, porque está por llegarles la liberación."
+  },
+  "2026-11-27": {
+   "titulo": "Viernes de la 34.ª semana del Tiempo Ordinario",
+   "cita": "Lc 21,29-33",
+   "frase": "El cielo y la tierra pasarán, pero mis palabras no pasarán."
   }
  }
 }
