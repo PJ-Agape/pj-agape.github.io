@@ -487,11 +487,13 @@ export const sceneLabel = (k) => NAMES[k] || k.charAt(0).toUpperCase() + k.slice
 // Ilustraciones propias de la PJ (stickers): reemplazan a los muñequitos de papel en toda la app.
 // Cada escena usa el sticker que mejor le calza (img/ilus/sNNN.webp). Los avatares siguen en SVG.
 const STICKER = { l_confirmacion: 220, l_eucaristia: 221, l_uncion: 222, l_reconciliacion: 223, l_orden: 224, l_matrimonio: 225, l_vocaciones: 226, l_bautismo: 227, l_pila: 228, l_corpus: 229, l_caliz: 230, l_cuaresma: 231, l_cruzpalma: 232, l_ramos: 233, l_cirio: 234, l_pascua: 235, l_pentecostes: 236, l_navidad: 237, l_ordinario: 238, l_asuncion: 239, l_virgen: 240, l_guadalupe: 241, l_familia: 242, l_corazon: 243, l_jose: 244, l_rosa: 245, l_biblia: 246, francisco: 201, benedicto: 202, juanpablo2: 205, samuel: 215, samuelmisa: 216, samuelmate: 217, samueloro: 218, samuelauto: 213, samueladora: 214, curaorando: 207, curapalabra: 206, curasaludo: 208, curaalba: 210, bendicion: 209, custodia: 211, adoracion: 212, campo: 204, parroquia: 203, catedral: 219, leon: 2, virgen: 91, jose: 35, sagradafamilia: 88, apostoles: 92, anunciacion: 91, sanmiguel: 89, sansebastian: 51, juanpablo: 4, teresacalcuta: 0, carloacutis: 96, teresaandes: 44, albertohurtado: 93, lauravicuna: 0, santoschile: 44, virgencarmen: 42, fraiandresito: 0, ceferino: 0, donbosco: 94, domingosavio: 0, franciscoasis: 90, rosalima: 0, frassati: 0, teresita: 104, guadalupe: 0, jesus: 87, emaus: 92, dejadlos: 26, buenpastor: 87, sagradocorazon: 105, acogida: 22, corazon: 85, luz: 40, trigo: 98, ramos: 87, duda: 36, mesa: 39, pastor: 87, vid: 41, amigos: 22, envio: 65, espiritu: 97, comunidad: 109, eucaristia: 98, familia: 88, semilla: 50, tormenta: 87, levantate: 40, descanso: 23, panes: 83, camino: 32, maria: 91, eleccion: 37, corazonlimpio: 33, escuchar: 107, pregunta: 36, equipo: 43, ninos: 26, tesoro: 102, servir: 24, bartimeo: 87, amar: 85, moneda: 24, futuro: 78, rey: 40, oracion: 86, santos: 30, flores: 104, bautismo: 31, uncion: 97, matrimonio: 85, juego: 81, celular: 66, pizarra: 47, biblia: 84, plaza: 81 };
-export const stickerSrc = (key) => (STICKER[key] ? `img/ilus/s${String(STICKER[key]).padStart(3, "0")}.webp` : "");
+// La ruta se arma desde este archivo (no desde la página), así funciona igual en la app y en /familias/.
+const ilusUrl = (n) => new URL(`../img/ilus/s${String(n).padStart(3, "0")}.webp`, import.meta.url).href;
+export const stickerSrc = (key) => (STICKER[key] ? ilusUrl(STICKER[key]) : "");
 export function illus(key, cls = "") {
   const n = STICKER[key];
   if (n === 0) return ""; // escenas sin sticker propio: sin ilustración
-  if (n) return `<img class="z-illus z-sticker ${cls}" src="img/ilus/s${String(n).padStart(3, "0")}.webp" alt="" loading="lazy" decoding="async">`;
+  if (n) return `<img class="z-illus z-sticker ${cls}" src="${ilusUrl(n)}" alt="" loading="lazy" decoding="async">`;
   return svgIllus(key, cls);
 }
 function svgIllus(key, cls = "") {
