@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-17": {
-   "titulo": "Martes de la 33.ª semana del Tiempo Ordinario",
-   "cita": "Lc 19,1-10",
-   "frase": "Zaqueo, baja pronto, porque hoy tengo que alojarme en tu casa.",
-   "reflexion": "I-q4KcYowSk",
-   "video": "B5L_c0Lue2U"
-  },
   "2026-11-18": {
    "titulo": "Miércoles de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 19,11-28",
@@ -60,6 +53,11 @@
    "titulo": "Viernes de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,29-33",
    "frase": "El cielo y la tierra pasarán, pero mis palabras no pasarán."
+  },
+  "2026-11-28": {
+   "titulo": "Sábado de la 34.ª semana del Tiempo Ordinario",
+   "cita": "Lc 21,34-36",
+   "frase": "Estén prevenidos y oren incesantemente."
   }
  }
 }
