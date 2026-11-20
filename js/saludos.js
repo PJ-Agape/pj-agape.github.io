@@ -157,14 +157,14 @@ _${x.fecha}${fiesta ? " · " + fiesta : ""}_
 
 ${frase ? `«${frase}»\n` : ""}${x.cita}
 
-Te invitamos a la Capilla Ágape (deja ahí tu intención: la llevamos a la misa):
+Si quieres, deja tu intención en la Capilla Ágape. Nosotros la llevamos a la misa:
 ${APP}capilla
 
-🙏 *Sé misionero digital:* reenvía este mensaje a tus contactos. Así, día a día, vamos formando el *Ágape digital*: una gran red de internautas que rezan con la Palabra.`;
+💛 *¿Te hizo bien?* Mándaselo a alguien que lo necesite hoy. A veces una frase llega justo a tiempo. Así, de a poco, vamos formando el *Ágape digital*: una red de personas que rezan juntas con la Palabra.`;
 }
 const partFuera = (x) => `<article class="sal-part fuera">
     <h3>Para compartir fuera <small>Canal, estados u otros grupos</small></h3>
-    <p class="xs muted">Un mensaje general, sin referencias a la comunidad, con la imagen de buenos días, el enlace a la Capilla (abre sin cuenta) y una invitación a reenviarlo como misioneros digitales.</p>
+    <p class="xs muted">Un mensaje general, sin referencias a la comunidad, con la imagen de buenos días, el enlace a la Capilla (abre sin cuenta) y una invitación cercana a reenviarlo a quien lo necesite.</p>
     <img class="sal-img" src="${img("dia", x.iso)}" alt="Imagen del Evangelio del ${esc(x.fecha)}" loading="lazy">
     <div class="row-wrap" style="gap:8px">
       <button class="btn btn-gold" data-action="salShare" data-iso="${x.iso}" data-k="fuera">📤 Enviar a WhatsApp</button>
@@ -354,9 +354,9 @@ export async function capillaHTML() {
   if (!x || !x.dia) return "";
   return `<div class="cap-sal">
       <img class="cap-sal-img" src="${img("dia", x.iso)}" alt="Imagen del Evangelio de hoy" loading="lazy">
-      <div class="cap-sal-txt"><span class="cap-hand sm">sé misionero digital</span>
+      <div class="cap-sal-txt"><span class="cap-hand sm">alguien lo necesita hoy</span>
         <h3>Comparte el Evangelio de hoy</h3>
-        <p class="small">Mándalo a tus contactos, a un grupo o a tu estado. Llega con su imagen, la frase del día y la invitación a esta Capilla.</p>
+        <p class="small">¿Te hizo bien? Regálaselo a un amigo, a tu familia o ponlo en tu estado. A veces una frase llega justo a tiempo.</p>
         <button class="btn btn-gold" data-action="capSaludo" data-iso="${x.iso}" data-k="fuera">Compartir por WhatsApp</button>
         <button class="btn btn-ghost btn-sm" data-action="capSaludoCopy" data-iso="${x.iso}" data-k="fuera">${icon("copy")} Copiar el texto</button></div>
     </div>`;
