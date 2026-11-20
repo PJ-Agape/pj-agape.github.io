@@ -155,14 +155,20 @@ const partFamilia = (x) => `<article class="sal-part familia">
   </article>`;
 // Versión general, para compartir fuera de la comunidad (canal, estados, otros grupos):
 // la fecha, la frase del Evangelio, la cita, el enlace y la invitación a reenviarlo (misioneros digitales).
+// La meditación breve del día: el párrafo que sigue a la frase del Evangelio en el saludo de buenos días.
+function meditacion(x) {
+  const ps = String(x.dia || "").split("\n\n"), i = ps.findIndex((p) => p.startsWith("📖"));
+  const m = i >= 0 ? (ps[i + 1] || "").trim() : "";
+  return m && !/^[✨🙏🕯📖]/u.test(m) ? m : "";
+}
 function fuera(x) {
-  const m = x.dia.match(/📖[^\n]*\n_«(.+?)»_/), frase = m ? m[1] : "";
+  const m = x.dia.match(/📖[^\n]*\n_«(.+?)»_/), frase = m ? m[1] : "", med = meditacion(x);
   const fiesta = x.titulo.includes(" · ") ? x.titulo.split(" · ").slice(1).join(" · ") : /domingo/i.test(x.titulo) ? x.titulo : "";
   return `*Evangelio del día*
 _${x.fecha}${fiesta ? " · " + fiesta : ""}_
 
 ${frase ? `«${frase}»\n` : ""}${x.cita}
-
+${med ? `\n${med}\n` : ""}
 Si quieres, deja tu intención en la Capilla Ágape. Nosotros la llevamos a la misa:
 ${APP}capilla
 
