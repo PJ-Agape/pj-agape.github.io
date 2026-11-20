@@ -7,10 +7,10 @@ import { writeFileSync, readFileSync, existsSync } from "node:fs";
 const FUENTES = [
   { id: "vatican", sec: "iglesia", nombre: "Vatican News", url: "https://www.vaticannews.va/es.rss.xml" },
   { id: "aci", sec: "iglesia", nombre: "ACI Prensa", url: "https://www.aciprensa.com/rss/news" },
-  { id: "iglesiacl", sec: "iglesia", nombre: "Iglesia de Chile", url: "https://www.iglesia.cl/feed/" },
+  { id: "iglesiacl", sec: "iglesia", nombre: "Iglesia de Chile", url: ["https://www.iglesia.cl/rss.php", "https://www.iglesia.cl/rss.xml", "https://iglesia.cl/feed/"] },
   { id: "diocesis", sec: "diocesis", nombre: "Diócesis de Chillán", url: "https://diocesisdechillan.cl/feed/" },
-  { id: "pjchile", sec: "jovenes", nombre: "Pastoral Juvenil de Chile", url: "https://pastoraljuvenil.cl/feed/" },
-  { id: "injuv", sec: "jovenes", nombre: "INJUV", url: "https://www.injuv.gob.cl/rss.xml" },
+  { id: "pjchile", sec: "jovenes", nombre: "Pastoral Juvenil de Chile", url: ["https://www.pastoraljuvenil.cl/feed/", "https://pastoraljuvenil.cl/rss.xml", "https://pastoraljuvenil.cl/index.php/feed/"], dias: 120 },
+  { id: "injuv", sec: "jovenes", nombre: "INJUV", url: "https://www.injuv.gob.cl/rss.xml", dias: 120 },
 ];
 const POR_FUENTE = 12, DIAS = 30;
 
@@ -48,30 +48,37 @@ function parse(xml, f) {
 }
 
 async function leer(f) {
+  for (const url of [].concat(f.url)) {
+    const r = await leer1(f, url);
+    if (r.ok) return r;
+  }
+  return { ok: false, xs: [] };
+}
+async function leer1(f, url) {
   const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 20000);
   try {
-    const r = await fetch(f.url, { signal: ctl.signal, headers: { "user-agent": "agAPPe-noticias/1.0 (+https://pj-agape.github.io)", accept: "application/rss+xml, application/xml, text/xml, */*" } });
+    const r = await fetch(url, { signal: ctl.signal, headers: { "user-agent": "agAPPe-noticias/1.0 (+https://pj-agape.github.io)", accept: "application/rss+xml, application/xml, text/xml, */*" } });
     if (!r.ok) throw new Error("HTTP " + r.status);
     const xml = await r.text();
     if (!/<(rss|feed|rdf)/i.test(xml)) throw new Error("no es RSS");
     const xs = parse(xml, f);
-    console.log(`✔ ${f.nombre}: ${xs.length} noticias`);
+    console.log(`✔ ${f.nombre}: ${xs.length} noticias (${url})`);
     return { ok: true, xs };
   } catch (e) {
-    console.log(`✖ ${f.nombre}: ${e.message}`);
+    console.log(`✖ ${f.nombre}: ${e.message} (${url})`);
     return { ok: false, xs: [] };
   } finally { clearTimeout(to); }
 }
 
 const out = process.argv[2] || "noticias.json";
 const previo = existsSync(out) ? JSON.parse(readFileSync(out, "utf8")) : { items: [] };
-const lim = Date.now() - DIAS * 864e5;
 const items = [], estado = {};
 for (const f of FUENTES) {
   const { ok, xs } = await leer(f);
   // Si una fuente falla hoy, se conservan sus noticias anteriores en vez de dejar el hueco.
   const lista = ok ? xs : (previo.items || []).filter((x) => x.src === f.id);
   estado[f.id] = { nombre: f.nombre, sec: f.sec, ok, n: lista.length };
+  const lim = Date.now() - (f.dias || DIAS) * 864e5;
   items.push(...lista.filter((x) => !x.d || new Date(x.d).getTime() > lim).slice(0, POR_FUENTE));
 }
 items.sort((a, b) => (b.d || "").localeCompare(a.d || ""));
