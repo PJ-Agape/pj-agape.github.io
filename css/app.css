@@ -5461,3 +5461,28 @@ dialog.cv-dlg::backdrop { background: rgba(15, 12, 28, .18); backdrop-filter: no
 .not-one h1 { font-family: var(--font-display); font-size: clamp(1.6rem, 5vw, 2.2rem); line-height: 1.15; margin: 8px 0 12px; }
 .not-one-img { width: 100%; border-radius: 16px; margin-bottom: 14px; }
 .not-one p { font-size: 1.05rem; line-height: 1.55; }
+
+/* Sobre mí y Talentos */
+.sm { display: grid; gap: 10px; }
+.sm-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sm-h h2 { margin: 0; }
+.sm-bio { font-family: var(--font-display); font-size: 1.1rem; line-height: 1.35; margin: 0; }
+.sm-g { display: grid; gap: 6px; }
+.sm-gt { font-size: .75rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); }
+.sm-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.sm-chips button.chip { cursor: pointer; }
+.sm-vacio { padding: 14px; border-radius: 16px; background: color-mix(in srgb, var(--cy) 18%, var(--surface)); border: 1.5px dashed color-mix(in srgb, var(--cy) 60%, transparent); }
+.sm-vacio p { margin: 0 0 6px; }
+.sm-form { display: grid; gap: 14px; }
+.sm-fs { border: 0; padding: 0; margin: 0; display: grid; gap: 6px; }
+.sm-fs legend { font-weight: 800; padding: 0; }
+.sm-fs p { margin: 0; }
+.sm-otro { display: flex; gap: 6px; } .sm-otro .input { flex: 1; min-height: 0; padding: 7px 10px; }
+.sm-pub { display: flex; gap: 8px; align-items: center; font-weight: 600; }
+.tal-sec { margin-top: 14px; }
+.tal-sec h2 { font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 6px; }
+.tal-row summary { display: grid; grid-template-columns: minmax(0, 1fr) 2fr auto; gap: 10px; align-items: center; cursor: pointer; padding: 5px 0; list-style: none; }
+.tal-row summary::-webkit-details-marker { display: none; }
+.tal-row i { display: block; height: 8px; border-radius: 4px; background: var(--cb); }
+.tal-row p { margin: 4px 0 8px; color: var(--ink-2); }
+.tal-bio { margin: 6px 0; }

@@ -595,6 +595,18 @@ export async function latestWall() {
 function author() {
   return { authorUid: user.uid, authorName: shortName(account.name), authorRole: account.role, authorAvatar: account.avatar || "" };
 }
+// Sobre mí (perfiles/{uid}): reseña, intereses, habilidades, hobbies y dónde quiere servir. Lo ve la persona y el
+// equipo; la comunidad solo si la persona marca «publico».
+export async function getPerfil(uid) {
+  const d = await withTimeout(fb.getDoc(fb.doc(db, "perfiles", uid || user.uid)), 8000);
+  return d.exists() ? d.data() : null;
+}
+export const savePerfil = (d) => fb.setDoc(fb.doc(db, "perfiles", user.uid), { ...d, nombre: String(account.name || "").slice(0, 80), updatedAt: fb.serverTimestamp() });
+export async function listPerfiles() {
+  const qs = await withTimeout(fb.getDocs(fb.collection(db, "perfiles")), 10000);
+  return qs.docs.map((d) => ({ uid: d.id, ...d.data() }));
+}
+
 // Noticias propias (Ágape, Parroquia…): las publica el equipo. Las visitas solo leen las no internas.
 export async function listNoticias(member) {
   if (!enabled || !db) return [];

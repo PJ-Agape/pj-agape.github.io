@@ -411,6 +411,22 @@ service cloud.firestore {
       allow delete: if isStaff();
     }
 
+    // Sobre mí: cada uno escribe el suyo; lo leen la persona y el equipo, y la comunidad solo si es público.
+    match /perfiles/{uid} {
+      allow read: if isMember() && (request.auth.uid == uid || isStaff() || resource.data.publico == true);
+      allow create, update: if isMember() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['bio', 'intereses', 'habilidades', 'hobbies', 'servir', 'publico', 'nombre', 'updatedAt'])
+        && request.resource.data.bio is string && request.resource.data.bio.size() <= 280
+        && request.resource.data.publico is bool
+        && request.resource.data.nombre is string && request.resource.data.nombre.size() <= 80
+        && request.resource.data.intereses is list && request.resource.data.intereses.size() <= 12
+        && request.resource.data.habilidades is list && request.resource.data.habilidades.size() <= 12
+        && request.resource.data.hobbies is list && request.resource.data.hobbies.size() <= 12
+        && request.resource.data.servir is list && request.resource.data.servir.size() <= 12
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if signedIn() && (request.auth.uid == uid || isAdmin());
+    }
+
     // Noticias propias del portal: las publica el equipo; las visitas leen las no internas.
     function noticiaOk(d) {
       return d.keys().hasOnly(['sec', 't', 'txt', 'link', 'img', 'destacado', 'interno', 'authorUid', 'authorName', 'createdAt', 'updatedAt'])

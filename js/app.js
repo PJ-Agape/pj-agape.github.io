@@ -8,6 +8,7 @@ import { ORACIONES } from "./devocionario.js";
 import * as wall from "./muro.js";
 import * as mano from "./mano.js";
 import * as noticias from "./noticias.js";
+import * as sobremi from "./sobremi.js";
 import * as chat from "./chat.js";
 import * as avisos from "./avisos.js";
 import * as agenda from "./agenda.js";
@@ -92,6 +93,7 @@ const routes = [
   [/^\/preambulo$/, () => bienvenida.viewPreambulo(), "inicio"],
   [/^\/muro$/, () => wall.viewWall(), "muro"],
   [/^\/mano$/, () => mano.view(), "red"],
+  [/^\/talentos$/, () => sobremi.viewTalentos(), "perfil"],
   [/^\/noticias$/, () => noticias.view(), "hoy"],
   [/^\/noticias\/([^/]+)$/, (id) => noticias.viewOne(decodeURIComponent(id)), "hoy"],
   [/^\/agenda$/, () => agenda.viewAgenda(), "agenda"],
@@ -832,6 +834,7 @@ actions.retryAccount = async () => { await cloud.signOutUser(); await cloud.sign
 function viewAccount() {
   const st = cloud.state();
   if (!st.ready) return viewLogin();
+  onAfterRender(() => sobremi.paint());
   const a = st.account;
   const fila = (href, ic, t, extra = "") => `<a class="pf-row" href="${href}" ${extra}>${icon(ic)}<span>${t}</span>${icon("right")}</a>`;
   return `<div class="welcome pf">
@@ -839,6 +842,7 @@ function viewAccount() {
       <span class="pf-av">${AV.isValid(a.avatar) ? AV.svg(a.avatar) : `<span class="avatar">${esc(initials(a.name))}</span>`}</span>
       <div><h1>${esc(a.name)}</h1><span class="chip ${cloud.isStaffRole(a.role) ? "warn" : "accent"}">${esc(cloud.roleLabel(a.role))}</span></div>
     </header>
+    ${sobremi.slot()}
     <section class="pf-sec"><h2>Mi cuenta</h2>
       <details class="pf-det"><summary>${icon("edit")}<span>Mis datos</span>${icon("down")}</summary>
         <form class="stack" id="accountForm" style="--gap:14px;margin-top:12px">
@@ -856,6 +860,7 @@ function viewAccount() {
     </section>
     ${st.isGuide ? `<section class="pf-sec"><h2>Equipo</h2>
       ${fila("#/acompanar", "check", "Jóvenes y fichas")}
+      ${st.isStaff ? fila("#/talentos", "sparkle", "Talentos del grupo") : ""}
       ${fila("#/admin", "gear", "Gestión")}
       ${st.isStaff ? `<button class="pf-row" data-action="vaOpen">${icon("eye")}<span>Ver la app como…</span>${icon("right")}</button>` : ""}
     </section>` : ""}
@@ -986,6 +991,7 @@ actions.install = async () => {
 wall.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, fotos: (id) => momentos.homeStrip(id) });
 mano.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 noticias.setup({ actions, render: () => render(), onAfterRender, cloud });
+sobremi.setup({ actions, render: () => render(), onAfterRender, cloud });
 window.addEventListener("agape:logro", () => toast("¡Felicitaciones! Compartimos tu logro en el muro de la comunidad", "ok", 6000));
 chat.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 avisos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
