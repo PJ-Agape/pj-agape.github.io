@@ -595,6 +595,27 @@ export async function latestWall() {
 function author() {
   return { authorUid: user.uid, authorName: shortName(account.name), authorRole: account.role, authorAvatar: account.avatar || "" };
 }
+// Noticias propias (Ágape, Parroquia…): las publica el equipo. Las visitas solo leen las no internas.
+export async function listNoticias(member) {
+  if (!enabled || !db) return [];
+  const base = fb.collection(db, "noticias");
+  const q = member ? fb.query(base, fb.orderBy("createdAt", "desc"), fb.limit(40))
+    : fb.query(base, fb.where("interno", "==", false), fb.limit(80)); // sin orderBy: así no requiere un índice compuesto
+  const qs = await withTimeout(fb.getDocs(q), 8000);
+  const t = (x) => (x.createdAt && x.createdAt.toMillis ? x.createdAt.toMillis() : 0);
+  return qs.docs.map((d) => ({ id: d.id, ...d.data() })).sort((a, b) => t(b) - t(a)).slice(0, 40);
+}
+export async function getNoticia(id) {
+  const d = await withTimeout(fb.getDoc(fb.doc(db, "noticias", id)), 8000);
+  return d.exists() ? { id: d.id, ...d.data() } : null;
+}
+export async function saveNoticia(id, data) {
+  if (id) return fb.updateDoc(fb.doc(db, "noticias", id), { ...data, updatedAt: fb.serverTimestamp() });
+  const a = author();
+  return fb.addDoc(fb.collection(db, "noticias"), { ...data, authorUid: a.authorUid, authorName: a.authorName, createdAt: fb.serverTimestamp() });
+}
+export const deleteNoticia = (id) => fb.deleteDoc(fb.doc(db, "noticias", id));
+
 // Una mano: ayuda entre jóvenes (colección manos). Solo cuentas activas leen y publican.
 export function watchManos(cb, onErr) {
   if (!enabled || !db) { onErr && onErr(new Error("offline")); return () => {}; }

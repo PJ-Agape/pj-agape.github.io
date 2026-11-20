@@ -5429,3 +5429,35 @@ dialog.cv-dlg::backdrop { background: rgba(15, 12, 28, .18); backdrop-filter: no
 .mano-grupo-f { display: flex; gap: 6px; width: 100%; } .mano-grupo-f .input { flex: 1; min-height: 0; padding: 7px 10px; }
 .mano-sala { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-top: 14px; padding: 14px 16px; border-radius: 18px; text-decoration: none; color: var(--cn); background: color-mix(in srgb, var(--cb) 10%, var(--surface)); border: 1.5px solid color-mix(in srgb, var(--cb) 35%, transparent); }
 .mano-sala > span:first-child { display: grid; gap: 2px; flex: 1 1 220px; } .mano-sala small { color: var(--ink-2); }
+
+/* Noticias */
+.not-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 6px; margin: 14px 0 6px; scrollbar-width: none; }
+.not-tabs .chip { flex: none; cursor: pointer; }
+.not-list { display: grid; gap: 14px; }
+.not-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.not-card { display: grid; grid-template-rows: auto 1fr; padding: 0; overflow: hidden; text-decoration: none; color: inherit; --ns: var(--cb); }
+.not-card.ns-agape { --ns: var(--co); } .not-card.ns-parroquia { --ns: #8a5ad6; } .not-card.ns-diocesis { --ns: #19a37a; }
+.not-card.ns-iglesia { --ns: var(--cb); } .not-card.ns-jovenes { --ns: #e0a800; }
+.not-img { display: block; aspect-ratio: 16 / 9; background: color-mix(in srgb, var(--ns) 14%, var(--surface)); overflow: hidden; }
+.not-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.not-body { display: grid; gap: 6px; padding: 12px 14px 14px; align-content: start; border-top: 4px solid var(--ns); }
+.not-card.sin-img .not-body { border-top-width: 6px; }
+.not-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.not-src { font-size: .72rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--ns, var(--cb)); }
+.not-t { font-family: var(--font-display); font-size: 1.02rem; line-height: 1.25; }
+.not-card.grande { grid-template-columns: 1fr; }
+.not-card.grande .not-t { font-size: 1.35rem; }
+.not-r { color: var(--ink-2); font-size: .92rem; }
+@media (min-width: 720px) { .not-card.grande { grid-template-columns: 1.2fr 1fr; grid-template-rows: auto; } .not-card.grande .not-img { aspect-ratio: auto; height: 100%; min-height: 220px; } .not-card.grande .not-body { border-top: 0; border-left: 5px solid var(--ns); padding: 18px; } }
+.not-vacio { text-align: center; padding: 30px 10px; }
+.not-form { display: grid; gap: 10px; margin: 12px 0; }
+.not-prev { max-width: 220px; border-radius: 12px; }
+.not-home { margin: 18px 0; }
+.not-home-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.not-home-h h2 { font-family: var(--font-display); font-size: 1.3rem; margin: 0; }
+.not-home-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.not-home-list .not-t { font-size: .95rem; }
+.not-one-wrap { margin-top: 10px; }
+.not-one h1 { font-family: var(--font-display); font-size: clamp(1.6rem, 5vw, 2.2rem); line-height: 1.15; margin: 8px 0 12px; }
+.not-one-img { width: 100%; border-radius: 16px; margin-bottom: 14px; }
+.not-one p { font-size: 1.05rem; line-height: 1.55; }

@@ -1,0 +1,30 @@
+# Trae las noticias de Iglesia, Diócesis y para jóvenes cada 3 horas y actualiza noticias.json.
+name: Noticias agAPPe
+on:
+  schedule:
+    - cron: "41 */3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["scripts/noticias.mjs"]
+permissions:
+  contents: write
+concurrency: { group: noticias, cancel-in-progress: false }
+jobs:
+  noticias:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/noticias.mjs noticias.json
+      - name: Publicar si cambió
+        run: |
+          if [ -n "$(git status --porcelain noticias.json)" ]; then
+            git config user.name "noticias-bot"
+            git config user.email "noticias-bot@users.noreply.github.com"
+            git add noticias.json
+            git commit -m "Noticias: actualizar"
+            git pull --rebase -q origin main
+            git push
+          fi

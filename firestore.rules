@@ -411,6 +411,24 @@ service cloud.firestore {
       allow delete: if isStaff();
     }
 
+    // Noticias propias del portal: las publica el equipo; las visitas leen las no internas.
+    function noticiaOk(d) {
+      return d.keys().hasOnly(['sec', 't', 'txt', 'link', 'img', 'destacado', 'interno', 'authorUid', 'authorName', 'createdAt', 'updatedAt'])
+        && d.sec in ['agape', 'parroquia', 'diocesis', 'jovenes']
+        && validText(d.t, 120) && d.txt is string && d.txt.size() <= 1500
+        && d.link is string && (d.link == '' || d.link.matches('^https://[^ ]+$')) && d.link.size() <= 400
+        && d.img is string && d.img.size() <= 150000 && (d.img == '' || d.img.matches('^data:image/jpeg;base64,.*'))
+        && d.destacado is bool && d.interno is bool;
+    }
+    match /noticias/{id} {
+      allow read: if resource.data.interno == false || isMember();
+      allow create: if isStaff() && noticiaOk(request.resource.data) && request.resource.data.authorUid == request.auth.uid
+        && request.resource.data.createdAt == request.time;
+      allow update: if isStaff() && noticiaOk(request.resource.data)
+        && request.resource.data.authorUid == resource.data.authorUid && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isStaff();
+    }
+
     // Una mano: ayuda entre jóvenes. Solo cuentas activas leen y publican; cada uno se ofrece con su propia
     // clave en «ayudas» (su nombre corto); el autor marca resuelto; el equipo oculta o borra.
     match /manos/{id} {

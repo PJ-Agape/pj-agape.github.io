@@ -7,6 +7,7 @@ import { esc, rich, plain, icon, toast, initials } from "./util.js";
 import { ORACIONES } from "./devocionario.js";
 import * as wall from "./muro.js";
 import * as mano from "./mano.js";
+import * as noticias from "./noticias.js";
 import * as chat from "./chat.js";
 import * as avisos from "./avisos.js";
 import * as agenda from "./agenda.js";
@@ -91,6 +92,8 @@ const routes = [
   [/^\/preambulo$/, () => bienvenida.viewPreambulo(), "inicio"],
   [/^\/muro$/, () => wall.viewWall(), "muro"],
   [/^\/mano$/, () => mano.view(), "red"],
+  [/^\/noticias$/, () => noticias.view(), "hoy"],
+  [/^\/noticias\/([^/]+)$/, (id) => noticias.viewOne(decodeURIComponent(id)), "hoy"],
   [/^\/agenda$/, () => agenda.viewAgenda(), "agenda"],
   [/^\/agenda\/(\d{4}-\d{2}-\d{2})$/, (d) => agenda.viewAgenda(d), "agenda"],
   [/^\/avisos$/, () => avisos.view(), "muro"],
@@ -395,7 +398,7 @@ function viewInicio() {
     extra: `<div id="rosarioVivoSlot"></div>${solicitud.homeCard()}` });
 }
 function viewHome() {
-  onAfterRender(() => { novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); rosarioSala.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
+  onAfterRender(() => { noticias.homeBlock(); novedades.refresh(); inicio.paintGospel(); agenda.homeInvite(); desafio.homeReminder(); fiestas.paintHome(); rosarioSala.paintHome(); descubre.paintHome(); temporadas.paintHome(); descubre.tour(); });
   // Lo destacado: las diapositivas de Gestión → Portada (y la intención del Papa). No avanzan solas:
   // se pasan deslizando el dedo o con las flechas.
   const carousel = () => {
@@ -436,6 +439,7 @@ function viewHome() {
   <div id="temporadaSlot"></div>
   <div id="descubreSlot"></div>
   ${carousel()}
+  <div id="notiSlot"></div>
   <div id="countSlot"></div>
   <div class="ag-panel-slot" data-ag-panel="inicio"></div>
   <div id="famInvSlot"></div>
@@ -981,6 +985,7 @@ actions.install = async () => {
 // ---------------------------------------------------------------------------
 wall.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud, fotos: (id) => momentos.homeStrip(id) });
 mano.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
+noticias.setup({ actions, render: () => render(), onAfterRender, cloud });
 window.addEventListener("agape:logro", () => toast("¡Felicitaciones! Compartimos tu logro en el muro de la comunidad", "ok", 6000));
 chat.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
 avisos.setup({ actions, render: () => render(), onAfterRender, onLeave, cloud });
