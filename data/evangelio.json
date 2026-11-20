@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-18": {
-   "titulo": "Miércoles de la 33.ª semana del Tiempo Ordinario",
-   "cita": "Lc 19,11-28",
-   "frase": "Al que tiene, se le dará.",
-   "reflexion": "X1PBoJzFB4s",
-   "video": "0aG_jNani8M"
-  },
   "2026-11-19": {
    "titulo": "Jueves de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 19,41-44",
@@ -60,6 +53,11 @@
    "titulo": "Sábado de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,34-36",
    "frase": "Estén prevenidos y oren incesantemente."
+  },
+  "2026-11-29": {
+   "titulo": "1er domingo de Adviento",
+   "cita": "Mc 13,33-37",
+   "frase": "Estén prevenidos, permanezcan despiertos."
   }
  }
 }
