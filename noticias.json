@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-20T14:15:49.025Z",
+ "actualizado": "2026-11-20T14:17:32.962Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -13,23 +13,11 @@
    "ok": true,
    "n": 50
   },
-  "iglesiacl": {
-   "nombre": "Iglesia de Chile",
-   "sec": "iglesia",
-   "ok": false,
-   "n": 0
-  },
   "diocesis": {
    "nombre": "Diócesis de Chillán",
    "sec": "diocesis",
    "ok": true,
    "n": 10
-  },
-  "pjchile": {
-   "nombre": "Pastoral Juvenil de Chile",
-   "sec": "jovenes",
-   "ok": false,
-   "n": 0
   },
   "injuv": {
    "nombre": "INJUV",
