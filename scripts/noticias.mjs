@@ -8,7 +8,6 @@ const FUENTES = [
   { id: "vatican", sec: "iglesia", nombre: "Vatican News", url: "https://www.vaticannews.va/es.rss.xml" },
   { id: "aci", sec: "iglesia", nombre: "ACI Prensa", url: "https://www.aciprensa.com/rss/news" },
   { id: "diocesis", sec: "diocesis", nombre: "Diócesis de Chillán", url: "https://diocesisdechillan.cl/feed/" },
-  { id: "injuv", sec: "jovenes", nombre: "INJUV", url: "https://www.injuv.gob.cl/rss.xml", dias: 120 },
 ];
 const POR_FUENTE = 12, DIAS = 30;
 
