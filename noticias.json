@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-20T14:17:32.962Z",
+ "actualizado": "2026-11-20T14:18:13.354Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -18,12 +18,6 @@
    "sec": "diocesis",
    "ok": true,
    "n": 10
-  },
-  "injuv": {
-   "nombre": "INJUV",
-   "sec": "jovenes",
-   "ok": true,
-   "n": 8
   }
  },
  "items": [
