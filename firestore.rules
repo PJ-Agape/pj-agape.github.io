@@ -411,6 +411,30 @@ service cloud.firestore {
       allow delete: if isStaff();
     }
 
+    // Una mano: ayuda entre jóvenes. Solo cuentas activas leen y publican; cada uno se ofrece con su propia
+    // clave en «ayudas» (su nombre corto); el autor marca resuelto; el equipo oculta o borra.
+    match /manos/{id} {
+      allow read: if isMember();
+      allow create: if isMember() && request.resource.data.authorUid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['tipo', 'cat', 'texto', 'authorUid', 'authorName', 'authorAvatar', 'ayudas', 'resuelto', 'hidden', 'createdAt'])
+        && request.resource.data.tipo in ['pide', 'ofrece']
+        && request.resource.data.cat in ['estudio', 'deporte', 'cosas', 'oficio', 'compania', 'otro']
+        && validText(request.resource.data.texto, 200)
+        && request.resource.data.authorName is string && request.resource.data.authorName.size() <= 60
+        && request.resource.data.authorAvatar is string && request.resource.data.authorAvatar.size() <= 200
+        && request.resource.data.ayudas.size() == 0 && request.resource.data.resuelto == false
+        && request.resource.data.hidden == false && request.resource.data.createdAt == request.time;
+      allow update: if isMember() && (
+        (changed().hasOnly(['ayudas']) && onlyMyKey('ayudas') && resource.data.resuelto == false
+          && request.resource.data.ayudas.get(request.auth.uid, '') is string
+          && request.resource.data.ayudas.get(request.auth.uid, '').size() <= 60
+          && resource.data.authorUid != request.auth.uid)
+        || (resource.data.authorUid == request.auth.uid && changed().hasOnly(['resuelto', 'resueltoAt'])
+          && request.resource.data.resuelto == true && request.resource.data.resueltoAt == request.time)
+        || (isStaff() && changed().hasOnly(['hidden']) && request.resource.data.hidden is bool));
+      allow delete: if isStaff() || (isMember() && resource.data.authorUid == request.auth.uid);
+    }
+
     // Videos con personajes (Estudio de difusión): guiones por escenas. Los ven y editan el equipo y
     // quienes un administrador habilita (users.difusor); borrar es solo del equipo. Los audios no se suben.
     function canVideos() { return isStaff() || (isMember() && me().get('difusor', false) == true); }

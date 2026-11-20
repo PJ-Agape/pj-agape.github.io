@@ -595,6 +595,21 @@ export async function latestWall() {
 function author() {
   return { authorUid: user.uid, authorName: shortName(account.name), authorRole: account.role, authorAvatar: account.avatar || "" };
 }
+// Una mano: ayuda entre jóvenes (colección manos). Solo cuentas activas leen y publican.
+export function watchManos(cb, onErr) {
+  if (!enabled || !db) { onErr && onErr(new Error("offline")); return () => {}; }
+  const q = fb.query(fb.collection(db, "manos"), fb.orderBy("createdAt", "desc"), fb.limit(120));
+  return fb.onSnapshot(q, (qs) => cb(qs.docs.map((d) => ({ id: d.id, ...d.data({ serverTimestamps: "estimate" }) }))), (e) => { console.warn("Una mano:", e); onErr && onErr(e); });
+}
+export async function createMano({ tipo, cat, texto }) {
+  const a = author();
+  await fb.addDoc(fb.collection(db, "manos"), { tipo, cat, texto, authorUid: a.authorUid, authorName: a.authorName, authorAvatar: a.authorAvatar,
+    ayudas: {}, resuelto: false, hidden: false, createdAt: fb.serverTimestamp() });
+}
+export const setManoAyuda = (id, on) => fb.updateDoc(fb.doc(db, "manos", id), { [`ayudas.${user.uid}`]: on ? shortName(account.name) : fb.deleteField() });
+export const updateMano = (id, data) => fb.updateDoc(fb.doc(db, "manos", id), data.resuelto ? { ...data, resueltoAt: fb.serverTimestamp() } : data);
+export const deleteMano = (id) => fb.deleteDoc(fb.doc(db, "manos", id));
+
 export async function createPost({ type, title, body, pinned, options }) {
   const ref = fb.doc(wallCol());
   const data = {

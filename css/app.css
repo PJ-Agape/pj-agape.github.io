@@ -5372,3 +5372,27 @@ dialog.cv-dlg::backdrop { background: rgba(15, 12, 28, .18); backdrop-filter: no
 .cap-sal p { margin: 0; color: var(--ink-2); }
 .cap-sal-txt .btn { margin-top: 10px; margin-right: 6px; }
 @media (max-width: 420px) { .cap-sal { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; } .cap-sal-img { width: 84px; height: 84px; } }
+
+/* Una mano: ayuda entre jóvenes */
+.mano-nueva { margin-top: 16px; }
+.mano-form { margin-top: 12px; display: grid; gap: 12px; }
+.mano-cats { display: flex; flex-wrap: wrap; gap: 6px; }
+.mano-cats .chip { cursor: pointer; }
+.mano-cats input { position: absolute; opacity: 0; pointer-events: none; }
+.mano-filtros { gap: 6px; margin-top: 20px; }
+.mano-list { display: grid; gap: 12px; margin-top: 14px; }
+.mano { display: grid; gap: 10px; padding: 16px; }
+.mano.pide { border-left: 5px solid var(--co); }
+.mano.ofrece { border-left: 5px solid var(--cb); }
+.mano.hecha { opacity: .7; }
+.mano.oculta { opacity: .5; }
+.mano-top { display: flex; flex-wrap: wrap; gap: 6px; }
+.mano-txt { margin: 0; font-size: 1.05rem; line-height: 1.4; }
+.mano-by { display: flex; align-items: center; gap: 10px; font-size: .9rem; }
+.mano-quienes { margin: 0; color: var(--ink-2); }
+.mano-acc { gap: 8px; }
+.mano-cuenta { margin: 0 0 2px; color: var(--ink-2); font-size: .9rem; }
+.mano-vacio { text-align: center; padding: 26px 10px; }
+.mano-pie { text-align: center; margin-top: 22px; }
+.mano-join { display: grid; gap: 6px; justify-items: start; margin-top: 16px; padding: 18px; }
+.cap-mano { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2, var(--surface)); }

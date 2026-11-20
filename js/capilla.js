@@ -471,6 +471,7 @@ export function view(opt = {}) {
       <span class="btn cap-altar-btn">${icon("flame")} <span>${altarOpen ? "Ocultar las intenciones" : "Deja aquí tus intenciones"}</span></span>
     </div>
     <div class="cap-altar-body" id="capAltarBody" ${altarOpen ? "" : "hidden"}>
+      ${member ? `<p class="cap-mano small">¿Necesitas algo concreto, como ayuda para una prueba o una mano en una mudanza? <a href="#/mano">Pídela en Una mano</a>: alguien de la comunidad te puede ayudar.</p>` : ""}
     ${member ? `<form class="cap-light" id="velaForm">
         ${candleSVG(false, "cap-light-c")}
         <div class="cap-light-body">

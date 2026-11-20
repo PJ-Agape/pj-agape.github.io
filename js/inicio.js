@@ -190,6 +190,10 @@ export function viewRed() {
     <span class="red-cal-ico" aria-hidden="true">${icon("cal")}</span>
     <span class="red-cal-t"><strong>Calendario Ágape</strong><span class="muted small">El mes completo con todas las fechas${cloud.state().isGuide ? ", las notas y el tablero de programación" : ""}.</span></span>
     <span class="btn btn-gold btn-sm" aria-hidden="true">Abrir ${icon("arrowR")}</span></a>
+  <a class="card link red-cal red-mano" href="#/mano">
+    <span class="red-cal-ico" aria-hidden="true">${icon("users")}</span>
+    <span class="red-cal-t"><strong>Una mano</strong><span class="muted small">Pide lo que necesitas u ofrece lo que sabes hacer. Entre todos, siempre hay alguien que puede.</span></span>
+    <span class="btn btn-gold btn-sm" aria-hidden="true">Entrar ${icon("arrowR")}</span></a>
   ${plazaHTML()}
   <div class="hub-grid">${itemsFor("red").filter(inHub).map(itemCard).join("")}</div>
   <div class="red-end">${conocer.inviteCard()}<div id="waSlot"></div></div>
@@ -207,6 +211,7 @@ function index() {
   ITEMS.filter((x) => x.ok(w)).forEach((x) => add("Secciones", x.e, x.t, `${BLOCKS[x.b].t} · ${x.d}`, x.href, x.kw, x.ext));
   add("Secciones", "", "Mi perfil y avatar", "Tu cuenta, tu avatar y tu tema.", "#/perfil", "perfil cuenta avatar foto nombre tema oscuro");
   add("Secciones", "", "Ayuda", "Respuestas cortas: ¿cómo hago…?", "#/ayuda", "ayuda como hago tutorial");
+  add("Secciones", "", "Una mano", "Pide u ofrece ayuda en la comunidad.", "#/mano", "una mano ayuda pedir ofrecer favor estudios clases deporte necesito");
   add("Secciones", "", "Accesibilidad", "Tamaño de letra y lectura en voz alta.", "#/accesibilidad", "accesibilidad letra grande leer voz");
 
   ORACIONES.forEach((o) => add("Oraciones", "", o.t, o.note || "Recemos juntos", `#/oremus/${encodeURIComponent(o.t)}`));
