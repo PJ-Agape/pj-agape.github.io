@@ -48,7 +48,7 @@ export async function preload(list) {
     const src = k.startsWith("pj:") ? pjImg(k.slice(3)) : stickerSrc(k);
     if (src) {
       if (outline) return;
-      const im = await loadImg(BASE + src).catch(() => null); if (!im) return;
+      const im = await loadImg(new URL(src, BASE).href).catch(() => null); if (!im) return;
       const cv = document.createElement("canvas"); cv.width = 960; cv.height = 720;
       const sc = Math.min(960 / im.width, 720 / im.height), w = im.width * sc, h = im.height * sc;
       cv.getContext("2d").drawImage(im, (960 - w) / 2, (720 - h) / 2, w, h);

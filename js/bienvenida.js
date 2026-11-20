@@ -40,6 +40,7 @@ export function inicioHTML({ greet, guest, extra = "", cover = "" }) {
       ${puerta("bvRed", "#/red", "users", "juntos es mejor", "Encontrarnos", "Fotos, mensajes y todo lo que vivimos como grupo.", "var(--co)")}
       ${puerta("bvHoy", "#/hoy", "cal", "lo que se viene", "Lo de hoy", "Cumpleaños, encuentros y avisos del día.", "var(--cs)")}
     </nav>
+    <div id="manoSlot"></div>
     ${guest ? `<p class="bv-pie">¿Es tu primera vez? ¡Qué alegría! <a href="presentaciones/hay-un-lugar-para-ti.html" target="_blank" rel="noopener">Hay un lugar para ti</a></p>` : ""}
     ${guest ? "" : video}
     <div id="installSlot"></div>

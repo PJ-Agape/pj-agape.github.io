@@ -601,6 +601,11 @@ export function watchManos(cb, onErr) {
   const q = fb.query(fb.collection(db, "manos"), fb.orderBy("createdAt", "desc"), fb.limit(120));
   return fb.onSnapshot(q, (qs) => cb(qs.docs.map((d) => ({ id: d.id, ...d.data({ serverTimestamps: "estimate" }) }))), (e) => { console.warn("Una mano:", e); onErr && onErr(e); });
 }
+export async function latestManos() {
+  if (!enabled || !db) return [];
+  const qs = await withTimeout(fb.getDocs(fb.query(fb.collection(db, "manos"), fb.orderBy("createdAt", "desc"), fb.limit(30))), 8000);
+  return qs.docs.map((d) => ({ id: d.id, ...d.data() }));
+}
 export async function createMano({ tipo, cat, texto }) {
   const a = author();
   await fb.addDoc(fb.collection(db, "manos"), { tipo, cat, texto, authorUid: a.authorUid, authorName: a.authorName, authorAvatar: a.authorAvatar,

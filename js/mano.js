@@ -4,6 +4,7 @@
 
 import { esc, icon, toast } from "./util.js";
 import { avatar } from "./avatares.js";
+import { stickerSrc } from "./ilustraciones.js";
 
 let ctx = null; // { actions, render, onAfterRender, onLeave, cloud }
 export function setup(c) { ctx = c; registerActions(); }
@@ -38,15 +39,23 @@ export function view() {
     ctx.onLeave(stop);
     paint();
   });
-  return `<header class="page-head"><span class="eyebrow">ayudarnos entre todos</span><h1>Una <em>mano</em></h1>
-    <p>Pide lo que necesitas u ofrece lo que sabes hacer. Entre todos, siempre hay alguien que puede.</p></header>
+  return `<header class="mano-hero">
+    <div class="mano-hero-t"><span class="mano-hand">ayudarnos entre todos</span><h1>Una <em>mano</em></h1>
+      <p>Pide lo que necesitas u ofrece lo que sabes hacer. Entre todos, siempre hay alguien que puede.</p>
+</div>
+    <img class="mano-hero-img" src="${stickerSrc("equipo")}" alt="" loading="lazy">
+    <div class="mano-stats" id="manoStats" aria-live="polite"></div>
+  </header>
   ${s.ready ? composer() : join(s)}
   ${s.ready ? `<div class="row-wrap mano-filtros" role="tablist" aria-label="Ver">
       ${[["todo", "Todo"], ["pide", "Piden una mano"], ["ofrece", "Ofrecen"], ["mias", "Las mías"]].map(([k, l]) =>
         `<button class="btn btn-sm ${filtro === k ? "btn-soft" : "btn-ghost"}" data-action="manoFiltro" data-f="${k}" role="tab" aria-selected="${filtro === k}">${l}</button>`).join("")}
     </div>
     <div id="manoList" class="mano-list" aria-live="polite"><p class="muted small">Cargando…</p></div>
-    <p class="xs muted mano-pie">Por cuidado de todos, no publiques teléfonos ni direcciones: coordínense en persona, en el próximo encuentro o por el grupo. Si eres menor de edad, cuéntale a tu guía antes de juntarte con alguien.</p>` : ""}`;
+    <p class="xs muted mano-pie">Por cuidado de todos, no publiques teléfonos ni direcciones: coordínense en persona, en el próximo encuentro o por el grupo. Si eres menor de edad, cuéntale a tu guía antes de juntarte con alguien.</p>
+    <section class="mano-invita"><div><strong>Invita a otros a dar una mano</strong><p class="small muted">Una imagen lista para tu estado, Instagram o el grupo.</p></div>
+      <div class="row-wrap" style="gap:8px"><button class="btn btn-gold btn-sm" data-action="manoPieza" data-f="cuadrada">Imagen cuadrada</button>
+      <button class="btn btn-soft btn-sm" data-action="manoPieza" data-f="historia">Para historias</button></div></section>` : ""}`;
 }
 
 function join(s) {
@@ -54,8 +63,9 @@ function join(s) {
   if (s.status === "not-invited") return `<div class="note">Entraste con un correo que aún no está invitado. Pide al equipo coordinador que te invite.</div>`;
   if (s.status === "inactive") return `<div class="note">Tu cuenta está en pausa. Conversa con el equipo coordinador para volver.</div>`;
   return `<div class="card mano-join"><strong>Una mano es para la comunidad de Ágape</strong>
-    <p class="muted small">Ingresa con tu cuenta para pedir ayuda o para darla.</p>
-    <button class="btn btn-primary btn-sm" data-action="signIn">Ingresar</button></div>`;
+    <p class="muted small">Si ya eres parte, ingresa con tu cuenta para pedir ayuda o para darla. Si todavía no, ¡súmate! Te esperamos.</p>
+    <div class="row-wrap" style="gap:8px"><button class="btn btn-primary btn-sm" data-action="signIn">Ingresar</button>
+      <a class="btn btn-gold btn-sm" href="#/conocer">Quiero sumarme</a></div></div>`;
 }
 
 function composer() {
@@ -85,9 +95,9 @@ function card(m) {
   const ayudas = Object.entries(m.ayudas || {}), yo = !!(m.ayudas || {})[me()];
   const quienes = ayudas.map(([, n]) => esc(n)).join(", ");
   const pide = m.tipo === "pide";
-  return `<article class="card mano ${pide ? "pide" : "ofrece"}${m.resuelto ? " hecha" : ""}${m.hidden ? " oculta" : ""}">
+  return `<article class="card mano mc-${esc(m.cat || "otro")} ${pide ? "pide" : "ofrece"}${m.resuelto ? " hecha" : ""}${m.hidden ? " oculta" : ""}">
     <div class="mano-top"><span class="chip ${pide ? "warn" : "ok"}">${pide ? "Necesita una mano" : "Ofrece una mano"}</span>
-      <span class="chip">${esc(CAT[m.cat] || "Otro")}</span>${m.resuelto ? `<span class="chip ok">Resuelto</span>` : ""}${m.hidden ? `<span class="chip">Oculta</span>` : ""}</div>
+      <span class="mano-cat"><i aria-hidden="true"></i>${esc(CAT[m.cat] || "Otro")}</span>${m.resuelto ? `<span class="chip ok">Resuelto</span>` : ""}${m.hidden ? `<span class="chip">Oculta</span>` : ""}</div>
     <p class="mano-txt">${esc(m.texto)}</p>
     <div class="mano-by">${avatar(m.authorAvatar, m.authorName, "")}<span><b>${esc(m.authorName || "Alguien de Ágape")}</b><br><span class="xs muted">${cuando(m.createdAt)}</span></span></div>
     ${ayudas.length ? `<p class="small mano-quienes">${pide ? "Se ofrecieron" : "Les interesa"}: <b>${quienes}</b>${mine && !m.resuelto ? `. Búsquense en el próximo encuentro o por el grupo.` : ""}</p>` : ""}
@@ -106,16 +116,58 @@ function paint() {
   if (!rows) return;
   const xs = visibles();
   const dadas = (rows || []).filter((m) => m.resuelto).length;
-  box.innerHTML = (dadas ? `<p class="mano-cuenta"><b>${dadas}</b> ${dadas === 1 ? "mano ya se dio" : "manos ya se dieron"} en la comunidad.</p>` : "") +
-    (xs.length ? xs.map(card).join("") : `<div class="mano-vacio"><strong>${filtro === "mias" ? "Todavía no tienes manos" : "Aún no hay nada por aquí"}</strong>
+  const abiertas = (rows || []).filter((m) => !m.resuelto && !m.hidden && m.tipo === "pide" && ms(m.createdAt) > Date.now() - VIGENCIA * 864e5).length;
+  const ofrecen = (rows || []).filter((m) => !m.resuelto && !m.hidden && m.tipo === "ofrece" && ms(m.createdAt) > Date.now() - VIGENCIA * 864e5).length;
+  const sb = document.getElementById("manoStats");
+  if (sb) sb.innerHTML = [[abiertas, abiertas === 1 ? "necesita una mano" : "necesitan una mano"], [ofrecen, ofrecen === 1 ? "ofrece ayuda" : "ofrecen ayuda"], [dadas, dadas === 1 ? "mano dada" : "manos dadas"]]
+    .map(([n, l]) => `<span><b>${n}</b>${l}</span>`).join("");
+  box.innerHTML = (xs.length ? xs.map(card).join("") : `<div class="mano-vacio"><strong>${filtro === "mias" ? "Todavía no tienes manos" : "Aún no hay nada por aquí"}</strong>
       <p class="muted small">Sé el primero: pide lo que necesitas o cuenta en qué puedes ayudar.</p></div>`);
 }
 
 // ---------------------------------------------------------------------------
+// Inicio: invitación con lo que se está pidiendo ahora (solo para cuentas de Ágape)
+export async function homeCard() {
+  const slot = document.getElementById("manoSlot");
+  if (!slot || !ctx.cloud.enabled || !st().ready) return;
+  const xs = (await ctx.cloud.latestManos().catch(() => [])).filter((m) => !m.hidden && !m.resuelto && ms(m.createdAt) > Date.now() - VIGENCIA * 864e5);
+  const pide = xs.filter((m) => m.tipo === "pide"), ult = pide[0] || xs[0];
+  slot.innerHTML = `<a class="mano-home" href="#/mano">
+    <img src="${stickerSrc("servir")}" alt="" loading="lazy">
+    <span class="mano-home-t"><em>una mano</em>
+      <strong>${pide.length ? `${pide.length} ${pide.length === 1 ? "persona necesita" : "personas necesitan"} una mano` : "¿Necesitas algo? ¿Sabes hacer algo?"}</strong>
+      ${ult ? `<span class="mano-home-q">«${esc(ult.texto.length > 90 ? ult.texto.slice(0, 88) + "…" : ult.texto)}»</span>` : `<span class="mano-home-q">Pide lo que necesitas u ofrece lo que sabes hacer. Entre todos, siempre hay alguien que puede.</span>`}
+      <span class="btn btn-gold btn-sm">${pide.length ? "Ver y ayudar" : "Empezar"} ${icon("right")}</span></span></a>`;
+}
+
+// Pieza para redes (estado, Instagram, grupo): se dibuja con el estudio de difusión
+async function pieza(formato) {
+  const E = await import("./estudio.js");
+  await E.ready();
+  const d = { kicker: "Una mano", hand: "en Ágape nos ayudamos", title: "¿Necesitas *una mano?* ¿Sabes hacer algo?",
+    sub: "Estudios, deporte, cosas, un oficio o simple compañía. Pide u ofrece ayuda en agAPPe.", ill: "servir",
+    qr: "https://pj-agape.github.io/#/mano", qrLabel: "entra aquí" };
+  await E.preload(E.illsFor("crema", d));
+  const cv = document.createElement("canvas"); cv.width = 1080; cv.height = formato === "historia" ? 1920 : 1080;
+  E.piece(cv.getContext("2d"), cv.width, cv.height, "crema", d);
+  return new Promise((ok) => cv.toBlob(ok, "image/png"));
+}
+export { pieza as _pieza };
+
 function registerActions() {
   const A = ctx.actions;
   const fail = () => toast("No se pudo. Revisa tu conexión.", "");
   A.manoAbrir = () => { abierto = !abierto; ctx.render(); };
+  A.manoPieza = async (el) => {
+    const blob = await pieza(el.dataset.f).catch(() => null); if (!blob) return fail();
+    const name = `agAPPe-una-mano-${el.dataset.f}.png`, text = "¿Necesitas una mano? ¿Sabes hacer algo? En Ágape nos ayudamos: pide u ofrece ayuda en agAPPe 👉 https://pj-agape.github.io/#/mano";
+    try {
+      const file = new File([blob], name, { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text }); return; }
+    } catch (e) { if (e && e.name === "AbortError") return; }
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast("Imagen guardada. Súbela a tu estado o a Instagram.", "ok");
+  };
   A.manoFiltro = (el) => { filtro = el.dataset.f; document.querySelectorAll(".mano-filtros [data-f]").forEach((b) => { const on = b.dataset.f === filtro; b.classList.toggle("btn-soft", on); b.classList.toggle("btn-ghost", !on); b.setAttribute("aria-selected", on); }); paint(); };
   A.manoAyudo = (el) => ctx.cloud.setManoAyuda(el.dataset.id, el.dataset.on !== "1")
     .then(() => { if (el.dataset.on !== "1") toast("¡Gracias! Le avisamos que puedes. Búsquense en el próximo encuentro.", "ok", 5000); }).catch(fail);

@@ -5396,3 +5396,30 @@ dialog.cv-dlg::backdrop { background: rgba(15, 12, 28, .18); backdrop-filter: no
 .mano-pie { text-align: center; margin-top: 22px; }
 .mano-join { display: grid; gap: 6px; justify-items: start; margin-top: 16px; padding: 18px; }
 .cap-mano { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2, var(--surface)); }
+
+/* Una mano: portada visual, categorías y tarjeta de Inicio */
+.mano-hero { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 12px; align-items: center; margin: 8px 0 4px; }
+.mano-hand { font-weight: 700; font-family: var(--font-hand, "Caveat", cursive); color: var(--co); font-size: 1.35rem; display: inline-block; transform: rotate(-2deg); }
+.mano-hero h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 7vw, 3rem); line-height: 1; margin: 2px 0 8px; }
+.mano-hero h1 em { font-style: normal; background: linear-gradient(transparent 58%, var(--cy) 58%); padding: 0 4px; }
+.mano-hero p { margin: 0; color: var(--ink-2); }
+.mano-hero-img { width: 100%; height: auto; transform: rotate(3deg); filter: drop-shadow(0 6px 10px rgb(0 0 0 / .12)); }
+.mano-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
+.mano-stats span { display: grid; padding: 8px 12px; border-radius: 14px; background: var(--surface); border: 1.5px solid var(--line); font-size: .78rem; color: var(--ink-2); line-height: 1.2; }
+.mano-stats b { font-family: var(--font-display); font-size: 1.5rem; color: var(--ink); }
+.mano { --mc: var(--ink-3); }
+.mano.mc-estudio { --mc: #3d6bf0; } .mano.mc-deporte { --mc: #19a37a; } .mano.mc-cosas { --mc: #e0a800; }
+.mano.mc-oficio { --mc: #8a5ad6; } .mano.mc-compania { --mc: #e05a7a; } .mano.mc-otro { --mc: var(--ink-3); }
+.mano-cat { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 700; color: var(--ink-2); padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--mc) 14%, var(--surface)); }
+.mano-cat i { width: 9px; height: 9px; border-radius: 50%; background: var(--mc); }
+.mano-txt { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; }
+.mano-invita { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: 18px; padding: 16px; border-radius: 18px; background: color-mix(in srgb, var(--co) 12%, var(--surface)); border: 1.5px dashed color-mix(in srgb, var(--co) 45%, transparent); }
+.mano-invita p { margin: 2px 0 0; }
+.mano-home { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 14px; align-items: center; padding: 16px; border-radius: 22px; text-decoration: none; color: var(--cn);
+  background: color-mix(in srgb, var(--co) 14%, var(--surface)); border: 2px solid var(--pp-bd, var(--cn)); box-shadow: 4px 5px 0 var(--pp-bd, var(--cn)); }
+.mano-home img { width: 120px; height: auto; transform: rotate(-4deg); }
+.mano-home-t { display: grid; gap: 6px; justify-items: start; }
+.mano-home-t em { font-weight: 700; font-family: var(--font-hand, "Caveat", cursive); font-style: normal; color: var(--co); font-size: 1.3rem; line-height: 1; }
+.mano-home-t strong { font-family: var(--font-display); font-size: 1.2rem; line-height: 1.15; }
+.mano-home-q { font-size: .92rem; color: var(--ink-2); }
+@media (max-width: 480px) { .mano-hero { grid-template-columns: minmax(0, 1fr) 120px; } .mano-home { grid-template-columns: 84px minmax(0, 1fr); } .mano-home img { width: 84px; } }

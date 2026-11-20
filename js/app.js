@@ -390,7 +390,7 @@ function heroTitle(t) {
 }
 // Inicio: la bienvenida (saludo, foto de portada, una frase de lo que somos y tres puertas).
 function viewInicio() {
-  onAfterRender(() => { cover.refresh(() => { if (["", "#/"].includes(location.hash)) render(); }); rosarioSala.paintHome(); descubre.tour(); });
+  onAfterRender(() => { cover.refresh(() => { if (["", "#/"].includes(location.hash)) render(); }); rosarioSala.paintHome(); mano.homeCard(); descubre.tour(); });
   return bienvenida.inicioHTML({ greet: inicio.greetHTML(false), cover: cover.html(), guest: cloud.enabled && !cloud.state().ready,
     extra: `<div id="rosarioVivoSlot"></div>${solicitud.homeCard()}` });
 }
