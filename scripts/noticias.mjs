@@ -7,9 +7,7 @@ import { writeFileSync, readFileSync, existsSync } from "node:fs";
 const FUENTES = [
   { id: "vatican", sec: "iglesia", nombre: "Vatican News", url: "https://www.vaticannews.va/es.rss.xml" },
   { id: "aci", sec: "iglesia", nombre: "ACI Prensa", url: "https://www.aciprensa.com/rss/news" },
-  { id: "iglesiacl", sec: "iglesia", nombre: "Iglesia de Chile", url: ["https://www.iglesia.cl/rss.php", "https://www.iglesia.cl/rss.xml", "https://iglesia.cl/feed/"] },
   { id: "diocesis", sec: "diocesis", nombre: "Diócesis de Chillán", url: "https://diocesisdechillan.cl/feed/" },
-  { id: "pjchile", sec: "jovenes", nombre: "Pastoral Juvenil de Chile", url: ["https://www.pastoraljuvenil.cl/feed/", "https://pastoraljuvenil.cl/rss.xml", "https://pastoraljuvenil.cl/index.php/feed/"], dias: 120 },
   { id: "injuv", sec: "jovenes", nombre: "INJUV", url: "https://www.injuv.gob.cl/rss.xml", dias: 120 },
 ];
 const POR_FUENTE = 12, DIAS = 30;
@@ -62,7 +60,8 @@ async function leer1(f, url) {
     const xml = await r.text();
     if (!/<(rss|feed|rdf)/i.test(xml)) throw new Error("no es RSS");
     const xs = parse(xml, f);
-    console.log(`✔ ${f.nombre}: ${xs.length} noticias (${url})`);
+    const ult = xs.map((x) => x.d).filter(Boolean).sort().pop();
+    console.log(`✔ ${f.nombre}: ${xs.length} noticias, la más reciente ${ult || "sin fecha"} (${url})`);
     return { ok: true, xs };
   } catch (e) {
     console.log(`✖ ${f.nombre}: ${e.message} (${url})`);
