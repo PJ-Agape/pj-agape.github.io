@@ -330,7 +330,11 @@ export function registerActions(actions, render) {
     const p = pick(el.dataset.iso, el.dataset.k); if (!p) return;
     try { await navigator.clipboard.writeText(p.text); toast("Texto copiado 📋", "ok"); } catch { toast("No se pudo copiar", ""); }
   };
-  actions.salShare = async (el) => {
+  actions.salShare = (el) => compartir(el);
+}
+
+// Comparte un saludo (imagen + texto). En el celular abre el menú para compartir; en el computador, dos pasos.
+async function compartir(el) {
     const p = pick(el.dataset.iso, el.dataset.k); if (!p) return;
     if (esPC()) return pcShare(el, () => fetch(img(el.dataset.k === "fuera" ? "dia" : el.dataset.k, p.x.iso)).then((r) => r.blob()), p.text);
     try { await navigator.clipboard.writeText(p.text); } catch {}
@@ -341,5 +345,24 @@ export function registerActions(actions, render) {
       if (navigator.share) { await navigator.share({ text: p.text }); toast("Se envió el texto. La imagen la guardas con «Guardar imagen».", ""); return; }
       toast("En el computador: guarda la imagen y pega el texto (ya está copiado).", "");
     } catch (e) { if (e && e.name !== "AbortError") toast("No se pudo abrir el menú para compartir. El texto quedó copiado.", ""); }
-  };
+}
+
+// Capilla (abierta a todos, con o sin cuenta): el saludo de buenos días de hoy, en su versión para compartir
+// fuera (sin referencias internas, con la invitación a la Capilla), para que cualquiera lo reenvíe.
+export async function capillaHTML() {
+  const d = await load(), x = d && d.dias.find((y) => y.iso === hoy());
+  if (!x || !x.dia) return "";
+  return `<div class="cap-sal">
+      <img class="cap-sal-img" src="${img("dia", x.iso)}" alt="Imagen del Evangelio de hoy" loading="lazy">
+      <div class="cap-sal-txt"><span class="cap-hand sm">sé misionero digital</span>
+        <h3>Comparte el Evangelio de hoy</h3>
+        <p class="small">Mándalo a tus contactos, a un grupo o a tu estado. Llega con su imagen, la frase del día y la invitación a esta Capilla.</p>
+        <button class="btn btn-gold" data-action="capSaludo" data-iso="${x.iso}" data-k="fuera">Compartir por WhatsApp</button>
+        <button class="btn btn-ghost btn-sm" data-action="capSaludoCopy" data-iso="${x.iso}" data-k="fuera">${icon("copy")} Copiar el texto</button></div>
+    </div>`;
+}
+export async function shareDesdeCapilla(el) { await load(); return compartir(el); }
+export async function copiarDesdeCapilla(el) {
+  await load(); const p = pick(el.dataset.iso, el.dataset.k); if (!p) return;
+  try { await navigator.clipboard.writeText(p.text); toast("Texto copiado", "ok"); } catch { toast("No se pudo copiar", ""); }
 }

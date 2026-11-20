@@ -416,6 +416,8 @@ export function view(opt = {}) {
     paintVelas();
   });
   ctx.onAfterRender(() => { wheelInit(); });
+  // El saludo de buenos días para compartir: se carga aparte para no demorar la Capilla
+  ctx.onAfterRender(() => { import("./saludos.js").then((m) => m.capillaHTML()).then((h) => { const b = document.getElementById("capSaludo"); if (b && h) b.innerHTML = h; }).catch(() => {}); });
   const row = (attrs, ico, t, sub) => `<${attrs.startsWith("href") ? "a" : "button"} class="cap-row" ${attrs}>
       <span class="cap-row-ico" aria-hidden="true">${ico}</span>
       <span class="cap-row-txt"><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span>${icon("right")}</${attrs.startsWith("href") ? "a" : "button"}>`;
@@ -448,6 +450,7 @@ export function view(opt = {}) {
     <div class="cap-vbox" id="capEvVid" ${vidSel === "ev" ? "" : "hidden"}>${evVideoHTML()}</div>
     <div class="cap-a-ev" id="capGospel">${gospelHead(s)}</div>
     <a class="cap-hoy-link" id="capEvLink" href="${esc(evUrl())}" target="_blank" rel="noopener">Leer el Evangelio completo en Vatican News ${icon("arrowR")}</a>
+    <div id="capSaludo"></div>
     ${TP.despuesHTML()}
     ${ctx.cloud.enabled && st().isAdmin ? `<button class="btn btn-sm btn-ghost cap-mv-edit" data-action="capMisaVivo">${icon("edit")} Cambiar el enlace de la Misa en vivo</button>` : ""}
   </section>
@@ -1140,6 +1143,8 @@ window.addEventListener("keydown", (e) => {
 }, true);
 
 function registerActions() {
+  ctx.actions.capSaludo = (el) => import("./saludos.js").then((m) => m.shareDesdeCapilla(el));
+  ctx.actions.capSaludoCopy = (el) => import("./saludos.js").then((m) => m.copiarDesdeCapilla(el));
   const A = ctx.actions;
   A.capMisaVivo = async () => {
     const u = prompt("Enlace de respaldo para la Misa en vivo (se usa los días en que no aparece la Misa del canal de Magnificat TV):", misaAdmin || MISA_VIVO);

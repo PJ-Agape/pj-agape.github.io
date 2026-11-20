@@ -5364,3 +5364,11 @@ dialog.cv-dlg::backdrop { background: rgba(15, 12, 28, .18); backdrop-filter: no
 .vid-tools { gap: 6px; align-items: center; }
 .vid-tools .spacer { flex: 1; }
 .vid-export h3 { margin: 0 0 6px; }
+
+/* Capilla: el saludo de buenos días para compartir (abierto a todos) */
+.cap-sal { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; align-items: center; margin-top: 14px; padding: 14px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); text-align: left; }
+.cap-sal-img { width: 112px; height: 112px; object-fit: cover; border-radius: 12px; display: block; }
+.cap-sal h3 { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.2; margin: 2px 0 4px; }
+.cap-sal p { margin: 0; color: var(--ink-2); }
+.cap-sal-txt .btn { margin-top: 10px; margin-right: 6px; }
+@media (max-width: 420px) { .cap-sal { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; } .cap-sal-img { width: 84px; height: 84px; } }
