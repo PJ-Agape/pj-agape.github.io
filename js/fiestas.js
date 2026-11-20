@@ -76,6 +76,8 @@ export function delDia(iso) {
 }
 
 // --- Textos y piezas -----------------------------------------------------------
+// Invitación a reenviar, igual en todos los saludos que se comparten (no en los cumpleaños: esos son solo del grupo).
+export const INVITA = "💛 *¿Te hizo bien?* Mándaselo a alguien que lo necesite hoy. A veces una frase llega justo a tiempo. Así, de a poco, vamos formando el *Ágape digital*: una red de personas que rezan juntas con la Palabra.";
 export function textoCumple(n, iso) {
   return `🎂 *¡Feliz cumpleaños, ${n}!*
 _${cap(fechaLarga(iso))}_
@@ -93,11 +95,15 @@ ${iso ? `_${cap(fechaLarga(iso))}_\n\n` : "\n"}Hoy damos gracias a Dios por la h
 
 _«Doy gracias a mi Dios cada vez que me acuerdo de ustedes»_ (Flp 1,3)
 
-🙏 *Sé misionero digital:* comparte este saludo y súmate a dar gracias en la Capilla Ágape 👉 ${APP}capilla`;
+🙏 Súmate a dar gracias en la Capilla Ágape 👉 ${APP}capilla
+
+${INVITA}`;
   return `🎉 *Hoy celebramos: ${f.t}*
 ${iso ? `_${cap(fechaLarga(iso))}_\n\n` : "\n"}${f.msg || "Damos gracias a Dios y celebramos como comunidad."}
 
-🙏 Únete a la oración en la Capilla Ágape 👉 ${APP}capilla`;
+🙏 Únete a la oración en la Capilla Ágape 👉 ${APP}capilla
+
+${INVITA}`;
 }
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 // Datos para la imagen (estudio.piece)

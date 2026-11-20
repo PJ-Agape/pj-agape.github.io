@@ -113,7 +113,13 @@ async function load() {
 
 // El saludo es el Evangelio: el texto va tal cual, con su único enlace a la Capilla (abre el Evangelio del día).
 // La invitación a otros rincones vive en la app, justo después de leer el Evangelio (ver capilla.js).
-const textoDe = (x, k) => (k === "fuera" ? fuera(x) : k === "familia" ? familia(x) : x[k] || "");
+// Todos los saludos terminan con la misma invitación a reenviarlos (reemplaza la antigua «Sé misionero digital»).
+function conInvita(t) {
+  if (!t || t.includes("¿Te hizo bien?")) return t;
+  t = t.replace(/🙏 \*Sé misionero digital:\*[^\n]*\n?/g, "").replace(/\n{3,}/g, "\n\n").trimEnd();
+  return `${t}\n\n${F.INVITA}`;
+}
+const textoDe = (x, k) => (k === "fuera" ? fuera(x) : conInvita(k === "familia" ? familia(x) : x[k] || ""));
 // Versión para la familia: el mismo saludo de buenos días, con el encabezado para la familia y, antes de la
 // despedida, un desafío de cuidado (por defecto, recordar las medicinas). La frase se edita y queda guardada
 // en este dispositivo.
@@ -145,7 +151,7 @@ const partFamilia = (x) => `<article class="sal-part familia">
       <button class="btn btn-soft btn-sm" data-action="salCopy" data-iso="${x.iso}" data-k="familia">${icon("copy")} Copiar texto</button>
       <button class="btn btn-ghost btn-sm" data-action="famReset">↩️ Frase original</button>
     </div>
-    <div class="sal-wa" id="famPrev" data-iso="${x.iso}">${wa(familia(x))}</div>
+    <div class="sal-wa" id="famPrev" data-iso="${x.iso}">${wa(textoDe(x, "familia"))}</div>
   </article>`;
 // Versión general, para compartir fuera de la comunidad (canal, estados, otros grupos):
 // la fecha, la frase del Evangelio, la cita, el enlace y la invitación a reenviarlo (misioneros digitales).
@@ -160,7 +166,7 @@ ${frase ? `«${frase}»\n` : ""}${x.cita}
 Si quieres, deja tu intención en la Capilla Ágape. Nosotros la llevamos a la misa:
 ${APP}capilla
 
-💛 *¿Te hizo bien?* Mándaselo a alguien que lo necesite hoy. A veces una frase llega justo a tiempo. Así, de a poco, vamos formando el *Ágape digital*: una red de personas que rezan juntas con la Palabra.`;
+${F.INVITA}`;
 }
 const partFuera = (x) => `<article class="sal-part fuera">
     <h3>Para compartir fuera <small>Canal, estados u otros grupos</small></h3>
@@ -286,7 +292,7 @@ function bvRefresh(img) {
 }
 function famRefresh() {
   const p = document.getElementById("famPrev"), x = p && data && data.dias.find((y) => y.iso === p.dataset.iso);
-  if (x) p.innerHTML = wa(familia(x));
+  if (x) p.innerHTML = wa(textoDe(x, "familia"));
 }
 let bvWired = false;
 function wireBienv() {
