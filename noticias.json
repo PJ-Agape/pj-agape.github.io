@@ -1,0 +1,383 @@
+{
+ "actualizado": "2026-11-20T14:15:49.025Z",
+ "fuentes": {
+  "vatican": {
+   "nombre": "Vatican News",
+   "sec": "iglesia",
+   "ok": true,
+   "n": 50
+  },
+  "aci": {
+   "nombre": "ACI Prensa",
+   "sec": "iglesia",
+   "ok": true,
+   "n": 50
+  },
+  "iglesiacl": {
+   "nombre": "Iglesia de Chile",
+   "sec": "iglesia",
+   "ok": false,
+   "n": 0
+  },
+  "diocesis": {
+   "nombre": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "ok": true,
+   "n": 10
+  },
+  "pjchile": {
+   "nombre": "Pastoral Juvenil de Chile",
+   "sec": "jovenes",
+   "ok": false,
+   "n": 0
+  },
+  "injuv": {
+   "nombre": "INJUV",
+   "sec": "jovenes",
+   "ok": true,
+   "n": 8
+  }
+ },
+ "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Obispos de EE.UU. reciben actualización sobre los esfuerzos de la Iglesia para abordar la IA",
+   "u": "https://www.ewtnnews.com/es/mundo/america/obispos-eeuu-iglesia-abordar-ia",
+   "d": "2026-11-20T14:00:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Image_-_2026-11-19T154128.502_zjk7lk.jpg",
+   "r": "El Obispo Oscar Cantú habló sobre el trabajo del grupo de trabajo de IA de la USCCB, incluyendo sus conversaciones con empresas de tecnología y planes para la…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Nunca es tarde: Diácono se ordena sacerdote a los 67 años después de trabajar como juez, abogado y profesor",
+   "u": "https://www.ewtnnews.com/es/mundo/america/diacono-sacerdote-67-juez-abogado",
+   "d": "2026-11-20T13:24:42.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Image_11-16-26_at_3.31_PM_wgmzd8.jpg",
+   "r": "El diácono Ernie Hart, de 67 años, exjuez de la Corte Suprema de Nueva York, excomisionado adjunto de la Policía de Nueva York, abogado y profesor, será…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Los cristianos son la comunidad religiosa \"más perseguida\" del mundo, alerta experto ante Congreso",
+   "u": "https://www.ewtnnews.com/es/mundo/america/cristianos-comunidad-religiosa-perseguida-mundo",
+   "d": "2026-11-20T12:26:33.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Witness_panel_1_11651711017853649134_mlk07r.jpg",
+   "r": "Expertos y legisladores se reunieron esta semana en Capitol Hill para abordar las crecientes amenazas a la libertad religiosa de los cristianos en todo el…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Obispos católicos de EE.UU. aprueban día nacional de oración por la justicia racial",
+   "u": "https://www.ewtnnews.com/es/mundo/america/obispos-aprueban-oracion-justicia-racial",
+   "d": "2026-11-20T12:00:58.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Bishops.vote.Nov17.2026_q6x6xl.jpg",
+   "r": "Los obispos votaron 180-15 para aprobar la observancia, con siete abstenciones."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Santa Sede: Ningún algoritmo puede hacer que la guerra sea moralmente aceptable",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/santa-sede-posicion-papel-armas-convencionales.html",
+   "d": "2026-11-20T11:42:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/16/10/1794822910060.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En un documento de posición presentado en la Séptima Conferencia de Revisión de la Convención sobre Ciertas Armas Convencionales, celebrada en Ginebra, la…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa León XIV reza con familiares de desaparecidos durante el conflicto en Irlanda del Norte",
+   "u": "https://www.ewtnnews.com/es/vaticano/end-titular",
+   "d": "2026-11-20T11:25:08.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PapaLeo%CC%81nXIVcruzpectoral_vua4wz.jpg",
+   "r": "El Papa León XIV mantuvo un encuentro en el Vaticano el pasado 18 de noviembre con familiares de desaparecidos en Irlanda durante el enfrentamiento que tuvo…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Czerny: El deseo detrás de la gobernanza de la IA determina su futuro",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/czerny-el-deseo-detras-de-la-gobernanza-de-la-ia.html",
+   "d": "2026-11-20T09:54:56.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/maggio/21/IMG-20260520-WA0015.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Este jueves inició el V Fórum Europeo de Inteligencia Artificial que contó con la participación del cardenal Michael Czerny, presidente de la Comisión…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "León XIV: es fundamental apoyar a los cristianos de Oriente, no están solos",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-es-fundamental-apoyar-a-los-cristianos-de-oriente.html",
+   "d": "2026-11-20T09:23:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/20/2026-11-20-delegazione-del-cnewa-catholic-near-east-welfare-asso/1795166554484.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En la audiencia concedida a la Catholic Near East Welfare Association, fundada hace cien años por Pío XI, el Papa expresa su solidaridad con las comunidades…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Hoy recordamos a la Beata Anna Kolesárová, patrona de las víctimas de abuso y de la juventud",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-20-de-noviembre-se-recuerda-a-la-beata-anna-kolesarova-patrona-de-la-juventud",
+   "d": "2026-11-20T05:01:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/BeataAnnaKolesarovaPatronaJuventud_u2eqox.jpg",
+   "r": "Cada 20 de noviembre la Iglesia conmemora a la Beata Anna Kolesárová, joven laica nacida en Vysoká nad Uhom, Michalovce, Checoslovaquia (hoy Eslovaquia), en…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Obispos de Costa Rica condenan asesinato de periodista y defienden la libertad de prensa",
+   "u": "https://www.ewtnnews.com/es/mundo/america/fotos-primer-papa-leon-xiv-peru",
+   "d": "2026-11-20T01:47:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PERIODISTA191126_b6i5ju.jpg",
+   "r": "Los obispos de Costa Rica condenaron el asesinato del periodista Camilo Rodríguez Chaverri y expresaron su preocupación por la violencia en el país."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "48 nacimientos de 12 regiones participan en la muestra y concurso “Navidad es Jesús” en Perú",
+   "u": "https://www.ewtnnews.com/es/mundo/america/nacimientos-concurso-navidad-jesus-peru",
+   "d": "2026-11-20T00:34:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/03_CNN24_jcnpks.jpg",
+   "r": "Los 48 nacimientos proceden de 12 regiones del Perú y podrán verse gratuitamente en la Casa O’Higgins en el Centro Histórico de Lima."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Albergues católicos advierten a migrantes sobre falsas promesas para cruzar a Estados Unidos",
+   "u": "https://www.ewtnnews.com/es/mundo/america/albergues-catolicos-migrantes-falsas-promesas",
+   "d": "2026-11-20T00:15:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/MIGRA191126_di3fpc.png",
+   "r": "Casas y albergues católicos en México alertaron a migrantes sobre una supuesta apertura de la frontera estadounidense."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Religiosos de todo el mundo buscarán en Roma caminos para construir una paz “desarmada y desarmante”",
+   "u": "https://www.ewtnnews.com/es/vaticano/religiosos-roma-paz-desarmada-desarmante",
+   "d": "2026-11-19T23:36:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/ReligiosasCatolicas_191126_p9djok.jpg",
+   "r": "La Asamblea conjunta de la UISG y la USG reunirá a superiores de congregaciones religiosas del 25 al 27 de noviembre. León XIV los recibirá en el Vaticano."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "La Arquidiócesis de Miami asumirá la supervisión de los católicos en las Islas Caimán",
+   "u": "https://www.ewtnnews.com/es/mundo/america/arquidiocesis-miami-catolicos-islas-caiman",
+   "d": "2026-11-19T22:29:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/shutterstock_2435594591_zw9cqv.jpg",
+   "r": "La Arquidiócesis de Miami informó que la comunidad católica de la isla caribeña, de aproximadamente 9.000 miembros, incluye una parroquia, una escuela…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Cardenal Simoni reza el exorcismo de León XIII y se escuchan gritos en el Santuario de San Pío",
+   "u": "https://www.ewtnnews.com/es/mundo/cardenal-simoni-exorcismo-gritos-santuario",
+   "d": "2026-11-19T22:05:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/CardenalSimoni_191126_amyidp.jpg",
+   "r": "El purpurado albanés presidió una Misa en San Giovanni Rotondo y, al finalizar, recitó en latín la oración de exorcismo contra Satanás y los ángeles caídos."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Vaticano: León XIV se reúne con 6.000 jóvenes del Lacio",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/vaticano-jmj-roma-jovenes-le-on-xiv-21-noviembre.html",
+   "d": "2026-11-19T20:24:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2025/08/02/2025-08-02-giubileo-dei-giovani---veglia-di-preghiera-a-tor-verg/1754166100005.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El sábado 21 de noviembre, en el Aula Pablo VI, el encuentro con el Papa, patrocinado por la Conferencia Episcopal del Lacio, se centrará en el tema de la…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "COMECE Migrantes: El plan de Ruanda tiene tintes de deportación",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/comece-migrantes-el-plan-de-ruanda-tiene-tintes-de-deportacion.html",
+   "d": "2026-11-19T16:55:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/11/16/18/1794849046437.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El presidente de la COMECE, monseñor Crociata, critica la iniciativa de cinco países europeos de trasladar migrantes a Ruanda y exhorta a la Unión Europea a…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "La Biblia de la Migración, la edición católica lanzada en los dos Vicariatos de Arabia",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/biblia-de-la-migracion-edicion-catolica-lanzada-vicariatos-arabi.html",
+   "d": "2026-11-19T16:20:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/19/migration-bible-copiaaem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En los dos Vicariatos Apostólicos del Norte y del Sur de Arabia fue presentada la «Biblia para y de los migrantes». Se celebrarán tres eventos en los Emiratos…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Óscar Romero: El santo de los obispos centroamericanos",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/oscar-romero-el-santo-de-los-obispos-centroamericanos.html",
+   "d": "2026-11-19T15:45:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2018/10/14/13/vatican-salvador-paul-vi-saints-1539517891784.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El mártir Óscar Romero fue elegido patrono de los obispos centroamericanos, un reconocimiento que admite la veneración especial de parte de los prelados y…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Gugerotti en Belén: custodiar la esperanza en la tierra de la Encarnación",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/gugerotti-en-belen-custodiar-la-esperanza-en-tierra-encarnacion.html",
+   "d": "2026-11-19T14:53:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/19/img-4012.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En la segunda jornada de su visita pastoral a Tierra Santa, el prefecto del Dicasterio para las Iglesias Orientales realizó su entrada solemne en la Basílica…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Myanmar: La Corte Internacional de Justicia reconoce el genocidio rohingya",
+   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/myanmar-la-corte-internacional-de-justicia-genocidio-rohingya.html",
+   "d": "2026-11-19T14:13:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/19/14/1795093985099.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Se ha comprobado la responsabilidad del gobierno de Naypyidaw por las atrocidades cometidas en 2017 por el ejército contra la minoría musulmana. Leer todo"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El abrazo del Papa al mundo del ciclismo",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-abrazo-del-papa-al-mundo-del-ciclismo.html",
+   "d": "2026-11-19T13:19:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/19/sfdg.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La audiencia con León XIV, en la que participarán grandes campeones del ciclismo, está prevista para el 23 de noviembre en el Palacio Apostólico, organizada…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "La Semana del Papa León XIV",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/viaje-apostolico-peru-uruguay-argentina-papa-leon-xiv.html",
+   "d": "2026-11-19T12:05:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/11/12/09/1794471622295.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "León XIV concluye su viaje apostólico por América Latina con un llamado a la fe, la fraternidad y el servicio. El Papa se despidió de Perú, país donde…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Ucrania: Se celebra en Berlín la cumbre de la Coalición de los Voluntarios",
+   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/ucrania-berlin-cumbre-coalicion-voluntarios.html",
+   "d": "2026-11-19T11:30:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/08/24/17/1787584230235.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Hoy comienza en Berlín la reunión entre los jefes de Estado y de Gobierno de unos 40 países. Se debatirá el apoyo a Kiev, tanto desde el punto de vista…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Cardenal Fernando Chomali llamó a fortalecer la alianza entre familia y escuela ante la violencia escolar.",
+   "u": "https://diocesisdechillan.cl/fortalecer-la-alianza-entre-familia-y-escuela-ante-la-violencia-escolar/",
+   "d": "2026-11-17T12:23:46.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/55656004662_1c38f7845b_o-150x150.jpg",
+   "r": "Con el centro cultural del Colegio Seminario Padre Alberto Hurtado lleno de estudiantes, educadores, directivos y apoderados de la red de colegios católicos,…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Obispos de Chile llaman a superar la polarización abogando por una cultura del encuentro y del diálogo",
+   "u": "https://diocesisdechillan.cl/obispos-de-chile-llaman-a-superar-la-polarizacion-abogando-por-una-cultura-del-encuentro-y-del-dialogo/",
+   "d": "2026-11-13T21:14:33.000Z",
+   "img": "",
+   "r": "Al concluir su 134ª Asamblea Plenaria, realizada entre los días 9 y 13 de noviembre, en el Centro de Espiritualidad Loyola, en Padre Hurtado, los Obispos de…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Obispos de Chile inician su 134ª Asamblea Plenaria centrados en la evangelización en el tiempo actual",
+   "u": "https://diocesisdechillan.cl/obispos-de-chile-inician-su-134a-asamblea-plenaria-centrados-en-la-evangelizacion-en-el-tiempo-actual/",
+   "d": "2026-11-09T19:44:30.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/Gale6af218a97e759_09112026_302pm-150x150.jpeg",
+   "r": "La casa de retiro de Padre Hurtado reúne en estos días a los obispos de la Conferencia Episcopal de Chile (CECh) para la celebración de su 134ª Asamblea…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Decanato Costa peregrinó a Portezuelo en el Año del Centenario de la Coronación de la Virgen del Carmen",
+   "u": "https://diocesisdechillan.cl/decanato-costa-peregrino-a-portezuelo-en-el-ano-del-centenario-de-la-coronacion-de-la-virgen-del-carmen/",
+   "d": "2026-11-09T17:36:29.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/WhatsApp-Image-2026-11-07-at-5.10.13-PM-1-150x150.jpeg",
+   "r": "Integrantes de las parroquias del Decanato Costa peregrinaron el sábado 7 de noviembre a la Parroquia de Portezuelo, en el marco del Año del Centenario de la…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Papá del P. Manuel Mosquera será beatificado este sábado en Santander",
+   "u": "https://diocesisdechillan.cl/papa-del-p-manuel-mosquera-sera-beatificado-este-sabado-en-santander/",
+   "d": "2026-11-04T15:36:32.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/6ae8540894070-150x150.png",
+   "r": "Este sábado 7 de noviembre, a las 11:00 horas de España (07:00 en Chile), la Catedral de Santander acogerá la beatificación de Francisco González de Córdova y…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Parroquias de la Diócesis de Chillán celebran Todos los Santos en templos y cementerio",
+   "u": "https://diocesisdechillan.cl/parroquias-de-la-diocesis-de-chillan-celebran-todos-los-santos-en-templos-y-cementerio/",
+   "d": "2026-10-30T20:27:16.000Z",
+   "img": "",
+   "r": "Este sábado 31 de octubre y domingo 1 de noviembre, las parroquias de la Diócesis San Bartolomé de Chillán celebrarán misas y liturgias por la Solemnidad de…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Cáritas realiza jornada de prevención de incendios y apoyo emocional con comunidades rurales afectadas",
+   "u": "https://diocesisdechillan.cl/caritas-realiza-jornada-de-prevencion-de-incendios-y-apoyo-emocional-con-comunidades-rurales-afectadas/",
+   "d": "2026-10-27T15:50:36.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/10/20261026_131124-150x150.jpg",
+   "r": "El proyecto trabaja con las juntas de vecinos de sectores rurales: Chudal en Portezuelo, Huampuli en San Nicolás, y Libui, Manque Sur y Manque Norte en…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Catequesis diocesana convoca a Encuentro de Niños y Niñas que recibieron la Primera Comunión.",
+   "u": "https://diocesisdechillan.cl/catequesis-diocesana-convoca-a-encuentro-de-ninos-y-ninas-que-recibieron-la-primera-comunion/",
+   "d": "2026-10-27T14:00:01.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/10/Colegio-b-icentenario-Padre-Alberto-Hurtado-819x1024.jpg",
+   "r": "El Departamento de Catequesis de la Diócesis de Chillán convocó al Encuentro Diocesano de Niños y Niñas “Jesús, nuestro amigo, camina con nosotros”. La…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Pastoral del Adulto Mayor se reactiva con un encuentro intergeneracional en la Diócesis de Chillán",
+   "u": "https://diocesisdechillan.cl/pastoral-del-adulto-mayor-se-reactiva-con-un-encuentro-intergeneracional-en-la-diocesis-de-chillan/",
+   "d": "2026-10-26T14:32:48.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/10/Encuentro-de-adultos-mayores-00000008-150x150.jpg",
+   "r": "La Pastoral Social de la Diócesis San Bartolomé de Chillán realizó el primer encuentro de la Pastoral del Adulto Mayor, con el objetivo de reactivar este…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "San Bartolomé de Chillán expresa sus condolencias a las Hermanas Hospitalarias por el fallecimiento de la Hna. Asunción Margarita",
+   "u": "https://diocesisdechillan.cl/san-bartolome-de-chillan-expresa-sus-condolencias-a-las-hermanas-hospitalarias-por-el-fallecimiento-de-la-hna-asuncion-margarita/",
+   "d": "2026-10-23T14:24:09.000Z",
+   "img": "",
+   "r": "Con profunda esperanza en la promesa de la vida eterna, la comunidad eclesial de la Diócesis de San Bartolomé de Chillán, a través de nuestro Obispo Mons.…"
+  }
+ ]
+}
