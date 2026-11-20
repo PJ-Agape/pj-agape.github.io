@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-20T14:18:13.354Z",
+ "actualizado": "2026-11-20T22:20:42.784Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -25,41 +25,211 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "Obispos de EE.UU. reciben actualización sobre los esfuerzos de la Iglesia para abordar la IA",
-   "u": "https://www.ewtnnews.com/es/mundo/america/obispos-eeuu-iglesia-abordar-ia",
-   "d": "2026-11-20T14:00:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Image_-_2026-11-19T154128.502_zjk7lk.jpg",
-   "r": "El Obispo Oscar Cantú habló sobre el trabajo del grupo de trabajo de IA de la USCCB, incluyendo sus conversaciones con empresas de tecnología y planes para la…"
+   "t": "“¡No tengan miedo!”: la exhortación de los obispos de Centroamérica ante los desafíos de hoy",
+   "u": "https://www.ewtnnews.com/es/mundo/america/obispos-centroamerica-exhortacion-desafios-hoy",
+   "d": "2026-11-20T20:45:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/SEDAC_CECOR_20112026_rsigbz.jpg",
+   "r": "Los obispos de Centroamérica han elegido a sus nuevas autoridades y han publicado un mensaje para los católicos de la región, alentándolos a no tener miedo."
   },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "Nunca es tarde: Diácono se ordena sacerdote a los 67 años después de trabajar como juez, abogado y profesor",
-   "u": "https://www.ewtnnews.com/es/mundo/america/diacono-sacerdote-67-juez-abogado",
-   "d": "2026-11-20T13:24:42.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Image_11-16-26_at_3.31_PM_wgmzd8.jpg",
-   "r": "El diácono Ernie Hart, de 67 años, exjuez de la Corte Suprema de Nueva York, excomisionado adjunto de la Policía de Nueva York, abogado y profesor, será…"
+   "t": "7 exhortaciones de Cristo Rey sobre el final de los tiempos y la salvación eterna",
+   "u": "https://www.ewtnnews.com/es/mundo/7-exhortaciones-de-cristo-rey-sobre-el-final-de-los-tiempos",
+   "d": "2026-11-20T20:13:15.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/cristo-rey-maximas-231123",
+   "r": "Siete enseñanzas de Jesús sobre la salvación destacan el servicio, cumplir la voluntad de Dios, la Eucaristía, la fidelidad y la misión de anunciar su Reino…"
   },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "Los cristianos son la comunidad religiosa \"más perseguida\" del mundo, alerta experto ante Congreso",
-   "u": "https://www.ewtnnews.com/es/mundo/america/cristianos-comunidad-religiosa-perseguida-mundo",
-   "d": "2026-11-20T12:26:33.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Witness_panel_1_11651711017853649134_mlk07r.jpg",
-   "r": "Expertos y legisladores se reunieron esta semana en Capitol Hill para abordar las crecientes amenazas a la libertad religiosa de los cristianos en todo el…"
+   "t": "La historia de la mujer que ayudó a instaurar la Solemnidad de Cristo Rey",
+   "u": "https://www.ewtnnews.com/es/mundo/la-historia-de-la-mujer-que-ayudo-a-instaurar-la-solemnidad-de-cristo-rey",
+   "d": "2026-11-20T20:09:46.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/cristoreylaica-241125-1763988000",
+   "r": "Marthe de Noaillat, llamada por su biógrafo “la Apóstol de Cristo Rey”, tuvo una misión singular en la vida que ella creía haber recibido: promover la realeza…"
   },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "Obispos católicos de EE.UU. aprueban día nacional de oración por la justicia racial",
-   "u": "https://www.ewtnnews.com/es/mundo/america/obispos-aprueban-oracion-justicia-racial",
-   "d": "2026-11-20T12:00:58.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Bishops.vote.Nov17.2026_q6x6xl.jpg",
-   "r": "Los obispos votaron 180-15 para aprobar la observancia, con siete abstenciones."
+   "t": "Por qué el Papa Pío XI instauró la Solemnidad de Cristo Rey en el turbulento año 1925",
+   "u": "https://www.ewtnnews.com/es/mundo/por-que-el-papa-pio-xi-instauro-la-solemnidad-de-cristo-rey-en-el-turbulento-ano-1925",
+   "d": "2026-11-20T20:06:10.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/capillacristorey-231125-1763907398",
+   "r": "La Solemnidad de Cristo Rey fue instituida por el Papa Pío XI en 1925 tras su encíclica Quas Primas. Hoy se celebra el último domingo antes del Adviento."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "7 datos relevantes sobre la Solemnidad de Cristo Rey",
+   "u": "https://www.ewtnnews.com/es/mundo/7-datos-que-te-interesaran-sobre-la-solemnidad-de-cristo-rey",
+   "d": "2026-11-20T20:02:57.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/cristo-rey-2024-191124",
+   "r": "7 datos relevantes sobre la Solemnidad de Cristo Rey"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV es nombrado Hermano Mayor Universal de las hermandades del Señor de los Milagros",
+   "u": "https://www.ewtnnews.com/es/mundo/america/leon-xiv-hermano-mayor-universal",
+   "d": "2026-11-20T19:44:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PapaLeonSe%C3%B1orMilagros_201126_qenfqn.jpg",
+   "r": "La Hermandad de las Nazarenas concedió al Pontífice su máxima distinción y lo incorporó como referente de las hermandades del Cristo Moreno en el mundo."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Los Dehonianos desarrollan en Chile una Escuela de Líderes con el foco en \"custodiar lo humano\"",
+   "u": "https://www.ewtnnews.com/es/mundo/dehonianos-chile-escuela-lideres-humano",
+   "d": "2026-11-20T19:16:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2670758787_ecxhqo.jpg",
+   "r": "La Provincia Dehoniana del Cono Sur de América desarrollará una Escuela de Líderes, una experiencia dedicada a jóvenes que tendrá lugar del 4 al 8 de enero de…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "\"Los sueños no soñados\", un libro para transitar el duelo de la mano de Dios",
+   "u": "https://www.ewtnnews.com/es/mundo/america/suenos-sonados-libro-duelo-dios",
+   "d": "2026-11-20T18:40:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Los-Sue%C3%B1os-No-So%C3%B1ados-20112026_ivss0b.png",
+   "r": "El argentino Santiago Roldán presentó este miércoles su primer libro, \"Los sueños no soñados, del duelo al consuelo\", una obra que busca acompañar procesos de…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV a organizaciones benéficas de Tierra Santa: ayuden a los cristianos a quedarse en su tierra",
+   "u": "https://www.ewtnnews.com/es/vaticano/leon-xiv-cristianos-tierra-santa",
+   "d": "2026-11-20T18:05:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/TOM_2167_uwa2f9.jpg",
+   "r": "El Pontífice sostuvo una audiencia privada con una delegación de la Asociación Católica de Bienestar del Cercano Oriente."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Fundador de la Comunidad Shalom: “Los jóvenes tienen sed de Dios”",
+   "u": "https://www.ewtnnews.com/es/vaticano/fundador-shalom-jovenes-sed-dios",
+   "d": "2026-11-20T17:31:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/887_5315.MXF.00_05_20_14.Still001_cisqqc.png",
+   "r": "El fundador de la Comunidad Shalom, Moysés Louro de Azevedo Filho, aseguró que el Papa ha escogido a los jóvenes como una \"prioridad\" de su pontificado."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Dispensario Pediátrico se embellece con arte para regalar una sonrisa a los niños",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/dispensario-pediatrico-limosneria-apostolica-arte.html",
+   "d": "2026-11-20T17:20:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/20/mostra1.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Inaugurado y bendecido esta mañana, 20 de noviembre, por el prefecto del Dicasterio para el Servicio de la Caridad, el conjunto de dibujos realizados en las…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "ACNUR, parte la Global Initiative on Protection at Sea 2.0",
+   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/acnur-parte-la-global-initiative-on-protection-at-sea-2-0.html",
+   "d": "2026-11-20T16:45:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2024/ottobre/14/15.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El Alto Comisionado de las Naciones Unidas para los Refugiados ha puesto en marcha un marco de acción mundial para salvar vidas y reforzar la protección de…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Día de la Pesca: dar dignidad al trabajo de las mujeres y los jóvenes",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/dia-de-la-pesca-chica-arellano-dar-dignidad-al-trabajo-mujeres.html",
+   "d": "2026-11-20T16:40:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/20/giornata-mondiale-della-pesca-1.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El observador permanente de la Santa Sede ante la FAO, el FIDA y el PMA -monseñor Fernando Chica Arellano- interviene en Roma, en la sede de la Organización…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "La UEFA sanciona Inglaterra por cantos anticatólicos en el partido contra España",
+   "u": "https://www.ewtnnews.com/es/mundo/espana/uefa-sanciona-inglaterra-cantos-anticatolicos",
+   "d": "2026-11-20T16:40:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Futbol_Inglaterra_sriszi.jpg",
+   "r": "La UEFA sancionó a la selección de Inglaterra con 15.000 euros de multa y la prohibición de venta de entradas como visitante por cantos anticatólicos durante…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Papa León XIV exhorta a los obispos ecuatorianos a ser portadores de esperanza",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-exhorta-a-los-obispos-ecuatorianos.html",
+   "d": "2026-11-20T15:59:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/20/2026-11-20-vescovi-di-ecuador-in-visita-ad-limina/1795168361705.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Una intensa jornada es la que llevaron a cabo los obispos ecuatorianos durante su visita ad limina Apostolorum, que se desarrolló del 16 al 20 de noviembre y…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Cardenal Martínez: \"Sin justicia no habrá verdadera paz\" en Paraguay",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/adalberto-martinez-paraguay-iglesia-catolica-situacion-pais.html",
+   "d": "2026-11-20T15:38:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/16/15/1794840602010.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El arzobispo de Asunción analiza la crisis institucional y financiera que atraviesa el país y pide esclarecer los hechos, recuperar la confianza ciudadana y…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Pizzaballa: «En Tierra Santa, la Iglesia lleva esperanza donde la política no llega»",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/pizzaballa-tierra-santa-iglesia-esperanza-paz-israel-palestina.html",
+   "d": "2026-11-20T15:21:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/07/11/16/1783780888824.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El patriarca latino de Jerusalén destaca el valor de la peregrinación del cardenal Gugerotti, prefecto del Dicasterio para las Iglesias Orientales, para todas…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Cardenal Cabrera: El Papa está preocupado por la violencia generalizada en Ecuador",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-preocupacion-violencia-ecuador-obispos",
+   "d": "2026-11-20T15:15:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-20_at_14.41.19_2_osmwwf.jpg",
+   "r": "El purpurado, que participó junto con otros 35 obispos ecuatorianos en la visita al Vaticano, insistió en que la inseguridad que afecta al país tiene raíces…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El árbol de Navidad ha llegado a la Plaza de San Pedro",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/arbol-navidad-instalacion-plaza-de-san-pedro-2026.html",
+   "d": "2026-11-20T14:49:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/20/2026-11-20-arrivo-albero-di-natale-piazza-san-pietro/1795164169768.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Este viernes 20 de noviembre han comenzado los trabajos de montaje del gran abeto procedente del bosque de Cugno dell’Acero, en el Parque Nacional del…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Vaticano pide reforzar la lucha contra las drogas",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/cruz-serrano-comision-interamericana-control-drogas.html",
+   "d": "2026-11-20T14:14:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2024/06/29/03/1719625384573.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La Santa Sede aboga ante la OEA por una respuesta integral al problema de las drogas, basada en la justicia, la prevención, la rehabilitación y la cooperación…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "¿Y si casarse fuera una revolución?",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/estudio-9-y-si-casarse-fuera-una-revolucion-matrimonio-cristo.html",
+   "d": "2026-11-20T14:08:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/20/bonilla.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En una sociedad que parece tener miedo al compromiso, Javier Kovacs y Larissa Mota defienden el «para toda la vida» como una aventura que solo se entiende…"
   },
   {
    "src": "vatican",
@@ -70,16 +240,6 @@
    "d": "2026-11-20T11:42:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/16/10/1794822910060.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "En un documento de posición presentado en la Séptima Conferencia de Revisión de la Convención sobre Ciertas Armas Convencionales, celebrada en Ginebra, la…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa León XIV reza con familiares de desaparecidos durante el conflicto en Irlanda del Norte",
-   "u": "https://www.ewtnnews.com/es/vaticano/end-titular",
-   "d": "2026-11-20T11:25:08.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PapaLeo%CC%81nXIVcruzpectoral_vua4wz.jpg",
-   "r": "El Papa León XIV mantuvo un encuentro en el Vaticano el pasado 18 de noviembre con familiares de desaparecidos en Irlanda durante el enfrentamiento que tuvo…"
   },
   {
    "src": "vatican",
@@ -100,166 +260,6 @@
    "d": "2026-11-20T09:23:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/20/2026-11-20-delegazione-del-cnewa-catholic-near-east-welfare-asso/1795166554484.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "En la audiencia concedida a la Catholic Near East Welfare Association, fundada hace cien años por Pío XI, el Papa expresa su solidaridad con las comunidades…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Hoy recordamos a la Beata Anna Kolesárová, patrona de las víctimas de abuso y de la juventud",
-   "u": "https://www.ewtnnews.com/es/mundo/cada-20-de-noviembre-se-recuerda-a-la-beata-anna-kolesarova-patrona-de-la-juventud",
-   "d": "2026-11-20T05:01:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/BeataAnnaKolesarovaPatronaJuventud_u2eqox.jpg",
-   "r": "Cada 20 de noviembre la Iglesia conmemora a la Beata Anna Kolesárová, joven laica nacida en Vysoká nad Uhom, Michalovce, Checoslovaquia (hoy Eslovaquia), en…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Obispos de Costa Rica condenan asesinato de periodista y defienden la libertad de prensa",
-   "u": "https://www.ewtnnews.com/es/mundo/america/fotos-primer-papa-leon-xiv-peru",
-   "d": "2026-11-20T01:47:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PERIODISTA191126_b6i5ju.jpg",
-   "r": "Los obispos de Costa Rica condenaron el asesinato del periodista Camilo Rodríguez Chaverri y expresaron su preocupación por la violencia en el país."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "48 nacimientos de 12 regiones participan en la muestra y concurso “Navidad es Jesús” en Perú",
-   "u": "https://www.ewtnnews.com/es/mundo/america/nacimientos-concurso-navidad-jesus-peru",
-   "d": "2026-11-20T00:34:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/03_CNN24_jcnpks.jpg",
-   "r": "Los 48 nacimientos proceden de 12 regiones del Perú y podrán verse gratuitamente en la Casa O’Higgins en el Centro Histórico de Lima."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Albergues católicos advierten a migrantes sobre falsas promesas para cruzar a Estados Unidos",
-   "u": "https://www.ewtnnews.com/es/mundo/america/albergues-catolicos-migrantes-falsas-promesas",
-   "d": "2026-11-20T00:15:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/MIGRA191126_di3fpc.png",
-   "r": "Casas y albergues católicos en México alertaron a migrantes sobre una supuesta apertura de la frontera estadounidense."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Religiosos de todo el mundo buscarán en Roma caminos para construir una paz “desarmada y desarmante”",
-   "u": "https://www.ewtnnews.com/es/vaticano/religiosos-roma-paz-desarmada-desarmante",
-   "d": "2026-11-19T23:36:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/ReligiosasCatolicas_191126_p9djok.jpg",
-   "r": "La Asamblea conjunta de la UISG y la USG reunirá a superiores de congregaciones religiosas del 25 al 27 de noviembre. León XIV los recibirá en el Vaticano."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "La Arquidiócesis de Miami asumirá la supervisión de los católicos en las Islas Caimán",
-   "u": "https://www.ewtnnews.com/es/mundo/america/arquidiocesis-miami-catolicos-islas-caiman",
-   "d": "2026-11-19T22:29:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/shutterstock_2435594591_zw9cqv.jpg",
-   "r": "La Arquidiócesis de Miami informó que la comunidad católica de la isla caribeña, de aproximadamente 9.000 miembros, incluye una parroquia, una escuela…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Cardenal Simoni reza el exorcismo de León XIII y se escuchan gritos en el Santuario de San Pío",
-   "u": "https://www.ewtnnews.com/es/mundo/cardenal-simoni-exorcismo-gritos-santuario",
-   "d": "2026-11-19T22:05:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/CardenalSimoni_191126_amyidp.jpg",
-   "r": "El purpurado albanés presidió una Misa en San Giovanni Rotondo y, al finalizar, recitó en latín la oración de exorcismo contra Satanás y los ángeles caídos."
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Vaticano: León XIV se reúne con 6.000 jóvenes del Lacio",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/vaticano-jmj-roma-jovenes-le-on-xiv-21-noviembre.html",
-   "d": "2026-11-19T20:24:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2025/08/02/2025-08-02-giubileo-dei-giovani---veglia-di-preghiera-a-tor-verg/1754166100005.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El sábado 21 de noviembre, en el Aula Pablo VI, el encuentro con el Papa, patrocinado por la Conferencia Episcopal del Lacio, se centrará en el tema de la…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "COMECE Migrantes: El plan de Ruanda tiene tintes de deportación",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/comece-migrantes-el-plan-de-ruanda-tiene-tintes-de-deportacion.html",
-   "d": "2026-11-19T16:55:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/11/16/18/1794849046437.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El presidente de la COMECE, monseñor Crociata, critica la iniciativa de cinco países europeos de trasladar migrantes a Ruanda y exhorta a la Unión Europea a…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "La Biblia de la Migración, la edición católica lanzada en los dos Vicariatos de Arabia",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/biblia-de-la-migracion-edicion-catolica-lanzada-vicariatos-arabi.html",
-   "d": "2026-11-19T16:20:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/19/migration-bible-copiaaem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En los dos Vicariatos Apostólicos del Norte y del Sur de Arabia fue presentada la «Biblia para y de los migrantes». Se celebrarán tres eventos en los Emiratos…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Óscar Romero: El santo de los obispos centroamericanos",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/oscar-romero-el-santo-de-los-obispos-centroamericanos.html",
-   "d": "2026-11-19T15:45:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2018/10/14/13/vatican-salvador-paul-vi-saints-1539517891784.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El mártir Óscar Romero fue elegido patrono de los obispos centroamericanos, un reconocimiento que admite la veneración especial de parte de los prelados y…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Gugerotti en Belén: custodiar la esperanza en la tierra de la Encarnación",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/gugerotti-en-belen-custodiar-la-esperanza-en-tierra-encarnacion.html",
-   "d": "2026-11-19T14:53:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/19/img-4012.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En la segunda jornada de su visita pastoral a Tierra Santa, el prefecto del Dicasterio para las Iglesias Orientales realizó su entrada solemne en la Basílica…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Myanmar: La Corte Internacional de Justicia reconoce el genocidio rohingya",
-   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/myanmar-la-corte-internacional-de-justicia-genocidio-rohingya.html",
-   "d": "2026-11-19T14:13:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/19/14/1795093985099.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Se ha comprobado la responsabilidad del gobierno de Naypyidaw por las atrocidades cometidas en 2017 por el ejército contra la minoría musulmana. Leer todo"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El abrazo del Papa al mundo del ciclismo",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-abrazo-del-papa-al-mundo-del-ciclismo.html",
-   "d": "2026-11-19T13:19:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/19/sfdg.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La audiencia con León XIV, en la que participarán grandes campeones del ciclismo, está prevista para el 23 de noviembre en el Palacio Apostólico, organizada…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "La Semana del Papa León XIV",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/viaje-apostolico-peru-uruguay-argentina-papa-leon-xiv.html",
-   "d": "2026-11-19T12:05:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/11/12/09/1794471622295.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "León XIV concluye su viaje apostólico por América Latina con un llamado a la fe, la fraternidad y el servicio. El Papa se despidió de Perú, país donde…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Ucrania: Se celebra en Berlín la cumbre de la Coalición de los Voluntarios",
-   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/ucrania-berlin-cumbre-coalicion-voluntarios.html",
-   "d": "2026-11-19T11:30:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/08/24/17/1787584230235.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Hoy comienza en Berlín la reunión entre los jefes de Estado y de Gobierno de unos 40 países. Se debatirá el apoyo a Kiev, tanto desde el punto de vista…"
   },
   {
    "src": "diocesis",
