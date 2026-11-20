@@ -433,6 +433,27 @@ service cloud.firestore {
           && request.resource.data.resuelto == true && request.resource.data.resueltoAt == request.time)
         || (isStaff() && changed().hasOnly(['hidden']) && request.resource.data.hidden is bool));
       allow delete: if isStaff() || (isMember() && resource.data.authorUid == request.auth.uid);
+
+      // WhatsApp privado (nunca en la publicación): «contacto» es el del autor y lo leen quienes se
+      // ofrecieron; cada uno que se ofrece guarda el suyo con su uid y lo lee el autor.
+      match /privado/{key} {
+        function padre() { return get(/databases/$(database)/documents/manos/$(id)).data; }
+        allow read: if isMember() && (isStaff() || padre().authorUid == request.auth.uid || key == request.auth.uid
+          || (key == 'contacto' && padre().ayudas.keys().hasAny([request.auth.uid])));
+        allow create, update: if isMember() && request.resource.data.keys().hasOnly(['wa', 'n'])
+          && request.resource.data.wa is string && request.resource.data.wa.matches('^[0-9]{8,15}$')
+          && request.resource.data.n is string && request.resource.data.n.size() <= 60
+          && ((key == 'contacto' && padre().authorUid == request.auth.uid)
+            || (key == request.auth.uid && padre().authorUid != request.auth.uid && padre().ayudas.keys().hasAny([request.auth.uid])));
+        allow delete: if isStaff() || (isMember() && (padre().authorUid == request.auth.uid || key == request.auth.uid));
+      }
+    }
+
+    // Enlace al grupo de WhatsApp de Una mano: lo ven las cuentas, lo cambia un administrador.
+    match /manosConfig/grupo {
+      allow read: if isMember();
+      allow write: if isAdmin() && request.resource.data.keys().hasOnly(['url']) && request.resource.data.url is string
+        && (request.resource.data.url == '' || request.resource.data.url.matches('^https://chat[.]whatsapp[.]com/[A-Za-z0-9]+$'));
     }
 
     // Videos con personajes (Estudio de difusión): guiones por escenas. Los ven y editan el equipo y
