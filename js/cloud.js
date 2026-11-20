@@ -612,6 +612,7 @@ export async function createMano({ tipo, cat, texto }) {
     ayudas: {}, resuelto: false, hidden: false, createdAt: fb.serverTimestamp() });
   return ref.id;
 }
+
 // Enlace al grupo de WhatsApp de Una mano: solo lo leen las cuentas (no va en content, que es público).
 export async function getManoGrupo() { const d = await withTimeout(fb.getDoc(fb.doc(db, "manosConfig", "grupo")), 8000); return d.exists() ? d.data().url || "" : ""; }
 export const saveManoGrupo = (url) => fb.setDoc(fb.doc(db, "manosConfig", "grupo"), { url });
@@ -619,29 +620,7 @@ export const saveManoGrupo = (url) => fb.setDoc(fb.doc(db, "manosConfig", "grupo
 export async function manoSala() { const d = await withTimeout(fb.getDoc(fb.doc(db, "salas", "una-mano")), 8000); return d.exists() && d.data().archived !== true; }
 export const crearManoSala = () => saveSala("una-mano", { name: "Una mano", desc: "Para ponernos de acuerdo con las peticiones y ofrecimientos de Una mano.",
   color: "#9be3b0", illus: "servir", access: "all", roles: [], members: [], archived: false });
-// WhatsApp privado de una mano: «contacto» (del autor) o el uid de quien se ofreció.
-export const setManoPrivado = (id, key, wa) => fb.setDoc(fb.doc(db, "manos", id, "privado", key), { wa, n: shortName(account.name) });
-export async function getManoPrivado(id, mine) {
-  const out = { ayudantes: {} };
-  if (mine) {
-    const qs = await withTimeout(fb.getDocs(fb.collection(db, "manos", id, "privado")), 8000);
-    qs.docs.forEach((d) => { if (d.id === "contacto") out.contacto = d.data(); else out.ayudantes[d.id] = d.data(); });
-    return out;
-  }
-  const [c, yo] = await Promise.all([
-    withTimeout(fb.getDoc(fb.doc(db, "manos", id, "privado", "contacto")), 8000).catch(() => null),
-    withTimeout(fb.getDoc(fb.doc(db, "manos", id, "privado", user.uid)), 8000).catch(() => null)]);
-  if (c && c.exists()) out.contacto = c.data();
-  if (yo && yo.exists()) out.ayudantes[user.uid] = yo.data();
-  return out;
-}
-export const setManoAyuda = (id, on) => fb.updateDoc(fb.doc(db, "manos", id), { [`ayudas.${user.uid}`]: on ? shortName(account.name) : fb.deleteField() });
-export const updateMano = (id, data) => fb.updateDoc(fb.doc(db, "manos", id), data.resuelto ? { ...data, resueltoAt: fb.serverTimestamp() } : data);
-export async function deleteMano(id) {
-  const qs = await fb.getDocs(fb.collection(db, "manos", id, "privado")).catch(() => null);
-  if (qs) await Promise.all(qs.docs.map((d) => fb.deleteDoc(d.ref).catch(() => {})));
-  await fb.deleteDoc(fb.doc(db, "manos", id));
-}
+export const deleteMano = (id) => fb.deleteDoc(fb.doc(db, "manos", id));
 
 export async function createPost({ type, title, body, pinned, options }) {
   const ref = fb.doc(wallCol());

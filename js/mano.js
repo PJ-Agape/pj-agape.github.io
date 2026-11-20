@@ -30,18 +30,6 @@ function cuando(ts) {
 // Por cuidado de todos (hay menores en la comunidad): nada de teléfonos, correos ni direcciones.
 const CONTACTO = /(\+?\d[\d\s.-]{7,}\d)|([\w.+-]+@[\w-]+\.[\w.]+)|(@\w{3,})|\b(calle|pasaje|avenida|av\.|depto|block)\b\s*\S*\s*\d+/i;
 
-// WhatsApp: nunca público. Solo lo ven quien publicó y quienes se ofrecieron (reglas de Firestore).
-const WA_KEY = "agape_mano_wa";
-function waGuardado() { try { return localStorage.getItem(WA_KEY) || ""; } catch { return ""; } }
-function waNormal(v) {
-  let d = String(v || "").replace(/\D/g, "");
-  if (/^9\d{8}$/.test(d)) d = "56" + d;          // celular chileno sin código de país
-  if (/^09\d{8}$/.test(d)) d = "56" + d.slice(1);
-  return /^\d{8,15}$/.test(d) ? d : "";
-}
-const waLink = (n, txt) => `https://wa.me/${n}?text=${encodeURIComponent(txt)}`;
-const privCache = new Map(); // id → { contacto, ayudantes: { uid: {wa, n} } }
-
 // ---------------------------------------------------------------------------
 export function view() {
   const s = st();
@@ -65,7 +53,7 @@ export function view() {
         `<button class="btn btn-sm ${filtro === k ? "btn-soft" : "btn-ghost"}" data-action="manoFiltro" data-f="${k}" role="tab" aria-selected="${filtro === k}">${l}</button>`).join("")}
     </div>
     <div id="manoList" class="mano-list" aria-live="polite"><p class="muted small">Cargando…</p></div>
-    <p class="xs muted mano-pie">Por cuidado de todos, el WhatsApp nunca se publica: solo lo ven quien publicó y quienes se ofrecieron, y solo si lo dejan. Si eres menor de edad, cuéntale a tu guía antes de juntarte con alguien.</p>
+    <p class="xs muted mano-pie">Por cuidado de todos, no publiques teléfonos ni direcciones: pónganse de acuerdo en la sala de chat, en el grupo o en el próximo encuentro. Si eres menor de edad, cuéntale a tu guía antes de juntarte con alguien.</p>
     <section class="mano-invita"><div><strong>Invita a otros a dar una mano</strong><p class="small muted">Una imagen lista para tu estado, Instagram o el grupo.</p></div>
       <div class="row-wrap" style="gap:8px"><button class="btn btn-gold btn-sm" data-action="manoPieza" data-f="cuadrada">Imagen cuadrada</button>
       <button class="btn btn-soft btn-sm" data-action="manoPieza" data-f="historia">Para historias</button></div></section>` : ""}`;
@@ -92,8 +80,6 @@ function composer() {
       ${CATS.map(([k, l]) => `<label class="chip ${cat === k ? "accent" : ""}"><input type="radio" name="cat" value="${k}" ${cat === k ? "checked" : ""}>${l}</label>`).join("")}
     </div>
     <textarea class="textarea" name="texto" maxlength="200" required placeholder="${tipo === "pide" ? "Ej: Necesito ayuda con matemáticas para la prueba del viernes" : "Ej: Sé editar videos; si alguien necesita, le enseño"}"></textarea>
-    <label class="mano-wa-opt"><input type="checkbox" name="waOn" ${waGuardado() ? "checked" : ""}> Quienes se ofrezcan pueden escribirme por WhatsApp</label>
-    <input class="input" name="wa" inputmode="tel" autocomplete="tel" placeholder="Tu WhatsApp, ej: 9 1234 5678" value="${esc(waGuardado())}" ${waGuardado() ? "" : "hidden"}>
     <div class="row-wrap"><span class="xs muted">Se mostrará como <b>${esc(ctx.cloud.shortName(st().account.name))}</b>. Sin teléfonos ni direcciones.</span>
       <span class="spacer"></span><button class="btn btn-primary btn-sm" type="submit">${icon("send")} Publicar</button></div>
   </form>`;
@@ -115,8 +101,7 @@ function card(m) {
       <span class="mano-cat"><i aria-hidden="true"></i>${esc(CAT[m.cat] || "Otro")}</span>${m.resuelto ? `<span class="chip ok">Resuelto</span>` : ""}${m.hidden ? `<span class="chip">Oculta</span>` : ""}</div>
     <p class="mano-txt">${esc(m.texto)}</p>
     <div class="mano-by">${avatar(m.authorAvatar, m.authorName, "")}<span><b>${esc(m.authorName || "Alguien de Ágape")}</b><br><span class="xs muted">${cuando(m.createdAt)}</span></span></div>
-    ${ayudas.length ? `<p class="small mano-quienes">${pide ? "Se ofrecieron" : "Les interesa"}: <b>${quienes}</b></p>` : ""}
-    ${(mine && ayudas.length) || yo ? `<div class="mano-contacto" data-priv="${m.id}"></div>` : ""}
+    ${ayudas.length ? `<p class="small mano-quienes">${pide ? "Se ofrecieron" : "Les interesa"}: <b>${quienes}</b>${mine && !m.resuelto ? `. Pónganse de acuerdo en la sala de chat, en el grupo o en el próximo encuentro.` : ""}</p>` : ""}
     <div class="row-wrap mano-acc">
       ${!mine && !m.resuelto ? `<button class="btn btn-sm ${yo ? "btn-soft" : "btn-gold"}" data-action="manoAyudo" data-id="${m.id}" data-on="${yo ? 1 : 0}">${yo ? "Ya no puedo" : pide ? "Puedo ayudar" : "Me interesa"}</button>` : ""}
       ${mine && !m.resuelto ? `<button class="btn btn-sm btn-soft" data-action="manoResuelto" data-id="${m.id}">Ya está resuelto</button>` : ""}
@@ -140,32 +125,6 @@ function paint() {
     .map(([n, l]) => `<span><b>${n}</b>${l}</span>`).join("");
   box.innerHTML = (xs.length ? xs.map(card).join("") : `<div class="mano-vacio"><strong>${filtro === "mias" ? "Todavía no tienes manos" : "Aún no hay nada por aquí"}</strong>
       <p class="muted small">Sé el primero: pide lo que necesitas o cuenta en qué puedes ayudar.</p></div>`);
-  box.querySelectorAll("[data-priv]").forEach((el) => pintarContacto(el, rows.find((m) => m.id === el.dataset.priv)));
-}
-
-// Contacto privado: al autor, los WhatsApp de quienes se ofrecieron; a quien se ofreció, el del autor.
-async function pintarContacto(el, m) {
-  if (!m) return;
-  const mine = m.authorUid === me();
-  let p = privCache.get(m.id);
-  if (!p) { p = await ctx.cloud.getManoPrivado(m.id, mine).catch(() => ({})); privCache.set(m.id, p); }
-  if (!el.isConnected) return;
-  const pide = m.tipo === "pide";
-  if (mine) {
-    const hs = Object.entries(m.ayudas || {}).map(([uid, n]) => [n, (p.ayudantes || {})[uid]]);
-    el.innerHTML = hs.map(([n, h]) => h && h.wa
-      ? `<a class="btn btn-sm mano-wa" href="${waLink(h.wa, `Hola ${n}, soy ${ctx.cloud.shortName(st().account.name)}. Vi en Una mano de agAPPe que ${pide ? "puedes ayudarme" : "te interesa lo que ofrecí"}. ¿Coordinamos?`)}" target="_blank" rel="noopener">WhatsApp a ${esc(n)}</a>`
-      : `<span class="xs muted">${esc(n)} no dejó WhatsApp: búsquense en el próximo encuentro o por el grupo.</span>`).join("");
-    return;
-  }
-  const c = p.contacto;
-  const mio = (p.ayudantes || {})[me()];
-  el.innerHTML = (c && c.wa
-    ? `<a class="btn btn-sm mano-wa" href="${waLink(c.wa, `Hola ${m.authorName || ""}, vi en Una mano de agAPPe tu publicación: «${m.texto}». ${pide ? "Te puedo ayudar." : "Me interesa."} ¿Coordinamos?`)}" target="_blank" rel="noopener">Escribirle por WhatsApp</a>`
-    : `<span class="xs muted">${esc(m.authorName || "Quien publicó")} prefiere coordinar en persona o por el grupo.</span>`) +
-    (mio && mio.wa ? `<span class="xs muted">Le dejaste tu WhatsApp.</span>`
-      : `<form class="mano-dejar" data-id="${m.id}"><input class="input" name="wa" inputmode="tel" placeholder="Tu WhatsApp (opcional)" value="${esc(waGuardado())}">
-        <button class="btn btn-sm btn-soft" type="submit">Dejarle mi WhatsApp</button></form>`);
 }
 
 // ---------------------------------------------------------------------------
@@ -263,14 +222,13 @@ function registerActions() {
   };
   A.manoFiltro = (el) => { filtro = el.dataset.f; document.querySelectorAll(".mano-filtros [data-f]").forEach((b) => { const on = b.dataset.f === filtro; b.classList.toggle("btn-soft", on); b.classList.toggle("btn-ghost", !on); b.setAttribute("aria-selected", on); }); paint(); };
   A.manoAyudo = (el) => ctx.cloud.setManoAyuda(el.dataset.id, el.dataset.on !== "1")
-    .then(() => { privCache.delete(el.dataset.id); if (el.dataset.on !== "1") toast("¡Gracias! Si quieres, déjale tu WhatsApp para que te escriba.", "ok", 5000); }).catch(fail);
+    .then(() => { if (el.dataset.on !== "1") toast("¡Gracias! Le avisamos que puedes. Pónganse de acuerdo en la sala de chat o en el grupo.", "ok", 5000); }).catch(fail);
   A.manoResuelto = (el) => ctx.cloud.updateMano(el.dataset.id, { resuelto: true }).then(() => toast("¡Qué bueno! Gracias por contarlo.", "ok")).catch(fail);
   A.manoOcultar = (el) => ctx.cloud.updateMano(el.dataset.id, { hidden: el.dataset.on !== "1" }).catch(fail);
   A.manoBorrar = (el) => { if (!confirm("¿Borrar esta publicación?")) return; ctx.cloud.deleteMano(el.dataset.id).catch(fail); };
 
   document.addEventListener("change", (e) => {
     const f = e.target.closest && e.target.closest("#manoForm"); if (!f) return;
-    if (e.target.name === "waOn") { const i = f.querySelector("[name=wa]"); if (i) { i.hidden = !e.target.checked; if (e.target.checked) i.focus(); } }
     if (e.target.name === "tipo") { tipo = e.target.value; const t = f.querySelector("textarea"); if (t) t.placeholder = tipo === "pide" ? "Ej: Necesito ayuda con matemáticas para la prueba del viernes" : "Ej: Sé editar videos; si alguien necesita, le enseño"; }
     if (e.target.name === "cat") { cat = e.target.value; f.querySelectorAll(".mano-cats .chip").forEach((c) => c.classList.toggle("accent", c.querySelector("input").value === cat)); }
   });
@@ -282,24 +240,13 @@ function registerActions() {
       try { await ctx.cloud.saveManoGrupo(url); grupo = url; pintarGrupo(); toast("Enlace guardado.", "ok"); } catch { fail(); }
       return;
     }
-    if (e.target.classList && e.target.classList.contains("mano-dejar")) {
-      e.preventDefault();
-      const wa = waNormal(new FormData(e.target).get("wa"));
-      if (!wa) return toast("Revisa el número: por ejemplo 9 1234 5678.", "");
-      try { await ctx.cloud.setManoPrivado(e.target.dataset.id, me(), wa); try { localStorage.setItem(WA_KEY, wa); } catch {} privCache.delete(e.target.dataset.id); toast("Listo, ya puede escribirte.", "ok"); paint(); }
-      catch { fail(); }
-      return;
-    }
     if (e.target.id !== "manoForm") return;
     e.preventDefault();
-    const fd = new FormData(e.target);
-    let wa = "";
-    if (fd.get("waOn")) { wa = waNormal(fd.get("wa")); if (!wa) { toast("Revisa tu WhatsApp: por ejemplo 9 1234 5678.", ""); return; } try { localStorage.setItem(WA_KEY, wa); } catch {} }
-    const texto = String(fd.get("texto") || "").trim();
+    const texto = String(new FormData(e.target).get("texto") || "").trim();
     if (!texto) return;
     if (CONTACTO.test(texto)) { toast("Por cuidado de todos, sin teléfonos, correos ni direcciones. Coordínense en persona o por el grupo.", "", 6000); return; }
     const b = e.target.querySelector("[type=submit]"); if (b) b.disabled = true;
-    try { const id = await ctx.cloud.createMano({ tipo, cat, texto }); if (wa && id) await ctx.cloud.setManoPrivado(id, "contacto", wa).catch(() => {}); abierto = false; filtro = "todo"; toast(tipo === "pide" ? "Listo. Ojalá alguien te dé una mano pronto." : "Gracias por ofrecerte.", "ok"); ctx.render(); }
+    try { await ctx.cloud.createMano({ tipo, cat, texto }); abierto = false; filtro = "todo"; toast(tipo === "pide" ? "Listo. Ojalá alguien te dé una mano pronto." : "Gracias por ofrecerte.", "ok"); ctx.render(); }
     catch { if (b) b.disabled = false; fail(); }
   });
 }

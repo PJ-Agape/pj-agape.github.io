@@ -5423,12 +5423,7 @@ dialog.cv-dlg::backdrop { background: rgba(15, 12, 28, .18); backdrop-filter: no
 .mano-home-t strong { font-family: var(--font-display); font-size: 1.2rem; line-height: 1.15; }
 .mano-home-q { font-size: .92rem; color: var(--ink-2); }
 @media (max-width: 480px) { .mano-hero { grid-template-columns: minmax(0, 1fr) 120px; } .mano-home { grid-template-columns: 84px minmax(0, 1fr); } .mano-home img { width: 84px; } }
-.mano-wa-opt { display: flex; gap: 8px; align-items: center; font-size: .9rem; font-weight: 600; }
-.mano-contacto { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.mano-contacto:empty { display: none; }
 .mano-wa { background: #25d366; color: #0b2a17; border-color: #128c4a; font-weight: 800; }
-.mano-dejar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; }
-.mano-dejar .input { flex: 1 1 160px; min-height: 0; padding: 7px 10px; }
 .mano-grupo { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin: 14px 0 0; padding: 14px 16px; border-radius: 18px; background: color-mix(in srgb, #25d366 12%, var(--surface)); border: 1.5px solid color-mix(in srgb, #25d366 40%, transparent); }
 .mano-grupo > span { display: grid; gap: 2px; flex: 1 1 220px; } .mano-grupo small { color: var(--ink-2); }
 .mano-grupo-f { display: flex; gap: 6px; width: 100%; } .mano-grupo-f .input { flex: 1; min-height: 0; padding: 7px 10px; }
