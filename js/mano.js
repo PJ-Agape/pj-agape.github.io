@@ -47,12 +47,13 @@ export function view() {
     <img class="mano-hero-img" src="${stickerSrc("equipo")}" alt="" loading="lazy">
     <div class="mano-stats" id="manoStats" aria-live="polite"></div>
   </header>
-  ${s.ready ? `<div id="manoGrupo"></div>${composer()}` : join(s)}
+  ${s.ready ? composer() : join(s)}
   ${s.ready ? `<div class="row-wrap mano-filtros" role="tablist" aria-label="Ver">
       ${[["todo", "Todo"], ["pide", "Piden una mano"], ["ofrece", "Ofrecen"], ["mias", "Las mías"]].map(([k, l]) =>
         `<button class="btn btn-sm ${filtro === k ? "btn-soft" : "btn-ghost"}" data-action="manoFiltro" data-f="${k}" role="tab" aria-selected="${filtro === k}">${l}</button>`).join("")}
     </div>
     <div id="manoList" class="mano-list" aria-live="polite"><p class="muted small">Cargando…</p></div>
+    <div id="manoGrupo" class="mano-coord"></div>
     <p class="xs muted mano-pie">Por cuidado de todos, no publiques teléfonos ni direcciones: pónganse de acuerdo en la sala de chat, en el grupo o en el próximo encuentro. Si eres menor de edad, cuéntale a tu guía antes de juntarte con alguien.</p>
     <section class="mano-invita"><div><strong>Invita a otros a dar una mano</strong><p class="small muted">Una imagen lista para tu estado, Instagram o el grupo.</p></div>
       <div class="row-wrap" style="gap:8px"><button class="btn btn-gold btn-sm" data-action="manoPieza" data-f="cuadrada">Imagen cuadrada</button>
