@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-21T16:56:24.732Z",
+ "actualizado": "2026-11-21T23:34:19.435Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -25,11 +25,81 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
+   "t": "El 21 de noviembre la Iglesia celebra la jornada Pro Orantibus, para orar por quienes oran ‌",
+   "u": "https://www.ewtnnews.com/es/mundo/jornada-pro-orantibus-vida-contemplativa",
+   "d": "2026-11-21T22:08:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2624537797_a4nk93.jpg",
+   "r": "Esta jornada fue instituida por Pío XII para que los católicos recen por los religiosos y religiosas que se dedican a la vida contemplativa."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa León habló sobre la música como “un reflejo de la belleza divina”",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-musica-belleza-divina",
+   "d": "2026-11-21T21:30:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Papa-Filarmonica-Viena_bobrls.jpg",
+   "r": "El Papa también remarcó la importancia de Viena como centro de la historia musical europea, remarcando el legado de Haydn, Mozart, Beethoven, Schubert y Brahms."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa León XIV respondió a 5 preguntas de los jóvenes de cara a la JMJ 2027",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-jovenes-jmj-2027",
+   "d": "2026-11-21T19:29:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Papa-Leon-Jovenes2_umu6vj.jpg",
+   "r": "El Santo Padre dijo que solo Jesucristo nos revela nuestra verdadera identidad y que solo siguiéndolo “llegamos a ser quienes somos”."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "¿Quiénes son San Joaquín y Santa Ana y qué relación tienen con la Presentación de María?",
+   "u": "https://www.ewtnnews.com/es/mundo/quienes-son-san-joaquin-y-santa-ana-y-que-relacion-tienen-con-la-presentacion-de-maria",
+   "d": "2026-11-21T18:39:53.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/Presentacion-VirgenMaria-San-Joaquin-Santa-Ana---Dominio-publico--21112022",
+   "r": "La bloguera católica Kathy Schiffer explica quiénes fueron San José y Santa Ana en el marco de la fiesta de la Presentación de la Virgen María que la Iglesia…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "¿Qué sabemos sobre la Presentación de la Virgen María?",
+   "u": "https://www.ewtnnews.com/es/mundo/la-presentacion-de-la-virgen-maria-que-es-lo-que-sabemos",
+   "d": "2026-11-21T18:37:44.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/presentacion-virgen-maria-alessandro-allori-211124",
+   "r": "Mientras que a la Presentación del Señor la encontramos en las Sagradas Escrituras, no es el caso de la Presentación de la Santísima Virgen María. Aquí…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV comparte el interés de preservar el espacio exterior de usos no pacíficos",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-espacio-exterior",
+   "d": "2026-11-21T18:14:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_SIM1507_db4xdg.jpg",
+   "r": "El Pontífice recibió este sábado a los participantes en el International Space Forum 2026, que se llevará a cabo el lunes 23 en el Vaticano."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
    "t": "El Papa León XIV nombra al nuevo teólogo de la Casa Pontificia",
    "u": "https://www.ewtnnews.com/es/vaticano/serge-thomas-bonino-nuevo-teologo-casa-pontificia",
    "d": "2026-11-21T16:24:00.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/20200929150940_3b3721da489d560d65b4196ad97c25225d428292e556526c750492cc17b018ce-1920x0-c-default_1795260725_gqusgx.webp",
    "r": "El cargo de teólogo de la Casa Pontificia es una función dentro de la Curia Romana, reservada tradicionalmente a un miembro de la Orden de Predicadores."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "España, los obispos sobre las próximas elecciones: retomar el mensaje del Papa",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/espana-los-obispos-sobre-las-proximas-elecciones-retomar-el-me.html",
+   "d": "2026-11-21T16:20:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/reuters/2024/07/04/15/1720099683873.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La Conferencia Episcopal Española ha concluido los trabajos de su asamblea plenaria dirigiendo un llamamiento al electorado de cara a las elecciones del…"
   },
   {
    "src": "aci",
@@ -85,7 +155,7 @@
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
-   "t": "El Papa a los jóvenes: La cultura del poder y de la guerra envenena cada encuentro",
+   "t": "El Papa: La cultura del poder y de la guerra envenena cada encuentro",
    "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-encuentro-jovenes.html",
    "d": "2026-11-21T12:44:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/21/2026-11-21-giovani-delle-diocesi-del-lazio/1795263173803.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
@@ -128,7 +198,7 @@
    "t": "En la Iglesia, una nueva santa y 56 beatos: venerable una adolescente de catorce años",
    "u": "https://www.vaticannews.va/es/papa/news/2026-11/iglesia-santa-56-beatos-venerable-una-adolescente-14-anos.html",
    "d": "2026-11-21T11:27:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/ottobre/19/rome-st-pietro-2.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/21/sr-zdenka-schelingova-scsc.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "Serán elevadas a los honores de los altares dos religiosas: sor Sidonia, que vivió durante los años del régimen comunista en la entonces Checoslovaquia, que…"
   },
   {
@@ -140,66 +210,6 @@
    "d": "2026-11-21T11:22:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/21/2026-11-21-membri-dei--wiener-philharmoniker-/1795258370069.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "Durante la audiencia a los miembros de la Filarmónica de Viena, León XIV subrayó que “en una época caracterizada por guerras y conflictos, por la desconfianza…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "A 100 años de la Cristiada, obispos de México llaman a honrar a los mártires construyendo la paz",
-   "u": "https://www.ewtnnews.com/es/mundo/america/cristiada-obispos-mexico-martires-paz",
-   "d": "2026-11-21T02:33:24.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/ORG_DSC09996_1_ulrkky.jpg",
-   "r": "En una carta pastoral por el centenario de la resistencia cristera, los obispos mexicanos llaman a la reconciliación y proponen compromisos frente a la…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "“Con María, todos discípulos misioneros”: nuevo Arzobispo de Puebla, México, marca su rumbo pastoral",
-   "u": "https://www.ewtnnews.com/es/mundo/america/arzobispo-puebla-rumbo-pastoral-misioneros",
-   "d": "2026-11-20T23:47:26.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Patron-Wong-3_cuo0my.jpg",
-   "r": "Mons. Jorge Carlos Patrón Wong presentó las prioridades de su ministerio como Arzobispo de Puebla, con un llamado a fortalecer una Iglesia cercana, unida y…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Eduardo Verástegui espera que su película Zero A.D. sea “un retiro espiritual de dos horas”",
-   "u": "https://www.ewtnnews.com/es/mundo/america/verastegui-zero-ad-nino-jesus",
-   "d": "2026-11-20T22:52:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/BHM_KEY_Angel_Payoff_1Sht_2000x3000_F5_ip4zxm.jpg",
-   "r": "La nueva película Zero A.D. El Nacimiento de Cristo llega a las salas de cine el próximo 11 de diciembre."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "“¡No tengan miedo!”: la exhortación de los obispos de Centroamérica ante los desafíos de hoy",
-   "u": "https://www.ewtnnews.com/es/mundo/america/obispos-centroamerica-exhortacion-desafios-hoy",
-   "d": "2026-11-20T20:45:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/SEDAC_CECOR_20112026_rsigbz.jpg",
-   "r": "Los obispos de Centroamérica han elegido a sus nuevas autoridades y han publicado un mensaje para los católicos de la región, alentándolos a no tener miedo."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "7 exhortaciones de Cristo Rey sobre el final de los tiempos y la salvación eterna",
-   "u": "https://www.ewtnnews.com/es/mundo/7-exhortaciones-de-cristo-rey-sobre-el-final-de-los-tiempos",
-   "d": "2026-11-20T20:13:15.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/cristo-rey-maximas-231123",
-   "r": "Siete enseñanzas de Jesús sobre la salvación destacan el servicio, cumplir la voluntad de Dios, la Eucaristía, la fidelidad y la misión de anunciar su Reino…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "La historia de la mujer que ayudó a instaurar la Solemnidad de Cristo Rey",
-   "u": "https://www.ewtnnews.com/es/mundo/la-historia-de-la-mujer-que-ayudo-a-instaurar-la-solemnidad-de-cristo-rey",
-   "d": "2026-11-20T20:09:46.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/cristoreylaica-241125-1763988000",
-   "r": "Marthe de Noaillat, llamada por su biógrafo “la Apóstol de Cristo Rey”, tuvo una misión singular en la vida que ella creía haber recibido: promover la realeza…"
   },
   {
    "src": "vatican",
@@ -250,16 +260,6 @@
    "d": "2026-11-20T15:38:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/16/15/1794840602010.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "El arzobispo de Asunción analiza la crisis institucional y financiera que atraviesa el país y pide esclarecer los hechos, recuperar la confianza ciudadana y…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Pizzaballa: «En Tierra Santa, la Iglesia lleva esperanza donde la política no llega»",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/pizzaballa-tierra-santa-iglesia-esperanza-paz-israel-palestina.html",
-   "d": "2026-11-20T15:21:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/07/11/16/1783780888824.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El patriarca latino de Jerusalén destaca el valor de la peregrinación del cardenal Gugerotti, prefecto del Dicasterio para las Iglesias Orientales, para todas…"
   },
   {
    "src": "diocesis",
