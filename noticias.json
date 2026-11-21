@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-20T22:20:42.784Z",
+ "actualizado": "2026-11-21T07:40:00.884Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,36 @@
   }
  },
  "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "A 100 años de la Cristiada, obispos de México llaman a honrar a los mártires construyendo la paz",
+   "u": "https://www.ewtnnews.com/es/mundo/america/cristiada-obispos-mexico-martires-paz",
+   "d": "2026-11-21T02:33:24.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/ORG_DSC09996_1_ulrkky.jpg",
+   "r": "En una carta pastoral por el centenario de la resistencia cristera, los obispos mexicanos llaman a la reconciliación y proponen compromisos frente a la…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "“Con María, todos discípulos misioneros”: nuevo Arzobispo de Puebla, México, marca su rumbo pastoral",
+   "u": "https://www.ewtnnews.com/es/mundo/america/arzobispo-puebla-rumbo-pastoral-misioneros",
+   "d": "2026-11-20T23:47:26.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Patron-Wong-3_cuo0my.jpg",
+   "r": "Mons. Jorge Carlos Patrón Wong presentó las prioridades de su ministerio como Arzobispo de Puebla, con un llamado a fortalecer una Iglesia cercana, unida y…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Eduardo Verástegui espera su película que Zero A.D. sea “un retiro espiritual de dos horas”",
+   "u": "https://www.ewtnnews.com/es/mundo/america/verastegui-zero-ad-nino-jesus",
+   "d": "2026-11-20T22:52:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/BHM_KEY_Angel_Payoff_1Sht_2000x3000_F5_ip4zxm.jpg",
+   "r": "La nueva película Zero A.D. El Nacimiento de Cristo llega a las salas de cine el próximo 11 de diciembre."
+  },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
@@ -85,7 +115,7 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "Los Dehonianos desarrollan en Chile una Escuela de Líderes con el foco en \"custodiar lo humano\"",
+   "t": "Dehonianos crean en Chile una escuela para formar líderes que custodien lo humano",
    "u": "https://www.ewtnnews.com/es/mundo/dehonianos-chile-escuela-lideres-humano",
    "d": "2026-11-20T19:16:00.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2670758787_ecxhqo.jpg",
@@ -95,7 +125,7 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "\"Los sueños no soñados\", un libro para transitar el duelo de la mano de Dios",
+   "t": "Santiago Roldán narra en un libro cómo la fe lo sostuvo tras perder a su hermano y a un amigo",
    "u": "https://www.ewtnnews.com/es/mundo/america/suenos-sonados-libro-duelo-dios",
    "d": "2026-11-20T18:40:00.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Los-Sue%C3%B1os-No-So%C3%B1ados-20112026_ivss0b.png",
@@ -105,21 +135,11 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "León XIV a organizaciones benéficas de Tierra Santa: ayuden a los cristianos a quedarse en su tierra",
+   "t": "El Papa León XIV pide ayudar a los cristianos de Oriente Medio a permanecer en sus tierras",
    "u": "https://www.ewtnnews.com/es/vaticano/leon-xiv-cristianos-tierra-santa",
    "d": "2026-11-20T18:05:00.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/TOM_2167_uwa2f9.jpg",
    "r": "El Pontífice sostuvo una audiencia privada con una delegación de la Asociación Católica de Bienestar del Cercano Oriente."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Fundador de la Comunidad Shalom: “Los jóvenes tienen sed de Dios”",
-   "u": "https://www.ewtnnews.com/es/vaticano/fundador-shalom-jovenes-sed-dios",
-   "d": "2026-11-20T17:31:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/887_5315.MXF.00_05_20_14.Still001_cisqqc.png",
-   "r": "El fundador de la Comunidad Shalom, Moysés Louro de Azevedo Filho, aseguró que el Papa ha escogido a los jóvenes como una \"prioridad\" de su pontificado."
   },
   {
    "src": "vatican",
@@ -152,16 +172,6 @@
    "r": "El observador permanente de la Santa Sede ante la FAO, el FIDA y el PMA -monseñor Fernando Chica Arellano- interviene en Roma, en la sede de la Organización…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "La UEFA sanciona Inglaterra por cantos anticatólicos en el partido contra España",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/uefa-sanciona-inglaterra-cantos-anticatolicos",
-   "d": "2026-11-20T16:40:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Futbol_Inglaterra_sriszi.jpg",
-   "r": "La UEFA sancionó a la selección de Inglaterra con 15.000 euros de multa y la prohibición de venta de entradas como visitante por cantos anticatólicos durante…"
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -190,16 +200,6 @@
    "d": "2026-11-20T15:21:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/07/11/16/1783780888824.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "El patriarca latino de Jerusalén destaca el valor de la peregrinación del cardenal Gugerotti, prefecto del Dicasterio para las Iglesias Orientales, para todas…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Cardenal Cabrera: El Papa está preocupado por la violencia generalizada en Ecuador",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-preocupacion-violencia-ecuador-obispos",
-   "d": "2026-11-20T15:15:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-20_at_14.41.19_2_osmwwf.jpg",
-   "r": "El purpurado, que participó junto con otros 35 obispos ecuatorianos en la visita al Vaticano, insistió en que la inseguridad que afecta al país tiene raíces…"
   },
   {
    "src": "vatican",
