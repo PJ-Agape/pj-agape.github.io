@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-21T07:40:00.884Z",
+ "actualizado": "2026-11-21T16:56:24.732Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -25,6 +25,126 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
+   "t": "El Papa León XIV nombra al nuevo teólogo de la Casa Pontificia",
+   "u": "https://www.ewtnnews.com/es/vaticano/serge-thomas-bonino-nuevo-teologo-casa-pontificia",
+   "d": "2026-11-21T16:24:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/20200929150940_3b3721da489d560d65b4196ad97c25225d428292e556526c750492cc17b018ce-1920x0-c-default_1795260725_gqusgx.webp",
+   "r": "El cargo de teólogo de la Casa Pontificia es una función dentro de la Curia Romana, reservada tradicionalmente a un miembro de la Orden de Predicadores."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa León aprueba el martirio de 55 españoles y declara venerable a una adolescente italiana",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-martirio-espanoles-adolescente",
+   "d": "2026-11-21T16:05:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Plaza_San_Pedro_18102026_Vatican_Media_xxudn6.jpg",
+   "r": "La autorización del Santo Padre ocurrió durante una audiencia concedida este sábado en el Vaticano al Cardenal Marcello Semeraro, prefecto del Dicasterio para…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Santuario de Monserrate de Bogotá se ilumina de rojo por los cristianos que son perseguidos",
+   "u": "https://www.ewtnnews.com/es/mundo/america/santuario-de-monserrate-de-bogota-se-ilumina-de-rojo-redweek",
+   "d": "2026-11-21T15:30:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Santuario-Monserrate-Bogota_Alexandra-Ruiz-ACN-Colombia_211126_s7wgrs.jpg",
+   "r": "La iluminación comenzó el miércoles 18 y permanecerá hasta el domingo 22, cuando termine a nivel mundial la campaña Red Week de Ayuda a la Iglesia Necesitada."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Ohio limitará el aborto mediante regulaciones de seguridad y períodos de espera",
+   "u": "https://www.ewtnnews.com/es/vida-y-familia/noticias-aborto-mundo",
+   "d": "2026-11-21T14:49:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/images/Ohio%20capitol%20Leonid%20Andronov%20Shutterstock.png",
+   "r": "A continuación, un resumen de noticias recientes sobre la vida y el aborto."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "En la mesa con el Papa, no solo en el Vaticano",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/almuerzo-pobres-limosneria-papa-leon-xiv-comedores-roma.html",
+   "d": "2026-11-21T14:38:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2025/11/16/2025-11-16-pranzo-con-i-poveri/1763296043485.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "León XIV almorzará con 1.300 pobres este domingo 22 de noviembre en el Aula Pablo VI, con ocasión de la décima Jornada Mundial de los Pobres. Simultáneamente,…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa nombra a Bonino teólogo de la Casa Pontificia. Otros nuevos nombramientos",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-nombra-serge-thomas-bonino-teologo-casa-pontificia.html",
+   "d": "2026-11-21T13:26:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/21/rev-do-serge-thomas-bonino-o-p-presidente-della-pontificia-accademia-di-san-tommaso-d-aqui.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El dominico francés Serge-Thomas Bonino, hasta ahora presidente de la Pontificia Academia de Santo Tomás de Aquino, ha sido nombrado teólogo de la Casa…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa a los jóvenes: La cultura del poder y de la guerra envenena cada encuentro",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-encuentro-jovenes.html",
+   "d": "2026-11-21T12:44:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/21/2026-11-21-giovani-delle-diocesi-del-lazio/1795263173803.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "León XIV se encontró con los jóvenes de las diócesis del Lacio en el Aula Pablo VI. Les recordó que “la santidad no es una ‘performance’ que nos estresa, ni…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa: Si la tecnología no se rige por la ética, los riesgos son enormes",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-international-space-forum.html",
+   "d": "2026-11-21T12:33:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/21/2026-11-21-delegazione-della-federazione-astronautica-internazio/1795257472545.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "“Las investigaciones y las misiones espaciales han sido, y, gracias a Dios, siguen siendo, ocasiones de encuentro, estimación recíproca y colaboración entre…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Hoy se celebra a Nuestra Señora de la Presentación del Quinche",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-21-de-noviembre-se-celebra-a-nuestra-senora-de-la-presentacion-del-quinche",
+   "d": "2026-11-21T12:23:51.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/NuestraSenoraDelQuinche_cjzv5m.jpg",
+   "r": "La fiesta de la Virgen del Quinche, Patrona del Ecuador, se celebra el 21 de noviembre y sus devotos la llaman cariñosamente “la Pequeñita”. Algunas…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Hoy se celebra la Presentación de la Bienaventurada Virgen María en el Templo",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-21-de-noviembre-se-celebra-la-presentacion-de-la-bienaventurada-virgen-maria-en-el-templo",
+   "d": "2026-11-21T12:19:17.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PresentacionDeLaVirgenMaria_teqefn.jpg",
+   "r": "Cada 21 de noviembre la Iglesia celebra la memoria de la Presentación de la Santísima Virgen María. En esta fecha se recuerda el episodio, recogido por la…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "En la Iglesia, una nueva santa y 56 beatos: venerable una adolescente de catorce años",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/iglesia-santa-56-beatos-venerable-una-adolescente-14-anos.html",
+   "d": "2026-11-21T11:27:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/ottobre/19/rome-st-pietro-2.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Serán elevadas a los honores de los altares dos religiosas: sor Sidonia, que vivió durante los años del régimen comunista en la entonces Checoslovaquia, que…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa: La música, como la paz, es un don para compartir y transformar los corazones",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-musica-paz-compartir-filarmonica-viena.html",
+   "d": "2026-11-21T11:22:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/21/2026-11-21-membri-dei--wiener-philharmoniker-/1795258370069.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Durante la audiencia a los miembros de la Filarmónica de Viena, León XIV subrayó que “en una época caracterizada por guerras y conflictos, por la desconfianza…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
    "t": "A 100 años de la Cristiada, obispos de México llaman a honrar a los mártires construyendo la paz",
    "u": "https://www.ewtnnews.com/es/mundo/america/cristiada-obispos-mexico-martires-paz",
    "d": "2026-11-21T02:33:24.000Z",
@@ -45,7 +165,7 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "Eduardo Verástegui espera su película que Zero A.D. sea “un retiro espiritual de dos horas”",
+   "t": "Eduardo Verástegui espera que su película Zero A.D. sea “un retiro espiritual de dos horas”",
    "u": "https://www.ewtnnews.com/es/mundo/america/verastegui-zero-ad-nino-jesus",
    "d": "2026-11-20T22:52:00.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/BHM_KEY_Angel_Payoff_1Sht_2000x3000_F5_ip4zxm.jpg",
@@ -80,66 +200,6 @@
    "d": "2026-11-20T20:09:46.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/cristoreylaica-241125-1763988000",
    "r": "Marthe de Noaillat, llamada por su biógrafo “la Apóstol de Cristo Rey”, tuvo una misión singular en la vida que ella creía haber recibido: promover la realeza…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Por qué el Papa Pío XI instauró la Solemnidad de Cristo Rey en el turbulento año 1925",
-   "u": "https://www.ewtnnews.com/es/mundo/por-que-el-papa-pio-xi-instauro-la-solemnidad-de-cristo-rey-en-el-turbulento-ano-1925",
-   "d": "2026-11-20T20:06:10.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/capillacristorey-231125-1763907398",
-   "r": "La Solemnidad de Cristo Rey fue instituida por el Papa Pío XI en 1925 tras su encíclica Quas Primas. Hoy se celebra el último domingo antes del Adviento."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "7 datos relevantes sobre la Solemnidad de Cristo Rey",
-   "u": "https://www.ewtnnews.com/es/mundo/7-datos-que-te-interesaran-sobre-la-solemnidad-de-cristo-rey",
-   "d": "2026-11-20T20:02:57.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/cristo-rey-2024-191124",
-   "r": "7 datos relevantes sobre la Solemnidad de Cristo Rey"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "León XIV es nombrado Hermano Mayor Universal de las hermandades del Señor de los Milagros",
-   "u": "https://www.ewtnnews.com/es/mundo/america/leon-xiv-hermano-mayor-universal",
-   "d": "2026-11-20T19:44:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PapaLeonSe%C3%B1orMilagros_201126_qenfqn.jpg",
-   "r": "La Hermandad de las Nazarenas concedió al Pontífice su máxima distinción y lo incorporó como referente de las hermandades del Cristo Moreno en el mundo."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Dehonianos crean en Chile una escuela para formar líderes que custodien lo humano",
-   "u": "https://www.ewtnnews.com/es/mundo/dehonianos-chile-escuela-lideres-humano",
-   "d": "2026-11-20T19:16:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2670758787_ecxhqo.jpg",
-   "r": "La Provincia Dehoniana del Cono Sur de América desarrollará una Escuela de Líderes, una experiencia dedicada a jóvenes que tendrá lugar del 4 al 8 de enero de…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Santiago Roldán narra en un libro cómo la fe lo sostuvo tras perder a su hermano y a un amigo",
-   "u": "https://www.ewtnnews.com/es/mundo/america/suenos-sonados-libro-duelo-dios",
-   "d": "2026-11-20T18:40:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Los-Sue%C3%B1os-No-So%C3%B1ados-20112026_ivss0b.png",
-   "r": "El argentino Santiago Roldán presentó este miércoles su primer libro, \"Los sueños no soñados, del duelo al consuelo\", una obra que busca acompañar procesos de…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa León XIV pide ayudar a los cristianos de Oriente Medio a permanecer en sus tierras",
-   "u": "https://www.ewtnnews.com/es/vaticano/leon-xiv-cristianos-tierra-santa",
-   "d": "2026-11-20T18:05:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/TOM_2167_uwa2f9.jpg",
-   "r": "El Pontífice sostuvo una audiencia privada con una delegación de la Asociación Católica de Bienestar del Cercano Oriente."
   },
   {
    "src": "vatican",
@@ -200,66 +260,6 @@
    "d": "2026-11-20T15:21:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/07/11/16/1783780888824.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "El patriarca latino de Jerusalén destaca el valor de la peregrinación del cardenal Gugerotti, prefecto del Dicasterio para las Iglesias Orientales, para todas…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El árbol de Navidad ha llegado a la Plaza de San Pedro",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/arbol-navidad-instalacion-plaza-de-san-pedro-2026.html",
-   "d": "2026-11-20T14:49:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/20/2026-11-20-arrivo-albero-di-natale-piazza-san-pietro/1795164169768.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Este viernes 20 de noviembre han comenzado los trabajos de montaje del gran abeto procedente del bosque de Cugno dell’Acero, en el Parque Nacional del…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Vaticano pide reforzar la lucha contra las drogas",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/cruz-serrano-comision-interamericana-control-drogas.html",
-   "d": "2026-11-20T14:14:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2024/06/29/03/1719625384573.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La Santa Sede aboga ante la OEA por una respuesta integral al problema de las drogas, basada en la justicia, la prevención, la rehabilitación y la cooperación…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "¿Y si casarse fuera una revolución?",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/estudio-9-y-si-casarse-fuera-una-revolucion-matrimonio-cristo.html",
-   "d": "2026-11-20T14:08:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/20/bonilla.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En una sociedad que parece tener miedo al compromiso, Javier Kovacs y Larissa Mota defienden el «para toda la vida» como una aventura que solo se entiende…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Santa Sede: Ningún algoritmo puede hacer que la guerra sea moralmente aceptable",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/santa-sede-posicion-papel-armas-convencionales.html",
-   "d": "2026-11-20T11:42:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/16/10/1794822910060.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En un documento de posición presentado en la Séptima Conferencia de Revisión de la Convención sobre Ciertas Armas Convencionales, celebrada en Ginebra, la…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Czerny: El deseo detrás de la gobernanza de la IA determina su futuro",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/czerny-el-deseo-detras-de-la-gobernanza-de-la-ia.html",
-   "d": "2026-11-20T09:54:56.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/maggio/21/IMG-20260520-WA0015.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Este jueves inició el V Fórum Europeo de Inteligencia Artificial que contó con la participación del cardenal Michael Czerny, presidente de la Comisión…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "León XIV: es fundamental apoyar a los cristianos de Oriente, no están solos",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-es-fundamental-apoyar-a-los-cristianos-de-oriente.html",
-   "d": "2026-11-20T09:23:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/20/2026-11-20-delegazione-del-cnewa-catholic-near-east-welfare-asso/1795166554484.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En la audiencia concedida a la Catholic Near East Welfare Association, fundada hace cien años por Pío XI, el Papa expresa su solidaridad con las comunidades…"
   },
   {
    "src": "diocesis",
