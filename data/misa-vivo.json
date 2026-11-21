@@ -3,17 +3,21 @@
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
  "via": "rss",
  "vistos": [
+  "Santa Misa de Hoy | Presentación de la Santísima Virgen María (21-11-2026) | Pbro. Santiago Martín",
+  "\"Ofrécete a Dios, tal y como eres. Imita a María\" | Homilía, Presentación de la Virgen | P. Santiago",
   "León: ¿el Papa Conservador y Valiente que necesita la Iglesia para frenar el avance del progresismo?",
   "Santa Misa de Hoy | Viernes, XXXIII Semana del Tiempo Ordinario (20-11-2026) | Pbro. Santiago Martín",
   "\"No Negocies con Dios, Agradece\" | Homilía, Viernes XXXIII Semana del T.O | P. Santiago M",
   "Homilía│ Jueves, XXXIII semana del Tiempo Ordinario 19.11.2026│ Pbro. Javier Martín FM│",
   "La Santa Misa de Hoy | Jueves, XXXIII Semana del T.O (19-11-2026) | P. Javier Martín, FM",
-  "\"Dios Quiere que te Salves, Escucha su Voz\" | Homilía, Jueves, XXXIII Semana del T.O | P. Santiago M",
-  "León XIV: Cristo en el centro, \"La Iglesia no nos pertenece\" y el rostro humano de un Papa, NOTICIAS",
-  "Santa Misa de Hoy |Miércoles, XXXIII Semana del T. Ordinario (18-11-2026) |Pbro. Santiago Martín, FM"
+  "\"Dios Quiere que te Salves, Escucha su Voz\" | Homilía, Jueves, XXXIII Semana del T.O | P. Santiago M"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-11-21": {
+   "id": "YcVr5n_taUQ",
+   "title": "Santa Misa de Hoy | Presentación de la Santísima Virgen María (21-11-2026) | Pbro. Santiago Martín"
+  },
   "2026-11-20": {
    "id": "z50etPTVgOQ",
    "title": "Santa Misa de Hoy | Viernes, XXXIII Semana del Tiempo Ordinario (20-11-2026) | Pbro. Santiago Martín"
@@ -53,10 +57,6 @@
   "2026-11-11": {
    "id": "3fyyAb1tox8",
    "title": "Santa Misa de Hoy | Memoria, San Martín de Tours, Obispo (11-11-2026) | Pbro. Santiago Martín, FM"
-  },
-  "2026-11-10": {
-   "id": "N6aFi-foC0c",
-   "title": "La Santa Misa de Hoy | Memorial de San León Magno (10-11-2026) | Pbro. Javier Martín, FM"
   }
  }
 }

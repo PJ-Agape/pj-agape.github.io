@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-19": {
-   "titulo": "Jueves de la 33.ª semana del Tiempo Ordinario",
-   "cita": "Lc 19,41-44",
-   "frase": "Al ver la ciudad, Jesús lloró por ella.",
-   "reflexion": "MLVUtCp7fHw",
-   "video": "qqWAwtc9xkU"
-  },
   "2026-11-20": {
    "titulo": "Viernes de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 19,45-48",
@@ -60,6 +53,11 @@
    "titulo": "1er domingo de Adviento",
    "cita": "Mc 13,33-37",
    "frase": "Estén prevenidos, permanezcan despiertos."
+  },
+  "2026-11-30": {
+   "titulo": "San Andrés, apóstol",
+   "cita": "Mt 4,18-22",
+   "frase": "Síganme, y yo los haré pescadores de hombres."
   }
  }
 }
