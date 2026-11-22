@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-21T23:34:19.435Z",
+ "actualizado": "2026-11-22T17:21:58.466Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,96 @@
   }
  },
  "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV almuerza con 1.300 pobres en el Vaticano",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-almuerzo-pobres",
+   "d": "2026-11-22T16:13:13.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/_TOM2755-1_w7ejen.jpg",
+   "r": "El Pontífice recibió a huéspedes de más de 20 organizaciones benéficas para una comida en la que se conmemoró el Día Mundial de los Pobres, y les dijo: \"Hoy…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa alienta a los jóvenes a “ser mansos y humildes como Cristo”",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-jovenes-mansos-humildes-cristo",
+   "d": "2026-11-22T14:17:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_TEO7563_qaufnc.jpg",
+   "r": "León XIV recordó a los jóvenes que la victoria de Cristo es la “de un Rey humilde que se identifica con los más desfavorecidos”."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa en el almuerzo con los pobres: «Hoy todos somos familia»",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-en-el-almuerzo-con-los-pobres-hoy-todos-somos-familia.html",
+   "d": "2026-11-22T13:38:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/22/2026-11-22-pranzo-con-i-poveri-/1795350761020.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "León XIV llega al Aula Pablo VI después de la oración del Ángelus en la plaza de San Pedro. Lo esperan para el almuerzo, como es tradición en la Jornada…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV recuerda que Cristo Rey no es un déspota ni un tirano, sino “Maestro en humanidad”",
+   "u": "https://www.ewtnnews.com/es/vaticano/leon-xiv-cristo-rey-humanidad",
+   "d": "2026-11-22T13:25:46.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_TEO7453_gbhgtq.jpg",
+   "r": "En la Solemnidad de Cristo Rey, el Papa León XIV aseguró que “el Rey del universo se pone del lado de los últimos, de los oprimidos, para rescatarlos de todo…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa: Cercanía a las poblaciones del Pacífico afectadas por la sequía. Oraciones por la paz",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-expresa-cercania-poblaciones-pacifico-afectadas-guerras.html",
+   "d": "2026-11-22T11:42:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/marzo/21/WhatsApp-Image-2026-03-18-at-22.16.09aem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Tras el rezo del Ángelus, el Pontífice manifestó su preocupación por las poblaciones de Papúa Nueva Guinea y otros países del Pacífico golpeados por la…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "¡Feliz Solemnidad de Jesucristo, Rey del Universo!",
+   "u": "https://www.ewtnnews.com/es/mundo/solemnidad-cristo-rey",
+   "d": "2026-11-22T11:30:32.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/CristoRey26_ssfhzo.jpg",
+   "r": "Hoy, domingo XXXIV del Tiempo Ordinario, la Iglesia Católica celebra la “Solemnidad de Cristo Rey” o “Solemnidad de Jesucristo, Rey del Universo”. Dice el…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa a los jóvenes: «Tengan el valor de ser mansos y humildes como Cristo»",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-jovenes-tengan-el-valor-de-ser-mansos-y-humildes.html",
+   "d": "2026-11-22T11:15:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2023/08/06/20230806-MESSA-GMG-PARQUE-TEJO.10_39_26_17.Immagine002.png/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.png",
+   "r": "En el saludo posterior al Ángelus, el Pontífice recuerda la Jornada Mundial de la Juventud, que se celebra en las Iglesias particulares de todo el mundo, y…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "León XIV: «Cristo es el criterio de la justicia y se pone del lado de los últimos»",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-cristo-criterio-justicia-de-lado-ultimos-oprimidos.html",
+   "d": "2026-11-22T11:09:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2020/09/09/2020.09.09-Vangelo-del-giorno-poverta.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En el Ángelus de este domingo, 22 de noviembre de 2026, solemnidad de Jesucristo, Rey del Universo, el Pontífice recuerda que la verdadera justicia nace de la…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "León XIV en Argentina, un tiempo de gracia que aún resuena",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/leon-xiv-en-argentina-un-tiempo-de-gracia-que-aun-resuena.html",
+   "d": "2026-11-22T10:30:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/11/2026-11-11-viaggio-apostolico-in-argentina---saluto-ai-volontari/1794414305917.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Leer todo"
+  },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
@@ -112,26 +202,6 @@
    "r": "La autorización del Santo Padre ocurrió durante una audiencia concedida este sábado en el Vaticano al Cardenal Marcello Semeraro, prefecto del Dicasterio para…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Santuario de Monserrate de Bogotá se ilumina de rojo por los cristianos que son perseguidos",
-   "u": "https://www.ewtnnews.com/es/mundo/america/santuario-de-monserrate-de-bogota-se-ilumina-de-rojo-redweek",
-   "d": "2026-11-21T15:30:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Santuario-Monserrate-Bogota_Alexandra-Ruiz-ACN-Colombia_211126_s7wgrs.jpg",
-   "r": "La iluminación comenzó el miércoles 18 y permanecerá hasta el domingo 22, cuando termine a nivel mundial la campaña Red Week de Ayuda a la Iglesia Necesitada."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Ohio limitará el aborto mediante regulaciones de seguridad y períodos de espera",
-   "u": "https://www.ewtnnews.com/es/vida-y-familia/noticias-aborto-mundo",
-   "d": "2026-11-21T14:49:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/images/Ohio%20capitol%20Leonid%20Andronov%20Shutterstock.png",
-   "r": "A continuación, un resumen de noticias recientes sobre la vida y el aborto."
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -172,26 +242,6 @@
    "r": "“Las investigaciones y las misiones espaciales han sido, y, gracias a Dios, siguen siendo, ocasiones de encuentro, estimación recíproca y colaboración entre…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Hoy se celebra a Nuestra Señora de la Presentación del Quinche",
-   "u": "https://www.ewtnnews.com/es/mundo/cada-21-de-noviembre-se-celebra-a-nuestra-senora-de-la-presentacion-del-quinche",
-   "d": "2026-11-21T12:23:51.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/NuestraSenoraDelQuinche_cjzv5m.jpg",
-   "r": "La fiesta de la Virgen del Quinche, Patrona del Ecuador, se celebra el 21 de noviembre y sus devotos la llaman cariñosamente “la Pequeñita”. Algunas…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Hoy se celebra la Presentación de la Bienaventurada Virgen María en el Templo",
-   "u": "https://www.ewtnnews.com/es/mundo/cada-21-de-noviembre-se-celebra-la-presentacion-de-la-bienaventurada-virgen-maria-en-el-templo",
-   "d": "2026-11-21T12:19:17.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PresentacionDeLaVirgenMaria_teqefn.jpg",
-   "r": "Cada 21 de noviembre la Iglesia celebra la memoria de la Presentación de la Santísima Virgen María. En esta fecha se recuerda el episodio, recogido por la…"
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -210,56 +260,6 @@
    "d": "2026-11-21T11:22:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/21/2026-11-21-membri-dei--wiener-philharmoniker-/1795258370069.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "Durante la audiencia a los miembros de la Filarmónica de Viena, León XIV subrayó que “en una época caracterizada por guerras y conflictos, por la desconfianza…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Dispensario Pediátrico se embellece con arte para regalar una sonrisa a los niños",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/dispensario-pediatrico-limosneria-apostolica-arte.html",
-   "d": "2026-11-20T17:20:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/20/mostra1.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Inaugurado y bendecido esta mañana, 20 de noviembre, por el prefecto del Dicasterio para el Servicio de la Caridad, el conjunto de dibujos realizados en las…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "ACNUR, parte la Global Initiative on Protection at Sea 2.0",
-   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/acnur-parte-la-global-initiative-on-protection-at-sea-2-0.html",
-   "d": "2026-11-20T16:45:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2024/ottobre/14/15.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El Alto Comisionado de las Naciones Unidas para los Refugiados ha puesto en marcha un marco de acción mundial para salvar vidas y reforzar la protección de…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Día de la Pesca: dar dignidad al trabajo de las mujeres y los jóvenes",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/dia-de-la-pesca-chica-arellano-dar-dignidad-al-trabajo-mujeres.html",
-   "d": "2026-11-20T16:40:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/20/giornata-mondiale-della-pesca-1.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El observador permanente de la Santa Sede ante la FAO, el FIDA y el PMA -monseñor Fernando Chica Arellano- interviene en Roma, en la sede de la Organización…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Papa León XIV exhorta a los obispos ecuatorianos a ser portadores de esperanza",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-exhorta-a-los-obispos-ecuatorianos.html",
-   "d": "2026-11-20T15:59:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/20/2026-11-20-vescovi-di-ecuador-in-visita-ad-limina/1795168361705.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Una intensa jornada es la que llevaron a cabo los obispos ecuatorianos durante su visita ad limina Apostolorum, que se desarrolló del 16 al 20 de noviembre y…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Cardenal Martínez: \"Sin justicia no habrá verdadera paz\" en Paraguay",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/adalberto-martinez-paraguay-iglesia-catolica-situacion-pais.html",
-   "d": "2026-11-20T15:38:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/16/15/1794840602010.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El arzobispo de Asunción analiza la crisis institucional y financiera que atraviesa el país y pide esclarecer los hechos, recuperar la confianza ciudadana y…"
   },
   {
    "src": "diocesis",
@@ -350,16 +350,6 @@
    "d": "2026-10-26T14:32:48.000Z",
    "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/10/Encuentro-de-adultos-mayores-00000008-150x150.jpg",
    "r": "La Pastoral Social de la Diócesis San Bartolomé de Chillán realizó el primer encuentro de la Pastoral del Adulto Mayor, con el objetivo de reactivar este…"
-  },
-  {
-   "src": "diocesis",
-   "fuente": "Diócesis de Chillán",
-   "sec": "diocesis",
-   "t": "San Bartolomé de Chillán expresa sus condolencias a las Hermanas Hospitalarias por el fallecimiento de la Hna. Asunción Margarita",
-   "u": "https://diocesisdechillan.cl/san-bartolome-de-chillan-expresa-sus-condolencias-a-las-hermanas-hospitalarias-por-el-fallecimiento-de-la-hna-asuncion-margarita/",
-   "d": "2026-10-23T14:24:09.000Z",
-   "img": "",
-   "r": "Con profunda esperanza en la promesa de la vida eterna, la comunidad eclesial de la Diócesis de San Bartolomé de Chillán, a través de nuestro Obispo Mons.…"
   }
  ]
 }
