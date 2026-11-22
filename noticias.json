@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-22T17:21:58.466Z",
+ "actualizado": "2026-11-22T23:47:18.556Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,26 @@
   }
  },
  "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Cada 23 de noviembre se celebra al Papa San Clemente I, impulsor de la paz y la concordia",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-23-de-noviembre-se-celebra-al-papa-san-clemente-i-impulsor-de-la-paz-y-la-concordia",
+   "d": "2026-11-22T23:24:26.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/ClementeI_23Noviembre",
+   "r": "Cada 23 de noviembre la Iglesia celebra la fiesta de San Clemente I Papa, cuarto Papa y tercer sucesor de Pedro; además se le considera el primer Padre…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "De la Misa dominical a la comedia: Catholic Laughter construye comunidad a través del humor",
+   "u": "https://www.ewtnnews.com/es/mundo/america/catholic-laughter-comedia-comunidad-humor",
+   "d": "2026-11-22T20:28:19.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/catholiclaughterfeatured_dgse5p.png",
+   "r": "Catholic Laughter lleva comedia limpia a parroquias de todo el país, utilizando el humor para fortalecer la comunión, apoyar obras de caridad y crear…"
+  },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
@@ -98,7 +118,7 @@
    "t": "León XIV: «Cristo es el criterio de la justicia y se pone del lado de los últimos»",
    "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-cristo-criterio-justicia-de-lado-ultimos-oprimidos.html",
    "d": "2026-11-22T11:09:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2020/09/09/2020.09.09-Vangelo-del-giorno-poverta.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/22/2026-11-22-angelus/1795346272150.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "En el Ángelus de este domingo, 22 de noviembre de 2026, solemnidad de Jesucristo, Rey del Universo, el Pontífice recuerda que la verdadera justicia nace de la…"
   },
   {
@@ -110,6 +130,16 @@
    "d": "2026-11-22T10:30:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/11/2026-11-11-viaggio-apostolico-in-argentina---saluto-ai-volontari/1794414305917.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "Leer todo"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "¿Cuándo te vimos necesitado y te hemos servido?",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/cuando-te-vimos-necesitado-y-te-hemos-servido.html",
+   "d": "2026-11-22T07:00:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2020/09/05/mani-solidarieta.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "“Jesús dijo a sus discípulos: ‘Cuando venga el Hijo del hombre, rodeado de su gloria, acompañado de todos sus ángeles, se sentará en su trono de gloria’”…"
   },
   {
    "src": "aci",
@@ -172,16 +202,6 @@
    "r": "El Pontífice recibió este sábado a los participantes en el International Space Forum 2026, que se llevará a cabo el lunes 23 en el Vaticano."
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa León XIV nombra al nuevo teólogo de la Casa Pontificia",
-   "u": "https://www.ewtnnews.com/es/vaticano/serge-thomas-bonino-nuevo-teologo-casa-pontificia",
-   "d": "2026-11-21T16:24:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/20200929150940_3b3721da489d560d65b4196ad97c25225d428292e556526c750492cc17b018ce-1920x0-c-default_1795260725_gqusgx.webp",
-   "r": "El cargo de teólogo de la Casa Pontificia es una función dentro de la Curia Romana, reservada tradicionalmente a un miembro de la Orden de Predicadores."
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -190,16 +210,6 @@
    "d": "2026-11-21T16:20:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/reuters/2024/07/04/15/1720099683873.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "La Conferencia Episcopal Española ha concluido los trabajos de su asamblea plenaria dirigiendo un llamamiento al electorado de cara a las elecciones del…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa León aprueba el martirio de 55 españoles y declara venerable a una adolescente italiana",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-martirio-espanoles-adolescente",
-   "d": "2026-11-21T16:05:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Plaza_San_Pedro_18102026_Vatican_Media_xxudn6.jpg",
-   "r": "La autorización del Santo Padre ocurrió durante una audiencia concedida este sábado en el Vaticano al Cardenal Marcello Semeraro, prefecto del Dicasterio para…"
   },
   {
    "src": "vatican",
@@ -250,16 +260,6 @@
    "d": "2026-11-21T11:27:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/21/sr-zdenka-schelingova-scsc.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "Serán elevadas a los honores de los altares dos religiosas: sor Sidonia, que vivió durante los años del régimen comunista en la entonces Checoslovaquia, que…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa: La música, como la paz, es un don para compartir y transformar los corazones",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-musica-paz-compartir-filarmonica-viena.html",
-   "d": "2026-11-21T11:22:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/21/2026-11-21-membri-dei--wiener-philharmoniker-/1795258370069.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Durante la audiencia a los miembros de la Filarmónica de Viena, León XIV subrayó que “en una época caracterizada por guerras y conflictos, por la desconfianza…"
   },
   {
    "src": "diocesis",
