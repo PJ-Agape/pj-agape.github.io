@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-20": {
-   "titulo": "Viernes de la 33.ª semana del Tiempo Ordinario",
-   "cita": "Lc 19,45-48",
-   "frase": "Mi casa será casa de oración.",
-   "reflexion": "2IFISDv0dP0",
-   "video": "uHomzEasKJo"
-  },
   "2026-11-21": {
    "titulo": "Sábado de la 33.ª semana del Tiempo Ordinario",
    "cita": "Lc 20,27-40",
@@ -60,6 +53,11 @@
    "titulo": "San Andrés, apóstol",
    "cita": "Mt 4,18-22",
    "frase": "Síganme, y yo los haré pescadores de hombres."
+  },
+  "2026-12-01": {
+   "titulo": "Martes de la 1.ª semana de Adviento",
+   "cita": "Lc 10,21-24",
+   "frase": "¡Felices los ojos que ven lo que ustedes ven!"
   }
  }
 }
