@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-22T23:47:18.556Z",
+ "actualizado": "2026-11-23T08:08:37.356Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,16 @@
   }
  },
  "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "La Arquidiócesis de México defiende “el derecho a vivir la fe sin miedo” a 100 años de la Cristiada",
+   "u": "https://www.ewtnnews.com/es/libertad-religiosa/arquidiocesis-mexico-defiende-fe-cristiada",
+   "d": "2026-11-22T23:40:06.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/rosario-david-ramos-aci-011023.webp",
+   "r": "“Cuando digamos ‘¡Viva Cristo Rey!’, recordemos que a otros mexicanos les costó incluso la vida pronunciar esas palabras”, alentó la Arquidiócesis de México…"
+  },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
@@ -85,7 +95,7 @@
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
-   "t": "El Papa: Cercanía a las poblaciones del Pacífico afectadas por la sequía. Oraciones por la paz",
+   "t": "El Papa: que los responsables encuentren pronto soluciones pacíficas a los conflictos",
    "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-expresa-cercania-poblaciones-pacifico-afectadas-guerras.html",
    "d": "2026-11-22T11:42:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/marzo/21/WhatsApp-Image-2026-03-18-at-22.16.09aem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
@@ -190,16 +200,6 @@
    "d": "2026-11-21T18:37:44.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/presentacion-virgen-maria-alessandro-allori-211124",
    "r": "Mientras que a la Presentación del Señor la encontramos en las Sagradas Escrituras, no es el caso de la Presentación de la Santísima Virgen María. Aquí…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "León XIV comparte el interés de preservar el espacio exterior de usos no pacíficos",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-espacio-exterior",
-   "d": "2026-11-21T18:14:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_SIM1507_db4xdg.jpg",
-   "r": "El Pontífice recibió este sábado a los participantes en el International Space Forum 2026, que se llevará a cabo el lunes 23 en el Vaticano."
   },
   {
    "src": "vatican",
