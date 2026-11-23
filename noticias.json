@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-23T08:08:37.356Z",
+ "actualizado": "2026-11-23T21:38:48.084Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -25,241 +25,261 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
+   "t": "Santa Rosa de Lima y el anillo de su desposorio místico con Jesús",
+   "u": "https://www.ewtnnews.com/es/mundo/america/santa-rosa-lima-desposorio-mistico",
+   "d": "2026-11-23T20:50:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Urna_Santa_Rosa_Abel_Camasca_23112026_jpj099.jpg",
+   "r": "La primera santa de América vivió una intensa experiencia mística en la que oyó la voz del Señor."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "México: Esas personas en tránsito que pasan por el albergue \"La 72\"",
+   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/mexico-migrates-que-pasan-por-el-albergue-franciscano-tenosique.html",
+   "d": "2026-11-23T18:35:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/23/la-72-centro-migranti-in-messico-1.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En Tenosique, municipio del estado de Tabasco, un centro acoge desde 2011 a migrantes en tránsito o que esperan protección internacional. Fray Daniel…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Diócesis de Chillán informa nuevos nombramientos en las Fundaciones Educacionales del Obispado",
+   "u": "https://diocesisdechillan.cl/diocesis-de-chillan-informa-nuevos-nombramientos-en-las-fundaciones-educacionales-del-obispado/",
+   "d": "2026-11-23T18:28:55.000Z",
+   "img": "",
+   "r": "La Vicaría para la Educación de la Diócesis de San Bartolomé de Chillán informó la renovación de los directorios de cinco Fundaciones Educacionales del…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Nunca es tarde: Diácono se ordena sacerdote a los 67 años después de trabajar como juez, abogado y profesor",
+   "u": "https://www.ewtnnews.com/es/mundo/america/diacono-sacerdote-67-juez-abogado",
+   "d": "2026-11-23T18:25:07.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Image_11-16-26_at_3.31_PM_wgmzd8.jpg",
+   "r": "Ernie Hart, exjuez y padre de tres hijos, será ordenado sacerdote a los 67 años, cumpliendo una vocación que sintió desde niño. Anima a los jóvenes a explorar…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Eritrea y el Consejo de la Iglesia Católica: Resolver los conflictos mediante el diálogo",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/eritrea-consejo-de-la-iglesia-catolica-resolver-los-conflitos.html",
+   "d": "2026-11-23T18:05:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/23/vescovi-eritrea.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En un momento de crecientes tensiones en el Cuerno de África, los obispos, en un comunicado fechado el 20 de noviembre, instaron a los líderes políticos…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Mons. Gallagher: el Vaticano considera al Líbano crucial para presencia cristiana en Medio Oriente",
+   "u": "https://www.ewtnnews.com/es/mundo/arzobispo-gallagher-libano",
+   "d": "2026-11-23T18:03:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2631801929_ln3jrc.jpg",
+   "r": "Los cristianos representan el 33,7% de la población, mientras que los musulmanes son el 60%. El resto de los libaneses se dividen entre agnósticos, ateos y…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV nombra a sacerdote venezolano nuevo Nuncio en Liberia y Sierra Leona",
+   "u": "https://www.ewtnnews.com/es/vaticano/leon-xiv-sacerdote-venezolano-nuncio",
+   "d": "2026-11-23T17:28:24.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Fernandez_Gonzalez_qyfubz.jpg",
+   "r": "El Papa nombró al sacerdote venezolano Javier Domingo Fernández González, hasta ahora Jefe de Protocolo de la Secretaría de Estado, nuevo Nuncio en Liberia y…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Oración a San Miguel al final de la Misa: ¿por qué los obispos dan indicaciones distintas?",
+   "u": "https://www.ewtnnews.com/es/mundo/america/oracion-san-miguel-autoridad-obispos",
+   "d": "2026-11-23T16:22:47.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/San_Miguel_Shutterzstock_23112026_yzoga0.webp",
+   "r": "Los obispos pueden exigir o impedir el rezo a San Miguel al concluir la Misa. Las diferencias entre diócesis reflejan su autoridad y una diversidad legítima…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Obispado de Chillán informa reestructuración de directorios de sus Fundaciones Educacionales",
+   "u": "https://diocesisdechillan.cl/obispado-de-chillan-informa-reestructuracion-de-directorios-de-sus-fundaciones-educacionales/",
+   "d": "2026-11-23T16:00:01.000Z",
+   "img": "",
+   "r": "El Obispado de Chillán informó la reestructuración de los directorios de sus Fundaciones Educacionales, decisión adoptada por Mons. Andrés Ferrada, obispo…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Pedalear con fe: Testimonio de los ciclistas tras su encuentro con el Papa",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/pedalear-con-fe-testimonio-de-los-ciclistas-tras-encuentro.html",
+   "d": "2026-11-23T15:38:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/23/pope-gives-bicycle-2026-11-23-1.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Sentir la presencia de Dios en medio de cualquier circunstancia es el testimonio que dejaron hoy los ciclistas a los medios vaticanos tras el encuentro…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Czerny: En la era de la IA, educar a los jóvenes sobre la verdad",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/czerny-en-la-era-de-la-ia-educar-a-los-jovenes-sobre-la-verdad.html",
+   "d": "2026-11-23T15:27:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/maggio/25/sergio.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El cardenal prefecto emérito del Dicasterio para el Servicio del Desarrollo Humano Integral intervino, hoy, en la jornada de estudio organizada por la…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Belén, donde cada niño salvado es un pequeño milagro",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/sisters-project-oriente-medio-belen-ninos-monjas-palestina.html",
+   "d": "2026-11-23T15:22:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/settembre/26/sp206-foto-copertina.png/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.png",
+   "r": "Recién nacidos abandonados en bolsas de plástico, niños encontrados en los contenedores de basura y madres obligadas a renunciar a los hijos recién nacidos…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Presentado al Papa el primer ejemplar del volumen fotográfico del Jubileo 2025",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/jubileo-2025-primer-ejemplar-volumen-fotografico-leon-xiv.html",
+   "d": "2026-11-23T15:11:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/23/santo-padre-foto-3.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El 21 de noviembre, el Arzobispo, Pro-Prefecto del Dicasterio para la Evangelización, presentó al Papa la publicación editada por LEV, que estará disponible a…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Fracasa la COP31. No hay acuerdo sobre los combustibles fósiles",
+   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/fracasa-la-cop31-no-hay-acuerdo-sobre-los-combustibles-fosiles.html",
+   "d": "2026-11-23T15:08:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/22/17/1795364570281.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La COP 31 en Turquía concluyó sin resultados concretos: el pulso entre Europa, Rusia y los países árabes productores de petróleo deja fuera del documento…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Semana de la Palabra, los obispos coreanos instan a vivir como hijos de la luz",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/semana-palabra-obispos-corea-vivir-como-hijos-de-la-luz.html",
+   "d": "2026-11-23T15:06:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/10/05/2026-10-05-sacerdoti-e-religiose-della-corea-residenti-in-roma/1791199199175.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El presidente de la Comisión Bíblica de la Conferencia Episcopal de Corea monseñor Han Jeong-hyeon, se remite a la encíclica Magnifica Humanitas y señala en…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Cáritas Ucrania: “La evacuación de Oleshky, un día profundamente humano”",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/caritas-ucrania-guerra-rusia-kiev-oleshky-papa-leon-vaticano.html",
+   "d": "2026-11-23T14:47:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/21/tetiana-stawnychy-presidente-della-caritas-ucraina-in-udienza-con-papa-leone-xiv.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Tetiana Stawnychy, presidente de Cáritas Ucrania, habló con los medios vaticanos de su encuentro con el Papa León XIV y de la evacuación de cientos de…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Gallagher: «Que el Líbano ocupe un lugar central en la agenda internacional»",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/gallagher-libano-lugar-central-agenda-internacional.html",
+   "d": "2026-11-23T14:39:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/21/2026-11-21-intervento-al-dialogo-mediterraneo.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El secretario para las Relaciones con los Estados y las Organizaciones Internacionales intervino en Nápoles en el evento MED Diálogos Mediterráneos. El…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Académico judío propone la doctrina social católica como guía frente a la apatía juvenil",
+   "u": "https://www.ewtnnews.com/es/mundo/america/universidad-catolica-estados-unidos-jovenes",
+   "d": "2026-11-23T13:59:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Image_68_ryehiv.jpg",
+   "r": "En la quinta conferencia anual sobre Pensamiento Político Católico de la Universidad Católica de América, Yuval Levin abordó el fenómeno de la apatía y la…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa León XIV recuerda a la Virgen de Ghisallo, patrona de los ciclistas",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-virgen-ghisallo-ciclistas",
+   "d": "2026-11-23T13:34:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_RIS9857_unvag1.jpg",
+   "r": "El Papa León XIV recordó a la Virgen de Ghisallo, patrona de los ciclistas, durante una audiencia este lunes en el Vaticano con representantes del ciclismo…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Obispos de EE.UU. preocupados por los migrantes y las familias separadas",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/estados-unidos-asamblea-plenaria-obispos-conclusion.html",
+   "d": "2026-11-23T12:54:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/reuters/2026/11/20/03/1795143459481.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Concluyó en Baltimore la Asamblea Plenaria de otoño de la Conferencia Episcopal estadounidense. Los prelados reiteraron la necesidad de proteger a los menores…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Una fuga de monóxido de carbono deja 56 heridos en una Misa dominical en Alemania",
+   "u": "https://www.ewtnnews.com/es/mundo/europa/fuga-monoxido-de-carbono-durante-misa-dominical-alemania",
+   "d": "2026-11-23T12:18:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Bad_Gr%C3%B6nenbach_Schlosskapelle_Altar_cxyj1c.jpg",
+   "r": "El apagado automático de un calefactor falló, según la policía. La Cruz Roja informó que 16 personas fueron hospitalizadas."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Diálogo interreligioso: del 24 al 26 de noviembre, la Asamblea Plenaria en Roma",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/dicastero-dialogo-interreligioso-asamblea-plenaria.html",
+   "d": "2026-11-23T12:09:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2025/giugno/20/Dicastero-Dialogo-Interreligioso-dipinto.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La decimoquinta Asamblea se desarrollará bajo la presidencia del cardenal prefecto, George Jacob Koovakad, y tendrá como tema \"La contribución del diálogo…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Cardenal Rouco: \"El sacramento del orden le marca a uno para la eternidad\"",
+   "u": "https://www.ewtnnews.com/es/mundo/espana/cardenal-rouco-sacramento-orden-eternidad",
+   "d": "2026-11-23T11:27:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Rouco___crop_yw2w3f.jpg",
+   "r": "A sus 90 años y 50 como obispo, el Cardenal Antonio María Rouco repasa en EWTN News Español su vocación, su labor en la Iglesia y las JMJ. Destaca la oración,…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Hoy conmemoramos al Beato Miguel Pro, mártir de la Guerra Cristera en México",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-23-de-noviembre-se-conmemora-al-beato-miguel-pro-martir-de-la-guerra-cristera-en-mexico",
+   "d": "2026-11-23T11:02:32.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/BeatoMiguelPro_mxbct8.jpg",
+   "r": "Cada 23 de noviembre la Iglesia Católica conmemora al Beato P. Miguel Agustín Pro Juárez, sacerdote jesuita, mártir de la Guerra Cristera (1926-1929)."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Una tradición que cruza fronteras: el retablo ayacuchano “de papa y yeso” que se regaló a León XIV",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-retablo-ayacuchano",
+   "d": "2026-11-23T10:40:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_RBK2632_1_qvkmwg.jpg",
+   "r": "Desde Ayacucho viajó hasta el Vaticano un retablo artesanal elaborado por la familia Ataucusi, quienes trabajaron durante meses con especial dedicación en…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
    "t": "La Arquidiócesis de México defiende “el derecho a vivir la fe sin miedo” a 100 años de la Cristiada",
    "u": "https://www.ewtnnews.com/es/libertad-religiosa/arquidiocesis-mexico-defiende-fe-cristiada",
    "d": "2026-11-22T23:40:06.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/rosario-david-ramos-aci-011023.webp",
    "r": "“Cuando digamos ‘¡Viva Cristo Rey!’, recordemos que a otros mexicanos les costó incluso la vida pronunciar esas palabras”, alentó la Arquidiócesis de México…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Cada 23 de noviembre se celebra al Papa San Clemente I, impulsor de la paz y la concordia",
-   "u": "https://www.ewtnnews.com/es/mundo/cada-23-de-noviembre-se-celebra-al-papa-san-clemente-i-impulsor-de-la-paz-y-la-concordia",
-   "d": "2026-11-22T23:24:26.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/ClementeI_23Noviembre",
-   "r": "Cada 23 de noviembre la Iglesia celebra la fiesta de San Clemente I Papa, cuarto Papa y tercer sucesor de Pedro; además se le considera el primer Padre…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "De la Misa dominical a la comedia: Catholic Laughter construye comunidad a través del humor",
-   "u": "https://www.ewtnnews.com/es/mundo/america/catholic-laughter-comedia-comunidad-humor",
-   "d": "2026-11-22T20:28:19.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/catholiclaughterfeatured_dgse5p.png",
-   "r": "Catholic Laughter lleva comedia limpia a parroquias de todo el país, utilizando el humor para fortalecer la comunión, apoyar obras de caridad y crear…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "León XIV almuerza con 1.300 pobres en el Vaticano",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-almuerzo-pobres",
-   "d": "2026-11-22T16:13:13.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/_TOM2755-1_w7ejen.jpg",
-   "r": "El Pontífice recibió a huéspedes de más de 20 organizaciones benéficas para una comida en la que se conmemoró el Día Mundial de los Pobres, y les dijo: \"Hoy…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa alienta a los jóvenes a “ser mansos y humildes como Cristo”",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-jovenes-mansos-humildes-cristo",
-   "d": "2026-11-22T14:17:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_TEO7563_qaufnc.jpg",
-   "r": "León XIV recordó a los jóvenes que la victoria de Cristo es la “de un Rey humilde que se identifica con los más desfavorecidos”."
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa en el almuerzo con los pobres: «Hoy todos somos familia»",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-en-el-almuerzo-con-los-pobres-hoy-todos-somos-familia.html",
-   "d": "2026-11-22T13:38:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/22/2026-11-22-pranzo-con-i-poveri-/1795350761020.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "León XIV llega al Aula Pablo VI después de la oración del Ángelus en la plaza de San Pedro. Lo esperan para el almuerzo, como es tradición en la Jornada…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "León XIV recuerda que Cristo Rey no es un déspota ni un tirano, sino “Maestro en humanidad”",
-   "u": "https://www.ewtnnews.com/es/vaticano/leon-xiv-cristo-rey-humanidad",
-   "d": "2026-11-22T13:25:46.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_TEO7453_gbhgtq.jpg",
-   "r": "En la Solemnidad de Cristo Rey, el Papa León XIV aseguró que “el Rey del universo se pone del lado de los últimos, de los oprimidos, para rescatarlos de todo…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa: que los responsables encuentren pronto soluciones pacíficas a los conflictos",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-expresa-cercania-poblaciones-pacifico-afectadas-guerras.html",
-   "d": "2026-11-22T11:42:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/marzo/21/WhatsApp-Image-2026-03-18-at-22.16.09aem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Tras el rezo del Ángelus, el Pontífice manifestó su preocupación por las poblaciones de Papúa Nueva Guinea y otros países del Pacífico golpeados por la…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "¡Feliz Solemnidad de Jesucristo, Rey del Universo!",
-   "u": "https://www.ewtnnews.com/es/mundo/solemnidad-cristo-rey",
-   "d": "2026-11-22T11:30:32.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/CristoRey26_ssfhzo.jpg",
-   "r": "Hoy, domingo XXXIV del Tiempo Ordinario, la Iglesia Católica celebra la “Solemnidad de Cristo Rey” o “Solemnidad de Jesucristo, Rey del Universo”. Dice el…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa a los jóvenes: «Tengan el valor de ser mansos y humildes como Cristo»",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-jovenes-tengan-el-valor-de-ser-mansos-y-humildes.html",
-   "d": "2026-11-22T11:15:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2023/08/06/20230806-MESSA-GMG-PARQUE-TEJO.10_39_26_17.Immagine002.png/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.png",
-   "r": "En el saludo posterior al Ángelus, el Pontífice recuerda la Jornada Mundial de la Juventud, que se celebra en las Iglesias particulares de todo el mundo, y…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "León XIV: «Cristo es el criterio de la justicia y se pone del lado de los últimos»",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-cristo-criterio-justicia-de-lado-ultimos-oprimidos.html",
-   "d": "2026-11-22T11:09:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/22/2026-11-22-angelus/1795346272150.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En el Ángelus de este domingo, 22 de noviembre de 2026, solemnidad de Jesucristo, Rey del Universo, el Pontífice recuerda que la verdadera justicia nace de la…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "León XIV en Argentina, un tiempo de gracia que aún resuena",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/leon-xiv-en-argentina-un-tiempo-de-gracia-que-aun-resuena.html",
-   "d": "2026-11-22T10:30:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/11/2026-11-11-viaggio-apostolico-in-argentina---saluto-ai-volontari/1794414305917.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Leer todo"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "¿Cuándo te vimos necesitado y te hemos servido?",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/cuando-te-vimos-necesitado-y-te-hemos-servido.html",
-   "d": "2026-11-22T07:00:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2020/09/05/mani-solidarieta.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "“Jesús dijo a sus discípulos: ‘Cuando venga el Hijo del hombre, rodeado de su gloria, acompañado de todos sus ángeles, se sentará en su trono de gloria’”…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El 21 de noviembre la Iglesia celebra la jornada Pro Orantibus, para orar por quienes oran ‌",
-   "u": "https://www.ewtnnews.com/es/mundo/jornada-pro-orantibus-vida-contemplativa",
-   "d": "2026-11-21T22:08:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2624537797_a4nk93.jpg",
-   "r": "Esta jornada fue instituida por Pío XII para que los católicos recen por los religiosos y religiosas que se dedican a la vida contemplativa."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa León habló sobre la música como “un reflejo de la belleza divina”",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-musica-belleza-divina",
-   "d": "2026-11-21T21:30:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Papa-Filarmonica-Viena_bobrls.jpg",
-   "r": "El Papa también remarcó la importancia de Viena como centro de la historia musical europea, remarcando el legado de Haydn, Mozart, Beethoven, Schubert y Brahms."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa León XIV respondió a 5 preguntas de los jóvenes de cara a la JMJ 2027",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-jovenes-jmj-2027",
-   "d": "2026-11-21T19:29:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Papa-Leon-Jovenes2_umu6vj.jpg",
-   "r": "El Santo Padre dijo que solo Jesucristo nos revela nuestra verdadera identidad y que solo siguiéndolo “llegamos a ser quienes somos”."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "¿Quiénes son San Joaquín y Santa Ana y qué relación tienen con la Presentación de María?",
-   "u": "https://www.ewtnnews.com/es/mundo/quienes-son-san-joaquin-y-santa-ana-y-que-relacion-tienen-con-la-presentacion-de-maria",
-   "d": "2026-11-21T18:39:53.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/Presentacion-VirgenMaria-San-Joaquin-Santa-Ana---Dominio-publico--21112022",
-   "r": "La bloguera católica Kathy Schiffer explica quiénes fueron San José y Santa Ana en el marco de la fiesta de la Presentación de la Virgen María que la Iglesia…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "¿Qué sabemos sobre la Presentación de la Virgen María?",
-   "u": "https://www.ewtnnews.com/es/mundo/la-presentacion-de-la-virgen-maria-que-es-lo-que-sabemos",
-   "d": "2026-11-21T18:37:44.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/presentacion-virgen-maria-alessandro-allori-211124",
-   "r": "Mientras que a la Presentación del Señor la encontramos en las Sagradas Escrituras, no es el caso de la Presentación de la Santísima Virgen María. Aquí…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "España, los obispos sobre las próximas elecciones: retomar el mensaje del Papa",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/espana-los-obispos-sobre-las-proximas-elecciones-retomar-el-me.html",
-   "d": "2026-11-21T16:20:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/reuters/2024/07/04/15/1720099683873.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La Conferencia Episcopal Española ha concluido los trabajos de su asamblea plenaria dirigiendo un llamamiento al electorado de cara a las elecciones del…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "En la mesa con el Papa, no solo en el Vaticano",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/almuerzo-pobres-limosneria-papa-leon-xiv-comedores-roma.html",
-   "d": "2026-11-21T14:38:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2025/11/16/2025-11-16-pranzo-con-i-poveri/1763296043485.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "León XIV almorzará con 1.300 pobres este domingo 22 de noviembre en el Aula Pablo VI, con ocasión de la décima Jornada Mundial de los Pobres. Simultáneamente,…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa nombra a Bonino teólogo de la Casa Pontificia. Otros nuevos nombramientos",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-nombra-serge-thomas-bonino-teologo-casa-pontificia.html",
-   "d": "2026-11-21T13:26:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/21/rev-do-serge-thomas-bonino-o-p-presidente-della-pontificia-accademia-di-san-tommaso-d-aqui.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El dominico francés Serge-Thomas Bonino, hasta ahora presidente de la Pontificia Academia de Santo Tomás de Aquino, ha sido nombrado teólogo de la Casa…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa: La cultura del poder y de la guerra envenena cada encuentro",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-encuentro-jovenes.html",
-   "d": "2026-11-21T12:44:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/21/2026-11-21-giovani-delle-diocesi-del-lazio/1795263173803.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "León XIV se encontró con los jóvenes de las diócesis del Lacio en el Aula Pablo VI. Les recordó que “la santidad no es una ‘performance’ que nos estresa, ni…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa: Si la tecnología no se rige por la ética, los riesgos son enormes",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-international-space-forum.html",
-   "d": "2026-11-21T12:33:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/21/2026-11-21-delegazione-della-federazione-astronautica-internazio/1795257472545.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "“Las investigaciones y las misiones espaciales han sido, y, gracias a Dios, siguen siendo, ocasiones de encuentro, estimación recíproca y colaboración entre…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "En la Iglesia, una nueva santa y 56 beatos: venerable una adolescente de catorce años",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/iglesia-santa-56-beatos-venerable-una-adolescente-14-anos.html",
-   "d": "2026-11-21T11:27:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/21/sr-zdenka-schelingova-scsc.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Serán elevadas a los honores de los altares dos religiosas: sor Sidonia, que vivió durante los años del régimen comunista en la entonces Checoslovaquia, que…"
   },
   {
    "src": "diocesis",
@@ -340,16 +360,6 @@
    "d": "2026-10-27T14:00:01.000Z",
    "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/10/Colegio-b-icentenario-Padre-Alberto-Hurtado-819x1024.jpg",
    "r": "El Departamento de Catequesis de la Diócesis de Chillán convocó al Encuentro Diocesano de Niños y Niñas “Jesús, nuestro amigo, camina con nosotros”. La…"
-  },
-  {
-   "src": "diocesis",
-   "fuente": "Diócesis de Chillán",
-   "sec": "diocesis",
-   "t": "Pastoral del Adulto Mayor se reactiva con un encuentro intergeneracional en la Diócesis de Chillán",
-   "u": "https://diocesisdechillan.cl/pastoral-del-adulto-mayor-se-reactiva-con-un-encuentro-intergeneracional-en-la-diocesis-de-chillan/",
-   "d": "2026-10-26T14:32:48.000Z",
-   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/10/Encuentro-de-adultos-mayores-00000008-150x150.jpg",
-   "r": "La Pastoral Social de la Diócesis San Bartolomé de Chillán realizó el primer encuentro de la Pastoral del Adulto Mayor, con el objetivo de reactivar este…"
   }
  ]
 }
