@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-21": {
-   "titulo": "Sábado de la 33.ª semana del Tiempo Ordinario",
-   "cita": "Lc 20,27-40",
-   "frase": "Dios no es un Dios de muertos, sino de vivientes.",
-   "reflexion": "dmpSssyJC0o",
-   "video": "d_fD6B4e7UA"
-  },
   "2026-11-22": {
    "titulo": "Cristo Rey",
    "cita": "Mt 25,31-46",
@@ -60,6 +53,11 @@
    "titulo": "Martes de la 1.ª semana de Adviento",
    "cita": "Lc 10,21-24",
    "frase": "¡Felices los ojos que ven lo que ustedes ven!"
+  },
+  "2026-12-02": {
+   "titulo": "Miércoles de la 1.ª semana de Adviento",
+   "cita": "Mt 15,29-37",
+   "frase": "Me da pena esta multitud, porque hace tres días que están conmigo y no tienen qué comer."
   }
  }
 }
