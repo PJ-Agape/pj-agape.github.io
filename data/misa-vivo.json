@@ -3,17 +3,21 @@
  "channelId": "UCLc_sOTchYgGsTCMuXs3Duw",
  "via": "rss",
  "vistos": [
+  "La Santa Misa de Hoy | Andrés Dũng-Lạc y compañeros, mártires (24-11-2026) | P. Javier Martín, FM",
+  "\"Que nadie os engañe. Cristo es el único Maestro\" | Hom. S. Andrés Dũng-Lạc y mártires P. Santiago M",
   "Homilía│Lunes XXXIV Semana del Tiempo Ordinario 23.11.2026 │Pbro. Javier Martín FM│www.magnificat.tv",
   "La Santa Misa de Hoy | Lunes, XXXIV Semana del Tiempo Ordinario (23-11-2026) | P. Javier Martín, FM",
   "\"Dios no Quiere tu Limosna, Quiere tu Corazón\" | Homilía, Lunes XXXIV Semana del T.O | P. Santiago M",
   "Homilía│ Nuestro Señor Jesucristo Rey del Universo 22.11.2026│ Pbro. Javier Martín FM│",
   "La Santa Misa de Hoy | Nuestro Señor Jesucristo Rey Del Universo (22-11-2026) | P. Javier Martín, FM",
-  "\"Dale tu corazón a Cristo, tu Rey\" | Homilía, Jesucristo, Rey del Universo | P. Santiago M",
-  "Santa Misa de Hoy | Presentación de la Santísima Virgen María (21-11-2026) | Pbro. Santiago Martín",
-  "\"Ofrécete a Dios, tal y como eres. Imita a María\" | Homilía, Presentación de la Virgen | P. Santiago"
+  "\"Dale tu corazón a Cristo, tu Rey\" | Homilía, Jesucristo, Rey del Universo | P. Santiago M"
  ],
  "fuente": "Magnificat TV (YouTube)",
  "days": {
+  "2026-11-24": {
+   "id": "D0KBkgkZiYQ",
+   "title": "La Santa Misa de Hoy | Andrés Dũng-Lạc y compañeros, mártires (24-11-2026) | P. Javier Martín, FM"
+  },
   "2026-11-23": {
    "id": "kkwKclMH1zQ",
    "title": "La Santa Misa de Hoy | Lunes, XXXIV Semana del Tiempo Ordinario (23-11-2026) | P. Javier Martín, FM"
@@ -53,10 +57,6 @@
   "2026-11-14": {
    "id": "EGzcy_5ho-I",
    "title": "Santa Misa de Hoy | Sábado, XXXII Semana del Tiempo Ordinario (14-11-2026) |Pbro. Santiago Martín FM"
-  },
-  "2026-11-13": {
-   "id": "IDBpjwCzl3o",
-   "title": "Santa Misa de Hoy |Viernes, XXXII Semana del Tiempo Ordinario (13-11-2026) |Pbro. Santiago Martín FM"
   }
  }
 }
