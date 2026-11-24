@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-23T21:38:48.084Z",
+ "actualizado": "2026-11-24T05:29:52.412Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -25,7 +25,47 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "Santa Rosa de Lima y el anillo de su desposorio místico con Jesús",
+   "t": "Hoy la Iglesia recuerda a los Mártires de Vietnam, encabezados por San Andrés Dung-Lac",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-24-de-noviembre-se-celebra-a-san-andres-dung-lac-y-companeros-asesinados-por-odio-a-la-fe",
+   "d": "2026-11-24T05:01:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/SanAndresDungLac_xllbed.jpg",
+   "r": "Cada 24 de noviembre la Iglesia Católica recuerda a San Andrés Dung-Lac y compañeros -los 117 mártires de Vietnam- quienes consagraron sus vidas al anuncio…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "La paz es esencial para mantener a los cristianos en Tierra Santa, dice el Cardenal Gugerotti",
+   "u": "https://www.ewtnnews.com/es/mundo/paz-cristianos-tierra-santa-gugerotti",
+   "d": "2026-11-24T00:00:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Gugerotti10_mv2lqn.jpg",
+   "r": "El prefecto del Dicasterio Vaticano para las Iglesias Orientales concluyó una visita pastoral de seis días a Tierra Santa del 16 al 21 de noviembre, llevando…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Miles de dominicanos salen las calles en defensa de la familia, lo “más importante de la sociedad”",
+   "u": "https://www.ewtnnews.com/es/vida-y-familia/dominicanos-calles-defensa-familia-sociedad",
+   "d": "2026-11-23T23:00:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Paso_familia_2_rximzc.jpg",
+   "r": "Miles de dominicanos salieron a las calles de 12 diócesis del país para participar de “Un paso por mi Familia 2026”, un evento en defensa de la familia y la…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV aprueba milagro de religiosa perseguida por el comunismo y abre camino a su canonización",
+   "u": "https://www.ewtnnews.com/es/vaticano/leon-xiv-milagro-religiosa-canonizacion",
+   "d": "2026-11-23T22:16:54.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/cutZdenkapx_llogph.jpg",
+   "r": "El milagro es la sanación de un hombre protestante estadounidense enfermo terminal en Denver. El Arzobispo eslovaco Stanislav Zvolenský dijo que la…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Un museo de Lima conserva el anillo atribuido al desposorio místico de Santa Rosa de Lima",
    "u": "https://www.ewtnnews.com/es/mundo/america/santa-rosa-lima-desposorio-mistico",
    "d": "2026-11-23T20:50:00.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Urna_Santa_Rosa_Abel_Camasca_23112026_jpj099.jpg",
@@ -240,46 +280,6 @@
    "d": "2026-11-23T12:09:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2025/giugno/20/Dicastero-Dialogo-Interreligioso-dipinto.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "La decimoquinta Asamblea se desarrollará bajo la presidencia del cardenal prefecto, George Jacob Koovakad, y tendrá como tema \"La contribución del diálogo…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Cardenal Rouco: \"El sacramento del orden le marca a uno para la eternidad\"",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/cardenal-rouco-sacramento-orden-eternidad",
-   "d": "2026-11-23T11:27:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Rouco___crop_yw2w3f.jpg",
-   "r": "A sus 90 años y 50 como obispo, el Cardenal Antonio María Rouco repasa en EWTN News Español su vocación, su labor en la Iglesia y las JMJ. Destaca la oración,…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Hoy conmemoramos al Beato Miguel Pro, mártir de la Guerra Cristera en México",
-   "u": "https://www.ewtnnews.com/es/mundo/cada-23-de-noviembre-se-conmemora-al-beato-miguel-pro-martir-de-la-guerra-cristera-en-mexico",
-   "d": "2026-11-23T11:02:32.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/BeatoMiguelPro_mxbct8.jpg",
-   "r": "Cada 23 de noviembre la Iglesia Católica conmemora al Beato P. Miguel Agustín Pro Juárez, sacerdote jesuita, mártir de la Guerra Cristera (1926-1929)."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Una tradición que cruza fronteras: el retablo ayacuchano “de papa y yeso” que se regaló a León XIV",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-retablo-ayacuchano",
-   "d": "2026-11-23T10:40:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_RBK2632_1_qvkmwg.jpg",
-   "r": "Desde Ayacucho viajó hasta el Vaticano un retablo artesanal elaborado por la familia Ataucusi, quienes trabajaron durante meses con especial dedicación en…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "La Arquidiócesis de México defiende “el derecho a vivir la fe sin miedo” a 100 años de la Cristiada",
-   "u": "https://www.ewtnnews.com/es/libertad-religiosa/arquidiocesis-mexico-defiende-fe-cristiada",
-   "d": "2026-11-22T23:40:06.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/rosario-david-ramos-aci-011023.webp",
-   "r": "“Cuando digamos ‘¡Viva Cristo Rey!’, recordemos que a otros mexicanos les costó incluso la vida pronunciar esas palabras”, alentó la Arquidiócesis de México…"
   },
   {
    "src": "diocesis",
