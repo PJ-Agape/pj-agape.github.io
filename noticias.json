@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-24T18:14:52.557Z",
+ "actualizado": "2026-11-25T02:45:31.140Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,76 @@
   }
  },
  "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Con estas iniciativas podrás prepararte espiritualmente durante el Adviento 2026",
+   "u": "https://www.ewtnnews.com/es/mundo/iniciativas-prepararte-espiritualmente-adviento",
+   "d": "2026-11-25T02:15:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/ADVIENTO241126_v6aw6n.jpg",
+   "r": "Algunas de las iniciativas presentadas por la Iglesia en Hispanoamérica para que los fieles puedan vivir el Adviento 2026."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Obispado de Merlo-Moreno desautoriza a sacerdote que bendijo a una pareja homosexual en Argentina",
+   "u": "https://www.ewtnnews.com/es/mundo/america/obispado-no-respalda-bendicion-homosexual",
+   "d": "2026-11-24T23:26:37.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2783758753_mfwrft.jpg",
+   "r": "El P. Francisco “Paco” Olveira Fuster dio su bendición a la “boda” de una pareja homosexual, a pocos días de finalizada la visita del Papa León XIV a Argentina."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Candidato de la ONU podría impulsar un \"derecho\" global al aborto, advierten legisladores",
+   "u": "https://www.ewtnnews.com/es/mundo/candidato-onu-derecho-global-aborto",
+   "d": "2026-11-24T23:24:44.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/shutterstock_2799890411-2_gr7jne.jpg",
+   "r": "Miembros provida del Congreso de Estados Unidos instan a la administración de Donald Trump a vetar a un candidato para secretario general de la ONU que tiene…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "La Virgen de Coromoto convoca a Venezuela: Machado y el Cardenal Porras peregrinarán a Guanare",
+   "u": "https://www.ewtnnews.com/es/mundo/america/virgen-coromoto-machado-porras-guanare",
+   "d": "2026-11-24T21:38:01.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Pererginacion-por-Paz_wmuic7.jpg",
+   "r": "“La idea es que todos los venezolanos pongan la mirada en la Virgen María, en el Santuario —lugar donde se manifestó esta obra maravillosa de Dios—. Están…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Los tres documentos sobre evangelización que el Papa Francisco conservó hasta el final",
+   "u": "https://www.ewtnnews.com/es/vaticano/documentos-evangelizacion-papa-francisco-diario-intimo",
+   "d": "2026-11-24T19:51:27.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PapaFranciscoConmemoracion_091126_agnjkh.jpg",
+   "r": "Según el Cardenal Fernández, tres documentos marcaron a Francisco: Evangelii nuntiandi, Puebla y Aparecida, bases de su visión de una Iglesia evangelizadora,…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "“San Óscar Romero era un pastor, no un político”, destaca obispo centroamericano",
+   "u": "https://www.ewtnnews.com/es/mundo/america/san-oscar-romero-pastor-obispo",
+   "d": "2026-11-24T19:15:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/OscarRomero_241126_orx05v.jpg",
+   "r": "Mons. Daniel Blanco Méndez considera que el testimonio del santo salvadoreño puede ayudar a los obispos de la región a responder a los problemas que enfrentan…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Una agenda y un encargo de Francisco: el Cardenal Fernández cuenta cómo nació el libro del diario íntimo del Papa",
+   "u": "https://www.ewtnnews.com/es/vaticano/francisco-cardenal-fernandez-diario-intimo",
+   "d": "2026-11-24T18:47:48.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/victor-fernandez-daniel-ibanez-ewtn-190526-1779211379.jpg",
+   "r": "El Cardenal Fernández cómo surgió la idea de publicar el libro sobre el diario íntimo del Papa Francisco."
+  },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
@@ -102,36 +172,6 @@
    "r": "La Fundación Auxilio Maltés ayuda a quienes corren el riesgo de quedar excluidos de los servicios esenciales en las zonas periféricas del país andino.…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El futbolista Ferrán Torres, premiado por mostrar su fe católica con naturalidad",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/ferran-torres-premiado-fe-catolica",
-   "d": "2026-11-24T14:43:39.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Ferran_Torres_izxkaz.jpg",
-   "r": "El futbolista Ferrán Torres, único goleador en la final del Mundial en la que España venció a Argentina, fue galardonado con el Premio CEU Ángel Herrera por…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "5 claves católicas para discernir el voto ante las elecciones en España",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/claves-catolicas-voto-elecciones-espana",
-   "d": "2026-11-24T14:31:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2851403045_uplnrd.jpg",
-   "r": "Ante las elecciones del 29 de noviembre en España, obispos y sacerdotes aportan claves para el discernimiento del voto de los católicos, en conciencia y…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "La Iglesia Católica condena atentado terrorista que dejó 23 heridos en Colombia",
-   "u": "https://www.ewtnnews.com/es/mundo/america/iglesia-catolica-condena-atentado-terrorista-colombia",
-   "d": "2026-11-24T14:07:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/GettyImages-2306139764_azjipx.jpg",
-   "r": "El atentado fue dirigido contra la sede de la Gobernación del departamento del Meta, cuya capital Villavicencio está a unos 120 kilómetros al suroeste de…"
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -140,16 +180,6 @@
    "d": "2026-11-24T13:53:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/5-a.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "El Vicariato Apostólico de Aguarico, en la Amazonía ecuatoriana, acompaña a las nacionalidades indígenas kichwa, shuar y huaorani en un territorio amenazado…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Una receta renacentista del cocinero de dos Papas vuelve a la mesa del Vaticano",
-   "u": "https://www.ewtnnews.com/es/vaticano/receta-cocinero-papas-renacentistas-vaticano",
-   "d": "2026-11-24T13:25:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/TOM_2327_ejyjmq.jpg",
-   "r": "Una receta ideada hace casi cinco siglos por el cocinero de dos pontífices del Renacimiento volvió este domingo a las mesas del Vaticano."
   },
   {
    "src": "vatican",
@@ -192,16 +222,6 @@
    "r": "La Comisión Ejecutiva de la Conferencia Episcopal Argentina, difundió una Carta abierta dirigida a los miembros del Senado de la Nación en relación con el…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Estas son las ceremonias que presidirá el Papa León XIV en diciembre y enero de 2027",
-   "u": "https://www.ewtnnews.com/es/vaticano/ceremonias-papa-leon-xiv-2027",
-   "d": "2026-11-24T12:30:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_TEO7453_gbhgtq.jpg",
-   "r": "El Vaticano compartió este martes el calendario de las celebraciones litúrgicas que el Papa León XIV presidirá en diciembre de 2026 y enero 2027."
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -222,16 +242,6 @@
    "r": "La Oficina de Celebraciones Litúrgicas Pontificias da a conocer los horarios de los ritos presididos por León XIV, desde la misa de la noche del 24 de…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Cardenal Rouco: la sinodalidad, como fórmula universal, \"desnaturaliza a la Iglesia\"",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/rouco-sinodalidad-desnaturaliza-iglesia",
-   "d": "2026-11-24T11:01:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Entrevista_Rouco_NC_17_e872ej.jpg",
-   "r": "El Cardenal Rouco conversa con EWTN News Español sobre los retos de la Iglesia Católica y de la sociedad, y señala que la sinodalidad aplicada como fórmula…"
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -240,16 +250,6 @@
    "d": "2026-11-24T10:52:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/21.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "Con un homenaje al cardenal Óscar Andrés Rodríguez y el envío de 104 nuevos delegados, la Arquidiócesis de Tegucigalpa cerró el Año Misionero con un llamado a…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Roma acoge el congreso Kairos: la respuesta de la Iglesia a una juventud herida",
-   "u": "https://www.ewtnnews.com/es/eventos/jovenes-fe-roma-congreso-kairos",
-   "d": "2026-11-24T10:30:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/261112_PRAYER_VIGIL_WITH_YOUNG_PEOPLE_AND_COLLEGE_STUDENTS_Daniel_Iba%CC%81n%CC%83ez_17_lcjepx.jpg",
-   "r": "La Ciudad Eterna acogerá este encuentro del 26 al 29 de noviembre, cuatro jornadas de reflexión en torno a una pregunta fundamental: ¿Cómo acompañar hoy a los…"
   },
   {
    "src": "vatican",
