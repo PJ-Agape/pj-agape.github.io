@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-25T02:45:31.140Z",
+ "actualizado": "2026-11-25T13:27:05.580Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,146 @@
   }
  },
  "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "“Viva Cristo Rey”: Así se despidió de la corona de Miss Universo la mexicana Fátima Bosch",
+   "u": "https://www.ewtnnews.com/es/mundo/america/viva-cristo-rey-fatima-bosch-miss-universo",
+   "d": "2026-11-25T13:13:17.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/GettyImages-2306758837_mfptvq.jpg",
+   "r": "La mexicana, Miss Universo 2025, exhibió el mensaje en una ceremonia en la que fue coronada Jennifer Barreto, la primera madre en ganar el certamen."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Una pausa junto a Dios: monasterios de Francia y Bélgica abren sus puertas a los jóvenes en Adviento",
+   "u": "https://www.ewtnnews.com/es/mundo/monasterios-abren-puertas-jovenes-adviento",
+   "d": "2026-11-25T12:54:59.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_13.51.17_okqls8.jpg",
+   "r": "Los responsables de esta iniciativa animan a las nuevas generaciones a aprovechar esta oportunidad “para recargar energías durante este importante momento…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Sudán: El compromiso permanente de los Misioneros Combonianos en Jartum",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/sudan-el-compromiso-permanente-de-los-misioneros-combonianos-en.html",
+   "d": "2026-11-25T12:20:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/22/14/1795353176747.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En el testimonio del padre Diego Dalle Carbonare, Superior Provincial de los Misioneros Combonianos en Egipto y Sudán: «Nuestra reapertura también está…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa lamenta la falta de “compromisos claros” de la comunidad internacional tras la COP31",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-lamenta-falta-compromiso-cop31",
+   "d": "2026-11-25T12:04:02.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_10.27.16_cheeto.jpg",
+   "r": "Durante la Audiencia General, el Papa León XIV expresó su preocupación por los resultados de la reciente Conferencia de las Partes sobre el Clima (COP31),…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa rediseña la pastoral penitenciaria: nace una red al servicio de la Iglesia universal",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-redisena-la-pastoral-penitenciaria.html",
+   "d": "2026-11-25T11:16:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2019/03/12/23092014_130117_migrants_in_jail.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Publicado el motu proprio «In carcere eram, et venistis ad me», que suprime la Comisión Internacional de Pastoral Penitenciaria Católica (ICCPPC) e instituye…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "COP31, el Papa: preocupa el cierre sin compromisos, se necesita responsabilidad",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/cop31-papa-preocupa-cierre-sin-compromisos-responsabilidad.html",
+   "d": "2026-11-25T11:16:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/21/21/1795291378956.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Al término de la audiencia general, León XIV habla sobre el fracaso de la Conferencia sobre el clima de Antalya: «No olvidemos nunca el rostro humano de la…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Violencia contra las mujeres, ONU: cinco víctimas cada hora en el ámbito familiar",
+   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/violencia-contra-mujeres-onu-cinco-victimas-cada-hora-familiar.html",
+   "d": "2026-11-25T10:36:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2018/03/26/08/files-drcongo-unrest-1522052585605.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En 2025, más de 47.000 mujeres y niñas en el mundo fueron asesinadas por sus parejas o familiares: aproximadamente cinco cada hora. También preocupan las…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV: La carrera armamentística es “la plaga más grave de la humanidad”",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-carrera-armamentista",
+   "d": "2026-11-25T10:34:26.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_10.27.15_1_wmntts.jpg",
+   "r": "El Pontífice dedicó su catequesis al capítulo V de la Constitución pastoral del Concilio Vaticano II Gaudium et spes, centrando su reflexión en la promoción…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Tradición viva y piedad popular: el rostro de un Dios cercano a la humanidad",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/tradicion-viva-y-piedad-popular-el-rostro-de-un-dios-cercano.html",
+   "d": "2026-11-25T10:00:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/25/2026-11-25-udienza-generale/1795598869422.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En su discurso ante la Comisión Teológica Internacional, el Papa señaló los dos temas que deben profundizarse. En la catequesis del miércoles, León ofreció un…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "TEXTO COMPLETO: Catequesis del Papa León XIV sobre la promoción de la paz",
+   "u": "https://www.ewtnnews.com/es/vaticano/catequesis-papa-leon-xiv-paz",
+   "d": "2026-11-25T09:56:04.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_10.27.15_vd0tb1.jpg",
+   "r": "León XIV dedicó su catequesis de este miércoles al capítulo V de la Constitución del Concilio Vaticano II Gaudium et spes (GS), dedicado a la promoción de la…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "León XIV: «La paz es un don de Dios y un compromiso humano incansable»",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-paz-don-de-dios-compromiso-humano-incansable.html",
+   "d": "2026-11-25T09:51:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/18/2026-11-18-udienza-generale/1795001265243.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El Santo Padre invitó en la catequesis de hoy a a construir un mundo de paz inspirado en el Evangelio, a rechazar la resignación ante la guerra y a promover…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Parolin: la grandeza de la música sacra consiste en convertirse en oración",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/parolin-grandeza-musica-sacra-consiste-en-convertirse-en-oracion.html",
+   "d": "2026-11-25T09:08:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/parolin-santa-cecilia-2-foto-enrico-pombi.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En la iglesia del Pontificio Instituto de Música Sacra, el cardenal secretario de Estado presidió esta mañana, 24 de noviembre, la Misa por la fiesta de Santa…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa León XIV: La Tradición Apostólica se profundiza de forma coherente",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-comision-teologica-internacional-tradciion-apostolica.html",
+   "d": "2026-11-25T08:58:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/25/2026-11-25-membri-della-commissione-teologica-internazionale/1795596465050.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En una audiencia con la Comisión Teológica Internacional, el Papa León XIV reafirma la continuidad de la Tradición Apostólica, que busca la inculturación y…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Hoy se celebra a Santa Catalina de Alejandría, patrona de las solteras y las estudiantes",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-25-de-noviembre-se-celebra-a-santa-catalina-de-alejandria-patrona-de-las-solteras",
+   "d": "2026-11-25T05:00:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/santacatalinadealejandrina-1764035377",
+   "r": "Cada 25 de noviembre la Iglesia Católica celebra a Santa Catalina de Alejandría, mártir de los primeros siglos de la era cristiana (nació a finales del siglo…"
+  },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
@@ -82,56 +222,6 @@
    "r": "Mons. Daniel Blanco Méndez considera que el testimonio del santo salvadoreño puede ayudar a los obispos de la región a responder a los problemas que enfrentan…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Una agenda y un encargo de Francisco: el Cardenal Fernández cuenta cómo nació el libro del diario íntimo del Papa",
-   "u": "https://www.ewtnnews.com/es/vaticano/francisco-cardenal-fernandez-diario-intimo",
-   "d": "2026-11-24T18:47:48.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/victor-fernandez-daniel-ibanez-ewtn-190526-1779211379.jpg",
-   "r": "El Cardenal Fernández cómo surgió la idea de publicar el libro sobre el diario íntimo del Papa Francisco."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Procesión de 30.000 fieles en Sídney prepara el camino al Congreso Eucarístico Internacional de 2028",
-   "u": "https://www.ewtnnews.com/es/mundo/procesion-sidney-congreso-eucaristico-2028",
-   "d": "2026-11-24T17:53:59.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/261122_CW_WWC26_430-1024x576_if5s2y.png",
-   "r": "Más de 30.000 católicos llenaron las calles de Sídney en la solemnidad de Cristo Rey, un récord para la procesión eucarística anual, mientras la ciudad se…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Cardenal Simoni: “Ningún exorcista cura a nadie. Es la Santísima Virgen” quien obra",
-   "u": "https://www.ewtnnews.com/es/mundo/cardenal-simoni-exorcista-santisima-virgen",
-   "d": "2026-11-24T17:12:45.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Captura_de_pantalla_2026-11-24_a_las_17.22.30_npbhzo.png",
-   "r": "El purpurado albanés concedió una de sus últimas entrevistas en televisión el pasado 10 de septiembre a EWTN."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Vaticano cuestiona el uso de armas guiadas por inteligencia artificial",
-   "u": "https://www.ewtnnews.com/es/vaticano/vaticano-armas-guiadas-por-inteligencia-artificial",
-   "d": "2026-11-24T16:40:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Basilica-de-San-Pedro-Vaticano_Mirko-Carnevale-Shutterstock_221026_uzaz88.jpg",
-   "r": "El Vaticano sentó su posición durante una conferencia internacional realizada en Ginebra sobre prohibiciones o restricciones del empleo de ciertas armas…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Diario del Papa Francisco revela sus visiones del diablo, la “entrada del infierno” y cómo usó el rosario “como arma”",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-francisco-visiones-diablo-infierno",
-   "d": "2026-11-24T16:14:03.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/00920_30092023_Large_zu6ob3.jpg",
-   "r": "En el diario del Papa Francisco, el Cardenal Víctor Manuel Fernández comenta extractos de los escritos privados del difunto Pontífice."
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -152,16 +242,6 @@
    "r": "El cardenal arzobispo de Kinshasa hace un nuevo llamado a la no violencia, a no ceder al odio y la provocación, tras los recientes sucesos ocurridos en la…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Roban y destruyen una reliquia de San Nicolás de emblemática basílica de Francia",
-   "u": "https://www.ewtnnews.com/es/controversias/roban-destruyen-reliquia-san-nicolas",
-   "d": "2026-11-24T15:15:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Basilique_saint_nicolas_de_port_myfxtq.jpg",
-   "r": "Un hombre robó y destruyó una de las reliquias de San Nicolás de Bari que se custodian en la Basílica de Saint-Nicolas-de-Port en el departamento de…"
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -180,86 +260,6 @@
    "d": "2026-11-24T13:53:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/5-a.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "El Vicariato Apostólico de Aguarico, en la Amazonía ecuatoriana, acompaña a las nacionalidades indígenas kichwa, shuar y huaorani en un territorio amenazado…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Sudán. La ONU: Más de 6.400 personas huyen de los combates",
-   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/sudan-la-onu-mas-de-6-400-personas-huyen-de-los-combates.html",
-   "d": "2026-11-24T13:12:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/22/14/1795353177583.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Nuevos ataques con drones han alcanzado edificios residenciales en Omdurman y en la localidad de Jebel Awlia, en los alrededores de la capital, Jartum,…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Iglesia en Ecuador brinda ayuda ante fuertes lluvias e inundaciones",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/iglesia-ecuador-solidaridad-inundaciones-el-nino.html",
-   "d": "2026-11-24T13:00:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/21/20/1795291073205.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Tras la visita ad limina de los obispos ecuatorianos a Roma, la Iglesia local continúa prestando asistencia a las más de 106.000 personas afectadas en…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "La CLAR en Lima: Una llamada a la transformación y a la escucha",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/iglesia-religiosos.html",
-   "d": "2026-11-24T12:54:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/congreso-vida-religiosa-2026-clar-00-1.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La Confederación Latinoamericana y Caribeña de Religiosas y Religiosos (CLAR) ha celebrado del 13 al 15 de noviembre en Lima, Perú, el VI Congreso de Vida…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Obispos de Argentina piden no dejar morir el proyecto de ley contra la ludopatía",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/los-obispos-de-argentina-ante-la-ludopatia-no-dejen-morir-este.html",
-   "d": "2026-11-24T12:30:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2019/04/07/06092013_103752_giocatore_dazzardo.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La Comisión Ejecutiva de la Conferencia Episcopal Argentina, difundió una Carta abierta dirigida a los miembros del Senado de la Nación en relación con el…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "La Iglesia de El Salvador proclama un Año Mariano Nacional",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/la-iglesia-el-salvador-proclama-un-ano-mariano-nacional.html",
-   "d": "2026-11-24T11:15:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/2026-11-24-apertura-anno-mariano-el-salvador.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Los obispos salvadoreños convocan a todas las diócesis, parroquias, comunidades religiosas y familias a vivir un tiempo especial de renovación espiritual,…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El calendario de las celebraciones del Papa durante el tiempo de Navidad",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-calendario-de-las-celebraciones-del-papa-diciembre-enero.html",
-   "d": "2026-11-24T11:05:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/18/2026-11-18-celebrazione-eucaristica-nel-400-anniversario-della-d/1795023164361.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La Oficina de Celebraciones Litúrgicas Pontificias da a conocer los horarios de los ritos presididos por León XIV, desde la misa de la noche del 24 de…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "«La Misión continúa»: Tegucigalpa celebra una gran vigilia misionera",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/tegucigalpa-vigilia-misionera-estadio-nacional-solemnidad-cristo.html",
-   "d": "2026-11-24T10:52:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/21.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Con un homenaje al cardenal Óscar Andrés Rodríguez y el envío de 104 nuevos delegados, la Arquidiócesis de Tegucigalpa cerró el Año Misionero con un llamado a…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El talento de las hermanas en el apostolado nos une a Dios en la belleza de la oración",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/sisters-project-musica-liturgica-suor-maria-alzbeta.html",
-   "d": "2026-11-24T10:25:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/settembre/18/ps207-copertina-suor-alzbeta-stracinova-al-sinodo-della-chiesa.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "A través de la música litúrgica, sor Maria Alžbeta Stračinová, una joven religiosa, revela cómo la belleza de la música puede conducir a un encuentro más…"
   },
   {
    "src": "diocesis",
