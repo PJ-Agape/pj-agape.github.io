@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-25T13:27:05.580Z",
+ "actualizado": "2026-11-25T23:46:53.246Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -25,7 +25,117 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "“Viva Cristo Rey”: Así se despidió de la corona de Miss Universo la mexicana Fátima Bosch",
+   "t": "Cáritas del Perú ya trabaja arduamente para afrontar El Niño e invita a un desayuno solidario",
+   "u": "https://www.ewtnnews.com/es/mundo/america/caritas-peru-nino-desayuno-solidario",
+   "d": "2026-11-25T22:38:20.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_4.12.49_PM_souhvn.jpg",
+   "r": "Cáritas del Perú invita a un desayuno solidario el 14 de diciembre para poder donar un kit familiar integral a los afectados por El Niño."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "La Iglesia arropa a los estudiantes y Machado pide su fuerza para reconstruir Venezuela",
+   "u": "https://www.ewtnnews.com/es/mundo/america/iglesia-estudiantes-machado-reconstruir-venezuela",
+   "d": "2026-11-25T21:30:23.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/MCM-UCV-Estudiantes_nffhpa.jpg",
+   "r": "“Sabemos que ser estudiante universitario en nuestro país implica un acto cotidiano de valentía, perseverancia y amor por el futuro”, comentaron los obispos."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "“Las valientes de Dios”: Estrenan en Centroamérica película sobre una mujer que salvó a otra miles",
+   "u": "https://www.ewtnnews.com/es/mundo/espana/valientes-dios-pelicula-mujer-salvo",
+   "d": "2026-11-25T17:47:29.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/LAS_VALIENTES_DE_DIOS_zwewfo.png",
+   "r": "Mariana Allsopp nació en México y se mudó a la España del siglo XIX, donde fundó una orden religiosa y logró rescatar a miles de mujeres de la trata y la…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Episcopado italiano presenta un estudio sobre 378 denuncias de abusos",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/abusos-la-cei-presenta-un-estudio-sobre-378-denuncias.html",
+   "d": "2026-11-25T15:32:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/25/10.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En Asís, en el marco de la 83.ª Asamblea General, la Conferencia Episcopal Italiana ha presentado el estudio que ofrece un análisis de los casos relativos a…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "XXI Asamblea de la ODUCAL: el Papa los anima perseverar en su misión",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/xxi-asamblea-de-la-oducal-mensje-del-papa-puc-rio-brasil.html",
+   "d": "2026-11-25T15:17:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/brgbgnbr.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El Papa anima a las universidades católicas reunidas en la PUC-Rio, en Brasil, a perseverar en sus esfuerzos, para que puedan responder a los retos actuales a…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Partido español propone prohibir que un líder religioso hable en el Congreso como hizo León XIV",
+   "u": "https://www.ewtnnews.com/es/mundo/espana/espana-proponen-papa-hablar-congreso",
+   "d": "2026-11-25T14:55:58.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Papa_Congreso__DI_xtnpdn.jpg",
+   "r": "El Observatorio para la Libertad Religiosa y de Conciencia denuncia propuestas electorales contrarias a este derecho, como impedir que un Papa hable desde la…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "En marcha la Asamblea UISG–USG: la vida consagrada camina por la paz",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/en-marcha-la-asamblea-uisg-usg-la-vida-consagrada-por-la-paz.html",
+   "d": "2026-11-25T14:53:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2025/agosto/06/giornata-di-preghiera.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Tres días de encuentro con las superioras y los superiores generales, la audiencia con el Papa León XIV y las intervenciones del cardenal Pizzaballa y de sor…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "México. Luego de cien años aún resuena el grito: «¡Viva Cristo Rey!»",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/luego-de-cien-anos-aun-resuena-el-grito-viva-cristo-rey.html",
+   "d": "2026-11-25T14:25:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/25/centenario-del-inicio-de-la-resistencia-cristera-5.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Dar la vida por amor a Cristo y defender la libertad de religión ante cualquier opresión son las atribuciones que destaca el episcopado mexicano en una carta…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa confía a sacerdote argentino un cargo clave y agrega una misión al Arzobispo de Buenos Aires",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-sacerdote-argentino-cargo-clave",
+   "d": "2026-11-25T14:15:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/261109_MEETING_WITH_THE_WORK_COMMUNITY_15_f7m3af.jpg",
+   "r": "El Papa nombró al Arzobispo de Buenos Aires al frente del Servicio de Animación de la Pastoral Penitenciaria y al sacerdote argentino Viola Casalongüe jefe de…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "España superó los 3 millones de abortos en los últimos 40 años",
+   "u": "https://www.ewtnnews.com/es/vida-y-familia/espana-2025-3-millones-abortos",
+   "d": "2026-11-25T14:01:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/foto_mujer__h2erzr.jpg",
+   "r": "Las cifras oficiales en España suman más de 3 millones de homicidios prenatales acumulados a lo largo de los 40 años que han transcurrido desde la…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa reorganiza la pastoral penitenciaria y recuerda que es parte de la misión evangelizadora",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-reorganiza-pastoral-penitenciaria",
+   "d": "2026-11-25T13:53:25.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_RBK7804_ejvqyo.jpg",
+   "r": "El Pontífice decidió suprimir la Comisión Internacional de Pastoral Penitenciaria Católica (ICCPPC), un organismo fundado en 1950 en Roma."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "“Viva Cristo Rey”: Así se despidió de la corona de Miss Universo la mexicana católica Fátima Bosch",
    "u": "https://www.ewtnnews.com/es/mundo/america/viva-cristo-rey-fatima-bosch-miss-universo",
    "d": "2026-11-25T13:13:17.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/GettyImages-2306758837_mfptvq.jpg",
@@ -40,6 +150,16 @@
    "d": "2026-11-25T12:54:59.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_13.51.17_okqls8.jpg",
    "r": "Los responsables de esta iniciativa animan a las nuevas generaciones a aprovechar esta oportunidad “para recargar energías durante este importante momento…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Fray Olivier-Thomas Venard: \"Nos reconforta no sentirnos solos\"",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/tierra-santa-paz-dialogo-guerra-dominicos-escuela-biblica.html",
+   "d": "2026-11-25T12:44:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/20/portrait-la-vie-39aem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El religioso dominico, que vive desde hace 25 años en Tierra Santa, dirige el programa de investigación \"La Biblia en sus Tradiciones\", en el seno de la…"
   },
   {
    "src": "vatican",
@@ -95,7 +215,7 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
-   "t": "León XIV: La carrera armamentística es “la plaga más grave de la humanidad”",
+   "t": "León XIV: La carrera armamentística es “una de las plagas más graves”",
    "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-carrera-armamentista",
    "d": "2026-11-25T10:34:26.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_10.27.15_1_wmntts.jpg",
@@ -129,7 +249,7 @@
    "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-paz-don-de-dios-compromiso-humano-incansable.html",
    "d": "2026-11-25T09:51:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/18/2026-11-18-udienza-generale/1795001265243.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El Santo Padre invitó en la catequesis de hoy a a construir un mundo de paz inspirado en el Evangelio, a rechazar la resignación ante la guerra y a promover…"
+   "r": "El Santo Padre invitó en la catequesis de hoy a construir un mundo de paz inspirado en el Evangelio, a rechazar la resignación ante la guerra y a promover el…"
   },
   {
    "src": "vatican",
@@ -140,126 +260,6 @@
    "d": "2026-11-25T09:08:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/parolin-santa-cecilia-2-foto-enrico-pombi.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "En la iglesia del Pontificio Instituto de Música Sacra, el cardenal secretario de Estado presidió esta mañana, 24 de noviembre, la Misa por la fiesta de Santa…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa León XIV: La Tradición Apostólica se profundiza de forma coherente",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-comision-teologica-internacional-tradciion-apostolica.html",
-   "d": "2026-11-25T08:58:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/25/2026-11-25-membri-della-commissione-teologica-internazionale/1795596465050.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En una audiencia con la Comisión Teológica Internacional, el Papa León XIV reafirma la continuidad de la Tradición Apostólica, que busca la inculturación y…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Hoy se celebra a Santa Catalina de Alejandría, patrona de las solteras y las estudiantes",
-   "u": "https://www.ewtnnews.com/es/mundo/cada-25-de-noviembre-se-celebra-a-santa-catalina-de-alejandria-patrona-de-las-solteras",
-   "d": "2026-11-25T05:00:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/santacatalinadealejandrina-1764035377",
-   "r": "Cada 25 de noviembre la Iglesia Católica celebra a Santa Catalina de Alejandría, mártir de los primeros siglos de la era cristiana (nació a finales del siglo…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Con estas iniciativas podrás prepararte espiritualmente durante el Adviento 2026",
-   "u": "https://www.ewtnnews.com/es/mundo/iniciativas-prepararte-espiritualmente-adviento",
-   "d": "2026-11-25T02:15:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/ADVIENTO241126_v6aw6n.jpg",
-   "r": "Algunas de las iniciativas presentadas por la Iglesia en Hispanoamérica para que los fieles puedan vivir el Adviento 2026."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Obispado de Merlo-Moreno desautoriza a sacerdote que bendijo a una pareja homosexual en Argentina",
-   "u": "https://www.ewtnnews.com/es/mundo/america/obispado-no-respalda-bendicion-homosexual",
-   "d": "2026-11-24T23:26:37.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2783758753_mfwrft.jpg",
-   "r": "El P. Francisco “Paco” Olveira Fuster dio su bendición a la “boda” de una pareja homosexual, a pocos días de finalizada la visita del Papa León XIV a Argentina."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Candidato de la ONU podría impulsar un \"derecho\" global al aborto, advierten legisladores",
-   "u": "https://www.ewtnnews.com/es/mundo/candidato-onu-derecho-global-aborto",
-   "d": "2026-11-24T23:24:44.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/shutterstock_2799890411-2_gr7jne.jpg",
-   "r": "Miembros provida del Congreso de Estados Unidos instan a la administración de Donald Trump a vetar a un candidato para secretario general de la ONU que tiene…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "La Virgen de Coromoto convoca a Venezuela: Machado y el Cardenal Porras peregrinarán a Guanare",
-   "u": "https://www.ewtnnews.com/es/mundo/america/virgen-coromoto-machado-porras-guanare",
-   "d": "2026-11-24T21:38:01.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Pererginacion-por-Paz_wmuic7.jpg",
-   "r": "“La idea es que todos los venezolanos pongan la mirada en la Virgen María, en el Santuario —lugar donde se manifestó esta obra maravillosa de Dios—. Están…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Los tres documentos sobre evangelización que el Papa Francisco conservó hasta el final",
-   "u": "https://www.ewtnnews.com/es/vaticano/documentos-evangelizacion-papa-francisco-diario-intimo",
-   "d": "2026-11-24T19:51:27.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PapaFranciscoConmemoracion_091126_agnjkh.jpg",
-   "r": "Según el Cardenal Fernández, tres documentos marcaron a Francisco: Evangelii nuntiandi, Puebla y Aparecida, bases de su visión de una Iglesia evangelizadora,…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "“San Óscar Romero era un pastor, no un político”, destaca obispo centroamericano",
-   "u": "https://www.ewtnnews.com/es/mundo/america/san-oscar-romero-pastor-obispo",
-   "d": "2026-11-24T19:15:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/OscarRomero_241126_orx05v.jpg",
-   "r": "Mons. Daniel Blanco Méndez considera que el testimonio del santo salvadoreño puede ayudar a los obispos de la región a responder a los problemas que enfrentan…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Kerygma, la aplicación para la catequesis de la Iglesia boliviana",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/iglesia-boliviana-presenta-kerygma-aplicacion-de-catequesis.html",
-   "d": "2026-11-24T16:10:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/30200.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La herramienta combina formación catequética, música, juegos, lecturas bíblicas y oración, con el propósito de llevar el anuncio de Jesucristo a los espacios…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "R.D.C. El cardenal Ambongo: La Iglesia nunca será cómplice de la injusticia",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/cardenal-ambongo-kinshasa-llamado-contra-la-violencia-misa.html",
-   "d": "2026-11-24T16:10:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2025/agosto/04/Cardinale-Fridolin-Ambongo-Besungu.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El cardenal arzobispo de Kinshasa hace un nuevo llamado a la no violencia, a no ceder al odio y la provocación, tras los recientes sucesos ocurridos en la…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Chile: la Orden de Malta apoya a los más vulnerables en las periferias",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/chile-orden-de-malta-apoya-vulnerables-periferias.html",
-   "d": "2026-11-24T15:10:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/le-attivita-dello-smom-in-cile.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La Fundación Auxilio Maltés ayuda a quienes corren el riesgo de quedar excluidos de los servicios esenciales en las zonas periféricas del país andino.…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Aguarico: una Iglesia que defiende la vida en la Amazonía",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/vicariato-aguarico-amazonia-ecuatoriana-ecologia-integral.html",
-   "d": "2026-11-24T13:53:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/5-a.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El Vicariato Apostólico de Aguarico, en la Amazonía ecuatoriana, acompaña a las nacionalidades indígenas kichwa, shuar y huaorani en un territorio amenazado…"
   },
   {
    "src": "diocesis",
