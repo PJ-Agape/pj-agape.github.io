@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-23": {
-   "titulo": "Lunes de la 34.ª semana del Tiempo Ordinario",
-   "cita": "Lc 21,1-4",
-   "frase": "Esta viuda pobre ha dado más que nadie.",
-   "reflexion": "3KF7pBltUPE",
-   "video": "z2fMNFjFmUQ"
-  },
   "2026-11-24": {
    "titulo": "Martes de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,5-11",
@@ -60,6 +53,11 @@
    "titulo": "Jueves de la 1.ª semana de Adviento",
    "cita": "Mt 7,21.24-27",
    "frase": "Todo el que escucha mis palabras y las pone en práctica puede compararse a un hombre sensato que edificó su casa sobre roca."
+  },
+  "2026-12-04": {
+   "titulo": "Viernes de la 1.ª semana de Adviento",
+   "cita": "Mt 9,27-31",
+   "frase": "Que suceda como ustedes han creído."
   }
  }
 }
