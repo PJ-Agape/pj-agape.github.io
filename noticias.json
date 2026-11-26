@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-26T08:51:41.941Z",
+ "actualizado": "2026-11-26T19:15:43.351Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -25,51 +25,261 @@
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
+   "t": "¿Por qué el fracaso de la cumbre del clima en Turquía preocupa al Papa León?",
+   "u": "https://www.ewtnnews.com/es/vaticano/fracaso-cumbre-clima-turquia-papa",
+   "d": "2026-11-26T17:44:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2777840689_1_kc7s9i.jpg",
+   "r": "La COP31, celebrada en Antalya (Turquía), concluyó el pasado 22 de noviembre con sabor amargo. Tras la habitual prórroga no se alcanzó ni siquiera un acuerdo…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Oración familiar para el Primer Domingo de Adviento 2026",
+   "u": "https://www.ewtnnews.com/es/mundo/oracion-familiar-para-el-primer-domingo-de-adviento",
+   "d": "2026-11-26T16:31:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/OracionPrimerDomingoAdviento2026_hu7sgf.jpg",
+   "r": "Este domingo 29 de noviembre celebramos el Primer Domingo de Adviento 2026. Un medio muy útil para sintonizar con el espíritu de este ‘tiempo de espera’ es…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "La Iglesia en Argentina anima a vivir el Adviento junto al Papa León XIV",
+   "u": "https://www.ewtnnews.com/es/mundo/america/iglesia-argentina-adviento-papa-leon",
+   "d": "2026-11-26T16:20:15.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-11_at_07.34.22_ukhuhb.jpg",
+   "r": "La Iglesia Católica en Argentina ofrece una guía para vivir el Adviento 2026 de la mano del Papa León XIV."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "CELAM: Actualizar y comprender la experiencia juvenil",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/celam-actualizar-y-comprender-la-experiencia-juvenil.html",
+   "d": "2026-11-26T15:43:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/26/42.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La necesidad de entender cómo los jóvenes viven la fe en la actualidad, en medio de «megaciudades y en el continente digital» impulsó a los obispos…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "La justicia no ve delito en la venta de patrimonio que hicieron las exclarisas de Belorado",
+   "u": "https://www.ewtnnews.com/es/mundo/espana/justicia-venta-patrimonio-exclarisas-belorado",
+   "d": "2026-11-26T15:00:34.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/monasterio-belorado-espana-nicolas-de-cardenas-ewtn-news-12072025-1752339820.webp",
+   "r": "El juzgado de Briviesca ha concluido, un año después, que la venta de patrimonio realizado por las exclarisas de Belorado, por el que dos de ellas fueron…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Gallagher afirma que la diplomacia puede ser eficaz incluso sin poder militar",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/gallagher-afirma-que-la-diplomacia-puede-ser-eficaz-incluso-sin.html",
+   "d": "2026-11-26T15:00:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/26/bbbnnn.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El Secretario para las Relaciones con los Estados y las Organizaciones Internacionales intervino en la Universidad Católica Portuguesa: La perseverancia es un…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Mons. García Cuerva destaca el rol profético de la Iglesia en las cárceles",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/garcia-cuerva-rol-profetico-iglesia-carcel.html",
+   "d": "2026-11-26T14:59:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/26/mons-garcia-cuerva-2.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El arzobispo de Buenos Aires inicia su nueva misión como coordinador del Servicio de animación de la pastoral penitenciaria con el horizonte de promover la…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Delegados de Base fortalecen su compromiso con la Cultura del Cuidado y Buen Trato",
+   "u": "https://diocesisdechillan.cl/delegados-de-base-fortalecen-su-compromiso-con-la-cultura-del-cuidado-y-buen-trato/",
+   "d": "2026-11-26T14:57:42.000Z",
+   "img": "",
+   "r": "El Equipo de Formación para la Cultura del Cuidado y Buen Trato de la diócesis sostuvo un encuentro con los Delegados de Base de las distintas unidades…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Un viburno ucraniano fue plantado y bendecido en los Jardines Vaticanos",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/un-viburno-ucraniano-fue-plantado-y-bendecido-en-los-jardines-va.html",
+   "d": "2026-11-26T14:40:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/26/2026-11-26-piantumazione-viburno-rosso-card-parolin-ambasciata-u/1795697267098.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La ceremonia tuvo lugar esta mañana, 26 de noviembre, en presencia del cardenal Secretario de Estado Pietro Parolin, quien reafirmó el compromiso del Vaticano…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Academia Pontificia de Teología: un llamamiento a la protección de los jóvenes",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/academia-pontificia-de-teologia-llamamiento-proteccion-jovenes.html",
+   "d": "2026-11-26T14:40:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2025/dicembre/17/Parione_-_palazzo_Riario_o_Cancelleria_nuova_1628aem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Los contenidos del documento sobre la protección de la Creación y de las nuevas generaciones en el mundo digital se presentarán el miércoles 2 de diciembre,…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Una comunidad educativa que crece en la fe y camina junto a Cristo",
+   "u": "https://diocesisdechillan.cl/una-comunidad-educativa-que-crece-en-la-fe-y-camina-junto-a-cristo/",
+   "d": "2026-11-26T13:41:31.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/colegio-san-agustin-quirihue_una-comunidad-educativa-que-crece-en-la_02-300x226.jpg",
+   "r": "Durante los últimos meses, nuestra comunidad educativa del Colegio San Agustín de Quirihue ha vivido importantes experiencias que reflejan el compromiso con…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Fiesta Patronal de Cristo Rey en San Nicolas.",
+   "u": "https://diocesisdechillan.cl/fiesta-patronal-de-cristo-rey/",
+   "d": "2026-11-26T13:11:00.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/parroquia-cristo-rey-san-nicolas_fiesta-patronal-de-cristo-rey_02-225x300.jpg",
+   "r": "Con multitudinaria peregrinación, concierto, confirmaciones y nueve días de encuentros comunitarios, la Parroquia Cristo Rey de San Nicolás celebró su Fiesta…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Parroquia Virgen del Carmen comparte un tiempo de encuentro, fe y vida comunitaria",
+   "u": "https://diocesisdechillan.cl/parroquia-virgen-del-carmen-comparte-un-tiempo-de-encuentro-fe-y-vida-comunitaria/",
+   "d": "2026-11-26T13:08:50.000Z",
+   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/parroquia-virgen-del-carmen-chillan_parroquia-virgen-del-carmen-comparte-un_02-300x300.jpg",
+   "r": "La comunidad parroquial recibió la visita de su obispo, celebró los sacramentos y participó en diversas actividades de oración y encuentro fraterno. The post…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Hoy recordamos a San Juan Berchmans, el jesuita de la alegría",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-26-de-noviembre-la-compania-de-jesus-celebra-a-san-juan-berchmans-modelo-para-la-juventud",
+   "d": "2026-11-26T13:08:43.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/SanJuanBerchmans_s0yfhb.jpg",
+   "r": "Cada 26 de noviembre, la Compañía de Jesús celebra a San Juan Berchmans, santo jesuita de origen flamenco nacido en 1599, fallecido a los 20 años cuando era…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Hoy celebramos al Beato Santiago Alberione, uno de los patrones de Internet",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-26-de-noviembre-se-celebra-al-beato-santiago-alberione-uno-de-los-patronos-de-internet",
+   "d": "2026-11-26T13:03:14.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/beatosantiagoalberione-1764157825",
+   "r": "Cada 26 de noviembre, la Iglesia Católica conmemora al Beato Santiago Alberione (1884-1971), fundador de la Familia Paulina y de la Sociedad Bíblica Católica…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa pide a consagrados crear “unidad”, amando sobre todo a los más “frágiles y problemáticos”",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-consagrados-unidad-fragiles-problematicos",
+   "d": "2026-11-26T12:58:48.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_RIS2160_gyeem5.jpg",
+   "r": "León XIV se reunió con los participantes de la Asamblea conjunta de la Unión de Superiores Generales (USG) y la Unión Internacional de Superioras Generales…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Misas desde España a Australia, pasando por el Vaticano, por la beatificación de Isabel la Católica",
+   "u": "https://www.ewtnnews.com/es/mundo/espana/misas-vaticano-beatificacion-isabel-catolica",
+   "d": "2026-11-26T12:35:06.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Reina_ISabel_g4dlmo.jpg",
+   "r": "Enraizados promovió la celebración de Misas en todo el mundo por la beatificación de Isabel la Católica en el 522 aniversario de su fallecimiento, desde…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "La OMS promete ayuda a Cuba, atrapada en una crisis sanitaria",
+   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/la-oms-promete-ayuda-a-cuba-atrapada-en-una-crisis-sanitaria.html",
+   "d": "2026-11-26T11:45:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/reuters/2026/03/26/11/1774520780003.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El director general de la organización, durante su visita a la isla caribeña, reafirmó su apoyo a los hospitales que atraviesan graves dificultades debido a…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "La Semana del Papa León XIV",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/audiencias-encuentros-papa-leon-xiv-derechos-humanos-paz.html",
+   "d": "2026-11-26T11:29:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/11/25/11/1795602197183.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El Papa se encontró esta semana con la Asociación Católica por el Bienestar de Oriente Medio, con los miembros de la Filarmónica de Viena, con motivo del 25.º…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa anima a los religiosos a «servir con caridad» para construir la unidad y la paz",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-anima-a-los-religiosos-a-servir-con-caridad-uisg-usg.html",
+   "d": "2026-11-26T11:19:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/26/2026-11-26-partecipanti-all-assemblea-congiunta-dell-unione-supe/1795690059624.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En un encuentro con más de 250 superiores generales al término de la segunda Asamblea Conjunta de la UISG y la USG, el Papa exhorta a los hombres y mujeres…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Reino Unido: activista provida irá a juicio por orar en silencio cerca de un centro de abortos",
+   "u": "https://www.ewtnnews.com/es/mundo/activista-provida-juicio-orar-silencio-aborto",
+   "d": "2026-11-26T10:52:16.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Image-7_hwv71a.jpg",
+   "r": "Isabel Vaughan-Spruce ha recibido apoyo mundial tras su detención por orar en una \"zona de exclusión\" cerca de un centro de abortos."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Opus Dei espera “esclarecer” acusaciones de trata tras citación en Argentina de su número dos",
+   "u": "https://www.ewtnnews.com/es/mundo/opus-dei-citacion-judicial-argentina",
+   "d": "2026-11-26T10:38:12.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/SanJosemaria-FlickrSantuarioTorreciudad-(CC-BY-2.0)-02082022.webp",
+   "r": "El juez federal Daniel Rafecas citó para una declaración indagatoria al sacerdote argentino Mariano Fazio, actual vicario auxiliar y número dos mundial de la…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El desarrollo humano integral es inseparable de la evangelización",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-desarrollo-humano-integral-y-evangelizacion.html",
+   "d": "2026-11-26T10:28:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/26/2026-11-26-partecipanti-alla-plenaria-del-dicastero-per-il-servi/1795685862743.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La sesión plenaria del Dicasterio para el Servicio del Desarrollo Humano Integral tiene la tarea de remover los obstáculos a la dignidad de la persona,…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "León XIV pide a las religiones unir fuerzas por una paz sin armas ni divisiones",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-no-nos-cansemos-construir-puentes-dialogo-interreligioso.html",
+   "d": "2026-11-26T09:30:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/26/2026-11-26-partecipanti-alla-plenaria-del-dicastero-per-il-dialo/1795684997198.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "León XIV ha recibido a los participantes en la XV Asamblea Plenaria del Dicasterio para el Diálogo Interreligioso, a quienes ha pedido reforzar el compromiso…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Oraciones para el Día de Acción de Gracias o Thanksgiving",
+   "u": "https://www.ewtnnews.com/es/mundo/america/oraciones-para-el-dia-de-accion-de-gracias-o-thanksgiving",
+   "d": "2026-11-26T08:32:13.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/oracionesthanksgiving",
+   "r": "En el marco del Día de Acción de Gracias (Thanksgiving), que se celebra en Estados Unidos en recuerdo de la primera cena de agradecimiento a Dios de 1621,…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
    "t": "Fe en el uniforme: cómo un almirante holandés acompaña a las fuerzas armadas católicas",
    "u": "https://www.ewtnnews.com/es/mundo/almirante-holandes-fuerzas-armadas-catolicas",
    "d": "2026-11-26T01:02:13.000Z",
    "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Admiral_Mathieu_Borsboom_3_nz1fws.jpg",
    "r": "El Vicealmirante Matthieu Borsboom habló con EWTN News sobre la guerra ética, la necesidad de comunidad dentro de los militares católicos y la teoría de la…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Australia registra un récord de muertes por eutanasia y suicidio asistido",
-   "u": "https://www.ewtnnews.com/es/mundo/australia-record-muertes-eutanasia-suicidio",
-   "d": "2026-11-26T00:26:56.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/EnfermoEutanasia_251126_qvwy5d.jpg",
-   "r": "Nueva Gales del Sur contabilizó 1.419 muertes por estas prácticas entre julio de 2025 y junio de 2026, un aumento del 37,5 % respecto al año anterior."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Cáritas del Perú ya trabaja arduamente para afrontar El Niño e invita a un desayuno solidario",
-   "u": "https://www.ewtnnews.com/es/mundo/america/caritas-peru-nino-desayuno-solidario",
-   "d": "2026-11-25T22:38:20.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_4.12.49_PM_souhvn.jpg",
-   "r": "Cáritas del Perú invita a un desayuno solidario el 14 de diciembre para poder donar un kit familiar integral a los afectados por El Niño."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "La Iglesia arropa a los estudiantes y Machado pide su fuerza para reconstruir Venezuela",
-   "u": "https://www.ewtnnews.com/es/mundo/america/iglesia-estudiantes-machado-reconstruir-venezuela",
-   "d": "2026-11-25T21:30:23.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/MCM-UCV-Estudiantes_nffhpa.jpg",
-   "r": "“Sabemos que ser estudiante universitario en nuestro país implica un acto cotidiano de valentía, perseverancia y amor por el futuro”, comentaron los obispos."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "“Las valientes de Dios”: Estrenan en Centroamérica película sobre una mujer que salvó a otra miles",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/valientes-dios-pelicula-mujer-salvo",
-   "d": "2026-11-25T17:47:29.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/LAS_VALIENTES_DE_DIOS_zwewfo.png",
-   "r": "Mariana Allsopp nació en México y se mudó a la España del siglo XIX, donde fundó una orden religiosa y logró rescatar a miles de mujeres de la trata y la…"
   },
   {
    "src": "vatican",
@@ -90,176 +300,6 @@
    "d": "2026-11-25T15:17:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/brgbgnbr.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "El Papa anima a las universidades católicas reunidas en la PUC-Rio, en Brasil, a perseverar en sus esfuerzos, para que puedan responder a los retos actuales a…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Partido español propone prohibir que un líder religioso hable en el Congreso como hizo León XIV",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/espana-proponen-papa-hablar-congreso",
-   "d": "2026-11-25T14:55:58.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Papa_Congreso__DI_xtnpdn.jpg",
-   "r": "El Observatorio para la Libertad Religiosa y de Conciencia denuncia propuestas electorales contrarias a este derecho, como impedir que un Papa hable desde la…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "En marcha la Asamblea UISG–USG: la vida consagrada camina por la paz",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/en-marcha-la-asamblea-uisg-usg-la-vida-consagrada-por-la-paz.html",
-   "d": "2026-11-25T14:53:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2025/agosto/06/giornata-di-preghiera.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Tres días de encuentro con las superioras y los superiores generales, la audiencia con el Papa León XIV y las intervenciones del cardenal Pizzaballa y de sor…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "México. Luego de cien años aún resuena el grito: «¡Viva Cristo Rey!»",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/luego-de-cien-anos-aun-resuena-el-grito-viva-cristo-rey.html",
-   "d": "2026-11-25T14:25:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/25/centenario-del-inicio-de-la-resistencia-cristera-5.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Dar la vida por amor a Cristo y defender la libertad de religión ante cualquier opresión son las atribuciones que destaca el episcopado mexicano en una carta…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa confía a sacerdote argentino un cargo clave y agrega una misión al Arzobispo de Buenos Aires",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-sacerdote-argentino-cargo-clave",
-   "d": "2026-11-25T14:15:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/261109_MEETING_WITH_THE_WORK_COMMUNITY_15_f7m3af.jpg",
-   "r": "El Papa nombró al Arzobispo de Buenos Aires al frente del Servicio de Animación de la Pastoral Penitenciaria y al sacerdote argentino Viola Casalongüe jefe de…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "España superó los 3 millones de abortos en los últimos 40 años",
-   "u": "https://www.ewtnnews.com/es/vida-y-familia/espana-2025-3-millones-abortos",
-   "d": "2026-11-25T14:01:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/foto_mujer__h2erzr.jpg",
-   "r": "Las cifras oficiales en España suman más de 3 millones de homicidios prenatales acumulados a lo largo de los 40 años que han transcurrido desde la…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa reorganiza la pastoral penitenciaria y recuerda que es parte de la misión evangelizadora",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-reorganiza-pastoral-penitenciaria",
-   "d": "2026-11-25T13:53:25.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_RBK7804_ejvqyo.jpg",
-   "r": "El Pontífice decidió suprimir la Comisión Internacional de Pastoral Penitenciaria Católica (ICCPPC), un organismo fundado en 1950 en Roma."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "“Viva Cristo Rey”: Así se despidió de la corona de Miss Universo la mexicana católica Fátima Bosch",
-   "u": "https://www.ewtnnews.com/es/mundo/america/viva-cristo-rey-fatima-bosch-miss-universo",
-   "d": "2026-11-25T13:13:17.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/GettyImages-2306758837_mfptvq.jpg",
-   "r": "La mexicana, Miss Universo 2025, exhibió el mensaje en una ceremonia en la que fue coronada Jennifer Barreto, la primera madre en ganar el certamen."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Una pausa junto a Dios: monasterios de Francia y Bélgica abren sus puertas a los jóvenes en Adviento",
-   "u": "https://www.ewtnnews.com/es/mundo/monasterios-abren-puertas-jovenes-adviento",
-   "d": "2026-11-25T12:54:59.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_13.51.17_okqls8.jpg",
-   "r": "Los responsables de esta iniciativa animan a las nuevas generaciones a aprovechar esta oportunidad “para recargar energías durante este importante momento…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Fray Olivier-Thomas Venard: \"Nos reconforta no sentirnos solos\"",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/tierra-santa-paz-dialogo-guerra-dominicos-escuela-biblica.html",
-   "d": "2026-11-25T12:44:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/20/portrait-la-vie-39aem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El religioso dominico, que vive desde hace 25 años en Tierra Santa, dirige el programa de investigación \"La Biblia en sus Tradiciones\", en el seno de la…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Sudán: El compromiso permanente de los Misioneros Combonianos en Jartum",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/sudan-el-compromiso-permanente-de-los-misioneros-combonianos-en.html",
-   "d": "2026-11-25T12:20:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/22/14/1795353176747.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En el testimonio del padre Diego Dalle Carbonare, Superior Provincial de los Misioneros Combonianos en Egipto y Sudán: «Nuestra reapertura también está…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa lamenta la falta de “compromisos claros” de la comunidad internacional tras la COP31",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-lamenta-falta-compromiso-cop31",
-   "d": "2026-11-25T12:04:02.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_10.27.16_cheeto.jpg",
-   "r": "Durante la Audiencia General, el Papa León XIV expresó su preocupación por los resultados de la reciente Conferencia de las Partes sobre el Clima (COP31),…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa rediseña la pastoral penitenciaria: nace una red al servicio de la Iglesia universal",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-redisena-la-pastoral-penitenciaria.html",
-   "d": "2026-11-25T11:16:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2019/03/12/23092014_130117_migrants_in_jail.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Publicado el motu proprio «In carcere eram, et venistis ad me», que suprime la Comisión Internacional de Pastoral Penitenciaria Católica (ICCPPC) e instituye…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "COP31, el Papa: preocupa el cierre sin compromisos, se necesita responsabilidad",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/cop31-papa-preocupa-cierre-sin-compromisos-responsabilidad.html",
-   "d": "2026-11-25T11:16:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/21/21/1795291378956.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Al término de la audiencia general, León XIV habla sobre el fracaso de la Conferencia sobre el clima de Antalya: «No olvidemos nunca el rostro humano de la…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Violencia contra las mujeres, ONU: cinco víctimas cada hora en el ámbito familiar",
-   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/violencia-contra-mujeres-onu-cinco-victimas-cada-hora-familiar.html",
-   "d": "2026-11-25T10:36:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2018/03/26/08/files-drcongo-unrest-1522052585605.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En 2025, más de 47.000 mujeres y niñas en el mundo fueron asesinadas por sus parejas o familiares: aproximadamente cinco cada hora. También preocupan las…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Tradición viva y piedad popular: el rostro de un Dios cercano a la humanidad",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/tradicion-viva-y-piedad-popular-el-rostro-de-un-dios-cercano.html",
-   "d": "2026-11-25T10:00:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/25/2026-11-25-udienza-generale/1795598869422.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En su discurso ante la Comisión Teológica Internacional, el Papa señaló los dos temas que deben profundizarse. En la catequesis del miércoles, León ofreció un…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "León XIV: «La paz es un don de Dios y un compromiso humano incansable»",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-paz-don-de-dios-compromiso-humano-incansable.html",
-   "d": "2026-11-25T09:51:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/18/2026-11-18-udienza-generale/1795001265243.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El Santo Padre invitó en la catequesis de hoy a construir un mundo de paz inspirado en el Evangelio, a rechazar la resignación ante la guerra y a promover el…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Parolin: la grandeza de la música sacra consiste en convertirse en oración",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/parolin-grandeza-musica-sacra-consiste-en-convertirse-en-oracion.html",
-   "d": "2026-11-25T09:08:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/parolin-santa-cecilia-2-foto-enrico-pombi.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En la iglesia del Pontificio Instituto de Música Sacra, el cardenal secretario de Estado presidió esta mañana, 24 de noviembre, la Misa por la fiesta de Santa…"
   },
   {
    "src": "diocesis",
@@ -320,46 +360,6 @@
    "d": "2026-11-09T17:36:29.000Z",
    "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/WhatsApp-Image-2026-11-07-at-5.10.13-PM-1-150x150.jpeg",
    "r": "Integrantes de las parroquias del Decanato Costa peregrinaron el sábado 7 de noviembre a la Parroquia de Portezuelo, en el marco del Año del Centenario de la…"
-  },
-  {
-   "src": "diocesis",
-   "fuente": "Diócesis de Chillán",
-   "sec": "diocesis",
-   "t": "Papá del P. Manuel Mosquera será beatificado este sábado en Santander",
-   "u": "https://diocesisdechillan.cl/papa-del-p-manuel-mosquera-sera-beatificado-este-sabado-en-santander/",
-   "d": "2026-11-04T15:36:32.000Z",
-   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/6ae8540894070-150x150.png",
-   "r": "Este sábado 7 de noviembre, a las 11:00 horas de España (07:00 en Chile), la Catedral de Santander acogerá la beatificación de Francisco González de Córdova y…"
-  },
-  {
-   "src": "diocesis",
-   "fuente": "Diócesis de Chillán",
-   "sec": "diocesis",
-   "t": "Parroquias de la Diócesis de Chillán celebran Todos los Santos en templos y cementerio",
-   "u": "https://diocesisdechillan.cl/parroquias-de-la-diocesis-de-chillan-celebran-todos-los-santos-en-templos-y-cementerio/",
-   "d": "2026-10-30T20:27:16.000Z",
-   "img": "",
-   "r": "Este sábado 31 de octubre y domingo 1 de noviembre, las parroquias de la Diócesis San Bartolomé de Chillán celebrarán misas y liturgias por la Solemnidad de…"
-  },
-  {
-   "src": "diocesis",
-   "fuente": "Diócesis de Chillán",
-   "sec": "diocesis",
-   "t": "Cáritas realiza jornada de prevención de incendios y apoyo emocional con comunidades rurales afectadas",
-   "u": "https://diocesisdechillan.cl/caritas-realiza-jornada-de-prevencion-de-incendios-y-apoyo-emocional-con-comunidades-rurales-afectadas/",
-   "d": "2026-10-27T15:50:36.000Z",
-   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/10/20261026_131124-150x150.jpg",
-   "r": "El proyecto trabaja con las juntas de vecinos de sectores rurales: Chudal en Portezuelo, Huampuli en San Nicolás, y Libui, Manque Sur y Manque Norte en…"
-  },
-  {
-   "src": "diocesis",
-   "fuente": "Diócesis de Chillán",
-   "sec": "diocesis",
-   "t": "Catequesis diocesana convoca a Encuentro de Niños y Niñas que recibieron la Primera Comunión.",
-   "u": "https://diocesisdechillan.cl/catequesis-diocesana-convoca-a-encuentro-de-ninos-y-ninas-que-recibieron-la-primera-comunion/",
-   "d": "2026-10-27T14:00:01.000Z",
-   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/10/Colegio-b-icentenario-Padre-Alberto-Hurtado-819x1024.jpg",
-   "r": "El Departamento de Catequesis de la Diócesis de Chillán convocó al Encuentro Diocesano de Niños y Niñas “Jesús, nuestro amigo, camina con nosotros”. La…"
   }
  ]
 }
