@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-25T23:46:53.246Z",
+ "actualizado": "2026-11-26T08:51:41.941Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,26 @@
   }
  },
  "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Fe en el uniforme: cómo un almirante holandés acompaña a las fuerzas armadas católicas",
+   "u": "https://www.ewtnnews.com/es/mundo/almirante-holandes-fuerzas-armadas-catolicas",
+   "d": "2026-11-26T01:02:13.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Admiral_Mathieu_Borsboom_3_nz1fws.jpg",
+   "r": "El Vicealmirante Matthieu Borsboom habló con EWTN News sobre la guerra ética, la necesidad de comunidad dentro de los militares católicos y la teoría de la…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Australia registra un récord de muertes por eutanasia y suicidio asistido",
+   "u": "https://www.ewtnnews.com/es/mundo/australia-record-muertes-eutanasia-suicidio",
+   "d": "2026-11-26T00:26:56.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/EnfermoEutanasia_251126_qvwy5d.jpg",
+   "r": "Nueva Gales del Sur contabilizó 1.419 muertes por estas prácticas entre julio de 2025 y junio de 2026, un aumento del 37,5 % respecto al año anterior."
+  },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
@@ -212,16 +232,6 @@
    "r": "En 2025, más de 47.000 mujeres y niñas en el mundo fueron asesinadas por sus parejas o familiares: aproximadamente cinco cada hora. También preocupan las…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "León XIV: La carrera armamentística es “una de las plagas más graves”",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-carrera-armamentista",
-   "d": "2026-11-25T10:34:26.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_10.27.15_1_wmntts.jpg",
-   "r": "El Pontífice dedicó su catequesis al capítulo V de la Constitución pastoral del Concilio Vaticano II Gaudium et spes, centrando su reflexión en la promoción…"
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -230,16 +240,6 @@
    "d": "2026-11-25T10:00:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/25/2026-11-25-udienza-generale/1795598869422.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "En su discurso ante la Comisión Teológica Internacional, el Papa señaló los dos temas que deben profundizarse. En la catequesis del miércoles, León ofreció un…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "TEXTO COMPLETO: Catequesis del Papa León XIV sobre la promoción de la paz",
-   "u": "https://www.ewtnnews.com/es/vaticano/catequesis-papa-leon-xiv-paz",
-   "d": "2026-11-25T09:56:04.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-25_at_10.27.15_vd0tb1.jpg",
-   "r": "León XIV dedicó su catequesis de este miércoles al capítulo V de la Constitución del Concilio Vaticano II Gaudium et spes (GS), dedicado a la promoción de la…"
   },
   {
    "src": "vatican",
