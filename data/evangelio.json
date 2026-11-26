@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-24": {
-   "titulo": "Martes de la 34.ª semana del Tiempo Ordinario",
-   "cita": "Lc 21,5-11",
-   "frase": "Tengan cuidado, no se dejen engañar.",
-   "reflexion": "2Wa4NzdgcWA",
-   "video": "vnC6YJ60EeM"
-  },
   "2026-11-25": {
    "titulo": "Miércoles de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,12-19",
@@ -19,6 +12,7 @@
    "titulo": "Jueves de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,20-28",
    "frase": "Tengan ánimo y levanten la cabeza, porque está por llegarles la liberación.",
+   "reflexion": "jWzqzeEpFSA",
    "video": "IMeQqF_oLZ0"
   },
   "2026-11-27": {
@@ -60,6 +54,11 @@
    "titulo": "Viernes de la 1.ª semana de Adviento",
    "cita": "Mt 9,27-31",
    "frase": "Que suceda como ustedes han creído."
+  },
+  "2026-12-05": {
+   "titulo": "Sábado de la 1.ª semana de Adviento",
+   "cita": "Mt 9,35-38.10,1.6-8",
+   "frase": "Por el camino, proclamen que el Reino de los Cielos está cerca."
   }
  }
 }
