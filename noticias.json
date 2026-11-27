@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-27T03:46:44.747Z",
+ "actualizado": "2026-11-27T16:57:12.661Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -22,6 +22,246 @@
  },
  "items": [
   {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "Vicaría para la Educación invita a profesores de Religión a participar en la Escuela de Formación de Verano 2026",
+   "u": "https://diocesisdechillan.cl/vicaria-para-la-educacion-invita-a-profesores-de-religion-a-participar-en-la-escuela-de-formacion-de-verano-2026/",
+   "d": "2026-11-27T15:22:48.000Z",
+   "img": "",
+   "r": "La jornada se realizará el lunes 14 de diciembre en el Colegio Seminario Padre Alberto Hurtado de Chillán y convoca a docentes de Religión Católica de las 21…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Tras superar una adicción, un londinense pedalea 4.800 km hasta Jerusalén y descubre su vocación",
+   "u": "https://www.ewtnnews.com/es/mundo/adiccion-londinense-pedalea-jerusalen-vocacion",
+   "d": "2026-11-27T15:21:11.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Foote9_qb2liw.jpg",
+   "r": "Después de años de adicción y desesperación, Andrew Foote logró la sobriedad, descubrió su fe, y pedaló hacia Tierra Santa tras una experiencia transformadora…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV saludó a capellanes taurinos y recibió un capote bordado en seda con su nombre",
+   "u": "https://www.ewtnnews.com/es/vaticano/leon-xiv-capellanes-taurinos-capote",
+   "d": "2026-11-27T15:03:59.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/PAPA_Capote_25N26_01VM_x1fxeo.jpg",
+   "r": "León XIV recibió el miércoles 25 de noviembre a un grupo de capellanes taurinos, presididos por la Infanta Elena, hermana del Rey Felipe VI, que buscan…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Mary’s Meals alcanza la cifra de cuatro mil millones de comidas servidas",
+   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/mary-s-meals-alcanza-la-cifra-de-cuatro-mil-millones-de-comidas.html",
+   "d": "2026-11-27T14:57:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2025/agosto/27/IMG_5663.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Al alcanzar Mary’s Meals el hito de los cuatro mil millones de comidas servidas en las escuelas, su fundador, Magnus MacFarlane-Barrow, recuerda al niño de…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV: El deporte ayuda a los jóvenes a salir del aislamiento digital",
+   "u": "https://www.ewtnnews.com/es/vaticano/deporte-ayuda-jovenes-aislamiento-digital",
+   "d": "2026-11-27T14:24:15.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_MAT1760_cj9fa4.jpg",
+   "r": "León XIV destacó que el deporte es una de las actividades que más impulsa a los jóvenes a “salir” y “enfrentarse a la realidad física”."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Ucrania, la luz de los pesebres en la oscuridad de la guerra",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/ucrania-la-luz-de-los-pesebres-en-la-oscuridad-de-la-guerra.html",
+   "d": "2026-11-27T14:15:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/23/i-giovani-di-zhytomyr-al-lavoro-sul-presepe-2026.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La iniciativa de un grupo de jóvenes de Zhytomyr, que producen y venden figuras de la Natividad para autofinanciarse el viaje a la JMJ de Seúl: no son solo…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Bambino Gesù: Onesti, confirmado como presidente del Consejo de Administración",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/bambino-gesu-onesti-confirmado-como-presidente-del-consejo.html",
+   "d": "2026-11-27T13:45:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2019/10/30/000197_13032019.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El nuevo mandato trienal se prolongará hasta la aprobación de las cuentas del ejercicio 2028. «Agradecido por la confianza, un compromiso que debe renovarse…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "La conversión que cambió su vida: entró ateo en la capilla que visitará León XIV y salió cristiano",
+   "u": "https://www.ewtnnews.com/es/vaticano/conversion-ateo-cristiano-leon-xiv",
+   "d": "2026-11-27T13:41:11.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/IMG_6128_1_yahibu.jpg",
+   "r": "La historia tuvo lugar en una de las capillas de la iglesia de Sant’Andrea delle Fratte, en Roma, que este viernes visita el Papa."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "IOR: revocada la resolución del Tribunal de Budapest",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/ior-revocada-la-resolucion-del-tribunal-de-budapest.html",
+   "d": "2026-11-27T13:27:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2019/08/10/FOTO%202%20Torrione%20di%20Niccol%C3%B2%20V,%20sede%20dello%20Ior.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "La resolución del 21 de octubre, relativa a la inversión en el Fondo Kappa y a la operación vinculada al edificio de la antigua Bolsa de Budapest disponía el…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Un Adviento al ritmo de Verdi y Puccini: regresa a España “Dios en la Ópera”",
+   "u": "https://www.ewtnnews.com/es/eventos/adviento-verdi-puccini-dios-opera",
+   "d": "2026-11-27T13:15:36.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-27_at_14.04.56_hxs0yn.jpg",
+   "r": "Dios en la Ópera, el concierto que reunió cerca de 500 personas en su estreno el año pasado y llenó la antigua Mezquita y Catedral de Córdoba, vuelve a España…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Haití, nueva masacre de pandillas: se extiende la misión salvadoreña",
+   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/haiti-nueva-masacre-de-pandillas-se-extiende-la-mision-salvado.html",
+   "d": "2026-11-27T13:06:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/24/20/1795547286033.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Al menos diez personas murieron y siete resultaron heridas en un ataque contra agricultores en el municipio de Kenscoff, cerca de Puerto Príncipe. El gobierno…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "León XIV: El diálogo entre religiones puede ayudar a desarmar los corazones y las naciones",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-dialogo-religiones-desarmar-corazones-naciones",
+   "d": "2026-11-27T12:32:13.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/_SIM7347_fwjiyy.jpg",
+   "r": "El Pontífice recibió el jueves en audiencia privada a los miembros del Dicasterio para el Diálogo Interreligioso."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Castellaro: El Papa nos invita a preparar el corazón para acoger a Jesús",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/castellaro-el-papa-nos-invita-a-preparar-el-corazon-para-acoger.html",
+   "d": "2026-11-27T12:30:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/27/radio-vaticana.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Este viernes, 27 de noviembre, en nuestro programa Estudio 9 dialogamos con Juan Ignacio Castellaro, Coordinador de Comunicación de la Red Mundial de Oración…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Condolencias del Papa por las víctimas del accidente de tráfico en Egipto",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/condolencias-del-papa-por-las-victimas-del-accidente-egipto.html",
+   "d": "2026-11-27T12:28:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/reuters/2026/11/25/22/1795642663340.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En un telegrama firmado por el cardenal Parolin, secretario de Estado, León XIV envía sus condolencias a las familias de los fallecidos a causa de la…"
+  },
+  {
+   "src": "diocesis",
+   "fuente": "Diócesis de Chillán",
+   "sec": "diocesis",
+   "t": "El Vaticano nombra a tres comisarios para los Heraldos del Evangelio",
+   "u": "https://diocesisdechillan.cl/el-vaticano-nombra-a-tres-comisarios-para-los-heraldos-del-evangelio/",
+   "d": "2026-11-27T12:27:40.000Z",
+   "img": "",
+   "r": "La Santa Sede nombró tres comisarios pontificios, uno para cada una de las entidades vinculadas a los Heraldos del Evangelio. El decreto está fechado el 9 de…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "COP31, CAFOD: se necesita un mayor compromiso financiero y atención a las personas",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/cop31-cafod-se-necesita-un-mayor-compromiso-financiero.html",
+   "d": "2026-11-27T12:18:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/20/13/1795178271406.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El responsable de las actividades de incidencia política del organismo caritativo de la Iglesia católica de Inglaterra y Gales reflexiona sobre el fracaso de…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa León XIV reza por víctimas de accidente de tráfico en El Cairo, Egipto",
+   "u": "https://www.ewtnnews.com/es/eventos/papa-leon-xiv-accidente-cairo",
+   "d": "2026-11-27T12:14:44.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Papa-Leon-XIV-en-Camerun9_VaticanMedia_170426_pj1krr.jpg",
+   "r": "El Papa León XIV expresó sus condolencias a las familias de las víctimas de un accidente de tráfico en El Cairo, Egipto."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Visita ad limina de los obispos de Bolivia: Un encuentro muy familiar de escucha atenta",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/entrevistas-papa-leon-xiv-bolivia-obispo-padre-pando-el-alto.html",
+   "d": "2026-11-27T12:12:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/27/2026-11-27-vescovi-di-bolovia/1795777655978.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El Papa León XIV llamó a la Iglesia boliviana a ser cercana a los más pobres y vulnerables, promover la unidad en medio de la polarización y responder con…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Estos son los nuevos beatos mártires españoles: 9 seminaristas, un sacerdote y un laico",
+   "u": "https://www.ewtnnews.com/es/mundo/espana/nuevos-beatos-martires-espanoles-seminaristas",
+   "d": "2026-11-27T12:11:26.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Alaezycomp_Madrid_fmkjpg.jpg",
+   "r": "La Catedral de la Almudena en Madrid acoge este sábado la ceremonia de beatificación de 9 seminaristas y dos familiares suyos que fueron martirizados al…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "León XIV: El deporte educa en el altruismo y el respeto mutuo",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-el-deporte-educa-en-el-altruismo-y-el-respeto-mutuo.html",
+   "d": "2026-11-27T12:00:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/27/2026-11-27-partecipanti-al-convegno-nazionale-degli-assistenti-e/1795780355458.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Este 27 de noviembre el Santo Padre recibió en audiencia a los participantes en el Encuentro Nacional de los Asistentes Eclesiásticos del Centro Deportivo…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Miguel Ángel se retrató resucitado en la Sixtina tras sobrevivir a caída, según Museos Vaticanos",
+   "u": "https://www.ewtnnews.com/es/vaticano/miguel-angel-resucitado-sixtina-caida",
+   "d": "2026-11-27T11:59:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/1_wqfdv8.jpg",
+   "r": "La limpieza de El Juicio Final de Miguel Ángel en la Capilla Sixtina ha permitido redescubrir detalles técnicos, biográficos y psicológicos del artista."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Tema del Mensaje para la Cuaresma 2027: Abracemos la fragilidad",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/tema-del-mensaje-para-la-cuaresma-2027-abracemos-la-fragilidad.html",
+   "d": "2026-11-27T11:30:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/02/18/2026-02-18-mercoledi-delle-ceneri--statio-e-santa-messa/1771430170402.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "«Abracemos la fragilidad. “¡Te basta mi gracia!, porque mi poder se manifiesta plenamente en la debilidad” (2 Co 12,9; cf. MH 118-126)», es el Tema del…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Parolin: El pan no sea rehén de la guerra, la dignidad guíe toda decisión política",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/parolin-el-pan-no-sea-rehen-de-la-guerra-la-dignidad-guie-toda.html",
+   "d": "2026-11-27T09:45:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/27/cardinal-parolin-celebrates-mass.jpeg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "El cardenal Secretario de Estado celebra la Misa en la Basílica de San Juan de Letrán en memoria de las víctimas del Holodomor, la trágica hambruna perpetrada…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Hoy se celebra a la Virgen de la Medalla Milagrosa",
+   "u": "https://www.ewtnnews.com/es/mundo/cada-27-de-noviembre-se-celebra-a-la-virgen-de-la-medalla-milagrosa",
+   "d": "2026-11-27T05:01:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/VirgenDeLaMedallaMilagrosa_cfbexi.jpg",
+   "r": "Cada 27 de noviembre los fieles católicos celebran el día de la Virgen de la Medalla Milagrosa, advocación mariana nacida en Francia, cuya devoción se ha…"
+  },
+  {
    "src": "aci",
    "fuente": "ACI Prensa",
    "sec": "iglesia",
@@ -42,106 +282,6 @@
    "r": "Un estudio identificó al menos 783 víctimas de abuso y 252 acusados en la Diócesis de Tréveris, Alemania, entre 1946 y 2021."
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Más allá de los adornos y regalos: 5 maneras de vivir la caridad católica esta Navidad",
-   "u": "https://www.ewtnnews.com/es/mundo/4-maneras-de-vivir-la-caridad-catolica-esta-navidad",
-   "d": "2026-11-26T22:30:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/navidad-caridad-shutterstock-121225-1765581968",
-   "r": "En este artículo encontrarás caminos muy concretos para que tu ayuda llegue a quienes más la necesitan y tu fe se traduzca en obras."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Obispos de Centroamérica a sacerdotes expulsados de Nicaragua: No están solos, son nuestros hermanos",
-   "u": "https://www.ewtnnews.com/es/mundo/america/obispos-centroamerica-sacerdotes-expulsados-nicaragua",
-   "d": "2026-11-26T21:30:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/sos-nicaragua-david-ramos-ewtn-news-30052026-1780158450.jpg",
-   "r": "Los obispos de Centroamérica expresaron su apoyo y solidaridad con los sacerdotes expulsados de Nicaragua, entre quienes hay cuatro obispos."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Murió a los 22 años y un milagro atribuido a su intercesión abre el camino a su beatificación",
-   "u": "https://www.ewtnnews.com/es/vaticano/22-anos-milagro-intercesion-beatificacion",
-   "d": "2026-11-26T20:33:59.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/foto_1600x1000_jxlbmz.png",
-   "r": "El Papa León XIV reconoció un milagro atribuido a la intercesión de esta religiosa italiana, cuya vida estuvo marcada por la oración y el servicio a niños…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "¿Por qué el fracaso de la cumbre del clima en Turquía preocupa al Papa León?",
-   "u": "https://www.ewtnnews.com/es/vaticano/fracaso-cumbre-clima-turquia-papa",
-   "d": "2026-11-26T17:44:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2777840689_1_kc7s9i.jpg",
-   "r": "La COP31, celebrada en Antalya (Turquía), concluyó el pasado 22 de noviembre con sabor amargo. Tras la habitual prórroga no se alcanzó ni siquiera un acuerdo…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Oración familiar para el Primer Domingo de Adviento 2026",
-   "u": "https://www.ewtnnews.com/es/mundo/oracion-familiar-para-el-primer-domingo-de-adviento",
-   "d": "2026-11-26T16:31:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/OracionPrimerDomingoAdviento2026_hu7sgf.jpg",
-   "r": "Este domingo 29 de noviembre celebramos el Primer Domingo de Adviento 2026. Un medio muy útil para sintonizar con el espíritu de este ‘tiempo de espera’ es…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "La Iglesia en Argentina anima a vivir el Adviento junto al Papa León XIV",
-   "u": "https://www.ewtnnews.com/es/mundo/america/iglesia-argentina-adviento-papa-leon",
-   "d": "2026-11-26T16:20:15.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/WhatsApp_Image_2026-11-11_at_07.34.22_ukhuhb.jpg",
-   "r": "La Iglesia Católica en Argentina ofrece una guía para vivir el Adviento 2026 de la mano del Papa León XIV."
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "CELAM: Actualizar y comprender la experiencia juvenil",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/celam-actualizar-y-comprender-la-experiencia-juvenil.html",
-   "d": "2026-11-26T15:43:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/26/42.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La necesidad de entender cómo los jóvenes viven la fe en la actualidad, en medio de «megaciudades y en el continente digital» impulsó a los obispos…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "La justicia no ve delito en la venta de patrimonio que hicieron las exclarisas de Belorado",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/justicia-venta-patrimonio-exclarisas-belorado",
-   "d": "2026-11-26T15:00:34.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/monasterio-belorado-espana-nicolas-de-cardenas-ewtn-news-12072025-1752339820.webp",
-   "r": "El juzgado de Briviesca ha concluido, un año después, que la venta de patrimonio realizado por las exclarisas de Belorado, por el que dos de ellas fueron…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Gallagher afirma que la diplomacia puede ser eficaz incluso sin poder militar",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/gallagher-afirma-que-la-diplomacia-puede-ser-eficaz-incluso-sin.html",
-   "d": "2026-11-26T15:00:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/26/bbbnnn.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El Secretario para las Relaciones con los Estados y las Organizaciones Internacionales intervino en la Universidad Católica Portuguesa: La perseverancia es un…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Mons. García Cuerva destaca el rol profético de la Iglesia en las cárceles",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/garcia-cuerva-rol-profetico-iglesia-carcel.html",
-   "d": "2026-11-26T14:59:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/26/mons-garcia-cuerva-2.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El arzobispo de Buenos Aires inicia su nueva misión como coordinador del Servicio de animación de la pastoral penitenciaria con el horizonte de promover la…"
-  },
-  {
    "src": "diocesis",
    "fuente": "Diócesis de Chillán",
    "sec": "diocesis",
@@ -150,26 +290,6 @@
    "d": "2026-11-26T14:57:42.000Z",
    "img": "",
    "r": "El Equipo de Formación para la Cultura del Cuidado y Buen Trato de la diócesis sostuvo un encuentro con los Delegados de Base de las distintas unidades…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Un viburno ucraniano fue plantado y bendecido en los Jardines Vaticanos",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/un-viburno-ucraniano-fue-plantado-y-bendecido-en-los-jardines-va.html",
-   "d": "2026-11-26T14:40:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/26/2026-11-26-piantumazione-viburno-rosso-card-parolin-ambasciata-u/1795697267098.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La ceremonia tuvo lugar esta mañana, 26 de noviembre, en presencia del cardenal Secretario de Estado Pietro Parolin, quien reafirmó el compromiso del Vaticano…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Academia Pontificia de Teología: un llamamiento a la protección de los jóvenes",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/academia-pontificia-de-teologia-llamamiento-proteccion-jovenes.html",
-   "d": "2026-11-26T14:40:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2025/dicembre/17/Parione_-_palazzo_Riario_o_Cancelleria_nuova_1628aem.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Los contenidos del documento sobre la protección de la Creación y de las nuevas generaciones en el mundo digital se presentarán el miércoles 2 de diciembre,…"
   },
   {
    "src": "diocesis",
@@ -200,106 +320,6 @@
    "d": "2026-11-26T13:08:50.000Z",
    "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/parroquia-virgen-del-carmen-chillan_parroquia-virgen-del-carmen-comparte-un_02-300x300.jpg",
    "r": "La comunidad parroquial recibió la visita de su obispo, celebró los sacramentos y participó en diversas actividades de oración y encuentro fraterno. The post…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Hoy recordamos a San Juan Berchmans, el jesuita de la alegría",
-   "u": "https://www.ewtnnews.com/es/mundo/cada-26-de-noviembre-la-compania-de-jesus-celebra-a-san-juan-berchmans-modelo-para-la-juventud",
-   "d": "2026-11-26T13:08:43.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/SanJuanBerchmans_s0yfhb.jpg",
-   "r": "Cada 26 de noviembre, la Compañía de Jesús celebra a San Juan Berchmans, santo jesuita de origen flamenco nacido en 1599, fallecido a los 20 años cuando era…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Hoy celebramos al Beato Santiago Alberione, uno de los patrones de Internet",
-   "u": "https://www.ewtnnews.com/es/mundo/cada-26-de-noviembre-se-celebra-al-beato-santiago-alberione-uno-de-los-patronos-de-internet",
-   "d": "2026-11-26T13:03:14.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/beatosantiagoalberione-1764157825",
-   "r": "Cada 26 de noviembre, la Iglesia Católica conmemora al Beato Santiago Alberione (1884-1971), fundador de la Familia Paulina y de la Sociedad Bíblica Católica…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa pide a consagrados crear “unidad”, amando sobre todo a los más “frágiles y problemáticos”",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-consagrados-unidad-fragiles-problematicos",
-   "d": "2026-11-26T12:58:48.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_RIS2160_gyeem5.jpg",
-   "r": "León XIV se reunió con los participantes de la Asamblea conjunta de la Unión de Superiores Generales (USG) y la Unión Internacional de Superioras Generales…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "La OMS promete ayuda a Cuba, atrapada en una crisis sanitaria",
-   "u": "https://www.vaticannews.va/es/mundo/news/2026-11/la-oms-promete-ayuda-a-cuba-atrapada-en-una-crisis-sanitaria.html",
-   "d": "2026-11-26T11:45:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/reuters/2026/03/26/11/1774520780003.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El director general de la organización, durante su visita a la isla caribeña, reafirmó su apoyo a los hospitales que atraviesan graves dificultades debido a…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "La Semana del Papa León XIV",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/audiencias-encuentros-papa-leon-xiv-derechos-humanos-paz.html",
-   "d": "2026-11-26T11:29:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2026/11/25/11/1795602197183.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El Papa se encontró esta semana con la Asociación Católica por el Bienestar de Oriente Medio, con los miembros de la Filarmónica de Viena, con motivo del 25.º…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El Papa anima a los religiosos a «servir con caridad» para construir la unidad y la paz",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-anima-a-los-religiosos-a-servir-con-caridad-uisg-usg.html",
-   "d": "2026-11-26T11:19:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/26/2026-11-26-partecipanti-all-assemblea-congiunta-dell-unione-supe/1795690059624.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En un encuentro con más de 250 superiores generales al término de la segunda Asamblea Conjunta de la UISG y la USG, el Papa exhorta a los hombres y mujeres…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "El desarrollo humano integral es inseparable de la evangelización",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-desarrollo-humano-integral-y-evangelizacion.html",
-   "d": "2026-11-26T10:28:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/26/2026-11-26-partecipanti-alla-plenaria-del-dicastero-per-il-servi/1795685862743.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "La sesión plenaria del Dicasterio para el Servicio del Desarrollo Humano Integral tiene la tarea de remover los obstáculos a la dignidad de la persona,…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "León XIV pide a las religiones unir fuerzas por una paz sin armas ni divisiones",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-no-nos-cansemos-construir-puentes-dialogo-interreligioso.html",
-   "d": "2026-11-26T09:30:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/26/2026-11-26-partecipanti-alla-plenaria-del-dicastero-per-il-dialo/1795684997198.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "León XIV ha recibido a los participantes en la XV Asamblea Plenaria del Dicasterio para el Diálogo Interreligioso, a quienes ha pedido reforzar el compromiso…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Episcopado italiano presenta un estudio sobre 378 denuncias de abusos",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/abusos-la-cei-presenta-un-estudio-sobre-378-denuncias.html",
-   "d": "2026-11-25T15:32:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/25/10.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En Asís, en el marco de la 83.ª Asamblea General, la Conferencia Episcopal Italiana ha presentado el estudio que ofrece un análisis de los casos relativos a…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "XXI Asamblea de la ODUCAL: el Papa los anima perseverar en su misión",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/xxi-asamblea-de-la-oducal-mensje-del-papa-puc-rio-brasil.html",
-   "d": "2026-11-25T15:17:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/24/brgbgnbr.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El Papa anima a las universidades católicas reunidas en la PUC-Rio, en Brasil, a perseverar en sus esfuerzos, para que puedan responder a los retos actuales a…"
   },
   {
    "src": "diocesis",
@@ -340,26 +360,6 @@
    "d": "2026-11-13T21:14:33.000Z",
    "img": "",
    "r": "Al concluir su 134ª Asamblea Plenaria, realizada entre los días 9 y 13 de noviembre, en el Centro de Espiritualidad Loyola, en Padre Hurtado, los Obispos de…"
-  },
-  {
-   "src": "diocesis",
-   "fuente": "Diócesis de Chillán",
-   "sec": "diocesis",
-   "t": "Obispos de Chile inician su 134ª Asamblea Plenaria centrados en la evangelización en el tiempo actual",
-   "u": "https://diocesisdechillan.cl/obispos-de-chile-inician-su-134a-asamblea-plenaria-centrados-en-la-evangelizacion-en-el-tiempo-actual/",
-   "d": "2026-11-09T19:44:30.000Z",
-   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/Gale6af218a97e759_09112026_302pm-150x150.jpeg",
-   "r": "La casa de retiro de Padre Hurtado reúne en estos días a los obispos de la Conferencia Episcopal de Chile (CECh) para la celebración de su 134ª Asamblea…"
-  },
-  {
-   "src": "diocesis",
-   "fuente": "Diócesis de Chillán",
-   "sec": "diocesis",
-   "t": "Decanato Costa peregrinó a Portezuelo en el Año del Centenario de la Coronación de la Virgen del Carmen",
-   "u": "https://diocesisdechillan.cl/decanato-costa-peregrino-a-portezuelo-en-el-ano-del-centenario-de-la-coronacion-de-la-virgen-del-carmen/",
-   "d": "2026-11-09T17:36:29.000Z",
-   "img": "https://diocesisdechillan.cl/wp-content/uploads/2026/11/WhatsApp-Image-2026-11-07-at-5.10.13-PM-1-150x150.jpeg",
-   "r": "Integrantes de las parroquias del Decanato Costa peregrinaron el sábado 7 de noviembre a la Parroquia de Portezuelo, en el marco del Año del Centenario de la…"
   }
  ]
 }
