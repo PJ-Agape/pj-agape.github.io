@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-26T19:15:43.351Z",
+ "actualizado": "2026-11-27T03:46:44.747Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,56 @@
   }
  },
  "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Papa León: El Evangelio no es un \"mero programa social o de bienestar\"",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-evangelio-programa-social",
+   "d": "2026-11-27T01:00:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/_SIM9288_v7jbdk.jpg",
+   "r": "Al dirigirse al Dicasterio para la Promoción del Desarrollo Humano Integral, el Pontífice advirtió contra el activismo puro o ignorar el sufrimiento."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Alemania: estudio identifica al menos 783 víctimas de abusos sexuales en la Diócesis de Tréveris",
+   "u": "https://www.ewtnnews.com/es/mundo/victimas-abusos-sexuales-diocesis-treveris",
+   "d": "2026-11-27T00:00:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/20161203Trier_Dom01_hzq0l2.jpg",
+   "r": "Un estudio identificó al menos 783 víctimas de abuso y 252 acusados en la Diócesis de Tréveris, Alemania, entre 1946 y 2021."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Más allá de los adornos y regalos: 5 maneras de vivir la caridad católica esta Navidad",
+   "u": "https://www.ewtnnews.com/es/mundo/4-maneras-de-vivir-la-caridad-catolica-esta-navidad",
+   "d": "2026-11-26T22:30:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/navidad-caridad-shutterstock-121225-1765581968",
+   "r": "En este artículo encontrarás caminos muy concretos para que tu ayuda llegue a quienes más la necesitan y tu fe se traduzca en obras."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Obispos de Centroamérica a sacerdotes expulsados de Nicaragua: No están solos, son nuestros hermanos",
+   "u": "https://www.ewtnnews.com/es/mundo/america/obispos-centroamerica-sacerdotes-expulsados-nicaragua",
+   "d": "2026-11-26T21:30:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/sos-nicaragua-david-ramos-ewtn-news-30052026-1780158450.jpg",
+   "r": "Los obispos de Centroamérica expresaron su apoyo y solidaridad con los sacerdotes expulsados de Nicaragua, entre quienes hay cuatro obispos."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Murió a los 22 años y un milagro atribuido a su intercesión abre el camino a su beatificación",
+   "u": "https://www.ewtnnews.com/es/vaticano/22-anos-milagro-intercesion-beatificacion",
+   "d": "2026-11-26T20:33:59.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/foto_1600x1000_jxlbmz.png",
+   "r": "El Papa León XIV reconoció un milagro atribuido a la intercesión de esta religiosa italiana, cuya vida estuvo marcada por la oración y el servicio a niños…"
+  },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
@@ -182,16 +232,6 @@
    "r": "León XIV se reunió con los participantes de la Asamblea conjunta de la Unión de Superiores Generales (USG) y la Unión Internacional de Superioras Generales…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Misas desde España a Australia, pasando por el Vaticano, por la beatificación de Isabel la Católica",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/misas-vaticano-beatificacion-isabel-catolica",
-   "d": "2026-11-26T12:35:06.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Reina_ISabel_g4dlmo.jpg",
-   "r": "Enraizados promovió la celebración de Misas en todo el mundo por la beatificación de Isabel la Católica en el 522 aniversario de su fallecimiento, desde…"
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -222,26 +262,6 @@
    "r": "En un encuentro con más de 250 superiores generales al término de la segunda Asamblea Conjunta de la UISG y la USG, el Papa exhorta a los hombres y mujeres…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Reino Unido: activista provida irá a juicio por orar en silencio cerca de un centro de abortos",
-   "u": "https://www.ewtnnews.com/es/mundo/activista-provida-juicio-orar-silencio-aborto",
-   "d": "2026-11-26T10:52:16.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Image-7_hwv71a.jpg",
-   "r": "Isabel Vaughan-Spruce ha recibido apoyo mundial tras su detención por orar en una \"zona de exclusión\" cerca de un centro de abortos."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Opus Dei espera “esclarecer” acusaciones de trata tras citación en Argentina de su número dos",
-   "u": "https://www.ewtnnews.com/es/mundo/opus-dei-citacion-judicial-argentina",
-   "d": "2026-11-26T10:38:12.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/SanJosemaria-FlickrSantuarioTorreciudad-(CC-BY-2.0)-02082022.webp",
-   "r": "El juez federal Daniel Rafecas citó para una declaración indagatoria al sacerdote argentino Mariano Fazio, actual vicario auxiliar y número dos mundial de la…"
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -260,26 +280,6 @@
    "d": "2026-11-26T09:30:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/26/2026-11-26-partecipanti-alla-plenaria-del-dicastero-per-il-dialo/1795684997198.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "León XIV ha recibido a los participantes en la XV Asamblea Plenaria del Dicasterio para el Diálogo Interreligioso, a quienes ha pedido reforzar el compromiso…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Oraciones para el Día de Acción de Gracias o Thanksgiving",
-   "u": "https://www.ewtnnews.com/es/mundo/america/oraciones-para-el-dia-de-accion-de-gracias-o-thanksgiving",
-   "d": "2026-11-26T08:32:13.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/oracionesthanksgiving",
-   "r": "En el marco del Día de Acción de Gracias (Thanksgiving), que se celebra en Estados Unidos en recuerdo de la primera cena de agradecimiento a Dios de 1621,…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Fe en el uniforme: cómo un almirante holandés acompaña a las fuerzas armadas católicas",
-   "u": "https://www.ewtnnews.com/es/mundo/almirante-holandes-fuerzas-armadas-catolicas",
-   "d": "2026-11-26T01:02:13.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/Admiral_Mathieu_Borsboom_3_nz1fws.jpg",
-   "r": "El Vicealmirante Matthieu Borsboom habló con EWTN News sobre la guerra ética, la necesidad de comunidad dentro de los militares católicos y la teoría de la…"
   },
   {
    "src": "vatican",
