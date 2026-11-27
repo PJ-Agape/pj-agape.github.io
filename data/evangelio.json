@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-25": {
-   "titulo": "Miércoles de la 34.ª semana del Tiempo Ordinario",
-   "cita": "Lc 21,12-19",
-   "frase": "Gracias a la constancia salvarán sus vidas.",
-   "reflexion": "_MNwkglpRbo",
-   "video": "JqU-VDqCf_0"
-  },
   "2026-11-26": {
    "titulo": "Jueves de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,20-28",
@@ -60,6 +53,11 @@
    "titulo": "Sábado de la 1.ª semana de Adviento",
    "cita": "Mt 9,35-38.10,1.6-8",
    "frase": "Por el camino, proclamen que el Reino de los Cielos está cerca."
+  },
+  "2026-12-06": {
+   "titulo": "2.º domingo de Adviento",
+   "cita": "Mc 1,1-8",
+   "frase": "Preparen el camino del Señor, allanen sus senderos."
   }
  }
 }
