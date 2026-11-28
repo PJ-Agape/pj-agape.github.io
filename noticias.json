@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-27T16:57:12.661Z",
+ "actualizado": "2026-11-28T01:39:14.566Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,106 @@
   }
  },
  "items": [
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El A, E, I, O, U del Adviento: 5 consejo pácticos para vivirlo en familia",
+   "u": "https://www.ewtnnews.com/es/mundo/estos-5-consejos-te-ayudaran-a-vivir-un-adviento-especial",
+   "d": "2026-11-27T23:51:37.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/shutterstock_2850613629_riuzvk.png",
+   "r": "Guía sencilla para recordar qué hacer durante estas semanas basada en las vocales."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Iglesia en Argentina saluda aprobación unánime de la ley para prevenir la ludopatía",
+   "u": "https://www.ewtnnews.com/es/mundo/america/iglesia-argentina-aprobacion-ley-ludopatia",
+   "d": "2026-11-27T22:45:12.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Ruleta_Shutterstock_pfwsvg.jpg",
+   "r": "La Comisión Episcopal de Pastoral Social saludó la aprobación, por unanimidad, de la ley para prevenir la ludopatía en Argentina."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "“La sociedad venezolana no cree en nadie”: Cardenal Porras habla sobre la renovación del TSJ",
+   "u": "https://www.ewtnnews.com/es/mundo/america/cardenal-porras-renovacion-tsj",
+   "d": "2026-11-27T21:29:16.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/1000018519.webp",
+   "r": "El Cardenal Baltazar Porras exigió transparencia en el proceso de renovación del Tribunal Supremo de Justicia (TSJ)."
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa saluda a los feligreses de Sant’Andrea delle Fratte: “Caminen siempre unidos”",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/el-papa-saluda-a-los-feligreses-de-sant-andrea-delle-fratte.html",
+   "d": "2026-11-27T19:33:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/27/2026-11-27-visita-pastorale-alla-parrocchia-di-sant-andrea-delle/1795803774233.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Durante su visita a la basílica, situada en el centro de Roma, León XIV se reunió en dos ocasiones distintas con los grupos presentes en la parroquia y con el…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Sacerdote nicaragüense exiliado agradece a obispos centroamericanos “por no callar”",
+   "u": "https://www.ewtnnews.com/es/mundo/america/sacerdote-nicaraguense-agradece-obispos-centroamericanos",
+   "d": "2026-11-27T18:49:13.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/imagespp/whatsapp-image-2023-12-08-at-9.14.41-am-2.webp",
+   "r": "Un sacerdote nicaragüense exiliado agradeció a los obispos centroamericanos por su carta de solidaridad y cercanía espiritual con los presbíteros expulsados…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "Papa León XIV en santuario de Roma: \"La fe debe hacerse caridad\"",
+   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-en-santuario-romano-la-fe-debe-hacerse-caridad",
+   "d": "2026-11-27T17:41:00.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/WhatsApp_Image_2026-11-27_at_8.36.26_AM_wwz7ul.jpg",
+   "r": "En una parroquia de Roma, el Papa exhortó a la comunidad a servir a personas que frecuentemente pasan desapercibidas: los pobres, los ancianos y los…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "México: Expertos de 14 países buscan caminos de reparación ante los abusos",
+   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/mexico-expertos-caminos-reparacion-abusos-ceprome.html",
+   "d": "2026-11-27T17:24:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/27/ceprome-expert-meeting-2026-6.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Durante cuatro días, más de veinte especialistas dialogaron acerca de las mejores prácticas para avanzar en los procesos de acompañamiento y sanación de las…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "Papa León: Llegar a Dios a través de la obediencia de María",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-llegar-a-dios-a-traves-de-la-obediencia-de-maria.html",
+   "d": "2026-11-27T16:50:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/27/2026-11-27-visita-pastorale-alla-parrocchia-di-sant-andrea-delle/1795803754076.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Hoy se conmemora a la Virgen María de la Medalla Milagrosa, una advocación que llevó al Papa León XIV a trasladarse a la Iglesia de San Andrés de las Fratte,…"
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Vaticano nombra tres nuevos comisarios para supervisar a los Heraldos del Evangelio",
+   "u": "https://www.ewtnnews.com/es/vaticano/vaticano-nombra-comisarios-heraldos-evangelio",
+   "d": "2026-11-27T16:39:38.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/PXL_20260730_152101772_hhtse3.jpg",
+   "r": "La asociación pontificia laical había sido impedida previamente de ordenar nuevos sacerdotes durante los últimos 7 años."
+  },
+  {
+   "src": "aci",
+   "fuente": "ACI Prensa",
+   "sec": "iglesia",
+   "t": "El Papa León XIV pide a los obispos de Bolivia “generar encuentros” para superar la polarización",
+   "u": "https://www.ewtnnews.com/es/vaticano/leon-xiv-obispos-bolivia-polarizacion",
+   "d": "2026-11-27T16:29:34.000Z",
+   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/_MAR2798_tce8qu.jpg",
+   "r": "León XIV alentó este viernes a los obispos de Bolivia a ser instrumentos de comunión y diálogo frente a la grave polarización que atraviesa el país"
+  },
   {
    "src": "diocesis",
    "fuente": "Diócesis de Chillán",
@@ -132,16 +232,6 @@
    "r": "Al menos diez personas murieron y siete resultaron heridas en un ataque contra agricultores en el municipio de Kenscoff, cerca de Puerto Príncipe. El gobierno…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "León XIV: El diálogo entre religiones puede ayudar a desarmar los corazones y las naciones",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-dialogo-religiones-desarmar-corazones-naciones",
-   "d": "2026-11-27T12:32:13.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/_SIM7347_fwjiyy.jpg",
-   "r": "El Pontífice recibió el jueves en audiencia privada a los miembros del Dicasterio para el Diálogo Interreligioso."
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -182,16 +272,6 @@
    "r": "El responsable de las actividades de incidencia política del organismo caritativo de la Iglesia católica de Inglaterra y Gales reflexiona sobre el fracaso de…"
   },
   {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "El Papa León XIV reza por víctimas de accidente de tráfico en El Cairo, Egipto",
-   "u": "https://www.ewtnnews.com/es/eventos/papa-leon-xiv-accidente-cairo",
-   "d": "2026-11-27T12:14:44.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Papa-Leon-XIV-en-Camerun9_VaticanMedia_170426_pj1krr.jpg",
-   "r": "El Papa León XIV expresó sus condolencias a las familias de las víctimas de un accidente de tráfico en El Cairo, Egipto."
-  },
-  {
    "src": "vatican",
    "fuente": "Vatican News",
    "sec": "iglesia",
@@ -200,86 +280,6 @@
    "d": "2026-11-27T12:12:00.000Z",
    "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/27/2026-11-27-vescovi-di-bolovia/1795777655978.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
    "r": "El Papa León XIV llamó a la Iglesia boliviana a ser cercana a los más pobres y vulnerables, promover la unidad en medio de la polarización y responder con…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Estos son los nuevos beatos mártires españoles: 9 seminaristas, un sacerdote y un laico",
-   "u": "https://www.ewtnnews.com/es/mundo/espana/nuevos-beatos-martires-espanoles-seminaristas",
-   "d": "2026-11-27T12:11:26.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/Alaezycomp_Madrid_fmkjpg.jpg",
-   "r": "La Catedral de la Almudena en Madrid acoge este sábado la ceremonia de beatificación de 9 seminaristas y dos familiares suyos que fueron martirizados al…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "León XIV: El deporte educa en el altruismo y el respeto mutuo",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/leon-xiv-el-deporte-educa-en-el-altruismo-y-el-respeto-mutuo.html",
-   "d": "2026-11-27T12:00:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/27/2026-11-27-partecipanti-al-convegno-nazionale-degli-assistenti-e/1795780355458.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "Este 27 de noviembre el Santo Padre recibió en audiencia a los participantes en el Encuentro Nacional de los Asistentes Eclesiásticos del Centro Deportivo…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Miguel Ángel se retrató resucitado en la Sixtina tras sobrevivir a caída, según Museos Vaticanos",
-   "u": "https://www.ewtnnews.com/es/vaticano/miguel-angel-resucitado-sixtina-caida",
-   "d": "2026-11-27T11:59:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/1_wqfdv8.jpg",
-   "r": "La limpieza de El Juicio Final de Miguel Ángel en la Capilla Sixtina ha permitido redescubrir detalles técnicos, biográficos y psicológicos del artista."
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Tema del Mensaje para la Cuaresma 2027: Abracemos la fragilidad",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/tema-del-mensaje-para-la-cuaresma-2027-abracemos-la-fragilidad.html",
-   "d": "2026-11-27T11:30:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/02/18/2026-02-18-mercoledi-delle-ceneri--statio-e-santa-messa/1771430170402.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "«Abracemos la fragilidad. “¡Te basta mi gracia!, porque mi poder se manifiesta plenamente en la debilidad” (2 Co 12,9; cf. MH 118-126)», es el Tema del…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Parolin: El pan no sea rehén de la guerra, la dignidad guíe toda decisión política",
-   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/parolin-el-pan-no-sea-rehen-de-la-guerra-la-dignidad-guie-toda.html",
-   "d": "2026-11-27T09:45:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/27/cardinal-parolin-celebrates-mass.jpeg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El cardenal Secretario de Estado celebra la Misa en la Basílica de San Juan de Letrán en memoria de las víctimas del Holodomor, la trágica hambruna perpetrada…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Hoy se celebra a la Virgen de la Medalla Milagrosa",
-   "u": "https://www.ewtnnews.com/es/mundo/cada-27-de-noviembre-se-celebra-a-la-virgen-de-la-medalla-milagrosa",
-   "d": "2026-11-27T05:01:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/es/VirgenDeLaMedallaMilagrosa_cfbexi.jpg",
-   "r": "Cada 27 de noviembre los fieles católicos celebran el día de la Virgen de la Medalla Milagrosa, advocación mariana nacida en Francia, cuya devoción se ha…"
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Papa León: El Evangelio no es un \"mero programa social o de bienestar\"",
-   "u": "https://www.ewtnnews.com/es/vaticano/papa-leon-evangelio-programa-social",
-   "d": "2026-11-27T01:00:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/_SIM9288_v7jbdk.jpg",
-   "r": "Al dirigirse al Dicasterio para la Promoción del Desarrollo Humano Integral, el Pontífice advirtió contra el activismo puro o ignorar el sufrimiento."
-  },
-  {
-   "src": "aci",
-   "fuente": "ACI Prensa",
-   "sec": "iglesia",
-   "t": "Alemania: estudio identifica al menos 783 víctimas de abusos sexuales en la Diócesis de Tréveris",
-   "u": "https://www.ewtnnews.com/es/mundo/victimas-abusos-sexuales-diocesis-treveris",
-   "d": "2026-11-27T00:00:00.000Z",
-   "img": "https://cdn1.ewtn.com/image/upload/ewtn-news/en/20161203Trier_Dom01_hzq0l2.jpg",
-   "r": "Un estudio identificó al menos 783 víctimas de abuso y 252 acusados en la Diócesis de Tréveris, Alemania, entre 1946 y 2021."
   },
   {
    "src": "diocesis",
