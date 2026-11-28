@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-11-28T01:39:14.566Z",
+ "actualizado": "2026-11-28T12:16:33.669Z",
  "fuentes": {
   "vatican": {
    "nombre": "Vatican News",
@@ -21,6 +21,36 @@
   }
  },
  "items": [
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "El Papa impulsa a buscar con las otras religiones el bien que une",
+   "u": "https://www.vaticannews.va/es/papa/news/2026-11/papa-leon-xiv-espiritualidad-conferencia-san-agustin.html",
+   "d": "2026-11-28T10:50:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/28/2026-11-28-partecipanti-alla-conferenza-internazionale-su-sant-a/1795864060944.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "En medio de la complejidad de nuestro tiempo, el Santo Padre puntualiza que la espiritualidad de san Agustín puede ayudar a la Iglesia a acercarse a las…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "«Libere Bolle», sueños que florecen tras las rejas",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/libere-bolle-podcast-rebibbia-presentacion-sala-pio-x.html",
+   "d": "2026-11-28T09:29:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/27/whatsapp-image-2026-11-27-at-17-24-10-2.png/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.png",
+   "r": "En la sala San Pío X del Dicasterio para la Comunicación de la Santa Sede se presentó «Libere Bolle. Desde un escenario entre rejas, voces que liberan los…"
+  },
+  {
+   "src": "vatican",
+   "fuente": "Vatican News",
+   "sec": "iglesia",
+   "t": "La Santa Sede en la ITU PP-26: telecomunicaciones, equidad y dignidad humana",
+   "u": "https://www.vaticannews.va/es/vaticano/news/2026-11/santa-sede-conferencia-union-telecomunicaciones-doha.html",
+   "d": "2026-11-28T09:13:00.000Z",
+   "img": "https://www.vaticannews.va/content/dam/vaticannews/multimedia/2026/novembre/28/55673705222-98a9b33666-k.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
+   "r": "Una delegación encabezada por la hermana Raffaella Petrini, presidenta de la Gobernación del Estado de la Ciudad del Vaticano, y por la prefecta del…"
+  },
   {
    "src": "aci",
    "fuente": "ACI Prensa",
@@ -242,16 +272,6 @@
    "r": "Este viernes, 27 de noviembre, en nuestro programa Estudio 9 dialogamos con Juan Ignacio Castellaro, Coordinador de Comunicación de la Red Mundial de Oración…"
   },
   {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Condolencias del Papa por las víctimas del accidente de tráfico en Egipto",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/condolencias-del-papa-por-las-victimas-del-accidente-egipto.html",
-   "d": "2026-11-27T12:28:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/reuters/2026/11/25/22/1795642663340.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "En un telegrama firmado por el cardenal Parolin, secretario de Estado, León XIV envía sus condolencias a las familias de los fallecidos a causa de la…"
-  },
-  {
    "src": "diocesis",
    "fuente": "Diócesis de Chillán",
    "sec": "diocesis",
@@ -260,26 +280,6 @@
    "d": "2026-11-27T12:27:40.000Z",
    "img": "",
    "r": "La Santa Sede nombró tres comisarios pontificios, uno para cada una de las entidades vinculadas a los Heraldos del Evangelio. El decreto está fechado el 9 de…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "COP31, CAFOD: se necesita un mayor compromiso financiero y atención a las personas",
-   "u": "https://www.vaticannews.va/es/iglesia/news/2026-11/cop31-cafod-se-necesita-un-mayor-compromiso-financiero.html",
-   "d": "2026-11-27T12:18:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2026/11/20/13/1795178271406.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El responsable de las actividades de incidencia política del organismo caritativo de la Iglesia católica de Inglaterra y Gales reflexiona sobre el fracaso de…"
-  },
-  {
-   "src": "vatican",
-   "fuente": "Vatican News",
-   "sec": "iglesia",
-   "t": "Visita ad limina de los obispos de Bolivia: Un encuentro muy familiar de escucha atenta",
-   "u": "https://www.vaticannews.va/es/papa/news/2026-11/entrevistas-papa-leon-xiv-bolivia-obispo-padre-pando-el-alto.html",
-   "d": "2026-11-27T12:12:00.000Z",
-   "img": "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/27/2026-11-27-vescovi-di-bolovia/1795777655978.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg",
-   "r": "El Papa León XIV llamó a la Iglesia boliviana a ser cercana a los más pobres y vulnerables, promover la unidad en medio de la polarización y responder con…"
   },
   {
    "src": "diocesis",
