@@ -1,13 +1,6 @@
 {
  "fuente": "evangeliodeldia.org · El Libro del Pueblo de Dios",
  "days": {
-  "2026-11-26": {
-   "titulo": "Jueves de la 34.ª semana del Tiempo Ordinario",
-   "cita": "Lc 21,20-28",
-   "frase": "Tengan ánimo y levanten la cabeza, porque está por llegarles la liberación.",
-   "reflexion": "jWzqzeEpFSA",
-   "video": "IMeQqF_oLZ0"
-  },
   "2026-11-27": {
    "titulo": "Viernes de la 34.ª semana del Tiempo Ordinario",
    "cita": "Lc 21,29-33",
@@ -60,6 +53,11 @@
    "titulo": "2.º domingo de Adviento",
    "cita": "Mc 1,1-8",
    "frase": "Preparen el camino del Señor, allanen sus senderos."
+  },
+  "2026-12-07": {
+   "titulo": "Lunes de la 2.ª semana de Adviento",
+   "cita": "Lc 5,17-26",
+   "frase": "Levántate, toma tu camilla y vuelve a tu casa."
   }
  }
 }
